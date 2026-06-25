@@ -7,3 +7,5 @@ dist/
 fixtures/.tmp-*/
 .astro/
 .vercel
+public/index.json
+public/r/
