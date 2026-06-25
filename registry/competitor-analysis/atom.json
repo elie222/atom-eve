@@ -1,0 +1,12 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "competitor-analysis",
+  "title": "Competitor Analysis Agent",
+  "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+  "category": "analytics",
+  "family": "data",
+  "targets": ["eve", "flue"],
+  "integrations": ["browser", "fetch"],
+  "connections": [],
+  "requiredEnv": []
+}
