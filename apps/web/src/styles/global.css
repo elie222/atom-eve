@@ -90,21 +90,30 @@
   transform: translateY(-2px);
   border-color: var(--famh, var(--color-dim2));
 }
-/* ---- category rail buttons ---- */
-.cat-btn {
+/* ---- category toolbar pills ---- */
+.cat-bar {
+  scrollbar-width: none;
+}
+.cat-bar::-webkit-scrollbar {
+  display: none;
+}
+.cat-pill {
   cursor: pointer;
   transition:
     background 0.12s,
-    border-color 0.12s;
+    border-color 0.12s,
+    color 0.12s;
 }
-.cat-btn:hover {
+.cat-pill:hover {
   background: var(--color-panel2);
+  border-color: var(--color-edge2);
 }
-.cat-btn.active {
+.cat-pill.active {
   background: #9bff5c14;
   border-color: #9bff5c4d;
+  color: var(--color-ink);
 }
-.cat-btn.active .cat-count {
+.cat-pill.active .cat-count {
   color: var(--color-eve);
 }
 
