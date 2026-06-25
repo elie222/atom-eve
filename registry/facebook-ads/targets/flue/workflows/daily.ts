@@ -1,9 +1,18 @@
-import { createWorkflow } from "flue";
-import { reviewFacebookCampaigns } from "../tools/facebook-ads/facebook.js";
+import { defineWorkflow } from "@flue/runtime";
+import agent from "../agents/facebook-ads.js";
 
-export default createWorkflow({
-  name: "facebook-ads-daily",
-  async run() {
-    return reviewFacebookCampaigns();
+interface WorkflowContext {
+  harness: {
+    session(): Promise<{
+      prompt(message: string): Promise<unknown>;
+    }>;
+  };
+}
+
+export default defineWorkflow({
+  agent,
+  async run({ harness }: WorkflowContext) {
+    const session = await harness.session();
+    return session.prompt("Run the Facebook Ads daily loop and summarize the recommended campaign actions.");
   }
 });
