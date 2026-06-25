@@ -179,6 +179,7 @@ export async function mapFiles(rootDir: string, manifest: RegistryManifest, targ
     await addTree(rootDir, manifest, "targets/eve/schedules", "~/agent/schedules", async (source, destination) => {
       await add(source, destination);
     });
+    await addTree(rootDir, manifest, "evals/eve", "~/evals", add);
   } else {
     const root = "src";
     const entrypoint = await requiredFile(rootDir, manifest, "targets/flue/agent.ts");

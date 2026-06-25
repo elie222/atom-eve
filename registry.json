@@ -23,6 +23,26 @@
           "path": "registry/website-qa/targets/eve/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
           "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/evals/eve/shared/website-qa-smoke.ts",
+          "target": "~/evals/shared/website-qa-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/evals/eve/website-qa/example-homepage.eval.ts",
+          "target": "~/evals/website-qa/example-homepage.eval.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -157,6 +177,62 @@
         {
           "path": "registry/content-ideation/targets/flue/workflows/weekly.ts",
           "target": "~/src/workflows/content-ideation-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/seo-audit",
+      "type": "registry:block",
+      "title": "SEO Audit Agent (eve)",
+      "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior local history, and writes concise Markdown reports.",
+      "files": [
+        {
+          "path": "registry/seo-audit/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/seo-audit",
+      "type": "registry:block",
+      "title": "SEO Audit Agent (flue)",
+      "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior local history, and writes concise Markdown reports.",
+      "files": [
+        {
+          "path": "registry/seo-audit/targets/flue/agent.ts",
+          "target": "~/src/agents/seo-audit.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/seo-audit/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/seo-audit-weekly.ts",
           "type": "registry:file"
         }
       ]
