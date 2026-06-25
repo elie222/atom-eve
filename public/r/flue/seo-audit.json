@@ -1,0 +1,27 @@
+{
+  "name": "flue/seo-audit",
+  "type": "registry:block",
+  "title": "SEO Audit Agent (flue)",
+  "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior local history, and writes concise Markdown reports.",
+  "files": [
+    {
+      "path": "registry/seo-audit/targets/flue/agent.ts",
+      "target": "~/src/agents/seo-audit.ts",
+      "type": "registry:file",
+      "content": "import { defineAgent } from \"@flue/runtime\";\n\nconst instructions = [\n  \"Audit supplied URLs or sitemaps for practical SEO issues.\",\n  \"Use Flue's native sandbox command, fetch, and browser capabilities where available; do not add a custom browser wrapper tool.\",\n  \"Inspect titles, descriptions, headings, canonical and robots signals, broken content or CTA issues, content gaps, internal links, and visible copy quality.\",\n  \"Compare the current run with local files under reports/seo-audit/history when available.\",\n  \"Write a concise Markdown report to reports/seo-audit/latest.md when filesystem access exists, plus timestamped Markdown and compact JSON history files.\",\n  \"Include previous-vs-current deltas and stable issue IDs so later runs can classify new, recurring, and resolved findings.\",\n  \"Note that file-backed history is the MVP and DB-backed history is future work.\"\n].join(\" \");\n\nexport default defineAgent(() => ({\n  model: \"anthropic/claude-sonnet-4-6\",\n  cwd: \"/workspace\",\n  instructions\n}));\n"
+    },
+    {
+      "path": "registry/seo-audit/targets/flue/workflows/weekly.ts",
+      "target": "~/src/workflows/seo-audit-weekly.ts",
+      "type": "registry:file",
+      "content": "import { createWorkflow } from \"flue\";\n\nexport default createWorkflow({\n  name: \"seo-audit-weekly\",\n  async run() {\n    return [\n      \"Run the weekly SEO audit for https://example.com or its sitemap.\",\n      \"Replace this placeholder with the production URL before enabling the workflow.\",\n      \"Use native sandbox command, fetch, and browser capabilities where available.\",\n      \"Compare against reports/seo-audit/history and write reports/seo-audit/latest.md.\"\n    ].join(\" \");\n  }\n});\n"
+    }
+  ],
+  "meta": {
+    "atom": "seo-audit",
+    "target": "flue",
+    "version": "0.1.0",
+    "requiredEnv": [],
+    "connections": []
+  }
+}

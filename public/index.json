@@ -56,6 +56,25 @@
       "repoPath": "registry/facebook-ads",
       "featured": true,
       "order": 1
+    },
+    {
+      "name": "seo-audit",
+      "title": "SEO Audit Agent",
+      "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior local history, and writes concise Markdown reports.",
+      "category": "seo",
+      "family": "growth",
+      "version": "0.1.0",
+      "targets": [
+        "eve",
+        "flue"
+      ],
+      "integrations": [],
+      "connections": [],
+      "requiredEnv": [],
+      "scheduled": true,
+      "repoPath": "registry/seo-audit",
+      "featured": false,
+      "order": null
     }
   ]
 }
