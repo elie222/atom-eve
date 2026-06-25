@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface CampaignInsight {
   campaignId: string;
   campaignName: string;
@@ -11,6 +13,18 @@ export interface CampaignRecommendation {
   campaignName: string;
   severity: "info" | "watch" | "action";
   recommendation: string;
+}
+
+export const reviewFacebookCampaignsInputSchema = z.object({});
+
+export type ReviewFacebookCampaignsInput = z.infer<typeof reviewFacebookCampaignsInputSchema>;
+
+export async function reviewFacebookCampaigns(_input: ReviewFacebookCampaignsInput = {}) {
+  const insights = await fetchCampaignInsights();
+  return {
+    insights,
+    recommendations: recommendCampaignActions(insights),
+  };
 }
 
 export async function fetchCampaignInsights(fetchImpl: typeof fetch = fetch): Promise<CampaignInsight[]> {

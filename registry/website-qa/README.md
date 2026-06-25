@@ -33,10 +33,16 @@ npx atom-eve add website-qa --target eve
 
 ## Setup
 
+Install the shared schema dependency:
+
+```bash
+pnpm add zod
+```
+
 For local development or a long-running server, install Agent Browser in the runtime environment:
 
 ```bash
-npm install -g agent-browser
+pnpm add agent-browser
 agent-browser install
 ```
 

@@ -24,6 +24,12 @@ npx atom-eve add facebook-ads --target flue
 
 ## Setup
 
+Install the shared schema dependency:
+
+```bash
+pnpm add zod
+```
+
 Create or choose a Facebook app with Marketing API access, then create a token with read access to the ad account you want the agent to inspect.
 
 Required environment variables:

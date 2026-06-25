@@ -1,12 +1,24 @@
 import { spawn } from "node:child_process";
+import { z } from "zod";
 
-export interface AgentBrowserInput {
-  args?: string[];
-  commands?: string[][];
-  sessionName?: string;
-  allowedDomains?: string[];
-  maxOutputChars?: number;
-}
+export const agentBrowserCommandSchema = z.array(z.string()).min(1);
+
+export const agentBrowserInputSchema = z.object({
+  args: agentBrowserCommandSchema.optional().describe('agent-browser arguments for one command, for example ["open", "https://example.com"] or ["snapshot", "-i"].'),
+  commands: z
+    .array(agentBrowserCommandSchema)
+    .optional()
+    .describe(
+      'Multiple agent-browser commands to run in one browser session, for example [["open", "https://example.com"], ["wait", "2000"], ["snapshot", "-i"], ["close"]]. Use this for QA flows.',
+    ),
+  sessionName: z.string().optional().describe("Optional persistent browser session name for this QA run."),
+  allowedDomains: z.array(z.string()).optional().describe("Optional domain allowlist, for example ['example.com', '*.example.com']."),
+  maxOutputChars: z.number().int().positive().optional().describe("Maximum stdout/stderr characters to return."),
+}).refine((input) => Boolean(input.args?.length) !== Boolean(input.commands?.length), {
+  message: "Provide either args for one command or commands for a multi-step flow, not both.",
+});
+
+export type AgentBrowserInput = z.infer<typeof agentBrowserInputSchema>;
 
 export interface AgentBrowserResult {
   ok: boolean;

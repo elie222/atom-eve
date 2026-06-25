@@ -1,16 +1,19 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { z } from "zod";
 
-export interface QaReportInput {
-  targetUrl: string;
-  result: "passed" | "blocked" | "failed" | "incomplete";
-  summary: string;
-  checked: string[];
-  findings: string[];
-  evidence: string[];
-  nextActions: string[];
-  reportPath?: string;
-}
+export const qaReportInputSchema = z.object({
+  targetUrl: z.string().min(1),
+  result: z.enum(["passed", "blocked", "failed", "incomplete"]),
+  summary: z.string().min(1),
+  checked: z.array(z.string()),
+  findings: z.array(z.string()),
+  evidence: z.array(z.string()),
+  nextActions: z.array(z.string()),
+  reportPath: z.string().optional(),
+});
+
+export type QaReportInput = z.infer<typeof qaReportInputSchema>;
 
 export async function writeQaReport(input: QaReportInput) {
   const reportPath = input.reportPath ?? defaultReportPath(input.targetUrl);

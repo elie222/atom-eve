@@ -68,6 +68,10 @@ importers:
         version: 3.25.76
 
   fixtures/flue:
+    dependencies:
+      zod:
+        specifier: ^3.24.1
+        version: 3.25.76
     devDependencies:
       typescript:
         specifier: ^5.7.2
