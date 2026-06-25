@@ -5,9 +5,9 @@
   "type": "module",
   "packageManager": "pnpm@9.15.0",
   "scripts": {
-    "generate": "pnpm --filter @atomeve/schemas build && tsx packages/registry-generator/src/cli.ts",
-    "build": "pnpm --filter @atomeve/schemas build && pnpm --filter @atomeve/registry-generator build && pnpm --filter atom-eve build && pnpm --filter @atomeve/web build",
-    "typecheck": "pnpm --filter @atomeve/schemas typecheck && pnpm --filter @atomeve/registry-generator typecheck && pnpm --filter @atomeve/registry-generator build && pnpm --filter atom-eve typecheck",
+    "generate": "pnpm --filter @atom-eve/schemas build && tsx packages/registry-generator/src/cli.ts",
+    "build": "pnpm --filter @atom-eve/schemas build && pnpm --filter @atom-eve/registry-generator build && pnpm --filter atom-eve build && pnpm --filter @atom-eve/web build",
+    "typecheck": "pnpm --filter @atom-eve/schemas typecheck && pnpm --filter @atom-eve/registry-generator typecheck && pnpm --filter @atom-eve/registry-generator build && pnpm --filter atom-eve typecheck",
     "verify:fixtures": "node scripts/verify-fixtures.mjs",
     "secret-scan": "node scripts/secret-scan.mjs",
     "check": "pnpm generate && pnpm typecheck && pnpm build && pnpm verify:fixtures && pnpm secret-scan"
