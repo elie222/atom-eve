@@ -8,13 +8,13 @@
       "path": "registry/content-ideation/targets/flue/agent.ts",
       "target": "~/src/agents/content-ideation.ts",
       "type": "registry:file",
-      "content": "import { defineAgent } from \"@flue/runtime\";\n\nexport default defineAgent(() => ({\n  model: \"anthropic/claude-sonnet-4-6\",\n  cwd: \"/workspace\",\n  instructions:\n    \"Generate YouTube topics, tweet/thread ideas, hooks, outlines, approval-ready social copy, Slack approval copy, and lightweight history notes from recent business context. Do not auto-post or schedule publishing.\"\n}));\n"
+      "content": "import { defineAgent } from \"@flue/runtime\";\n\nexport default defineAgent(() => ({\n  model: \"anthropic/claude-sonnet-4-6\",\n  cwd: \"/workspace\",\n  instructions:\n    \"You are this project's content ideation agent. Generate YouTube topics, tweet/thread ideas, hooks, outlines, approval-ready social copy, Slack approval copy, and lightweight history notes from recent business context. Do not auto-post or schedule publishing.\"\n}));\n"
     },
     {
       "path": "registry/content-ideation/targets/flue/workflows/weekly.ts",
       "target": "~/src/workflows/content-ideation-weekly.ts",
       "type": "registry:file",
-      "content": "import { defineWorkflow } from \"@flue/runtime\";\n\nexport default defineWorkflow({\n  name: \"content-ideation-weekly\",\n  async run() {\n    return {\n      prompt:\n        \"Create the weekly content ideation queue from recent business context. Review any available reports/content-ideation/history entries, avoid repeated ideas, and return YouTube topics, tweet/thread ideas, hooks, outlines, approval-ready social copy, Slack approval copy, and history update notes. Do not auto-post.\"\n    };\n  }\n});\n"
+      "content": "import { defineWorkflow } from \"@flue/runtime\";\nimport agent from \"../agents/content-ideation.js\";\n\ninterface WorkflowContext {\n  harness: {\n    session(): Promise<{\n      prompt(message: string): Promise<unknown>;\n    }>;\n  };\n}\n\nexport default defineWorkflow({\n  agent,\n  async run({ harness }: WorkflowContext) {\n    const session = await harness.session();\n    return session.prompt(\n      \"Create the weekly content ideation queue from recent business context. Review any available reports/content-ideation/history entries, avoid repeated ideas, and return YouTube topics, tweet/thread ideas, hooks, outlines, approval-ready social copy, Slack approval copy, and history update notes. Do not auto-post.\"\n    );\n  }\n});\n"
     }
   ],
   "meta": {
