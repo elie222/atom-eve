@@ -12,35 +12,19 @@
         {
           "path": "registry/website-qa/shared/instructions.md",
           "target": "~/agent/instructions.md",
-          "type": "registry:file",
-          "content": "You are a pragmatic web app QA agent for developers.\n\nTest the requested website like a product-minded QA engineer. Your job is to use a browser, follow the target user flow, and report whether the flow works.\n\nUse the framework's built-in command/sandbox capability to run Agent Browser. Use commands like `npx agent-browser --session website-qa open https://example.com`, `npx agent-browser --session website-qa snapshot -i`, `npx agent-browser --session website-qa click @e2`, and `npx agent-browser --session website-qa screenshot reports/assets/home.png`. Re-snapshot after every navigation or state-changing action because element refs expire.\n\nFocus on product behavior, not static HTML metadata. Do not substitute an SEO or landing-page audit for browser QA. If browser automation is unavailable or a blocker appears, stop and report the blocker clearly.\n\nAlways return a concise Markdown report with:\n\n1. Executive summary\n2. What was checked\n3. Findings ordered by severity\n4. Screenshots/artifacts\n5. Recommended fixes\n6. Follow-up test prompt\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/website-qa/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
-          "type": "registry:file",
-          "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  model: \"anthropic/claude-sonnet-4.6\",\n  description:\n    \"Runs browser-driven QA on web app flows such as signup and onboarding, captures evidence, and returns concise Markdown reports.\"\n});\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/website-qa/targets/eve/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file",
-          "content": "import { defineSandbox } from \"eve/sandbox\";\n\nexport default defineSandbox({\n  async bootstrap({ use }) {\n    const sandbox = await use();\n    await sandbox.run({\n      command: [\n        \"set -e\",\n        \"mkdir -p reports/assets\",\n        \"npm init -y >/dev/null\",\n        \"npm install agent-browser@latest\",\n        \"npx agent-browser install\"\n      ].join(\" && \")\n    });\n  }\n});\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "website-qa",
-        "target": "eve",
-        "version": "0.1.0",
-        "requiredEnv": [],
-        "connections": [
-          {
-            "name": "agent-browser",
-            "type": "custom-tool",
-            "auth": "none"
-          }
-        ]
-      }
+      ]
     },
     {
       "name": "flue/website-qa",
@@ -51,23 +35,9 @@
         {
           "path": "registry/website-qa/targets/flue/agent.ts",
           "target": "~/src/agents/website-qa.ts",
-          "type": "registry:file",
-          "content": "import { defineAgent } from \"@flue/runtime\";\n\nexport default defineAgent(() => ({\n  model: \"anthropic/claude-sonnet-4-6\",\n  cwd: \"/workspace\",\n  instructions:\n    \"Run browser-driven QA on a website or web app. Use the sandbox command capability to run npx agent-browser commands, inspect and interact with onboarding/signup flows, capture screenshots, and then return a concise Markdown QA report.\"\n}));\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "website-qa",
-        "target": "flue",
-        "version": "0.1.0",
-        "requiredEnv": [],
-        "connections": [
-          {
-            "name": "agent-browser",
-            "type": "custom-tool",
-            "auth": "none"
-          }
-        ]
-      }
+      ]
     },
     {
       "name": "eve/facebook-ads",
@@ -78,56 +48,34 @@
         {
           "path": "registry/facebook-ads/shared/instructions.md",
           "target": "~/agent/instructions.md",
-          "type": "registry:file",
-          "content": "You are a careful Facebook Ads optimization agent.\n\nReview recent campaign performance, identify material spend or CPA movement, and recommend concrete next actions. Prefer conservative recommendations.\n\nThis agent is read-only by default. Use the Facebook Marketing API tool only to inspect campaign insights. Do not claim to have changed campaigns, budgets, targeting, or creative unless a separate write tool actually confirms the mutation.\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/skills/daily-loop.md",
           "target": "~/agent/skills/daily-loop.md",
-          "type": "registry:file",
-          "content": "---\nname: daily-loop\ndescription: Review yesterday's Facebook Ads performance and prepare optimization recommendations.\n---\n\n1. Load recent campaign insights.\n2. Compare spend, conversions, and CPA against the previous period.\n3. Flag campaigns with rising CPA, falling conversions, or underspend.\n4. Recommend budget, targeting, or creative follow-up for an operator to approve.\n5. If prior daily summaries are available in the thread or repo, mention the broader trend briefly.\n6. Return a concise operator-ready summary and state that no campaign changes were made.\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/lib/facebook.ts",
           "target": "~/agent/lib/facebook.ts",
-          "type": "registry:file",
-          "content": "export interface CampaignInsight {\n  campaignId: string;\n  campaignName: string;\n  spend: number;\n  conversions: number;\n  cpa: number | null;\n  previousSpend: number;\n  previousConversions: number;\n  previousCpa: number | null;\n  spendChangePct: number | null;\n  conversionChangePct: number | null;\n  cpaChangePct: number | null;\n}\n\nexport interface CampaignRecommendation {\n  campaignId: string;\n  campaignName: string;\n  severity: \"info\" | \"watch\" | \"action\";\n  recommendation: string;\n}\n\ninterface RawCampaignInsight {\n  campaignId: string;\n  campaignName: string;\n  spend: number;\n  conversions: number;\n  cpa: number | null;\n}\n\nexport interface DateRange {\n  since: string;\n  until: string;\n}\n\nexport const reviewFacebookCampaignsInputSchema = {\n  type: \"object\",\n  additionalProperties: false,\n  properties: {\n    currentDate: {\n      type: \"string\",\n      pattern: \"^\\\\d{4}-\\\\d{2}-\\\\d{2}$\",\n      description: \"UTC date to inspect in YYYY-MM-DD format. Defaults to yesterday.\"\n    },\n    comparisonDate: {\n      type: \"string\",\n      pattern: \"^\\\\d{4}-\\\\d{2}-\\\\d{2}$\",\n      description: \"UTC date to compare against in YYYY-MM-DD format. Defaults to two days ago.\"\n    }\n  }\n} as const;\n\nexport interface ReviewFacebookCampaignsInput {\n  currentDate?: string;\n  comparisonDate?: string;\n}\n\nexport function normalizeReviewFacebookCampaignsInput(input: unknown): ReviewFacebookCampaignsInput {\n  if (input === undefined || input === null) return {};\n  if (typeof input !== \"object\" || Array.isArray(input)) {\n    throw new Error(\"Facebook Ads review input must be an object.\");\n  }\n\n  const value = input as Record<string, unknown>;\n  return {\n    currentDate: optionalDate(value.currentDate, \"currentDate\"),\n    comparisonDate: optionalDate(value.comparisonDate, \"comparisonDate\")\n  };\n}\n\nexport async function reviewFacebookCampaigns(input: ReviewFacebookCampaignsInput = {}) {\n  const parsed = normalizeReviewFacebookCampaignsInput(input);\n  const currentRange = dateToRange(parsed.currentDate ?? offsetDate(-1));\n  const comparisonRange = dateToRange(parsed.comparisonDate ?? offsetDate(-2));\n  const insights = await fetchCampaignInsights(currentRange, comparisonRange);\n\n  return {\n    generatedAt: new Date().toISOString(),\n    mode: \"read_only_recommendations\",\n    dataWindow: {\n      current: currentRange,\n      comparison: comparisonRange,\n    },\n    insights,\n    recommendations: recommendCampaignActions(insights),\n    runHistoryHint:\n      \"Save this response with your prior daily runs if you want trend notes beyond the built-in previous-day comparison.\",\n  };\n}\n\nexport async function fetchCampaignInsights(\n  currentRange: DateRange = dateToRange(offsetDate(-1)),\n  comparisonRange: DateRange = dateToRange(offsetDate(-2)),\n  fetchImpl: typeof fetch = fetch\n): Promise<CampaignInsight[]> {\n  const [current, previous] = await Promise.all([\n    fetchCampaignInsightsForRange(currentRange, fetchImpl),\n    fetchCampaignInsightsForRange(comparisonRange, fetchImpl),\n  ]);\n  const previousById = new Map(previous.map((item) => [item.campaignId, item]));\n\n  return current.map((item) => {\n    const comparison = previousById.get(item.campaignId);\n    const previousSpend = comparison?.spend ?? 0;\n    const previousConversions = comparison?.conversions ?? 0;\n    const previousCpa = comparison?.cpa ?? null;\n\n    return {\n      ...item,\n      previousSpend,\n      previousConversions,\n      previousCpa,\n      spendChangePct: percentChange(item.spend, previousSpend),\n      conversionChangePct: percentChange(item.conversions, previousConversions),\n      cpaChangePct: previousCpa === null || item.cpa === null ? null : percentChange(item.cpa, previousCpa),\n    };\n  });\n}\n\nasync function fetchCampaignInsightsForRange(range: DateRange, fetchImpl: typeof fetch): Promise<RawCampaignInsight[]> {\n  const token = process.env.FB_ACCESS_TOKEN;\n  const accountId = process.env.FB_AD_ACCOUNT_ID;\n  if (!token || !accountId) {\n    throw new Error(\"FB_ACCESS_TOKEN and FB_AD_ACCOUNT_ID are required\");\n  }\n\n  const fields = \"campaign_id,campaign_name,spend,actions\";\n  const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);\n  url.searchParams.set(\"fields\", fields);\n  url.searchParams.set(\"time_range\", JSON.stringify(range));\n  url.searchParams.set(\"access_token\", token);\n\n  const response = await fetchImpl(url);\n  if (!response.ok) {\n    const body = await response.text().catch(() => \"\");\n    throw new Error(`Facebook Ads API failed: ${response.status} ${response.statusText}${body ? ` - ${body}` : \"\"}`);\n  }\n\n  const payload = (await response.json()) as { data?: Array<Record<string, unknown>> };\n  return (payload.data ?? []).map((row) => {\n    const conversions = extractConversions(row.actions);\n    const spend = Number(row.spend ?? 0);\n    return {\n      campaignId: String(row.campaign_id ?? \"\"),\n      campaignName: String(row.campaign_name ?? \"Untitled campaign\"),\n      spend,\n      conversions,\n      cpa: conversions > 0 ? spend / conversions : null,\n    };\n  });\n}\n\nexport function recommendCampaignActions(insights: CampaignInsight[]): CampaignRecommendation[] {\n  return insights.map((item) => {\n    if (item.spend > 100 && item.conversions === 0) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"action\",\n        recommendation:\n          \"Consider pausing or narrowing this campaign after reviewing conversion tracking and creative quality. No campaign changes were made.\",\n      };\n    }\n\n    if (item.cpa !== null && item.cpa > 75 && (item.cpaChangePct ?? 0) > 20) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"action\",\n        recommendation:\n          \"CPA is high and rose more than 20% versus the comparison day. Review audience overlap, creative fatigue, and budget allocation before making changes.\",\n      };\n    }\n\n    if (item.cpa !== null && item.cpa > 75) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"watch\",\n        recommendation:\n          \"CPA is elevated. Review audience overlap and consider moving budget toward better converting ad sets after operator approval.\",\n      };\n    }\n\n    return {\n      campaignId: item.campaignId,\n      campaignName: item.campaignName,\n      severity: \"info\",\n      recommendation: \"No urgent action. Keep monitoring spend and conversion volume.\",\n    };\n  });\n}\n\nfunction extractConversions(actions: unknown): number {\n  if (!Array.isArray(actions)) return 0;\n  const conversion = actions.find((action) => {\n    if (!action || typeof action !== \"object\") return false;\n    return String((action as { action_type?: unknown }).action_type ?? \"\").includes(\"purchase\");\n  }) as { value?: unknown } | undefined;\n  return Number(conversion?.value ?? 0);\n}\n\nfunction percentChange(current: number, previous: number): number | null {\n  if (previous === 0) return current === 0 ? 0 : null;\n  return Math.round(((current - previous) / previous) * 1000) / 10;\n}\n\nfunction dateToRange(date: string): DateRange {\n  return { since: date, until: date };\n}\n\nfunction offsetDate(days: number): string {\n  const date = new Date();\n  date.setUTCDate(date.getUTCDate() + days);\n  return date.toISOString().slice(0, 10);\n}\n\nfunction optionalDate(value: unknown, field: string): string | undefined {\n  if (value === undefined) return undefined;\n  if (typeof value !== \"string\" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) {\n    throw new Error(`${field} must be a YYYY-MM-DD date string.`);\n  }\n  return value;\n}\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
-          "type": "registry:file",
-          "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  model: \"anthropic/claude-sonnet-4.6\",\n  description: \"Reviews Facebook Ads performance and recommends daily optimization actions.\"\n});\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/eve/tools/review_campaigns.ts",
           "target": "~/agent/tools/review_campaigns.ts",
-          "type": "registry:file",
-          "content": "import { defineTool } from \"eve/tools\";\nimport {\n  normalizeReviewFacebookCampaignsInput,\n  reviewFacebookCampaigns,\n  reviewFacebookCampaignsInputSchema\n} from \"../lib/facebook.js\";\n\nexport default defineTool({\n  description: \"Review yesterday's Facebook Ads campaign performance and return recommended actions.\",\n  inputSchema: reviewFacebookCampaignsInputSchema,\n  async execute(input: unknown) {\n    return reviewFacebookCampaigns(normalizeReviewFacebookCampaignsInput(input));\n  }\n});\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/eve/schedules/daily.ts",
           "target": "~/agent/schedules/daily.ts",
-          "type": "registry:file",
-          "content": "import { defineSchedule } from \"eve/schedules\";\n\nexport default defineSchedule({\n  cron: \"0 9 * * *\",\n  markdown: \"Run the Facebook Ads daily loop and summarize the recommended campaign actions.\"\n});\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "facebook-ads",
-        "target": "eve",
-        "version": "0.1.0",
-        "requiredEnv": [
-          "FB_ACCESS_TOKEN",
-          "FB_AD_ACCOUNT_ID"
-        ],
-        "connections": [
-          {
-            "name": "facebook-ads",
-            "type": "custom-tool",
-            "auth": "env"
-          }
-        ]
-      }
+      ]
     },
     {
       "name": "flue/facebook-ads",
@@ -138,50 +86,29 @@
         {
           "path": "registry/facebook-ads/targets/flue/agent.ts",
           "target": "~/src/agents/facebook-ads.ts",
-          "type": "registry:file",
-          "content": "import { defineAgent } from \"@flue/runtime\";\nimport { reviewFacebookCampaigns } from \"../tools/facebook-ads/facebook.js\";\n\nexport default defineAgent(() => ({\n  model: \"anthropic/claude-sonnet-4-6\",\n  cwd: \"/workspace\",\n  instructions: \"Review Facebook Ads campaign performance and recommend conservative daily optimization actions.\",\n  tools: [reviewFacebookCampaigns]\n}));\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/skills/daily-loop.md",
           "target": "~/src/skills/facebook-ads-daily-loop/SKILL.md",
-          "type": "registry:file",
-          "content": "---\nname: daily-loop\ndescription: Review yesterday's Facebook Ads performance and prepare optimization recommendations.\n---\n\n1. Load recent campaign insights.\n2. Compare spend, conversions, and CPA against the previous period.\n3. Flag campaigns with rising CPA, falling conversions, or underspend.\n4. Recommend budget, targeting, or creative follow-up for an operator to approve.\n5. If prior daily summaries are available in the thread or repo, mention the broader trend briefly.\n6. Return a concise operator-ready summary and state that no campaign changes were made.\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/lib/facebook.ts",
           "target": "~/src/lib/agents/facebook-ads/facebook.ts",
-          "type": "registry:file",
-          "content": "export interface CampaignInsight {\n  campaignId: string;\n  campaignName: string;\n  spend: number;\n  conversions: number;\n  cpa: number | null;\n  previousSpend: number;\n  previousConversions: number;\n  previousCpa: number | null;\n  spendChangePct: number | null;\n  conversionChangePct: number | null;\n  cpaChangePct: number | null;\n}\n\nexport interface CampaignRecommendation {\n  campaignId: string;\n  campaignName: string;\n  severity: \"info\" | \"watch\" | \"action\";\n  recommendation: string;\n}\n\ninterface RawCampaignInsight {\n  campaignId: string;\n  campaignName: string;\n  spend: number;\n  conversions: number;\n  cpa: number | null;\n}\n\nexport interface DateRange {\n  since: string;\n  until: string;\n}\n\nexport const reviewFacebookCampaignsInputSchema = {\n  type: \"object\",\n  additionalProperties: false,\n  properties: {\n    currentDate: {\n      type: \"string\",\n      pattern: \"^\\\\d{4}-\\\\d{2}-\\\\d{2}$\",\n      description: \"UTC date to inspect in YYYY-MM-DD format. Defaults to yesterday.\"\n    },\n    comparisonDate: {\n      type: \"string\",\n      pattern: \"^\\\\d{4}-\\\\d{2}-\\\\d{2}$\",\n      description: \"UTC date to compare against in YYYY-MM-DD format. Defaults to two days ago.\"\n    }\n  }\n} as const;\n\nexport interface ReviewFacebookCampaignsInput {\n  currentDate?: string;\n  comparisonDate?: string;\n}\n\nexport function normalizeReviewFacebookCampaignsInput(input: unknown): ReviewFacebookCampaignsInput {\n  if (input === undefined || input === null) return {};\n  if (typeof input !== \"object\" || Array.isArray(input)) {\n    throw new Error(\"Facebook Ads review input must be an object.\");\n  }\n\n  const value = input as Record<string, unknown>;\n  return {\n    currentDate: optionalDate(value.currentDate, \"currentDate\"),\n    comparisonDate: optionalDate(value.comparisonDate, \"comparisonDate\")\n  };\n}\n\nexport async function reviewFacebookCampaigns(input: ReviewFacebookCampaignsInput = {}) {\n  const parsed = normalizeReviewFacebookCampaignsInput(input);\n  const currentRange = dateToRange(parsed.currentDate ?? offsetDate(-1));\n  const comparisonRange = dateToRange(parsed.comparisonDate ?? offsetDate(-2));\n  const insights = await fetchCampaignInsights(currentRange, comparisonRange);\n\n  return {\n    generatedAt: new Date().toISOString(),\n    mode: \"read_only_recommendations\",\n    dataWindow: {\n      current: currentRange,\n      comparison: comparisonRange,\n    },\n    insights,\n    recommendations: recommendCampaignActions(insights),\n    runHistoryHint:\n      \"Save this response with your prior daily runs if you want trend notes beyond the built-in previous-day comparison.\",\n  };\n}\n\nexport async function fetchCampaignInsights(\n  currentRange: DateRange = dateToRange(offsetDate(-1)),\n  comparisonRange: DateRange = dateToRange(offsetDate(-2)),\n  fetchImpl: typeof fetch = fetch\n): Promise<CampaignInsight[]> {\n  const [current, previous] = await Promise.all([\n    fetchCampaignInsightsForRange(currentRange, fetchImpl),\n    fetchCampaignInsightsForRange(comparisonRange, fetchImpl),\n  ]);\n  const previousById = new Map(previous.map((item) => [item.campaignId, item]));\n\n  return current.map((item) => {\n    const comparison = previousById.get(item.campaignId);\n    const previousSpend = comparison?.spend ?? 0;\n    const previousConversions = comparison?.conversions ?? 0;\n    const previousCpa = comparison?.cpa ?? null;\n\n    return {\n      ...item,\n      previousSpend,\n      previousConversions,\n      previousCpa,\n      spendChangePct: percentChange(item.spend, previousSpend),\n      conversionChangePct: percentChange(item.conversions, previousConversions),\n      cpaChangePct: previousCpa === null || item.cpa === null ? null : percentChange(item.cpa, previousCpa),\n    };\n  });\n}\n\nasync function fetchCampaignInsightsForRange(range: DateRange, fetchImpl: typeof fetch): Promise<RawCampaignInsight[]> {\n  const token = process.env.FB_ACCESS_TOKEN;\n  const accountId = process.env.FB_AD_ACCOUNT_ID;\n  if (!token || !accountId) {\n    throw new Error(\"FB_ACCESS_TOKEN and FB_AD_ACCOUNT_ID are required\");\n  }\n\n  const fields = \"campaign_id,campaign_name,spend,actions\";\n  const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);\n  url.searchParams.set(\"fields\", fields);\n  url.searchParams.set(\"time_range\", JSON.stringify(range));\n  url.searchParams.set(\"access_token\", token);\n\n  const response = await fetchImpl(url);\n  if (!response.ok) {\n    const body = await response.text().catch(() => \"\");\n    throw new Error(`Facebook Ads API failed: ${response.status} ${response.statusText}${body ? ` - ${body}` : \"\"}`);\n  }\n\n  const payload = (await response.json()) as { data?: Array<Record<string, unknown>> };\n  return (payload.data ?? []).map((row) => {\n    const conversions = extractConversions(row.actions);\n    const spend = Number(row.spend ?? 0);\n    return {\n      campaignId: String(row.campaign_id ?? \"\"),\n      campaignName: String(row.campaign_name ?? \"Untitled campaign\"),\n      spend,\n      conversions,\n      cpa: conversions > 0 ? spend / conversions : null,\n    };\n  });\n}\n\nexport function recommendCampaignActions(insights: CampaignInsight[]): CampaignRecommendation[] {\n  return insights.map((item) => {\n    if (item.spend > 100 && item.conversions === 0) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"action\",\n        recommendation:\n          \"Consider pausing or narrowing this campaign after reviewing conversion tracking and creative quality. No campaign changes were made.\",\n      };\n    }\n\n    if (item.cpa !== null && item.cpa > 75 && (item.cpaChangePct ?? 0) > 20) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"action\",\n        recommendation:\n          \"CPA is high and rose more than 20% versus the comparison day. Review audience overlap, creative fatigue, and budget allocation before making changes.\",\n      };\n    }\n\n    if (item.cpa !== null && item.cpa > 75) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"watch\",\n        recommendation:\n          \"CPA is elevated. Review audience overlap and consider moving budget toward better converting ad sets after operator approval.\",\n      };\n    }\n\n    return {\n      campaignId: item.campaignId,\n      campaignName: item.campaignName,\n      severity: \"info\",\n      recommendation: \"No urgent action. Keep monitoring spend and conversion volume.\",\n    };\n  });\n}\n\nfunction extractConversions(actions: unknown): number {\n  if (!Array.isArray(actions)) return 0;\n  const conversion = actions.find((action) => {\n    if (!action || typeof action !== \"object\") return false;\n    return String((action as { action_type?: unknown }).action_type ?? \"\").includes(\"purchase\");\n  }) as { value?: unknown } | undefined;\n  return Number(conversion?.value ?? 0);\n}\n\nfunction percentChange(current: number, previous: number): number | null {\n  if (previous === 0) return current === 0 ? 0 : null;\n  return Math.round(((current - previous) / previous) * 1000) / 10;\n}\n\nfunction dateToRange(date: string): DateRange {\n  return { since: date, until: date };\n}\n\nfunction offsetDate(days: number): string {\n  const date = new Date();\n  date.setUTCDate(date.getUTCDate() + days);\n  return date.toISOString().slice(0, 10);\n}\n\nfunction optionalDate(value: unknown, field: string): string | undefined {\n  if (value === undefined) return undefined;\n  if (typeof value !== \"string\" || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) {\n    throw new Error(`${field} must be a YYYY-MM-DD date string.`);\n  }\n  return value;\n}\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/flue/tools/facebook.ts",
           "target": "~/src/tools/facebook-ads/facebook.ts",
-          "type": "registry:file",
-          "content": "import { reviewFacebookCampaigns as reviewCampaigns } from \"../../lib/agents/facebook-ads/facebook.js\";\n\nexport async function reviewFacebookCampaigns() {\n  return reviewCampaigns();\n}\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/flue/workflows/daily.ts",
           "target": "~/src/workflows/facebook-ads-daily.ts",
-          "type": "registry:file",
-          "content": "import { defineWorkflow } from \"@flue/runtime\";\nimport agent from \"../agents/facebook-ads.js\";\n\ninterface WorkflowContext {\n  harness: {\n    session(): Promise<{\n      prompt(message: string): Promise<unknown>;\n    }>;\n  };\n}\n\nexport default defineWorkflow({\n  agent,\n  async run({ harness }: WorkflowContext) {\n    const session = await harness.session();\n    return session.prompt(\"Run the Facebook Ads daily loop and summarize the recommended campaign actions.\");\n  }\n});\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "facebook-ads",
-        "target": "flue",
-        "version": "0.1.0",
-        "requiredEnv": [
-          "FB_ACCESS_TOKEN",
-          "FB_AD_ACCOUNT_ID"
-        ],
-        "connections": [
-          {
-            "name": "facebook-ads",
-            "type": "custom-tool",
-            "auth": "env"
-          }
-        ]
-      }
+      ]
     }
   ]
 }

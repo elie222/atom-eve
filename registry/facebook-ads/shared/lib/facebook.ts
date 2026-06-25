@@ -69,8 +69,10 @@ export function normalizeReviewFacebookCampaignsInput(input: unknown): ReviewFac
 
 export async function reviewFacebookCampaigns(input: ReviewFacebookCampaignsInput = {}) {
   const parsed = normalizeReviewFacebookCampaignsInput(input);
-  const currentRange = dateToRange(parsed.currentDate ?? offsetDate(-1));
-  const comparisonRange = dateToRange(parsed.comparisonDate ?? offsetDate(-2));
+  const currentDate = parsed.currentDate ?? offsetDate(-1);
+  const comparisonDate = parsed.comparisonDate ?? shiftDate(currentDate, -1);
+  const currentRange = dateToRange(currentDate);
+  const comparisonRange = dateToRange(comparisonDate);
   const insights = await fetchCampaignInsights(currentRange, comparisonRange);
 
   return {
@@ -212,6 +214,12 @@ function offsetDate(days: number): string {
   const date = new Date();
   date.setUTCDate(date.getUTCDate() + days);
   return date.toISOString().slice(0, 10);
+}
+
+function shiftDate(date: string, days: number): string {
+  const parsed = new Date(`${date}T00:00:00.000Z`);
+  parsed.setUTCDate(parsed.getUTCDate() + days);
+  return parsed.toISOString().slice(0, 10);
 }
 
 function optionalDate(value: unknown, field: string): string | undefined {

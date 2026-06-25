@@ -51,7 +51,7 @@ For lightweight run history, save the daily response somewhere your operator can
 Local smoke test with mocked Facebook responses:
 
 ```bash
-FB_ACCESS_TOKEN=test FB_AD_ACCOUNT_ID=act_123 pnpm exec tsx -e '
+FB_ACCESS_TOKEN=test FB_AD_ACCOUNT_ID=act_123 pnpm dlx tsx -e '
 import { fetchCampaignInsights, recommendCampaignActions } from "./agent/lib/facebook.ts";
 const responses = [
   { data: [{ campaign_id: "1", campaign_name: "Prospecting", spend: "120", actions: [{ action_type: "purchase", value: "0" }] }] },
