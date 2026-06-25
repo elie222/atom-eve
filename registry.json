@@ -31,7 +31,7 @@
           "path": "registry/website-qa/targets/eve/agent.ts",
           "target": "~/agent/subagents/website-qa/agent.ts",
           "type": "registry:file",
-          "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  description:\n    \"Audits public websites for practical UX, content, SEO, accessibility, and technical quality issues. Saves Markdown reports with evidence.\"\n});\n"
+          "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  model: \"anthropic/claude-sonnet-4.6\",\n  description:\n    \"Audits public websites for practical UX, content, SEO, accessibility, and technical quality issues. Saves Markdown reports with evidence.\"\n});\n"
         },
         {
           "path": "registry/website-qa/targets/eve/tools/run_website_qa.ts",
