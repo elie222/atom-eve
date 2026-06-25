@@ -5,6 +5,7 @@
     "paths": {
       "eve": ["types/eve.d.ts"],
       "eve/tools": ["types/eve-tools.d.ts"],
+      "eve/sandbox": ["types/eve-sandbox.d.ts"],
       "eve/schedules": ["types/eve-schedules.d.ts"]
     },
     "noEmit": true

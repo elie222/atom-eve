@@ -8,10 +8,11 @@ This is not an SEO or static HTML audit agent. Use it for browser-driven product
 
 The package includes:
 
-- An `agent-browser` wrapper tool for navigation, snapshots, clicks, form fills, waits, and screenshots.
+- Framework-native sandbox instructions for running Agent Browser.
+- Eve sandbox bootstrap for installing Agent Browser in the Eve sandbox.
 - Root-agent instructions you should customize with your own onboarding flow, test credential policy, and acceptance criteria.
 
-The Eve target installs this as a root agent under `agent/`. The Flue target installs the same browser tool in the native Flue layout.
+The Eve target installs this as a root agent under `agent/` and uses Eve's built-in `bash` tool to run Agent Browser in the sandbox. The Flue target uses Flue's built-in sandbox command capability.
 
 ## Supported targets
 
@@ -32,23 +33,13 @@ npx atom-eve add website-qa --target eve
 
 ## Setup
 
-Install the shared schema dependency:
+For Eve, no custom tool dependency is required. The installed sandbox bootstrap prepares Agent Browser inside the Eve sandbox. The first browser run may spend extra time while the sandbox template is built.
 
-```bash
-pnpm add zod
-```
-
-For local development or a long-running server, install Agent Browser in the runtime environment:
+For Flue Node.js with a local sandbox, install Agent Browser where the sandbox can run commands:
 
 ```bash
 pnpm add agent-browser
 agent-browser install
-```
-
-For Vercel, use Agent Browser through Vercel Sandbox so browser automation runs in a microVM with Chrome:
-
-```bash
-pnpm add agent-browser @agent-browser/sandbox @vercel/sandbox
 ```
 
 If your project uses pnpm 10 build approvals, allow the Agent Browser install script:
@@ -59,7 +50,7 @@ allowBuilds:
   agent-browser: true
 ```
 
-Then redeploy the Vercel project. The first browser run may spend extra time bootstrapping the sandbox; for production recurring QA, create an Agent Browser sandbox snapshot and set `AGENT_BROWSER_SNAPSHOT_ID`.
+Then redeploy the project. For Cloudflare or another isolated Flue sandbox, install Agent Browser as part of that sandbox's setup/lifecycle rather than through an application tool.
 
 If Agent Browser is unavailable, the agent should report that the QA run is blocked. It should not silently replace the run with a static HTML audit.
 
@@ -96,18 +87,12 @@ Use these test details:
 Start from the public homepage, follow the natural signup path, capture screenshots for each important state, and summarize the result.
 ```
 
-For multi-step browser runs, prefer a single `agent_browser` call with `commands`, for example:
+The agent should use built-in sandbox command calls with Agent Browser:
 
-```json
-{
-  "commands": [
-    ["open", "https://example.com"],
-    ["wait", "2000"],
-    ["snapshot", "-i"]
-  ],
-  "allowedDomains": ["example.com", "*.example.com"],
-  "sessionName": "example-signup"
-}
+```bash
+npx agent-browser --session-name website-qa open https://example.com
+npx agent-browser --session-name website-qa wait 2000
+npx agent-browser --session-name website-qa snapshot -i
 ```
 
 Return a concise Markdown report in the agent response. If your app needs persisted QA history, add a local storage tool or wire the response to your own Slack, GitHub, database, or artifact storage workflow.
@@ -125,12 +110,12 @@ Treat the installed files like shadcn components: update from the registry, insp
 
 ## Connections and auth
 
-This package uses a local browser automation connection through the `agent-browser` CLI. There is no auth by default.
+This package uses browser automation through the `agent-browser` CLI in the framework sandbox. There is no auth by default.
 
 For authenticated sites, create a browser session/profile manually and adapt the installed tool to pass the relevant Agent Browser flags. Do not commit session state or credentials.
 
 ## Limitations
 
-- Browser automation depends on `agent-browser` being installed in the runtime environment.
+- Browser automation depends on `agent-browser` being available in the runtime environment or Eve sandbox.
 - Screenshots and reports are local artifacts; wire them to your own storage if you need long-term history.
 - Keep site-specific URLs, credentials, and QA policies in your app repo, not in the registry package.

@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@flue/runtime": ["types/flue-runtime.d.ts"],
       "flue": ["types/flue.d.ts"]
     },
     "noEmit": true
