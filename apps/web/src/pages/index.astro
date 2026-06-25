@@ -48,7 +48,7 @@ const publishSteps = [
   <Nav />
 
   <!-- hero -->
-  <section class="mx-auto max-w-[720px] px-8 pb-16 pt-[84px] text-center">
+  <section class="mx-auto max-w-[720px] px-8 pb-[40px] pt-[76px] text-center">
     <div class="font-pixel text-[10px] tracking-[0.12em] text-eve">▸ OPEN-SOURCE AGENT REGISTRY</div>
     <h1 class="mt-[26px] text-[58px] font-bold leading-none tracking-[-0.025em] max-sm:text-[40px]">
       An agent for every job.
@@ -56,22 +56,11 @@ const publishSteps = [
     <p class="mx-auto mt-5 max-w-[540px] text-[18px] leading-[1.55] text-muted">
       Open-source agents for eve.dev and flue. Find one, add your keys, ship it.
     </p>
-    <label
-      class="mx-auto mt-[34px] flex max-w-[560px] cursor-text items-center gap-[11px] rounded-[10px] border border-edge2 bg-panel px-[17px] py-[15px]"
-    >
-      <span class="font-pixel text-[10px] text-eve">▸</span>
-      <input
-        id="hero-search"
-        placeholder={'Search agents — "seo", "ads", "qa"…'}
-        class="flex-1 border-none bg-transparent text-left font-mono text-[14px] text-ink outline-none"
-      />
-      <span class="animate-blink inline-block h-[17px] w-2 bg-eve"></span>
-    </label>
-    <div class="mt-[22px] flex flex-wrap justify-center gap-[11px]">
+    <div class="mt-[30px] flex flex-wrap justify-center gap-[11px]">
       <a
         href="#registry"
         class="whitespace-nowrap rounded-md bg-eve px-[22px] py-[13px] text-[14px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
-        >Install your first agent</a
+        >Browse the agents</a
       >
       <a
         href={REPO}
@@ -90,8 +79,78 @@ const publishSteps = [
     </div>
   </div>
 
+  <!-- the registry -->
+  <section id="registry" class="mx-auto max-w-[1180px] px-8 pt-[40px]">
+    <div class="flex flex-wrap items-end justify-between gap-x-5 gap-y-2">
+      <div>
+        <div class="font-mono text-[11px] tracking-[0.08em] text-eve">// the registry</div>
+        <div class="mt-3 font-pixel text-[17px]">PICK AN AGENT</div>
+      </div>
+      <div class="max-w-[420px] text-[14px] leading-[1.55] text-muted">
+        Every agent is a folder + an <span class="font-mono text-[13px] text-eve">atom.json</span>
+        manifest. Copy, configure, ship.
+      </div>
+    </div>
+
+    <!-- search — filters the grid directly below it -->
+    <label
+      id="categories"
+      class="mt-[24px] flex cursor-text items-center gap-[11px] rounded-[10px] border border-edge2 bg-panel px-[17px] py-[14px]"
+    >
+      <span class="font-pixel text-[10px] text-eve">▸</span>
+      <input
+        id="agent-search"
+        placeholder={'Search agents — "seo", "ads", "qa"…'}
+        class="flex-1 border-none bg-transparent text-left font-mono text-[14px] text-ink outline-none"
+      />
+      <span class="animate-blink inline-block h-[17px] w-2 bg-eve"></span>
+    </label>
+
+    <!-- category toolbar — scrolls horizontally on small screens -->
+    <div class="cat-bar -mx-1 mt-[14px] flex items-center gap-[7px] overflow-x-auto px-1 pb-1">
+      <button
+        type="button"
+        data-family="all"
+        aria-pressed="true"
+        class="cat-pill active inline-flex flex-none items-center gap-[8px] rounded-full border border-edge bg-panel px-[14px] py-[8px] text-[13px] font-medium text-ink2"
+      >
+        All agents
+        <span class="cat-count font-mono text-[11px] text-dim">{total}</span>
+      </button>
+      {
+        taxonomy.families.map((family) => (
+          <button
+            type="button"
+            data-family={family}
+            aria-pressed="false"
+            class="cat-pill inline-flex flex-none items-center gap-[8px] rounded-full border border-edge bg-panel px-[14px] py-[8px] text-[13px] font-medium text-ink2"
+          >
+            <span
+              class="h-[8px] w-[8px] flex-none rounded-full"
+              style={`background:${famColor(family)}`}
+            />
+            {prettify(family)}
+            <span class="cat-count font-mono text-[11px] text-dim">{counts[family] ?? 0}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="mt-[22px]">
+      <div
+        id="agent-grid"
+        class="grid gap-[14px] [grid-template-columns:repeat(auto-fill,minmax(230px,1fr))]"
+      >
+        {cards.map((agent) => <AgentCard agent={agent} />)}
+      </div>
+      <p id="no-results" class="hidden py-10 text-center font-mono text-[13px] text-muted">
+        No agents match that search.
+      </p>
+    </div>
+  </section>
+
   <!-- how it works -->
-  <section class="mx-auto max-w-[1180px] px-8 pt-[54px]">
+  <section class="mx-auto max-w-[1180px] px-8 pt-[60px]">
     <div class="font-mono text-[11px] tracking-[0.08em] text-eve">// how it works</div>
     <div class="mt-3 font-pixel text-[17px]">THREE STEPS TO SHIP</div>
     <div class="mt-[22px] grid grid-cols-1 gap-[14px] sm:grid-cols-3">
@@ -106,64 +165,6 @@ const publishSteps = [
           </div>
         ))
       }
-    </div>
-  </section>
-
-  <!-- the registry -->
-  <section id="registry" class="mx-auto max-w-[1180px] px-8 pt-[54px]">
-    <div class="font-mono text-[11px] tracking-[0.08em] text-eve">// the registry</div>
-    <div class="mt-3 flex flex-wrap items-end justify-between gap-5">
-      <div class="font-pixel text-[17px]">PICK AN AGENT</div>
-      <div class="max-w-[560px] text-[14.5px] leading-[1.55] text-muted">
-        Every agent is a folder + an <span class="font-mono text-[13px] text-eve">atom.json</span> manifest
-        declaring what it does and the keys it needs. Copy, configure, ship.
-      </div>
-    </div>
-
-    <div class="reg-layout mt-[26px] flex items-start gap-8 max-md:flex-col">
-      <aside id="categories" class="reg-rail w-[212px] flex-none max-md:w-full">
-        <div class="mb-3 font-mono text-[11px] tracking-[0.08em] text-dim">CATEGORIES</div>
-        <button
-          type="button"
-          data-family="all"
-          aria-pressed="true"
-          class="cat-btn active mb-[6px] flex w-full items-center justify-between rounded-[7px] border border-transparent px-[11px] py-[9px] text-left"
-        >
-          <span class="text-[14px] font-semibold text-ink">All agents</span>
-          <span class="font-mono text-[11.5px] text-eve">{total}</span>
-        </button>
-        {
-          taxonomy.families.map((family) => (
-            <button
-              type="button"
-              data-family={family}
-              aria-pressed="false"
-              class="cat-btn flex w-full items-center justify-between rounded-[7px] border border-transparent px-[11px] py-[9px] text-left"
-            >
-              <span class="flex items-center gap-[9px]">
-                <span
-                  class="h-[9px] w-[9px] flex-none rounded-[2px]"
-                  style={`background:${famColor(family)}`}
-                />
-                <span class="text-[14px] text-ink2">{prettify(family)}</span>
-              </span>
-              <span class="cat-count font-mono text-[11.5px] text-dim">{counts[family] ?? 0}</span>
-            </button>
-          ))
-        }
-      </aside>
-
-      <div class="min-w-0 flex-1">
-        <div
-          id="agent-grid"
-          class="grid gap-[14px] [grid-template-columns:repeat(auto-fill,minmax(230px,1fr))]"
-        >
-          {cards.map((agent) => <AgentCard agent={agent} />)}
-        </div>
-        <p id="no-results" class="hidden py-10 text-center font-mono text-[13px] text-muted">
-          No agents match that search.
-        </p>
-      </div>
     </div>
   </section>
 
@@ -244,11 +245,11 @@ const publishSteps = [
   <Footer />
 
   <script>
-    const search = document.getElementById("hero-search") as HTMLInputElement | null;
+    const search = document.getElementById("agent-search") as HTMLInputElement | null;
     const grid = document.getElementById("agent-grid");
     const empty = document.getElementById("no-results");
     const catButtons = Array.from(
-      document.querySelectorAll<HTMLButtonElement>(".cat-btn"),
+      document.querySelectorAll<HTMLButtonElement>(".cat-pill"),
     );
 
     if (grid) {

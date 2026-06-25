@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 export interface CampaignInsight {
   campaignId: string;
   campaignName: string;
@@ -15,9 +13,13 @@ export interface CampaignRecommendation {
   recommendation: string;
 }
 
-export const reviewFacebookCampaignsInputSchema = z.object({});
+export const reviewFacebookCampaignsInputSchema = {
+  type: "object",
+  additionalProperties: false,
+  properties: {}
+} as const;
 
-export type ReviewFacebookCampaignsInput = z.infer<typeof reviewFacebookCampaignsInputSchema>;
+export type ReviewFacebookCampaignsInput = Record<string, never>;
 
 export async function reviewFacebookCampaigns(_input: ReviewFacebookCampaignsInput = {}) {
   const insights = await fetchCampaignInsights();

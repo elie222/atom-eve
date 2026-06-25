@@ -19,15 +19,22 @@ export interface RegistryFile {
   path: string;
   target: string;
   type: "registry:file";
+}
+
+export interface ResolvedRegistryFile extends RegistryFile {
   content: string;
 }
 
-export interface RegistryItem {
+export interface SourceRegistryItem {
   name: string;
   type: "registry:block";
   title: string;
   description: string;
   files: RegistryFile[];
+}
+
+export interface RegistryItem extends SourceRegistryItem {
+  files: ResolvedRegistryFile[];
   meta: {
     atom: string;
     target: Target;
@@ -66,7 +73,7 @@ export async function generateRegistry(rootDir: string): Promise<void> {
   await fs.rm(publicR, { recursive: true, force: true });
   await fs.mkdir(publicR, { recursive: true });
 
-  const items: RegistryItem[] = [];
+  const sourceItems: SourceRegistryItem[] = [];
   const siteItems: SiteIndexItem[] = [];
 
   const orderedManifests = orderManifests(manifests, catalogConfig);
@@ -74,7 +81,7 @@ export async function generateRegistry(rootDir: string): Promise<void> {
     siteItems.push(toSiteIndexItem(manifest, catalogConfig));
     for (const target of manifest.targets) {
       const item = await createRegistryItem(rootDir, manifest, target);
-      items.push(item);
+      sourceItems.push(toSourceRegistryItem(item));
       const outPath = path.join(publicR, target, `${manifest.name}.json`);
       await fs.mkdir(path.dirname(outPath), { recursive: true });
       await writeJson(outPath, item);
@@ -86,8 +93,18 @@ export async function generateRegistry(rootDir: string): Promise<void> {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "atom-eve",
     homepage: "https://atomeve.dev",
-    items
+    items: sourceItems
   });
+}
+
+function toSourceRegistryItem(item: RegistryItem): SourceRegistryItem {
+  return {
+    name: item.name,
+    type: item.type,
+    title: item.title,
+    description: item.description,
+    files: item.files.map(({ content: _content, ...file }) => file)
+  };
 }
 
 export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promise<RegistryManifest[]> {
@@ -135,8 +152,8 @@ export async function createRegistryItem(rootDir: string, manifest: RegistryMani
   };
 }
 
-export async function mapFiles(rootDir: string, manifest: RegistryManifest, target: Target): Promise<RegistryFile[]> {
-  const files: RegistryFile[] = [];
+export async function mapFiles(rootDir: string, manifest: RegistryManifest, target: Target): Promise<ResolvedRegistryFile[]> {
+  const files: ResolvedRegistryFile[] = [];
   const add = async (source: string, destination: string) => {
     const absSource = path.join(rootDir, manifest.repoPath, source);
     const content = await fs.readFile(absSource, "utf8");
