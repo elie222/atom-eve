@@ -56,6 +56,28 @@
       "repoPath": "registry/facebook-ads",
       "featured": true,
       "order": 1
+    },
+    {
+      "name": "competitor-analysis",
+      "title": "Competitor Analysis Agent",
+      "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+      "category": "analytics",
+      "family": "data",
+      "version": "0.1.0",
+      "targets": [
+        "eve",
+        "flue"
+      ],
+      "integrations": [
+        "browser",
+        "fetch"
+      ],
+      "connections": [],
+      "requiredEnv": [],
+      "scheduled": true,
+      "repoPath": "registry/competitor-analysis",
+      "featured": false,
+      "order": null
     }
   ]
 }

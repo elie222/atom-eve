@@ -182,6 +182,72 @@
           }
         ]
       }
+    },
+    {
+      "name": "eve/competitor-analysis",
+      "type": "registry:block",
+      "title": "Competitor Analysis Agent (eve)",
+      "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+      "files": [
+        {
+          "path": "registry/competitor-analysis/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file",
+          "content": "You are a competitor analysis agent for product and growth teams.\n\nRun a weekly analysis of configured competitor URLs. Users may provide URLs directly in the prompt, or point you at local env/config notes that list competitors and pages. Do not use paid search APIs or invent competitors that were not configured.\n\nUse native framework capabilities only:\n\n- Use fetch or sandbox command execution for lightweight collection, such as HTTP status, HTML, title, meta description, visible text extraction, and saved raw artifacts.\n- Use the framework's browser capability for screenshots, dynamic pages, navigation, and CTA flow inspection.\n- Do not install or call a custom browser wrapper tool.\n\nFor each configured competitor, inspect the relevant homepage, pricing, product, feature, docs, changelog, blog, and CTA pages that the user provided. If a page blocks automation, record the blocker and continue with the remaining URLs.\n\nCompare against prior runs in `reports/competitor-analysis/history/...` when available. Treat this as lightweight MVP memory:\n\n- Read the latest prior Markdown report and compact JSON snapshot if they exist.\n- Save the new report and compact snapshot under `reports/competitor-analysis/history/<YYYY-MM-DD>/`.\n- Save screenshots and raw artifacts under `reports/competitor-analysis/artifacts/<YYYY-MM-DD>/`.\n- If history is unavailable because the sandbox is fresh or ephemeral, say so and establish a baseline.\n\nFuture storage such as a database table, object storage, vector index, or external document store should be handled by the host app. Do not claim durable memory beyond files you can read or write in the current environment.\n\nAlways produce a concise Markdown report with:\n\n1. Executive summary\n2. Competitors and URLs reviewed\n3. Positioning and message hierarchy changes\n4. Pricing and packaging changes\n5. Feature messaging and content changes\n6. CTA flow changes\n7. Screenshots and artifacts\n8. Notable deltas from prior runs\n9. Recommended actions and follow-up questions\n\nGround every material claim in an observed URL, screenshot, artifact, or prior-run comparison. Mark uncertain interpretation clearly.\n"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file",
+          "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  model: \"anthropic/claude-sonnet-4.6\",\n  description:\n    \"Runs weekly competitor URL analysis using native browser, fetch, and sandbox capabilities, then reports positioning, pricing, messaging, CTA, content, screenshot, and history deltas.\"\n});\n"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file",
+          "content": "import { defineSandbox } from \"eve/sandbox\";\n\nexport default defineSandbox({\n  async bootstrap({ use }) {\n    const sandbox = await use();\n    await sandbox.run({\n      command: \"mkdir -p reports/competitor-analysis/history reports/competitor-analysis/artifacts\"\n    });\n  }\n});\n"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file",
+          "content": "import { defineSchedule } from \"eve/schedules\";\n\nexport default defineSchedule({\n  cron: \"0 9 * * 1\",\n  timezone: \"UTC\",\n  prompt:\n    \"Run the weekly competitor analysis for the configured competitor URLs. Use native fetch/browser/sandbox capabilities, compare against reports/competitor-analysis/history when available, save new report artifacts, and summarize notable deltas.\"\n});\n"
+        }
+      ],
+      "meta": {
+        "atom": "competitor-analysis",
+        "target": "eve",
+        "version": "0.1.0",
+        "requiredEnv": [],
+        "connections": []
+      }
+    },
+    {
+      "name": "flue/competitor-analysis",
+      "type": "registry:block",
+      "title": "Competitor Analysis Agent (flue)",
+      "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+      "files": [
+        {
+          "path": "registry/competitor-analysis/targets/flue/agent.ts",
+          "target": "~/src/agents/competitor-analysis.ts",
+          "type": "registry:file",
+          "content": "import { defineAgent } from \"@flue/runtime\";\n\nconst instructions = [\n  \"Run weekly competitor analysis for configured competitor URLs supplied in the prompt or local env/config notes.\",\n  \"Use native fetch, browser, and sandbox command capabilities only; do not install or call a custom browser wrapper tool or paid search API.\",\n  \"Analyze positioning, pricing, feature messaging, CTA flow, content changes, screenshots/artifacts, and notable deltas from prior runs.\",\n  \"Compare against reports/competitor-analysis/history when available, save a new Markdown report and compact JSON snapshot there, and save screenshots/raw artifacts under reports/competitor-analysis/artifacts.\",\n  \"If no prior history exists, say that this run is a baseline. Treat DB-backed or external storage as future host-app work.\"\n].join(\" \");\n\nexport default defineAgent(() => ({\n  model: \"anthropic/claude-sonnet-4-6\",\n  cwd: \"/workspace\",\n  instructions\n}));\n"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/competitor-analysis-weekly.ts",
+          "type": "registry:file",
+          "content": "import { defineWorkflow } from \"@flue/runtime\";\n\nexport default defineWorkflow({\n  name: \"competitor-analysis-weekly\",\n  async run() {\n    return {\n      prompt:\n        \"Run the weekly competitor analysis for the configured competitor URLs. Use native fetch/browser/sandbox capabilities, compare against reports/competitor-analysis/history when available, save report artifacts, and summarize notable deltas.\"\n    };\n  }\n});\n"
+        }
+      ],
+      "meta": {
+        "atom": "competitor-analysis",
+        "target": "flue",
+        "version": "0.1.0",
+        "requiredEnv": [],
+        "connections": []
+      }
     }
   ]
 }
