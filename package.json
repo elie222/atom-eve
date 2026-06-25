@@ -1,0 +1,19 @@
+{
+  "name": "atomeve",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "generate": "pnpm --filter @atomeve/schemas build && tsx packages/registry-generator/src/cli.ts",
+    "build": "pnpm --filter @atomeve/schemas build && pnpm --filter @atomeve/registry-generator build && pnpm --filter atomeve build && pnpm --filter @atomeve/web build",
+    "typecheck": "pnpm --filter @atomeve/schemas typecheck && pnpm --filter @atomeve/registry-generator typecheck && pnpm --filter @atomeve/registry-generator build && pnpm --filter atomeve typecheck",
+    "check": "pnpm generate && pnpm typecheck && pnpm build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "zod": "^3.24.1"
+  }
+}

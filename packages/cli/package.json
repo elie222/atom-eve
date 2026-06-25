@@ -1,0 +1,23 @@
+{
+  "name": "atomeve",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "atomeve": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && chmod +x dist/index.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@atomeve/registry-generator": "workspace:*",
+    "@atomeve/schemas": "workspace:*",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}
