@@ -12,35 +12,19 @@
         {
           "path": "registry/website-qa/shared/instructions.md",
           "target": "~/agent/instructions.md",
-          "type": "registry:file",
-          "content": "You are a pragmatic web app QA agent for developers.\n\nTest the requested website like a product-minded QA engineer. Your job is to use a browser, follow the target user flow, and report whether the flow works.\n\nUse the framework's built-in command/sandbox capability to run Agent Browser. Use commands like `npx agent-browser --session website-qa open https://example.com`, `npx agent-browser --session website-qa snapshot -i`, `npx agent-browser --session website-qa click @e2`, and `npx agent-browser --session website-qa screenshot reports/assets/home.png`. Re-snapshot after every navigation or state-changing action because element refs expire.\n\nFocus on product behavior, not static HTML metadata. Do not substitute an SEO or landing-page audit for browser QA. If browser automation is unavailable or a blocker appears, stop and report the blocker clearly.\n\nAlways return a concise Markdown report with:\n\n1. Executive summary\n2. What was checked\n3. Findings ordered by severity\n4. Screenshots/artifacts\n5. Recommended fixes\n6. Follow-up test prompt\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/website-qa/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
-          "type": "registry:file",
-          "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  model: \"anthropic/claude-sonnet-4.6\",\n  description:\n    \"Runs browser-driven QA on web app flows such as signup and onboarding, captures evidence, and returns concise Markdown reports.\"\n});\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/website-qa/targets/eve/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file",
-          "content": "import { defineSandbox } from \"eve/sandbox\";\n\nexport default defineSandbox({\n  async bootstrap({ use }) {\n    const sandbox = await use();\n    await sandbox.run({\n      command: [\n        \"set -e\",\n        \"mkdir -p reports/assets\",\n        \"npm init -y >/dev/null\",\n        \"npm install agent-browser@latest\",\n        \"npx agent-browser install\"\n      ].join(\" && \")\n    });\n  }\n});\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "website-qa",
-        "target": "eve",
-        "version": "0.1.0",
-        "requiredEnv": [],
-        "connections": [
-          {
-            "name": "agent-browser",
-            "type": "custom-tool",
-            "auth": "none"
-          }
-        ]
-      }
+      ]
     },
     {
       "name": "flue/website-qa",
@@ -51,23 +35,9 @@
         {
           "path": "registry/website-qa/targets/flue/agent.ts",
           "target": "~/src/agents/website-qa.ts",
-          "type": "registry:file",
-          "content": "import { defineAgent } from \"@flue/runtime\";\n\nexport default defineAgent(() => ({\n  model: \"anthropic/claude-sonnet-4-6\",\n  cwd: \"/workspace\",\n  instructions:\n    \"Run browser-driven QA on a website or web app. Use the sandbox command capability to run npx agent-browser commands, inspect and interact with onboarding/signup flows, capture screenshots, and then return a concise Markdown QA report.\"\n}));\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "website-qa",
-        "target": "flue",
-        "version": "0.1.0",
-        "requiredEnv": [],
-        "connections": [
-          {
-            "name": "agent-browser",
-            "type": "custom-tool",
-            "auth": "none"
-          }
-        ]
-      }
+      ]
     },
     {
       "name": "eve/facebook-ads",
@@ -78,56 +48,34 @@
         {
           "path": "registry/facebook-ads/shared/instructions.md",
           "target": "~/agent/instructions.md",
-          "type": "registry:file",
-          "content": "You are a careful Facebook Ads optimization agent.\n\nReview recent campaign performance, identify material spend or CPA movement, and recommend concrete next actions. Prefer conservative recommendations. Do not claim to have changed campaigns unless a write tool actually confirms the change.\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/skills/daily-loop.md",
           "target": "~/agent/skills/daily-loop.md",
-          "type": "registry:file",
-          "content": "---\nname: daily-loop\ndescription: Review yesterday's Facebook Ads performance and prepare optimization recommendations.\n---\n\n1. Load recent campaign insights.\n2. Compare spend, conversions, and CPA against the previous period.\n3. Flag campaigns with rising CPA, falling conversions, or underspend.\n4. Recommend budget, targeting, or creative follow-up.\n5. Return a concise operator-ready summary.\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/lib/facebook.ts",
           "target": "~/agent/lib/facebook.ts",
-          "type": "registry:file",
-          "content": "import { z } from \"zod\";\n\nexport interface CampaignInsight {\n  campaignId: string;\n  campaignName: string;\n  spend: number;\n  conversions: number;\n  cpa: number | null;\n}\n\nexport interface CampaignRecommendation {\n  campaignId: string;\n  campaignName: string;\n  severity: \"info\" | \"watch\" | \"action\";\n  recommendation: string;\n}\n\nexport const reviewFacebookCampaignsInputSchema = z.object({});\n\nexport type ReviewFacebookCampaignsInput = z.infer<typeof reviewFacebookCampaignsInputSchema>;\n\nexport async function reviewFacebookCampaigns(_input: ReviewFacebookCampaignsInput = {}) {\n  const insights = await fetchCampaignInsights();\n  return {\n    insights,\n    recommendations: recommendCampaignActions(insights),\n  };\n}\n\nexport async function fetchCampaignInsights(fetchImpl: typeof fetch = fetch): Promise<CampaignInsight[]> {\n  const token = process.env.FB_ACCESS_TOKEN;\n  const accountId = process.env.FB_AD_ACCOUNT_ID;\n  if (!token || !accountId) {\n    throw new Error(\"FB_ACCESS_TOKEN and FB_AD_ACCOUNT_ID are required\");\n  }\n\n  const fields = \"campaign_id,campaign_name,spend,actions\";\n  const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);\n  url.searchParams.set(\"fields\", fields);\n  url.searchParams.set(\"date_preset\", \"yesterday\");\n  url.searchParams.set(\"access_token\", token);\n\n  const response = await fetchImpl(url);\n  if (!response.ok) {\n    throw new Error(`Facebook Ads API failed: ${response.status} ${response.statusText}`);\n  }\n\n  const payload = (await response.json()) as { data?: Array<Record<string, unknown>> };\n  return (payload.data ?? []).map((row) => {\n    const conversions = extractConversions(row.actions);\n    const spend = Number(row.spend ?? 0);\n    return {\n      campaignId: String(row.campaign_id ?? \"\"),\n      campaignName: String(row.campaign_name ?? \"Untitled campaign\"),\n      spend,\n      conversions,\n      cpa: conversions > 0 ? spend / conversions : null\n    };\n  });\n}\n\nexport function recommendCampaignActions(insights: CampaignInsight[]): CampaignRecommendation[] {\n  return insights.map((item) => {\n    if (item.spend > 100 && item.conversions === 0) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"action\",\n        recommendation: \"Pause or narrow this campaign until conversion tracking and creative quality are reviewed.\"\n      };\n    }\n\n    if (item.cpa !== null && item.cpa > 75) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"watch\",\n        recommendation: \"CPA is elevated. Review audience overlap and move budget toward better converting ad sets.\"\n      };\n    }\n\n    return {\n      campaignId: item.campaignId,\n      campaignName: item.campaignName,\n      severity: \"info\",\n      recommendation: \"No urgent action. Keep monitoring spend and conversion volume.\"\n    };\n  });\n}\n\nfunction extractConversions(actions: unknown): number {\n  if (!Array.isArray(actions)) return 0;\n  const conversion = actions.find((action) => {\n    if (!action || typeof action !== \"object\") return false;\n    return String((action as { action_type?: unknown }).action_type ?? \"\").includes(\"purchase\");\n  }) as { value?: unknown } | undefined;\n  return Number(conversion?.value ?? 0);\n}\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
-          "type": "registry:file",
-          "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  description: \"Reviews Facebook Ads performance and recommends daily optimization actions.\"\n});\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/eve/tools/review_campaigns.ts",
           "target": "~/agent/tools/review_campaigns.ts",
-          "type": "registry:file",
-          "content": "import { defineTool } from \"eve/tools\";\nimport {\n  reviewFacebookCampaigns,\n  reviewFacebookCampaignsInputSchema,\n  type ReviewFacebookCampaignsInput,\n} from \"../lib/facebook.js\";\n\nexport default defineTool({\n  description: \"Review yesterday's Facebook Ads campaign performance and return recommended actions.\",\n  inputSchema: reviewFacebookCampaignsInputSchema,\n  async execute(input: ReviewFacebookCampaignsInput) {\n    return reviewFacebookCampaigns(input);\n  }\n});\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/eve/schedules/daily.ts",
           "target": "~/agent/schedules/daily.ts",
-          "type": "registry:file",
-          "content": "import { defineSchedule } from \"eve/schedules\";\n\nexport default defineSchedule({\n  cron: \"0 9 * * *\",\n  timezone: \"UTC\",\n  prompt: \"Run the Facebook Ads daily loop and summarize the recommended campaign actions.\"\n});\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "facebook-ads",
-        "target": "eve",
-        "version": "0.1.0",
-        "requiredEnv": [
-          "FB_ACCESS_TOKEN",
-          "FB_AD_ACCOUNT_ID"
-        ],
-        "connections": [
-          {
-            "name": "facebook-ads",
-            "type": "custom-tool",
-            "auth": "env"
-          }
-        ]
-      }
+      ]
     },
     {
       "name": "flue/facebook-ads",
@@ -138,50 +86,29 @@
         {
           "path": "registry/facebook-ads/targets/flue/agent.ts",
           "target": "~/src/agents/facebook-ads.ts",
-          "type": "registry:file",
-          "content": "import { createAgent } from \"flue\";\nimport { reviewFacebookCampaigns } from \"../tools/facebook-ads/facebook.js\";\n\nexport default createAgent({\n  name: \"facebook-ads\",\n  instructions: \"Review Facebook Ads campaign performance and recommend conservative daily optimization actions.\",\n  tools: [reviewFacebookCampaigns]\n});\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/skills/daily-loop.md",
           "target": "~/src/skills/facebook-ads-daily-loop/SKILL.md",
-          "type": "registry:file",
-          "content": "---\nname: daily-loop\ndescription: Review yesterday's Facebook Ads performance and prepare optimization recommendations.\n---\n\n1. Load recent campaign insights.\n2. Compare spend, conversions, and CPA against the previous period.\n3. Flag campaigns with rising CPA, falling conversions, or underspend.\n4. Recommend budget, targeting, or creative follow-up.\n5. Return a concise operator-ready summary.\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/shared/lib/facebook.ts",
           "target": "~/src/lib/agents/facebook-ads/facebook.ts",
-          "type": "registry:file",
-          "content": "import { z } from \"zod\";\n\nexport interface CampaignInsight {\n  campaignId: string;\n  campaignName: string;\n  spend: number;\n  conversions: number;\n  cpa: number | null;\n}\n\nexport interface CampaignRecommendation {\n  campaignId: string;\n  campaignName: string;\n  severity: \"info\" | \"watch\" | \"action\";\n  recommendation: string;\n}\n\nexport const reviewFacebookCampaignsInputSchema = z.object({});\n\nexport type ReviewFacebookCampaignsInput = z.infer<typeof reviewFacebookCampaignsInputSchema>;\n\nexport async function reviewFacebookCampaigns(_input: ReviewFacebookCampaignsInput = {}) {\n  const insights = await fetchCampaignInsights();\n  return {\n    insights,\n    recommendations: recommendCampaignActions(insights),\n  };\n}\n\nexport async function fetchCampaignInsights(fetchImpl: typeof fetch = fetch): Promise<CampaignInsight[]> {\n  const token = process.env.FB_ACCESS_TOKEN;\n  const accountId = process.env.FB_AD_ACCOUNT_ID;\n  if (!token || !accountId) {\n    throw new Error(\"FB_ACCESS_TOKEN and FB_AD_ACCOUNT_ID are required\");\n  }\n\n  const fields = \"campaign_id,campaign_name,spend,actions\";\n  const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);\n  url.searchParams.set(\"fields\", fields);\n  url.searchParams.set(\"date_preset\", \"yesterday\");\n  url.searchParams.set(\"access_token\", token);\n\n  const response = await fetchImpl(url);\n  if (!response.ok) {\n    throw new Error(`Facebook Ads API failed: ${response.status} ${response.statusText}`);\n  }\n\n  const payload = (await response.json()) as { data?: Array<Record<string, unknown>> };\n  return (payload.data ?? []).map((row) => {\n    const conversions = extractConversions(row.actions);\n    const spend = Number(row.spend ?? 0);\n    return {\n      campaignId: String(row.campaign_id ?? \"\"),\n      campaignName: String(row.campaign_name ?? \"Untitled campaign\"),\n      spend,\n      conversions,\n      cpa: conversions > 0 ? spend / conversions : null\n    };\n  });\n}\n\nexport function recommendCampaignActions(insights: CampaignInsight[]): CampaignRecommendation[] {\n  return insights.map((item) => {\n    if (item.spend > 100 && item.conversions === 0) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"action\",\n        recommendation: \"Pause or narrow this campaign until conversion tracking and creative quality are reviewed.\"\n      };\n    }\n\n    if (item.cpa !== null && item.cpa > 75) {\n      return {\n        campaignId: item.campaignId,\n        campaignName: item.campaignName,\n        severity: \"watch\",\n        recommendation: \"CPA is elevated. Review audience overlap and move budget toward better converting ad sets.\"\n      };\n    }\n\n    return {\n      campaignId: item.campaignId,\n      campaignName: item.campaignName,\n      severity: \"info\",\n      recommendation: \"No urgent action. Keep monitoring spend and conversion volume.\"\n    };\n  });\n}\n\nfunction extractConversions(actions: unknown): number {\n  if (!Array.isArray(actions)) return 0;\n  const conversion = actions.find((action) => {\n    if (!action || typeof action !== \"object\") return false;\n    return String((action as { action_type?: unknown }).action_type ?? \"\").includes(\"purchase\");\n  }) as { value?: unknown } | undefined;\n  return Number(conversion?.value ?? 0);\n}\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/flue/tools/facebook.ts",
           "target": "~/src/tools/facebook-ads/facebook.ts",
-          "type": "registry:file",
-          "content": "import { reviewFacebookCampaigns as reviewCampaigns } from \"../../lib/agents/facebook-ads/facebook.js\";\n\nexport async function reviewFacebookCampaigns() {\n  return reviewCampaigns();\n}\n"
+          "type": "registry:file"
         },
         {
           "path": "registry/facebook-ads/targets/flue/workflows/daily.ts",
           "target": "~/src/workflows/facebook-ads-daily.ts",
-          "type": "registry:file",
-          "content": "import { createWorkflow } from \"flue\";\nimport { reviewFacebookCampaigns } from \"../tools/facebook-ads/facebook.js\";\n\nexport default createWorkflow({\n  name: \"facebook-ads-daily\",\n  async run() {\n    return reviewFacebookCampaigns();\n  }\n});\n"
+          "type": "registry:file"
         }
-      ],
-      "meta": {
-        "atom": "facebook-ads",
-        "target": "flue",
-        "version": "0.1.0",
-        "requiredEnv": [
-          "FB_ACCESS_TOKEN",
-          "FB_AD_ACCOUNT_ID"
-        ],
-        "connections": [
-          {
-            "name": "facebook-ads",
-            "type": "custom-tool",
-            "auth": "env"
-          }
-        ]
-      }
+      ]
     }
   ]
 }
