@@ -1,0 +1,27 @@
+---
+import AtomLogo from "./AtomLogo.astro";
+import { REPO } from "../lib/format";
+---
+
+<footer class="border-t border-edge">
+  <div class="mx-auto flex max-w-[1180px] flex-wrap items-start justify-between gap-[30px] px-8 py-[30px]">
+    <div class="max-w-[560px]">
+      <div class="flex items-center gap-[10px]">
+        <AtomLogo size={20} />
+        <div class="font-pixel text-[11px]">ATOM <span class="text-eve">EVE</span></div>
+      </div>
+      <p class="mt-[14px] text-[12px] leading-[1.6] text-dim">
+        Atom Eve is an open-source community project. Not affiliated with or endorsed by Vercel, Eve,
+        Cloudflare, or Flue. Built on eve.dev and supports flue — credit &amp; thanks to both teams.
+      </p>
+    </div>
+    <div class="flex gap-6 font-mono text-[12px] text-muted">
+      <a href={REPO} class="whitespace-nowrap transition-colors hover:text-ink">Docs</a>
+      <a href={REPO} class="whitespace-nowrap transition-colors hover:text-ink">GitHub</a>
+      <a href={REPO} class="whitespace-nowrap transition-colors hover:text-ink">Discord</a>
+      <a href="https://eve.dev" class="whitespace-nowrap text-ink transition-colors hover:text-eve"
+        >Built on eve.dev ↗</a
+      >
+    </div>
+  </div>
+</footer>

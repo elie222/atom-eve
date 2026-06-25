@@ -1,0 +1,11 @@
+---
+import { HERO_FIG, HERO_MAP, spriteStyle } from "../lib/glyphs";
+const g = spriteStyle(HERO_FIG, 7, HERO_MAP);
+---
+
+<div style={`position:relative;width:${g.w}px;height:${g.h}px;flex:none`}>
+  <div
+    style={`position:absolute;left:0;top:0;width:${g.scale}px;height:${g.scale}px;background:transparent;box-shadow:${g.boxShadow}`}
+  >
+  </div>
+</div>
