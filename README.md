@@ -40,6 +40,8 @@ Initialize Atom Eve in your project:
 npx atom-eve init
 ```
 
+For a new Eve app, `init --target eve` also creates a minimal `package.json` and `tsconfig.json` when those files do not already exist. It does not overwrite existing app files.
+
 Then add an agent:
 
 ```bash

@@ -6,6 +6,7 @@ export default defineSandbox({
     await sandbox.run({
       command: [
         "set -e",
+        "mkdir -p reports/assets",
         "npm init -y >/dev/null",
         "npm install agent-browser@latest",
         "npx agent-browser install"

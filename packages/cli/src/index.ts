@@ -83,6 +83,7 @@ async function init(args: Args) {
   const outPath = path.join(cwd, "atom-eve.json");
   await fs.writeFile(outPath, `${JSON.stringify(config, null, 2)}\n`);
   console.log(`Created ${outPath}`);
+  await scaffoldProject(target);
 }
 
 async function add(agent: string, args: Args) {
@@ -102,7 +103,13 @@ async function add(agent: string, args: Args) {
   });
 
   if (result.status !== 0) {
-    throw new Error(`shadcn add failed for ${item}`);
+    throw new Error(
+      [
+        `shadcn add failed for ${item}.`,
+        `Make sure ${config.registry} is public and exposes registry.json at the repository root, or install from a local registry checkout:`,
+        `  atom-eve add /path/to/atom-eve/registry/${agent} --target ${target}`
+      ].join("\n")
+    );
   }
 }
 
@@ -166,6 +173,70 @@ async function readOrCreateConfig(args: Args): Promise<AtomEveConfig> {
   await fs.writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
   console.log(`Created ${configPath}`);
   return config;
+}
+
+async function scaffoldProject(target: Target) {
+  if (target !== "eve") return;
+
+  await writeIfMissing(
+    "package.json",
+    `${JSON.stringify(
+      {
+        name: path.basename(cwd),
+        version: "0.0.0",
+        private: true,
+        type: "module",
+        packageManager: "pnpm@10.26.2",
+        scripts: {
+          build: "eve build",
+          dev: "eve dev",
+          start: "eve start",
+          typecheck: "tsc"
+        },
+        dependencies: {
+          ai: "^7.0.0",
+          eve: "^0.14.0"
+        },
+        devDependencies: {
+          "@types/node": "24.x",
+          typescript: "7.0.1-rc"
+        },
+        engines: {
+          node: "24.x"
+        }
+      },
+      null,
+      2
+    )}\n`
+  );
+
+  await writeIfMissing(
+    "tsconfig.json",
+    `${JSON.stringify(
+      {
+        compilerOptions: {
+          target: "ES2022",
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          strict: true,
+          skipLibCheck: true,
+          types: ["node"],
+          noEmit: true
+        },
+        include: ["agent/**/*.ts"]
+      },
+      null,
+      2
+    )}\n`
+  );
+}
+
+async function writeIfMissing(relativePath: string, content: string) {
+  const filePath = path.join(cwd, relativePath);
+  if (fsSync.existsSync(filePath)) return;
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.writeFile(filePath, content);
+  console.log(`Created ${filePath}`);
 }
 
 function parseArgs(argv: string[]): Args {

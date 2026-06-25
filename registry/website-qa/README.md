@@ -90,12 +90,31 @@ Start from the public homepage, follow the natural signup path, capture screensh
 The agent should use built-in sandbox command calls with Agent Browser:
 
 ```bash
-npx agent-browser --session-name website-qa open https://example.com
-npx agent-browser --session-name website-qa wait 2000
-npx agent-browser --session-name website-qa snapshot -i
+npx agent-browser --session website-qa open https://example.com
+npx agent-browser --session website-qa wait 2000
+npx agent-browser --session website-qa snapshot -i
 ```
 
 Return a concise Markdown report in the agent response. If your app needs persisted QA history, add a local storage tool or wire the response to your own Slack, GitHub, database, or artifact storage workflow.
+
+## Local Smoke Test
+
+For a new Eve app, initialize, install, then verify the project before deploying:
+
+```bash
+npx atom-eve init --target eve --runtime vercel
+npx atom-eve add website-qa --target eve
+pnpm install
+pnpm typecheck
+pnpm build
+pnpm dev
+```
+
+Then send the local Eve agent a safe prompt:
+
+```text
+Test https://example.com signup. Do not submit payment, bypass CAPTCHA, or use real credentials. Capture screenshots and summarize blockers.
+```
 
 ## Updating An Installed Copy
 
