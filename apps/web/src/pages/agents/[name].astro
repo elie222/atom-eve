@@ -133,13 +133,13 @@ const about: { k: string; v: string; accent?: boolean }[] = [
 
         <div class="rounded-[9px] border border-edge bg-panel px-4 py-[15px]">
           <div class="mb-3 font-mono text-[10.5px] tracking-[0.06em] text-dim">ABOUT</div>
-          <div class="flex flex-col gap-[10px] text-[13px]">
+          <div class="flex flex-col gap-[10px] text-[13.5px]">
             {
               about.map((row) => (
                 <div class="flex justify-between gap-3">
                   <span class="text-muted2">{row.k}</span>
                   <span
-                    class="text-right font-mono text-[12px]"
+                    class="text-right font-mono text-[12.5px]"
                     style={row.accent ? "color:#9bff5c" : "color:#eef0ff"}
                   >
                     {row.v}
@@ -171,14 +171,14 @@ const about: { k: string; v: string; accent?: boolean }[] = [
               <div class="font-mono text-[10.5px] tracking-[0.06em] text-dim">
                 OTHER VARIANTS · {prettify(item.category).toUpperCase()}
               </div>
-              <div class="mb-3 mt-1 text-[11.5px] text-muted2">Same task, different builds.</div>
+              <div class="mb-3 mt-1 text-[12px] text-muted2">Same task, different builds.</div>
               {variants.map((v) => (
                 <a
                   href={`/agents/${v.name}/`}
                   class="flex items-center justify-between border-t border-edgedim py-[9px]"
                 >
                   <span>
-                    <span class="text-[13px] text-ink2">{v.description.slice(0, 40)}</span>
+                    <span class="text-[13.5px] text-ink2">{v.description.slice(0, 40)}</span>
                     <br />
                     <span class="font-mono text-[11px] text-muted2">v{v.version}</span>
                   </span>
@@ -199,7 +199,7 @@ const about: { k: string; v: string; accent?: boolean }[] = [
                   </div>
                 ))
               ) : (
-                <div class="text-[12.5px] text-muted">No keys required.</div>
+                <div class="text-[13px] text-muted">No keys required.</div>
               )}
             </div>
           )
