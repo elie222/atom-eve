@@ -56,6 +56,37 @@
       "repoPath": "registry/facebook-ads",
       "featured": true,
       "order": 1
+    },
+    {
+      "name": "error-triage",
+      "title": "Error Triage Agent",
+      "description": "Reviews recent production errors, groups regressions, and proposes read-only TDD fix plans.",
+      "category": "observability",
+      "family": "engineering",
+      "version": "0.1.0",
+      "targets": [
+        "eve",
+        "flue"
+      ],
+      "integrations": [
+        "sentry"
+      ],
+      "connections": [
+        {
+          "name": "sentry",
+          "type": "custom-tool",
+          "auth": "env"
+        }
+      ],
+      "requiredEnv": [
+        "SENTRY_AUTH_TOKEN",
+        "SENTRY_ORG",
+        "SENTRY_PROJECT"
+      ],
+      "scheduled": true,
+      "repoPath": "registry/error-triage",
+      "featured": false,
+      "order": null
     }
   ]
 }

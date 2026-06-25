@@ -3,6 +3,7 @@
   "categories": [
     { "id": "ads", "family": "growth", "label": "Ads" },
     { "id": "seo", "family": "growth", "label": "SEO" },
+    { "id": "observability", "family": "engineering", "label": "Observability" },
     { "id": "qa", "family": "engineering", "label": "QA" },
     { "id": "support", "family": "support", "label": "Support" },
     { "id": "outreach", "family": "revenue", "label": "Outreach" },
