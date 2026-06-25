@@ -1,5 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
-import agent from "../agents/facebook-ads.js";
+import agent from "../agents/seo-audit.js";
+import { seoAuditRunPrompt } from "../lib/agents/seo-audit/prompts.js";
 
 interface WorkflowContext {
   harness: {
@@ -13,6 +14,6 @@ export default defineWorkflow({
   agent,
   async run({ harness }: WorkflowContext) {
     const session = await harness.session();
-    return session.prompt("Run the Facebook Ads daily loop and summarize the recommended campaign actions.");
+    return session.prompt(seoAuditRunPrompt);
   }
 });

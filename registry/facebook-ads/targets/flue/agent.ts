@@ -1,8 +1,9 @@
-import { createAgent } from "flue";
+import { defineAgent } from "@flue/runtime";
 import { reviewFacebookCampaigns } from "../tools/facebook-ads/facebook.js";
 
-export default createAgent({
-  name: "facebook-ads",
+export default defineAgent(() => ({
+  model: "anthropic/claude-sonnet-4-6",
+  cwd: "/workspace",
   instructions: "Review Facebook Ads campaign performance and recommend conservative daily optimization actions.",
   tools: [reviewFacebookCampaigns]
-});
+}));
