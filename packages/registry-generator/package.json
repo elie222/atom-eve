@@ -1,5 +1,5 @@
 {
-  "name": "@atomeve/registry-generator",
+  "name": "@atom-eve/registry-generator",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -16,7 +16,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@atomeve/schemas": "workspace:*",
+    "@atom-eve/schemas": "workspace:*",
     "zod": "^3.24.1"
   },
   "devDependencies": {

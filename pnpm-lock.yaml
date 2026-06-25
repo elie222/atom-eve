@@ -81,7 +81,7 @@ importers:
 
   packages/registry-generator:
     dependencies:
-      '@atomeve/schemas':
+      '@atom-eve/schemas':
         specifier: workspace:*
         version: link:../schemas
       zod:

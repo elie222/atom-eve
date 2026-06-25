@@ -8,7 +8,7 @@ import {
   type CatalogConfig,
   type Target,
   type Taxonomy
-} from "@atomeve/schemas";
+} from "@atom-eve/schemas";
 
 type RegistryManifest = AtomManifest & {
   repoPath: string;
