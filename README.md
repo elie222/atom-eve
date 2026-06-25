@@ -82,6 +82,28 @@ Both frameworks are early and moving quickly.
 
 Expect some framework APIs and conventions to change. This repo keeps fixture installs and typechecks in CI so generated agents stay honest as the ecosystem moves.
 
+### Running Many Eve Agents On Vercel
+
+Today Eve treats `agent/` as one root agent per deployed app. Subagents are useful for delegation, but they are not independent deployed agents: channels and schedules are root-only. If you want many standalone Eve agents with their own Slack connectors, cron jobs, env vars, logs, and deployment lifecycle, use one repository with one Eve app folder per agent and create one Vercel project for each app.
+
+Recommended shape:
+
+```text
+my-agents/
+  agents/
+    website-qa/          # Vercel project: website-qa
+      agent/
+      package.json
+    seo/                 # Vercel project: seo
+      agent/
+      package.json
+    youtube-analytics/   # Vercel project: youtube-analytics
+      agent/
+      package.json
+```
+
+Install Atom Eve packages into the app folder for the agent you are deploying. This keeps each production agent isolated while still letting your team manage a private agent catalog in one GitHub repo.
+
 ## For Coding Agents
 
 If you are an AI coding agent working in this repository, start here:
