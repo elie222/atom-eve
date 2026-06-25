@@ -1,0 +1,120 @@
+/* Build-time registry data access. SERVER ONLY — uses node:fs.
+ * Import this from .astro frontmatter, never from a client component. */
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
+import { marked } from "marked";
+import { catGlyph, famColor, installCommand, prettify, targetLabel } from "./format";
+
+export interface RegistryItem {
+  name: string;
+  title: string;
+  description: string;
+  category: string;
+  family: string;
+  version: string;
+  targets: string[];
+  integrations?: string[];
+  connections?: { name: string; type: string; auth: string }[];
+  requiredEnv?: string[];
+  memory?: boolean;
+  scheduled?: boolean;
+  repoPath: string;
+  featured?: boolean;
+  order?: number;
+}
+
+export interface AgentCard {
+  name: string;
+  title: string;
+  description: string;
+  version: string;
+  family: string;
+  familyLabel: string;
+  categoryLabel: string;
+  color: string;
+  glyph: string;
+  integrations: string;
+  targets: string;
+  memory: boolean;
+  installCmd: string;
+}
+
+export interface Taxonomy {
+  families: string[];
+  categories: { id: string; family: string; label: string }[];
+}
+
+function findRoot(): string {
+  let dir = process.cwd();
+  for (let i = 0; i < 6; i++) {
+    if (existsSync(path.join(dir, "public", "index.json")) && existsSync(path.join(dir, "taxonomy.json"))) {
+      return dir;
+    }
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+  throw new Error("Could not locate registry root (public/index.json) from " + process.cwd());
+}
+
+const ROOT = findRoot();
+
+export function getItems(): RegistryItem[] {
+  const index = JSON.parse(readFileSync(path.join(ROOT, "public", "index.json"), "utf8"));
+  const items = (index.items ?? []) as RegistryItem[];
+  return [...items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+}
+
+export function getTaxonomy(): Taxonomy {
+  return JSON.parse(readFileSync(path.join(ROOT, "taxonomy.json"), "utf8")) as Taxonomy;
+}
+
+export function toCard(item: RegistryItem): AgentCard {
+  return {
+    name: item.name,
+    title: item.title,
+    description: item.description,
+    version: item.version,
+    family: item.family,
+    familyLabel: prettify(item.family),
+    categoryLabel: prettify(item.category),
+    color: famColor(item.family),
+    glyph: catGlyph(item.category),
+    integrations: (item.integrations ?? []).map(prettify).join(" · "),
+    targets: (item.targets ?? []).map(targetLabel).join(" · "),
+    memory: Boolean(item.memory),
+    installCmd: installCommand(item.name),
+  };
+}
+
+export function familyCounts(items: RegistryItem[]): Record<string, number> {
+  const counts: Record<string, number> = {};
+  for (const it of items) counts[it.family] = (counts[it.family] ?? 0) + 1;
+  return counts;
+}
+
+export function getReadmeHtml(item: RegistryItem): string {
+  const file = path.join(ROOT, item.repoPath, "README.md");
+  const md = existsSync(file) ? readFileSync(file, "utf8") : `# ${item.title}\n\n${item.description}`;
+  return marked.parse(md, { async: false }) as string;
+}
+
+export function getManifest(item: RegistryItem): Record<string, unknown> {
+  return {
+    name: item.title,
+    category: `${item.family}/${item.category}`,
+    description: item.description,
+    integrations: item.integrations ?? [],
+    memory: Boolean(item.memory),
+    scheduled: Boolean(item.scheduled),
+    version: item.version,
+    requiredEnv: item.requiredEnv ?? [],
+    frameworks: (item.targets ?? []).map(targetLabel),
+    repoPath: item.repoPath,
+  };
+}
+
+/* Other community builds of the same task — grouped by category. */
+export function variantsOf(item: RegistryItem, items: RegistryItem[]): RegistryItem[] {
+  return items.filter((it) => it.category === item.category && it.name !== item.name);
+}

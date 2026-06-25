@@ -1,0 +1,18 @@
+---
+import { glyphStyle } from "../lib/glyphs";
+
+interface Props {
+  glyph: string;
+  color: string;
+  scale?: number;
+}
+const { glyph, color, scale = 4 } = Astro.props;
+const g = glyphStyle(glyph, color, scale);
+---
+
+<div style={`position:relative;width:${g.w}px;height:${g.h}px;flex:none`}>
+  <div
+    style={`position:absolute;left:0;top:0;width:${g.scale}px;height:${g.scale}px;background:transparent;box-shadow:${g.boxShadow}`}
+  >
+  </div>
+</div>

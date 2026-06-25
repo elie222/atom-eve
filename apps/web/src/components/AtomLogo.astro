@@ -1,0 +1,25 @@
+---
+interface Props {
+  size?: number;
+}
+const { size = 24 } = Astro.props;
+const inset = size >= 24 ? 2 : 1;
+const dot = size >= 24 ? 6 : 5;
+const dotPos = size >= 24 ? 9 : 7;
+const green = "#9bff5c";
+const rings = [0, 60, -60];
+---
+
+<div style={`position:relative;width:${size}px;height:${size}px;flex:none`}>
+  {
+    rings.map((rot) => (
+      <div
+        style={`position:absolute;inset:${inset}px;border:1.5px solid ${green};border-radius:50%;transform:${rot ? `rotate(${rot}deg) ` : ""}scaleY(0.4)`}
+      />
+    ))
+  }
+  <div
+    style={`position:absolute;top:${dotPos}px;left:${dotPos}px;width:${dot}px;height:${dot}px;background:${green};border-radius:1px;box-shadow:0 0 6px ${green}`}
+  >
+  </div>
+</div>

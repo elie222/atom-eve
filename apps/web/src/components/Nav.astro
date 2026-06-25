@@ -1,0 +1,43 @@
+---
+import AtomLogo from "./AtomLogo.astro";
+import { REPO } from "../lib/format";
+
+const links = [
+  { label: "Browse", href: "/" },
+  { label: "Categories", href: "/#categories" },
+  { label: "Docs", href: REPO },
+  { label: "Contribute", href: REPO },
+];
+---
+
+<header class="relative z-10 border-b border-edge">
+  <div class="mx-auto flex max-w-[1180px] items-center justify-between gap-[18px] px-8 py-[17px]">
+    <a href="/" class="flex items-center gap-[11px]">
+      <AtomLogo size={24} />
+      <div class="font-pixel text-[14px] tracking-[0.02em]">ATOM <span class="text-eve">EVE</span></div>
+    </a>
+
+    <nav class="nav-mid hidden items-center gap-[26px] md:flex">
+      {
+        links.map((l) => (
+          <a href={l.href} class="font-mono text-[13px] text-muted transition-colors hover:text-ink">
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a
+        href={REPO}
+        class="whitespace-nowrap rounded-md border border-edge px-[11px] py-[7px] font-mono text-[12px] text-ink transition-colors hover:border-dim2"
+        >★ GitHub</a
+      >
+      <a
+        href={REPO}
+        class="whitespace-nowrap rounded-md bg-eve px-[14px] py-2 text-[13px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
+        >Submit an agent</a
+      >
+    </div>
+  </div>
+</header>
