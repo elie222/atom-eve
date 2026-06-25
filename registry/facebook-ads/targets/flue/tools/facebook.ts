@@ -1,4 +1,4 @@
-import { fetchCampaignInsights, recommendCampaignActions } from "../../lib/agents/facebook-ads/facebook";
+import { fetchCampaignInsights, recommendCampaignActions } from "../../lib/agents/facebook-ads/facebook.js";
 
 export async function reviewFacebookCampaigns() {
   const insights = await fetchCampaignInsights();

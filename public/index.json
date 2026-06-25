@@ -2,17 +2,11 @@
   "items": [
     {
       "name": "facebook-ads",
-      "taskSlug": "facebook-ads",
       "title": "Facebook Ads Agent",
-      "descriptor": "Reviews campaign performance and proposes daily budget and creative actions.",
+      "description": "Reviews campaign performance and proposes daily budget and creative actions.",
       "category": "ads",
       "family": "growth",
-      "author": {
-        "name": "Atom Eve maintainers",
-        "handle": "@atomeve",
-        "url": "https://github.com/atomeve"
-      },
-      "version": "1.0.0",
+      "version": "0.1.0",
       "targets": [
         "eve",
         "flue"
@@ -31,13 +25,10 @@
         "FB_ACCESS_TOKEN",
         "FB_AD_ACCOUNT_ID"
       ],
-      "schedule": {
-        "label": "Daily",
-        "cron": "0 9 * * *",
-        "timezone": "UTC",
-        "intent": "recurring-job"
-      },
-      "repoPath": "registry/facebook-ads"
+      "scheduled": true,
+      "repoPath": "registry/facebook-ads",
+      "featured": true,
+      "order": 0
     }
   ]
 }

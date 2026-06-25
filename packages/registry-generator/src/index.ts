@@ -1,6 +1,19 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { atomSchema, taxonomySchema, type AtomManifest, type Target, type Taxonomy } from "@atomeve/schemas";
+import {
+  atomSchema,
+  catalogConfigSchema,
+  taxonomySchema,
+  type AtomManifest,
+  type CatalogConfig,
+  type Target,
+  type Taxonomy
+} from "@atomeve/schemas";
+
+type RegistryManifest = AtomManifest & {
+  repoPath: string;
+  scheduled: boolean;
+};
 
 export interface RegistryFile {
   path: string;
@@ -20,31 +33,34 @@ export interface RegistryItem {
     target: Target;
     version: string;
     requiredEnv: string[];
-    connections: AtomManifest["connections"];
+    connections: RegistryManifest["connections"];
   };
 }
 
 export interface SiteIndexItem {
   name: string;
-  taskSlug: string;
   title: string;
-  descriptor: string;
+  description: string;
   category: string;
   family: string;
-  author: AtomManifest["author"];
+  author: RegistryManifest["author"];
   version: string;
   targets: Target[];
   integrations: string[];
-  connections: AtomManifest["connections"];
+  connections: RegistryManifest["connections"];
   requiredEnv: string[];
-  schedule: AtomManifest["schedule"];
+  scheduled: boolean;
   repoPath: string;
+  featured: boolean;
+  order: number | null;
 }
 
 export async function generateRegistry(rootDir: string): Promise<void> {
   const taxonomy = await readTaxonomy(rootDir);
+  const catalogConfig = await readCatalogConfig(rootDir);
   const manifests = await readManifests(rootDir, taxonomy);
   await assertUniqueNames(manifests);
+  validateCatalogConfig(catalogConfig, manifests);
 
   const publicR = path.join(rootDir, "public", "r");
   await fs.rm(publicR, { recursive: true, force: true });
@@ -53,8 +69,9 @@ export async function generateRegistry(rootDir: string): Promise<void> {
   const items: RegistryItem[] = [];
   const siteItems: SiteIndexItem[] = [];
 
-  for (const manifest of manifests) {
-    siteItems.push(toSiteIndexItem(manifest));
+  const orderedManifests = orderManifests(manifests, catalogConfig);
+  for (const manifest of orderedManifests) {
+    siteItems.push(toSiteIndexItem(manifest, catalogConfig));
     for (const target of manifest.targets) {
       const item = await createRegistryItem(rootDir, manifest, target);
       items.push(item);
@@ -73,10 +90,10 @@ export async function generateRegistry(rootDir: string): Promise<void> {
   });
 }
 
-export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promise<AtomManifest[]> {
+export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promise<RegistryManifest[]> {
   const registryDir = path.join(rootDir, "registry");
   const entries = await fs.readdir(registryDir, { withFileTypes: true }).catch(() => []);
-  const manifests: AtomManifest[] = [];
+  const manifests: RegistryManifest[] = [];
 
   for (const entry of entries) {
     if (!entry.isDirectory() || entry.name.startsWith("_")) continue;
@@ -84,13 +101,19 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
     const raw = JSON.parse(await fs.readFile(manifestPath, "utf8"));
     const parsed = atomSchema.parse(raw);
     validateTaxonomy(parsed, taxonomy);
-    manifests.push(parsed);
+    await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
+    const repoPath = `registry/${entry.name}`;
+    manifests.push({
+      ...parsed,
+      repoPath,
+      scheduled: await hasScheduleFiles(rootDir, repoPath)
+    });
   }
 
   return manifests.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export async function createRegistryItem(rootDir: string, manifest: AtomManifest, target: Target): Promise<RegistryItem> {
+export async function createRegistryItem(rootDir: string, manifest: RegistryManifest, target: Target): Promise<RegistryItem> {
   if (!manifest.targets.includes(target)) {
     throw new Error(`${manifest.name} does not support target ${target}`);
   }
@@ -100,7 +123,7 @@ export async function createRegistryItem(rootDir: string, manifest: AtomManifest
     name: `${target}/${manifest.name}`,
     type: "registry:block",
     title: `${manifest.title} (${target})`,
-    description: manifest.descriptor,
+    description: manifest.description,
     files,
     meta: {
       atom: manifest.name,
@@ -112,7 +135,7 @@ export async function createRegistryItem(rootDir: string, manifest: AtomManifest
   };
 }
 
-export async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target): Promise<RegistryFile[]> {
+export async function mapFiles(rootDir: string, manifest: RegistryManifest, target: Target): Promise<RegistryFile[]> {
   const files: RegistryFile[] = [];
   const add = async (source: string, destination: string) => {
     const absSource = path.join(rootDir, manifest.repoPath, source);
@@ -127,11 +150,11 @@ export async function mapFiles(rootDir: string, manifest: AtomManifest, target: 
 
   if (target === "eve") {
     const base = `~/agent/subagents/${manifest.name}`;
-    if (manifest.shared.instructions) await add(manifest.shared.instructions, `${base}/instructions.md`);
-    for (const skill of manifest.shared.skills) await add(skill, `${base}/skills/${path.basename(skill)}`);
-    for (const lib of manifest.shared.lib) await add(lib, `${base}/lib/${path.basename(lib)}`);
-    const entrypoint = manifest.entrypoints.eve;
-    if (!entrypoint) throw new Error(`${manifest.name} is missing eve entrypoint`);
+    const instructions = await optionalFile(rootDir, manifest, "shared/instructions.md");
+    if (instructions) await add(instructions, `${base}/instructions.md`);
+    for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) await add(skill, `${base}/skills/${path.basename(skill)}`);
+    for (const lib of await discoverFiles(rootDir, manifest, "shared/lib")) await add(lib, `${base}/lib/${path.basename(lib)}`);
+    const entrypoint = await requiredFile(rootDir, manifest, "targets/eve/agent.ts");
     await add(entrypoint, `${base}/agent.ts`);
     await addTree(rootDir, manifest, "targets/eve/tools", `${base}/tools`, add);
     await addTree(rootDir, manifest, "targets/eve/connections", `${base}/connections`, add);
@@ -143,13 +166,12 @@ export async function mapFiles(rootDir: string, manifest: AtomManifest, target: 
     });
   } else {
     const root = "src";
-    const entrypoint = manifest.entrypoints.flue;
-    if (!entrypoint) throw new Error(`${manifest.name} is missing flue entrypoint`);
+    const entrypoint = await requiredFile(rootDir, manifest, "targets/flue/agent.ts");
     await add(entrypoint, `~/${root}/agents/${manifest.name}.ts`);
-    for (const skill of manifest.shared.skills) {
+    for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) {
       await add(skill, `~/${root}/skills/${manifest.name}-${path.basename(skill, path.extname(skill))}/SKILL.md`);
     }
-    for (const lib of manifest.shared.lib) {
+    for (const lib of await discoverFiles(rootDir, manifest, "shared/lib")) {
       await add(lib, `~/${root}/lib/agents/${manifest.name}/${path.basename(lib)}`);
     }
     await addTree(rootDir, manifest, "targets/flue/tools", `~/${root}/tools/${manifest.name}`, add);
@@ -163,9 +185,33 @@ export async function mapFiles(rootDir: string, manifest: AtomManifest, target: 
   return files;
 }
 
+async function optionalFile(rootDir: string, manifest: RegistryManifest, source: string): Promise<string | undefined> {
+  const abs = path.join(rootDir, manifest.repoPath, source);
+  try {
+    const stat = await fs.stat(abs);
+    return stat.isFile() ? source : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+async function requiredFile(rootDir: string, manifest: RegistryManifest, source: string): Promise<string> {
+  const found = await optionalFile(rootDir, manifest, source);
+  if (!found) throw new Error(`${manifest.name} is missing ${source}`);
+  return found;
+}
+
+async function discoverFiles(rootDir: string, manifest: RegistryManifest, sourceDir: string): Promise<string[]> {
+  const abs = path.join(rootDir, manifest.repoPath, sourceDir);
+  const files = await walk(abs).catch(() => []);
+  return files
+    .map((file) => path.relative(path.join(rootDir, manifest.repoPath), file))
+    .sort((a, b) => a.localeCompare(b));
+}
+
 async function addTree(
   rootDir: string,
-  manifest: AtomManifest,
+  manifest: RegistryManifest,
   sourceDir: string,
   destinationDir: string,
   add: (source: string, destination: string) => Promise<void>
@@ -195,6 +241,11 @@ async function readTaxonomy(rootDir: string): Promise<Taxonomy> {
   return taxonomySchema.parse(raw);
 }
 
+async function readCatalogConfig(rootDir: string): Promise<CatalogConfig> {
+  const raw = JSON.parse(await fs.readFile(path.join(rootDir, "catalog.config.json"), "utf8"));
+  return catalogConfigSchema.parse(raw);
+}
+
 function validateTaxonomy(manifest: AtomManifest, taxonomy?: Taxonomy) {
   if (!taxonomy) return;
   if (!taxonomy.families.includes(manifest.family)) {
@@ -207,7 +258,22 @@ function validateTaxonomy(manifest: AtomManifest, taxonomy?: Taxonomy) {
   }
 }
 
-async function assertUniqueNames(manifests: AtomManifest[]) {
+async function validateReadme(readmePath: string, agentName: string) {
+  const content = await fs.readFile(readmePath, "utf8").catch(() => {
+    throw new Error(`${agentName} is missing README.md`);
+  });
+  const requiredSections = ["What it does", "Supported targets", "Install", "Setup", "Usage", "Connections and auth", "Limitations"];
+  for (const section of requiredSections) {
+    const pattern = new RegExp(`^##\\s+${escapeRegExp(section)}\\s*$`, "im");
+    if (!pattern.test(content)) throw new Error(`${agentName} README.md is missing "## ${section}"`);
+  }
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+async function assertUniqueNames(manifests: RegistryManifest[]) {
   const seen = new Set<string>();
   for (const manifest of manifests) {
     if (seen.has(manifest.name)) throw new Error(`Duplicate agent name: ${manifest.name}`);
@@ -215,12 +281,29 @@ async function assertUniqueNames(manifests: AtomManifest[]) {
   }
 }
 
-function toSiteIndexItem(manifest: AtomManifest): SiteIndexItem {
+function validateCatalogConfig(config: CatalogConfig, manifests: RegistryManifest[]) {
+  const names = new Set(manifests.map((manifest) => manifest.name));
+  for (const slug of [...config.featured, ...config.homepageOrder]) {
+    if (!names.has(slug)) throw new Error(`catalog.config.json references unknown agent: ${slug}`);
+  }
+}
+
+function orderManifests(manifests: RegistryManifest[], config: CatalogConfig): RegistryManifest[] {
+  const order = new Map(config.homepageOrder.map((slug, index) => [slug, index]));
+  return [...manifests].sort((a, b) => {
+    const aOrder = order.get(a.name) ?? Number.MAX_SAFE_INTEGER;
+    const bOrder = order.get(b.name) ?? Number.MAX_SAFE_INTEGER;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    return a.name.localeCompare(b.name);
+  });
+}
+
+function toSiteIndexItem(manifest: RegistryManifest, config: CatalogConfig): SiteIndexItem {
+  const order = config.homepageOrder.indexOf(manifest.name);
   return {
     name: manifest.name,
-    taskSlug: manifest.taskSlug,
     title: manifest.title,
-    descriptor: manifest.descriptor,
+    description: manifest.description,
     category: manifest.category,
     family: manifest.family,
     author: manifest.author,
@@ -229,9 +312,20 @@ function toSiteIndexItem(manifest: AtomManifest): SiteIndexItem {
     integrations: manifest.integrations,
     connections: manifest.connections,
     requiredEnv: manifest.requiredEnv,
-    schedule: manifest.schedule,
-    repoPath: manifest.repoPath
+    scheduled: manifest.scheduled,
+    repoPath: manifest.repoPath,
+    featured: config.featured.includes(manifest.name),
+    order: order >= 0 ? order : null
   };
+}
+
+async function hasScheduleFiles(rootDir: string, repoPath: string): Promise<boolean> {
+  for (const sourceDir of ["targets/eve/schedules", "targets/flue/workflows"]) {
+    const abs = path.join(rootDir, repoPath, sourceDir);
+    const files = await walk(abs).catch(() => []);
+    if (files.length > 0) return true;
+  }
+  return false;
 }
 
 async function writeJson(filePath: string, value: unknown) {

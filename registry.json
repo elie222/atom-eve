@@ -37,7 +37,7 @@
           "path": "registry/facebook-ads/targets/eve/tools/review_campaigns.ts",
           "target": "~/agent/subagents/facebook-ads/tools/review_campaigns.ts",
           "type": "registry:file",
-          "content": "import { defineTool } from \"eve/tools\";\nimport { z } from \"zod\";\nimport { fetchCampaignInsights, recommendCampaignActions } from \"../lib/facebook\";\n\nexport default defineTool({\n  description: \"Review yesterday's Facebook Ads campaign performance and return recommended actions.\",\n  inputSchema: z.object({}),\n  async execute() {\n    const insights = await fetchCampaignInsights();\n    return {\n      insights,\n      recommendations: recommendCampaignActions(insights)\n    };\n  }\n});\n"
+          "content": "import { defineTool } from \"eve/tools\";\nimport { z } from \"zod\";\nimport { fetchCampaignInsights, recommendCampaignActions } from \"../lib/facebook.js\";\n\nexport default defineTool({\n  description: \"Review yesterday's Facebook Ads campaign performance and return recommended actions.\",\n  inputSchema: z.object({}),\n  async execute() {\n    const insights = await fetchCampaignInsights();\n    return {\n      insights,\n      recommendations: recommendCampaignActions(insights)\n    };\n  }\n});\n"
         },
         {
           "path": "registry/facebook-ads/targets/eve/schedules/daily.ts",
@@ -49,7 +49,7 @@
       "meta": {
         "atom": "facebook-ads",
         "target": "eve",
-        "version": "1.0.0",
+        "version": "0.1.0",
         "requiredEnv": [
           "FB_ACCESS_TOKEN",
           "FB_AD_ACCOUNT_ID"
@@ -73,7 +73,7 @@
           "path": "registry/facebook-ads/targets/flue/agent.ts",
           "target": "~/src/agents/facebook-ads.ts",
           "type": "registry:file",
-          "content": "import { createAgent } from \"flue\";\nimport { reviewFacebookCampaigns } from \"../tools/facebook-ads/facebook\";\n\nexport default createAgent({\n  name: \"facebook-ads\",\n  instructions: \"Review Facebook Ads campaign performance and recommend conservative daily optimization actions.\",\n  tools: [reviewFacebookCampaigns]\n});\n"
+          "content": "import { createAgent } from \"flue\";\nimport { reviewFacebookCampaigns } from \"../tools/facebook-ads/facebook.js\";\n\nexport default createAgent({\n  name: \"facebook-ads\",\n  instructions: \"Review Facebook Ads campaign performance and recommend conservative daily optimization actions.\",\n  tools: [reviewFacebookCampaigns]\n});\n"
         },
         {
           "path": "registry/facebook-ads/shared/skills/daily-loop.md",
@@ -91,19 +91,19 @@
           "path": "registry/facebook-ads/targets/flue/tools/facebook.ts",
           "target": "~/src/tools/facebook-ads/facebook.ts",
           "type": "registry:file",
-          "content": "import { fetchCampaignInsights, recommendCampaignActions } from \"../../lib/agents/facebook-ads/facebook\";\n\nexport async function reviewFacebookCampaigns() {\n  const insights = await fetchCampaignInsights();\n  return {\n    insights,\n    recommendations: recommendCampaignActions(insights)\n  };\n}\n"
+          "content": "import { fetchCampaignInsights, recommendCampaignActions } from \"../../lib/agents/facebook-ads/facebook.js\";\n\nexport async function reviewFacebookCampaigns() {\n  const insights = await fetchCampaignInsights();\n  return {\n    insights,\n    recommendations: recommendCampaignActions(insights)\n  };\n}\n"
         },
         {
           "path": "registry/facebook-ads/targets/flue/workflows/daily.ts",
           "target": "~/src/workflows/facebook-ads-daily.ts",
           "type": "registry:file",
-          "content": "import { createWorkflow } from \"flue\";\nimport { reviewFacebookCampaigns } from \"../tools/facebook-ads/facebook\";\n\nexport default createWorkflow({\n  name: \"facebook-ads-daily\",\n  async run() {\n    return reviewFacebookCampaigns();\n  }\n});\n"
+          "content": "import { createWorkflow } from \"flue\";\nimport { reviewFacebookCampaigns } from \"../tools/facebook-ads/facebook.js\";\n\nexport default createWorkflow({\n  name: \"facebook-ads-daily\",\n  async run() {\n    return reviewFacebookCampaigns();\n  }\n});\n"
         }
       ],
       "meta": {
         "atom": "facebook-ads",
         "target": "flue",
-        "version": "1.0.0",
+        "version": "0.1.0",
         "requiredEnv": [
           "FB_ACCESS_TOKEN",
           "FB_AD_ACCOUNT_ID"

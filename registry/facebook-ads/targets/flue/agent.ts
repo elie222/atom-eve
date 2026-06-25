@@ -1,5 +1,5 @@
 import { createAgent } from "flue";
-import { reviewFacebookCampaigns } from "../tools/facebook-ads/facebook";
+import { reviewFacebookCampaigns } from "../tools/facebook-ads/facebook.js";
 
 export default createAgent({
   name: "facebook-ads",

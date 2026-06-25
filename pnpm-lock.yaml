@@ -39,16 +39,6 @@ importers:
         version: 5.9.3
 
   packages/cli:
-    dependencies:
-      '@atomeve/registry-generator':
-        specifier: workspace:*
-        version: link:../registry-generator
-      '@atomeve/schemas':
-        specifier: workspace:*
-        version: link:../schemas
-      zod:
-        specifier: ^3.24.1
-        version: 3.25.76
     devDependencies:
       typescript:
         specifier: ^5.7.2

@@ -1,21 +1,11 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "facebook-ads",
-  "taskSlug": "facebook-ads",
   "title": "Facebook Ads Agent",
-  "descriptor": "Reviews campaign performance and proposes daily budget and creative actions.",
+  "description": "Reviews campaign performance and proposes daily budget and creative actions.",
   "category": "ads",
   "family": "growth",
-  "author": {
-    "name": "Atom Eve maintainers",
-    "handle": "@atomeve",
-    "url": "https://github.com/atomeve"
-  },
-  "version": "1.0.0",
   "targets": ["eve", "flue"],
-  "runtimes": {
-    "flue": ["node", "cloudflare"]
-  },
   "integrations": ["facebook-ads"],
   "connections": [
     {
@@ -24,21 +14,5 @@
       "auth": "env"
     }
   ],
-  "requiredEnv": ["FB_ACCESS_TOKEN", "FB_AD_ACCOUNT_ID"],
-  "schedule": {
-    "label": "Daily",
-    "cron": "0 9 * * *",
-    "timezone": "UTC",
-    "intent": "recurring-job"
-  },
-  "shared": {
-    "instructions": "shared/instructions.md",
-    "skills": ["shared/skills/daily-loop.md"],
-    "lib": ["shared/lib/facebook.ts"]
-  },
-  "entrypoints": {
-    "eve": "targets/eve/agent.ts",
-    "flue": "targets/flue/agent.ts"
-  },
-  "repoPath": "registry/facebook-ads"
+  "requiredEnv": ["FB_ACCESS_TOKEN", "FB_AD_ACCOUNT_ID"]
 }

@@ -1,5 +1,5 @@
 import { createWorkflow } from "flue";
-import { reviewFacebookCampaigns } from "../tools/facebook-ads/facebook";
+import { reviewFacebookCampaigns } from "../tools/facebook-ads/facebook.js";
 
 export default createWorkflow({
   name: "facebook-ads-daily",

@@ -1,5 +1,7 @@
 # Facebook Ads Agent
 
+## What it does
+
 Reviews Facebook Ads campaign performance and proposes daily budget, targeting, and creative actions.
 
 ## Supported targets
