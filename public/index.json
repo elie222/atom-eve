@@ -56,6 +56,25 @@
       "repoPath": "registry/facebook-ads",
       "featured": true,
       "order": 1
+    },
+    {
+      "name": "content-ideation",
+      "title": "Content Ideation Agent",
+      "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
+      "category": "content",
+      "family": "growth",
+      "version": "0.1.0",
+      "targets": [
+        "eve",
+        "flue"
+      ],
+      "integrations": [],
+      "connections": [],
+      "requiredEnv": [],
+      "scheduled": true,
+      "repoPath": "registry/content-ideation",
+      "featured": false,
+      "order": null
     }
   ]
 }
