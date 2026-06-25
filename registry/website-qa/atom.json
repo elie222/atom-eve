@@ -5,7 +5,7 @@
   "description": "Audits a public website for obvious UX, content, SEO, accessibility, and technical quality issues.",
   "category": "qa",
   "family": "engineering",
-  "targets": ["flue"],
+  "targets": ["eve", "flue"],
   "integrations": ["agent-browser"],
   "connections": [
     {

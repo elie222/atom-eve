@@ -1,5 +1,6 @@
 import { spawn } from "node:child_process";
 import { mkdir } from "node:fs/promises";
+import path from "node:path";
 
 export interface BrowserAuditResult {
   notes: string[];
@@ -16,10 +17,11 @@ export async function runAgentBrowserAudit(url: string, screenshotDir = "reports
   }
 
   await mkdir(screenshotDir, { recursive: true });
+  const screenshotPath = path.join(screenshotDir, `${safeName(url)}.png`);
   const commands = [
     ["open", normalizeUrl(url)],
     ["wait", "--load", "networkidle"],
-    ["screenshot", "--full", "--screenshot-dir", screenshotDir]
+    ["screenshot", "--full", screenshotPath]
   ];
 
   const notes: string[] = [];
@@ -30,7 +32,7 @@ export async function runAgentBrowserAudit(url: string, screenshotDir = "reports
 
   return {
     notes,
-    screenshots: [screenshotDir]
+    screenshots: [screenshotPath]
   };
 }
 
@@ -61,4 +63,8 @@ async function run(command: string, args: string[]): Promise<string> {
 function normalizeUrl(value: string): string {
   if (/^https?:\/\//i.test(value)) return value;
   return `https://${value}`;
+}
+
+function safeName(value: string): string {
+  return value.replace(/^https?:\/\//i, "").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase() || "website";
 }

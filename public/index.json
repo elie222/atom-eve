@@ -8,6 +8,7 @@
       "family": "engineering",
       "version": "0.1.0",
       "targets": [
+        "eve",
         "flue"
       ],
       "integrations": [

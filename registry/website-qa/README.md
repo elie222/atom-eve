@@ -11,14 +11,23 @@ The Flue target includes:
 - A report writer that stores Markdown QA reports in the installed project.
 - A sample QA brief you should customize for your own product.
 
+The Eve target installs the same package as a namespaced child agent with a `run_website_qa` tool.
+
 ## Supported targets
 
+- Eve
 - Flue
 
 ## Install
 
 ```bash
 npx atom-eve add website-qa --target flue
+```
+
+or:
+
+```bash
+npx atom-eve add website-qa --target eve
 ```
 
 ## Setup
@@ -36,10 +45,18 @@ No credentials are required for public websites. For private apps, configure you
 
 ## Usage
 
-After installing, customize the QA brief in your project:
+After installing, customize the QA brief in your project.
+
+For Flue:
 
 ```text
 src/skills/website-qa-qa-brief/SKILL.md
+```
+
+For Eve:
+
+```text
+agent/subagents/website-qa/skills/qa-brief.md
 ```
 
 Example prompt to send to the agent:
@@ -58,7 +75,7 @@ Focus on:
 Save the report as reports/example-com-latest.md.
 ```
 
-The tool writes reports under `reports/` by default and screenshots under `reports/assets/` when Agent Browser is available.
+The tool writes reports under `reports/` by default and screenshots under `reports/assets/` when Agent Browser is available. For Eve deployments on Vercel, configure browser/runtime availability in your app repo; do not put site-specific credentials or sessions in the public registry package.
 
 ## Connections and auth
 
