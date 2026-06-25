@@ -6,3 +6,4 @@ dist/
 *.tsbuildinfo
 fixtures/.tmp-*/
 .astro/
+.vercel
