@@ -1,5 +1,3 @@
-import { z } from "zod";
-
 export interface CampaignInsight {
   campaignId: string;
   campaignName: string;
@@ -34,18 +32,45 @@ export interface DateRange {
   until: string;
 }
 
-export const reviewFacebookCampaignsInputSchema = z
-  .object({
-    currentDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
-    comparisonDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
-  })
-  .strict();
+export const reviewFacebookCampaignsInputSchema = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    currentDate: {
+      type: "string",
+      pattern: "^\\d{4}-\\d{2}-\\d{2}$",
+      description: "UTC date to inspect in YYYY-MM-DD format. Defaults to yesterday."
+    },
+    comparisonDate: {
+      type: "string",
+      pattern: "^\\d{4}-\\d{2}-\\d{2}$",
+      description: "UTC date to compare against in YYYY-MM-DD format. Defaults to two days ago."
+    }
+  }
+} as const;
 
-export type ReviewFacebookCampaignsInput = z.infer<typeof reviewFacebookCampaignsInputSchema>;
+export interface ReviewFacebookCampaignsInput {
+  currentDate?: string;
+  comparisonDate?: string;
+}
+
+export function normalizeReviewFacebookCampaignsInput(input: unknown): ReviewFacebookCampaignsInput {
+  if (input === undefined || input === null) return {};
+  if (typeof input !== "object" || Array.isArray(input)) {
+    throw new Error("Facebook Ads review input must be an object.");
+  }
+
+  const value = input as Record<string, unknown>;
+  return {
+    currentDate: optionalDate(value.currentDate, "currentDate"),
+    comparisonDate: optionalDate(value.comparisonDate, "comparisonDate")
+  };
+}
 
 export async function reviewFacebookCampaigns(input: ReviewFacebookCampaignsInput = {}) {
-  const currentRange = dateToRange(input.currentDate ?? offsetDate(-1));
-  const comparisonRange = dateToRange(input.comparisonDate ?? offsetDate(-2));
+  const parsed = normalizeReviewFacebookCampaignsInput(input);
+  const currentRange = dateToRange(parsed.currentDate ?? offsetDate(-1));
+  const comparisonRange = dateToRange(parsed.comparisonDate ?? offsetDate(-2));
   const insights = await fetchCampaignInsights(currentRange, comparisonRange);
 
   return {
@@ -187,4 +212,12 @@ function offsetDate(days: number): string {
   const date = new Date();
   date.setUTCDate(date.getUTCDate() + days);
   return date.toISOString().slice(0, 10);
+}
+
+function optionalDate(value: unknown, field: string): string | undefined {
+  if (value === undefined) return undefined;
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    throw new Error(`${field} must be a YYYY-MM-DD date string.`);
+  }
+  return value;
 }
