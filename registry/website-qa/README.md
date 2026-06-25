@@ -9,10 +9,9 @@ This is not an SEO or static HTML audit agent. Use it for browser-driven product
 The package includes:
 
 - An `agent-browser` wrapper tool for navigation, snapshots, clicks, form fills, waits, and screenshots.
-- A report writer that stores Markdown QA reports in the installed project.
-- A QA brief you should customize with your own onboarding flow, test credential policy, and acceptance criteria.
+- Root-agent instructions you should customize with your own onboarding flow, test credential policy, and acceptance criteria.
 
-The Eve target installs this as a namespaced child agent. The Flue target installs the same browser and report tools in the native Flue layout.
+The Eve target installs this as a root agent under `agent/`. The Flue target installs the same browser tool in the native Flue layout.
 
 ## Supported targets
 
@@ -68,18 +67,18 @@ No credentials are required for public websites. For private apps, configure you
 
 ## Usage
 
-After installing, customize the QA brief in your project.
+After installing, customize the agent instructions in your project.
 
 For Flue:
 
 ```text
-src/skills/website-qa-qa-brief/SKILL.md
+src/agents/website-qa.ts
 ```
 
 For Eve:
 
 ```text
-agent/subagents/website-qa/skills/qa-brief.md
+agent/instructions.md
 ```
 
 Example prompt to send to the agent:
@@ -94,7 +93,7 @@ Use these test details:
 - email: <test email>
 - password: <test password>
 
-Start from the public homepage, follow the natural signup path, capture screenshots for each important state, and save the report as reports/example-signup-latest.md.
+Start from the public homepage, follow the natural signup path, capture screenshots for each important state, and summarize the result.
 ```
 
 For multi-step browser runs, prefer a single `agent_browser` call with `commands`, for example:
@@ -111,7 +110,7 @@ For multi-step browser runs, prefer a single `agent_browser` call with `commands
 }
 ```
 
-The report writer stores reports under `reports/` by default. Screenshots should also go under `reports/assets/` unless your app repo uses another artifact location.
+Return a concise Markdown report in the agent response. If your app needs persisted QA history, add a local storage tool or wire the response to your own Slack, GitHub, database, or artifact storage workflow.
 
 ## Updating An Installed Copy
 

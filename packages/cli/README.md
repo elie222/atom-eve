@@ -5,7 +5,8 @@ CLI wrapper for installing Atom Eve agents into Eve and Flue projects.
 ```bash
 npx atom-eve init
 npx atom-eve add facebook-ads
+npx atom-eve add website-qa --target eve
 npx atom-eve add facebook-ads --target flue
 ```
 
-The CLI resolves the target and delegates registry installs to shadcn where possible.
+The CLI resolves the target and delegates registry installs to shadcn where possible. Eve installs write a root agent under `agent/`.

@@ -149,7 +149,7 @@ export async function mapFiles(rootDir: string, manifest: RegistryManifest, targ
   };
 
   if (target === "eve") {
-    const base = `~/agent/subagents/${manifest.name}`;
+    const base = "~/agent";
     const instructions = await optionalFile(rootDir, manifest, "shared/instructions.md");
     if (instructions) await add(instructions, `${base}/instructions.md`);
     for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) await add(skill, `${base}/skills/${path.basename(skill)}`);
@@ -160,9 +160,7 @@ export async function mapFiles(rootDir: string, manifest: RegistryManifest, targ
     await addTree(rootDir, manifest, "targets/eve/connections", `${base}/connections`, add);
     await addTree(rootDir, manifest, "targets/eve/sandbox", `${base}/sandbox`, add);
     await addTree(rootDir, manifest, "targets/eve/schedules", "~/agent/schedules", async (source, destination) => {
-      const ext = path.extname(destination);
-      const stem = destination.slice(0, -ext.length);
-      await add(source, `${stem.replace(/\/([^/]+)$/, `/${manifest.name}-$1`)}${ext}`);
+      await add(source, destination);
     });
   } else {
     const root = "src";

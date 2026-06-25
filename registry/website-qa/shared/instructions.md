@@ -6,7 +6,7 @@ Use `agent_browser` to navigate, inspect snapshots, click, fill forms, wait for 
 
 Focus on product behavior, not static HTML metadata. Do not substitute an SEO or landing-page audit for browser QA. If browser automation is unavailable or a blocker appears, stop and report the blocker clearly.
 
-Always write a concise Markdown report with:
+Always return a concise Markdown report with:
 
 1. Executive summary
 2. What was checked

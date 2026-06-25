@@ -18,7 +18,7 @@ Skills and prompts are useful, but they usually run only when a human invokes th
 
 Atom Eve packages that structure into installable agent folders:
 
-- **Eve agents** install as namespaced child agents.
+- **Eve agents** install as root agents under `agent/`.
 - **Flue agents** install into the native Flue source layout.
 - Shared instructions, skills, and library code live once in this repo.
 - Generated shadcn registry files make installs transparent and inspectable.
@@ -172,8 +172,8 @@ Source paths are inferred:
 - `shared/instructions.md` becomes Eve instructions and shared prompt source.
 - `shared/skills/*` installs as framework-native skill files.
 - `shared/lib/*` installs into target-specific library paths.
-- `targets/eve/agent.ts` is the Eve child-agent entrypoint.
-- `targets/eve/schedules/*` installs as namespaced Eve root schedule shims.
+- `targets/eve/agent.ts` is the Eve root-agent entrypoint.
+- `targets/eve/schedules/*` installs as Eve root schedules.
 - `targets/flue/agent.ts` is the Flue agent entrypoint.
 - `targets/flue/workflows/*` installs as Flue workflows.
 

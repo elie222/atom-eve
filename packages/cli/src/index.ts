@@ -112,7 +112,7 @@ async function installLocalAgent(agentDir: string, target: Target, config: AtomE
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
   if (!manifest.targets.includes(target)) throw new Error(`${manifest.name} does not support ${target}`);
 
-  const files = await mapFiles(rootDir, manifest, target);
+  const files = await mapFiles(rootDir, manifest, target, config);
   for (const file of files) {
     const destination = resolveInstallTarget(file.target, config);
     await fs.mkdir(path.dirname(destination), { recursive: true });
@@ -206,7 +206,7 @@ async function promptForTarget(): Promise<Target> {
   }
 }
 
-async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target): Promise<InstallFile[]> {
+async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target, config: AtomEveConfig): Promise<InstallFile[]> {
   const files: InstallFile[] = [];
   const add = async (source: string, destination: string) => {
     const absSource = path.join(rootDir, manifest.repoPath, source);
@@ -217,7 +217,7 @@ async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target)
   };
 
   if (target === "eve") {
-    const base = `~/agent/subagents/${manifest.name}`;
+    const base = "~/agent";
     const instructions = await optionalFile(rootDir, manifest, "shared/instructions.md");
     if (instructions) await add(instructions, `${base}/instructions.md`);
     for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) await add(skill, `${base}/skills/${path.basename(skill)}`);
@@ -227,9 +227,7 @@ async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target)
     await addTree(rootDir, manifest, "targets/eve/connections", `${base}/connections`, add);
     await addTree(rootDir, manifest, "targets/eve/sandbox", `${base}/sandbox`, add);
     await addTree(rootDir, manifest, "targets/eve/schedules", "~/agent/schedules", async (source, destination) => {
-      const ext = path.extname(destination);
-      const stem = destination.slice(0, -ext.length);
-      await add(source, `${stem.replace(/\/([^/]+)$/, `/${manifest.name}-$1`)}${ext}`);
+      await add(source, destination);
     });
     return files;
   }
