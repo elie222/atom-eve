@@ -26,7 +26,7 @@
       "path": "registry/facebook-ads/targets/eve/agent.ts",
       "target": "~/agent/agent.ts",
       "type": "registry:file",
-      "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  description: \"Reviews Facebook Ads performance and recommends daily optimization actions.\"\n});\n"
+      "content": "import { defineAgent } from \"eve\";\n\nexport default defineAgent({\n  model: process.env.AGENT_MODEL ?? \"anthropic/claude-sonnet-4.6\",\n  description: \"Reviews Facebook Ads performance and recommends daily optimization actions.\"\n});\n"
     },
     {
       "path": "registry/facebook-ads/targets/eve/tools/review_campaigns.ts",

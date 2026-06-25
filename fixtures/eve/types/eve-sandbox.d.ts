@@ -7,8 +7,13 @@ declare module "eve/sandbox" {
     use(): Promise<SandboxSession>;
   }
 
+  interface SandboxSessionContext {
+    use(): Promise<SandboxSession>;
+  }
+
   interface SandboxConfig {
     bootstrap?(context: SandboxBootstrapContext): Promise<void>;
+    onSession?(context: SandboxSessionContext): Promise<void>;
   }
 
   export function defineSandbox<T extends SandboxConfig>(config: T): T;
