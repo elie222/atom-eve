@@ -20,7 +20,7 @@ The package includes:
 
 - Shared SEO audit instructions.
 - An Eve root agent, weekly schedule, and sandbox bootstrap for report/history directories.
-- A Flue agent and weekly workflow prompt.
+- A Flue agent and weekly workflow trigger.
 
 It does not add paid APIs or custom browser wrapper tools. The agent should use the target framework's native sandbox command, browser, and fetch capabilities where available.
 
@@ -45,7 +45,7 @@ npx atom-eve add seo-audit --target eve
 
 No credentials are required for public pages.
 
-After installing, edit the scheduled prompt to include the URL or sitemap you want audited. The default weekly schedule uses a placeholder URL so it cannot accidentally audit the wrong site.
+Before enabling a recurring run, configure the production URL or sitemap in your app repo. The installed weekly schedule/workflow intentionally uses a generic trigger; if no URL is configured, the agent should report the run as blocked instead of auditing a sample domain.
 
 For Eve:
 
@@ -66,7 +66,7 @@ Make sure the runtime sandbox can make outbound HTTP requests and write local fi
 Send the agent a URL or sitemap:
 
 ```text
-Audit https://example.com/sitemap.xml.
+Audit https://your-site.com/sitemap.xml.
 
 Sample up to 25 indexable URLs, inspect homepage and top content pages in a browser if available, compare against prior history, and write the Markdown report to reports/seo-audit/latest.md.
 ```
@@ -74,7 +74,7 @@ Sample up to 25 indexable URLs, inspect homepage and top content pages in a brow
 For a single page:
 
 ```text
-Audit https://example.com/pricing.
+Audit https://your-site.com/pricing.
 
 Check metadata, headings, canonical and robots signals, internal links, CTA clarity, visible copy quality, and content gaps. Compare with the previous run if history exists.
 ```
@@ -103,7 +103,7 @@ pnpm typecheck
 Then send a safe prompt:
 
 ```text
-Audit https://example.com. Keep the run read-only and write the report to reports/seo-audit/latest.md.
+Audit https://your-site.com. Keep the run read-only and write the report to reports/seo-audit/latest.md.
 ```
 
 ## Updating An Installed Copy
