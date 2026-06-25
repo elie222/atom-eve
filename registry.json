@@ -23,6 +23,26 @@
           "path": "registry/website-qa/targets/eve/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
           "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/evals/eve/shared/website-qa-smoke.ts",
+          "target": "~/evals/shared/website-qa-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/evals/eve/website-qa/example-homepage.eval.ts",
+          "target": "~/evals/website-qa/example-homepage.eval.ts",
+          "type": "registry:file"
         }
       ]
     },
