@@ -9,8 +9,8 @@ Default workflow:
 
 - Start from the supplied public URL.
 - Find the natural path for the requested user goal, such as signup, onboarding, checkout, or project creation.
-- Use snapshots to identify controls before clicking or filling.
-- Re-snapshot after each navigation, modal, validation state, or form submit.
+- Use the `agent_browser` `commands` array for each browser-flow segment so open, wait, snapshot, click, fill, screenshot, and close share one browser session.
+- Use snapshots to identify controls before clicking or filling, and re-snapshot after each navigation, modal, validation state, or form submit.
 - Capture screenshots for the start state, important intermediate states, blockers, and final state.
 - Do not bypass CAPTCHA, payment, email verification, OAuth consent, or other external trust gates.
 - Do not use real credentials unless the user explicitly supplies test credentials for this run.

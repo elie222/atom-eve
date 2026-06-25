@@ -33,12 +33,28 @@ npx atom-eve add website-qa --target eve
 
 ## Setup
 
-Install Agent Browser in the runtime environment:
+For local development or a long-running server, install Agent Browser in the runtime environment:
 
 ```bash
 npm install -g agent-browser
 agent-browser install
 ```
+
+For Vercel, use Agent Browser through Vercel Sandbox so browser automation runs in a microVM with Chrome:
+
+```bash
+pnpm add agent-browser @agent-browser/sandbox @vercel/sandbox
+```
+
+If your project uses pnpm 10 build approvals, allow the Agent Browser install script:
+
+```yaml
+# pnpm-workspace.yaml
+allowBuilds:
+  agent-browser: true
+```
+
+Then redeploy the Vercel project. The first browser run may spend extra time bootstrapping the sandbox; for production recurring QA, create an Agent Browser sandbox snapshot and set `AGENT_BROWSER_SNAPSHOT_ID`.
 
 If Agent Browser is unavailable, the agent should report that the QA run is blocked. It should not silently replace the run with a static HTML audit.
 
@@ -73,6 +89,20 @@ Use these test details:
 - password: <test password>
 
 Start from the public homepage, follow the natural signup path, capture screenshots for each important state, and save the report as reports/example-signup-latest.md.
+```
+
+For multi-step browser runs, prefer a single `agent_browser` call with `commands`, for example:
+
+```json
+{
+  "commands": [
+    ["open", "https://example.com"],
+    ["wait", "2000"],
+    ["snapshot", "-i"]
+  ],
+  "allowedDomains": ["example.com", "*.example.com"],
+  "sessionName": "example-signup"
+}
 ```
 
 The report writer stores reports under `reports/` by default. Screenshots should also go under `reports/assets/` unless your app repo uses another artifact location.
