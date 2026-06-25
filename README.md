@@ -113,15 +113,22 @@ If you are an AI coding agent working in this repository, start here:
 1. Read `registry/<agent>/atom.json` for catalog metadata, targets, env vars, and connections.
 2. Read `registry/<agent>/README.md` for human setup and usage.
 3. Edit source under `registry/<agent>/shared/` and `registry/<agent>/targets/`. The generator discovers files from this folder layout.
-4. Run `pnpm generate` after changing manifests or agent source.
+4. Run `pnpm generate` after changing manifests or agent source. This updates the tracked root `registry.json` and regenerates ignored website payloads under `public/`.
 5. Run `pnpm check` before finishing.
 
-Do not hand-edit generated registry files unless you are debugging the generator. Generated files live under:
+Do not hand-edit generated registry files unless you are debugging the generator.
+
+Tracked generated file:
+
+```text
+registry.json
+```
+
+Ignored build artifacts:
 
 ```text
 public/r/
 public/index.json
-registry.json
 ```
 
 ## Add Your Own Agent
@@ -196,8 +203,8 @@ fixtures/
   eve/                    # Minimal install/typecheck fixture
   flue/                   # Minimal install/typecheck fixture
 public/
-  r/                      # Generated shadcn registry items
-  index.json              # Generated website/catalog index
+  r/                      # Ignored generated shadcn registry item payloads
+  index.json              # Ignored generated website/catalog index
 ```
 
 ## Development
