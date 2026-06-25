@@ -90,18 +90,29 @@
   transform: translateY(-2px);
   border-color: var(--famh, var(--color-dim2));
 }
-.rail-row {
-  transition: background 0.12s;
+/* ---- category rail buttons ---- */
+.cat-btn {
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    border-color 0.12s;
 }
-.rail-row:hover {
+.cat-btn:hover {
   background: var(--color-panel2);
+}
+.cat-btn.active {
+  background: #9bff5c14;
+  border-color: #9bff5c4d;
+}
+.cat-btn.active .cat-count {
+  color: var(--color-eve);
 }
 
 /* ---- rendered README markdown ---- */
 .md {
   color: var(--color-ink3);
-  font-size: 14.5px;
-  line-height: 1.7;
+  font-size: 15.5px;
+  line-height: 1.75;
 }
 .md > :first-child {
   margin-top: 0;
@@ -167,7 +178,7 @@
   border: 1px solid var(--color-edge);
   border-radius: 8px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.7;
   color: var(--color-ink2);
   overflow-x: auto;
