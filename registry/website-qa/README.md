@@ -2,16 +2,17 @@
 
 ## What it does
 
-The Website QA Agent audits a public website and writes a practical QA report. It is designed for product teams and developers who want an agent to click through a site, inspect the page, capture evidence, and produce a repeatable Markdown report.
+The Website QA Agent tests a website or web app like a product-minded QA engineer. It is designed for teams that want an agent to open the site, follow a real user flow such as signup or onboarding, capture evidence, and produce a repeatable Markdown report.
 
-The Flue target includes:
+This is not an SEO or static HTML audit agent. Use it for browser-driven product QA.
 
-- A browser-audit tool that can call the `agent-browser` CLI when it is installed.
-- A static HTML/metadata fallback when browser automation is unavailable.
+The package includes:
+
+- An `agent-browser` wrapper tool for navigation, snapshots, clicks, form fills, waits, and screenshots.
 - A report writer that stores Markdown QA reports in the installed project.
-- A sample QA brief you should customize for your own product.
+- A QA brief you should customize with your own onboarding flow, test credential policy, and acceptance criteria.
 
-The Eve target installs the same package as a namespaced child agent with a `run_website_qa` tool.
+The Eve target installs this as a namespaced child agent. The Flue target installs the same browser and report tools in the native Flue layout.
 
 ## Supported targets
 
@@ -32,14 +33,14 @@ npx atom-eve add website-qa --target eve
 
 ## Setup
 
-Install Agent Browser if you want screenshots and interactive browser checks:
+Install Agent Browser in the runtime environment:
 
 ```bash
 npm install -g agent-browser
 agent-browser install
 ```
 
-The agent still works without Agent Browser, but it will fall back to HTTP/HTML checks and skip screenshots.
+If Agent Browser is unavailable, the agent should report that the QA run is blocked. It should not silently replace the run with a static HTML audit.
 
 No credentials are required for public websites. For private apps, configure your own Agent Browser profile/session outside this package and document that flow in your local copy.
 
@@ -62,20 +63,30 @@ agent/subagents/website-qa/skills/qa-brief.md
 Example prompt to send to the agent:
 
 ```text
-Audit https://example.com.
+Test https://example.com.
 
-Focus on:
-- homepage clarity
-- navigation and primary CTAs
-- mobile usability
-- obvious accessibility issues
-- title/meta/heading SEO basics
-- broken or confusing interactions
+Goal: sign up as a new user and reach the first onboarding screen.
 
-Save the report as reports/example-com-latest.md.
+Use these test details:
+- name: Example QA
+- email: <test email>
+- password: <test password>
+
+Start from the public homepage, follow the natural signup path, capture screenshots for each important state, and save the report as reports/example-signup-latest.md.
 ```
 
-The tool writes reports under `reports/` by default and screenshots under `reports/assets/` when Agent Browser is available. For Eve deployments on Vercel, configure browser/runtime availability in your app repo; do not put site-specific credentials or sessions in the public registry package.
+The report writer stores reports under `reports/` by default. Screenshots should also go under `reports/assets/` unless your app repo uses another artifact location.
+
+## Updating An Installed Copy
+
+Today you can rerun the add command from your app repo and review the git diff:
+
+```bash
+npx atom-eve add website-qa --target eve
+git diff
+```
+
+Treat the installed files like shadcn components: update from the registry, inspect the diff, keep local product-specific changes you still need, and commit only what you want. A dedicated `atom-eve update` command should make this workflow nicer over time.
 
 ## Connections and auth
 
@@ -86,6 +97,5 @@ For authenticated sites, create a browser session/profile manually and adapt the
 ## Limitations
 
 - Browser automation depends on `agent-browser` being installed in the runtime environment.
-- The fallback HTML audit does not execute JavaScript or inspect post-load UI state.
 - Screenshots and reports are local artifacts; wire them to your own storage if you need long-term history.
 - Keep site-specific URLs, credentials, and QA policies in your app repo, not in the registry package.

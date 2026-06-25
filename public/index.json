@@ -3,7 +3,7 @@
     {
       "name": "website-qa",
       "title": "Website QA Agent",
-      "description": "Audits a public website for obvious UX, content, SEO, accessibility, and technical quality issues.",
+      "description": "Runs browser-driven QA on signup, onboarding, and other web app flows.",
       "category": "qa",
       "family": "engineering",
       "version": "0.1.0",

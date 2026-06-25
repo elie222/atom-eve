@@ -3,5 +3,5 @@ import { defineAgent } from "eve";
 export default defineAgent({
   model: "anthropic/claude-sonnet-4.6",
   description:
-    "Audits public websites for practical UX, content, SEO, accessibility, and technical quality issues. Saves Markdown reports with evidence."
+    "Runs browser-driven QA on web app flows such as signup and onboarding, captures evidence, and writes concise Markdown reports."
 });
