@@ -1,14 +1,14 @@
 import { defineTool } from "eve/tools";
 import {
+  normalizeReviewSentryErrorsInput,
   reviewSentryErrors,
-  reviewSentryErrorsInputSchema,
-  type ReviewSentryErrorsInput,
+  reviewSentryErrorsInputSchema
 } from "../lib/sentry.js";
 
 export default defineTool({
   description: "Review recent production Sentry errors without mutating issues or creating pull requests.",
   inputSchema: reviewSentryErrorsInputSchema,
-  async execute(input: ReviewSentryErrorsInput) {
-    return reviewSentryErrors(input);
+  async execute(input: unknown) {
+    return reviewSentryErrors(normalizeReviewSentryErrorsInput(input));
   }
 });

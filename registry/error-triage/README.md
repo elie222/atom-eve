@@ -26,12 +26,6 @@ npx atom-eve add error-triage --target flue
 
 ## Setup
 
-Install the shared schema dependency:
-
-```bash
-pnpm add zod
-```
-
 Create a Sentry auth token with read access for the organization and project you want the agent to inspect.
 
 Required environment variables:

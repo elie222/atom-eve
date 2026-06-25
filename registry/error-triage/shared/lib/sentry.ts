@@ -1,18 +1,43 @@
 import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import { z } from "zod";
 
 const DEFAULT_SENTRY_BASE_URL = "https://sentry.io/api/0";
 const DEFAULT_HISTORY_DIR = "reports/error-triage/history";
 
-export const reviewSentryErrorsInputSchema = z.object({
-  lookbackDays: z.number().int().positive().max(30).optional(),
-  environment: z.string().min(1).optional(),
-  maxIssues: z.number().int().positive().max(100).optional(),
-  writeHistory: z.boolean().optional()
-});
+export const reviewSentryErrorsInputSchema = {
+  type: "object",
+  additionalProperties: false,
+  properties: {
+    lookbackDays: {
+      type: "integer",
+      minimum: 1,
+      maximum: 30,
+      description: "Number of days of recent Sentry issues to review. Defaults to ERROR_TRIAGE_LOOKBACK_DAYS or 1."
+    },
+    environment: {
+      type: "string",
+      minLength: 1,
+      description: "Sentry environment to filter by. Defaults to ERROR_TRIAGE_ENVIRONMENT or production."
+    },
+    maxIssues: {
+      type: "integer",
+      minimum: 1,
+      maximum: 100,
+      description: "Maximum unresolved issues to inspect. Defaults to ERROR_TRIAGE_MAX_ISSUES or 25."
+    },
+    writeHistory: {
+      type: "boolean",
+      description: "Whether to write a local history report. Defaults to true."
+    }
+  }
+} as const;
 
-export type ReviewSentryErrorsInput = z.infer<typeof reviewSentryErrorsInputSchema>;
+export interface ReviewSentryErrorsInput {
+  lookbackDays?: number;
+  environment?: string;
+  maxIssues?: number;
+  writeHistory?: boolean;
+}
 
 export interface TriageReport {
   generatedAt: string;
@@ -115,7 +140,7 @@ interface HistoryReport {
 }
 
 export async function reviewSentryErrors(input: ReviewSentryErrorsInput = {}, fetchImpl: typeof fetch = fetch): Promise<TriageReport> {
-  const parsed = reviewSentryErrorsInputSchema.parse(input);
+  const parsed = normalizeReviewSentryErrorsInput(input);
   const config = getSentryConfig();
   const lookbackDays = parsed.lookbackDays ?? Number(process.env.ERROR_TRIAGE_LOOKBACK_DAYS ?? 1);
   const environment = parsed.environment ?? process.env.ERROR_TRIAGE_ENVIRONMENT ?? "production";
@@ -161,6 +186,21 @@ export async function reviewSentryErrors(input: ReviewSentryErrorsInput = {}, fe
   }
 
   return report;
+}
+
+export function normalizeReviewSentryErrorsInput(input: unknown): ReviewSentryErrorsInput {
+  if (input === undefined || input === null) return {};
+  if (typeof input !== "object" || Array.isArray(input)) {
+    throw new Error("Error triage input must be an object.");
+  }
+
+  const value = input as Record<string, unknown>;
+  return {
+    lookbackDays: optionalInteger(value.lookbackDays, "lookbackDays", 1, 30),
+    environment: optionalString(value.environment, "environment"),
+    maxIssues: optionalInteger(value.maxIssues, "maxIssues", 1, 100),
+    writeHistory: optionalBoolean(value.writeHistory, "writeHistory")
+  };
 }
 
 function getSentryConfig(): SentryConfig {
@@ -319,6 +359,30 @@ function normalizeFile(value: string | null): string | null {
 
 function severityRank(severity: ErrorGroup["severity"]): number {
   return { low: 1, medium: 2, high: 3, critical: 4 }[severity];
+}
+
+function optionalInteger(value: unknown, field: string, min: number, max: number): number | undefined {
+  if (value === undefined) return undefined;
+  if (!Number.isInteger(value) || (value as number) < min || (value as number) > max) {
+    throw new Error(`${field} must be an integer between ${min} and ${max}.`);
+  }
+  return value as number;
+}
+
+function optionalString(value: unknown, field: string): string | undefined {
+  if (value === undefined) return undefined;
+  if (typeof value !== "string" || value.length === 0) {
+    throw new Error(`${field} must be a non-empty string.`);
+  }
+  return value;
+}
+
+function optionalBoolean(value: unknown, field: string): boolean | undefined {
+  if (value === undefined) return undefined;
+  if (typeof value !== "boolean") {
+    throw new Error(`${field} must be a boolean.`);
+  }
+  return value;
 }
 
 async function readRecentHistory(historyDir: string): Promise<Map<string, HistoryGroup>> {
