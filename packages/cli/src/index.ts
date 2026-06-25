@@ -223,7 +223,7 @@ async function scaffoldProject(target: Target) {
           types: ["node"],
           noEmit: true
         },
-        include: ["agent/**/*.ts"]
+        include: ["agent/**/*.ts", "evals/**/*.ts"]
       },
       null,
       2
@@ -300,6 +300,7 @@ async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target,
     await addTree(rootDir, manifest, "targets/eve/schedules", "~/agent/schedules", async (source, destination) => {
       await add(source, destination);
     });
+    await addTree(rootDir, manifest, "evals/eve", "~/evals", add);
     return files;
   }
 
