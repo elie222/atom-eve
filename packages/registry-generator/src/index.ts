@@ -84,7 +84,7 @@ export async function generateRegistry(rootDir: string): Promise<void> {
   await writeJson(path.join(rootDir, "public", "index.json"), { items: siteItems });
   await writeJson(path.join(rootDir, "registry.json"), {
     $schema: "https://ui.shadcn.com/schema/registry.json",
-    name: "atomeve",
+    name: "atom-eve",
     homepage: "https://atomeve.dev",
     items
   });

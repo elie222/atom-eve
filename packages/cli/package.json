@@ -1,12 +1,12 @@
 {
-  "name": "atomeve",
+  "name": "atom-eve",
   "version": "0.1.0",
   "private": false,
   "description": "Install Atom Eve agents into Eve and Flue projects.",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "atomeve": "dist/index.js"
+    "atom-eve": "dist/index.js"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

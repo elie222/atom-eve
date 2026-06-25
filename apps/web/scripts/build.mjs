@@ -14,7 +14,7 @@ const cards = index.items
   <div class="meta">${escapeHtml(item.family)} / ${escapeHtml(item.category)}</div>
   <h2><a href="/agents/${item.name}/">${escapeHtml(item.title)}</a></h2>
   <p>${escapeHtml(item.description)}</p>
-  <code>npx atomeve add ${escapeHtml(item.name)}</code>
+  <code>npx atom-eve add ${escapeHtml(item.name)}</code>
   <div class="badges">${item.targets.map((target) => `<span>${escapeHtml(target)}</span>`).join("")}</div>
 </article>`
   )
@@ -30,7 +30,7 @@ for (const item of index.items) {
   const body = `<p><a href="/">Back to catalog</a></p>
 <h1>${escapeHtml(item.title)}</h1>
 <p>${escapeHtml(item.description)}</p>
-<pre><code>npx atomeve add ${escapeHtml(item.name)}</code></pre>
+<pre><code>npx atom-eve add ${escapeHtml(item.name)}</code></pre>
 <h2>Targets</h2>
 <p>${item.targets.map(escapeHtml).join(", ")}</p>
 <h2>Required Env</h2>

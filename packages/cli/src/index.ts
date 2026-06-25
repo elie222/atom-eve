@@ -57,7 +57,7 @@ async function main() {
 
   if (command === "add") {
     const agent = args._[1];
-    if (!agent) throw new Error("Usage: atomeve add <agent>");
+    if (!agent) throw new Error("Usage: atom-eve add <agent>");
     await add(agent, args);
     return;
   }
@@ -376,12 +376,12 @@ function findUp(start: string, name: string): string | undefined {
 }
 
 function printHelp() {
-  console.log(`atomeve
+  console.log(`atom-eve
 
 Commands:
-  atomeve init [--target eve|flue] [--runtime node|cloudflare|vercel]
-  atomeve add <agent> [--target eve|flue] [--runtime node|cloudflare|vercel]
-  atomeve add ./registry/<agent> --target eve|flue
-  atomeve list
+  atom-eve init [--target eve|flue] [--runtime node|cloudflare|vercel]
+  atom-eve add <agent> [--target eve|flue] [--runtime node|cloudflare|vercel]
+  atom-eve add ./registry/<agent> --target eve|flue
+  atom-eve list
 `);
 }

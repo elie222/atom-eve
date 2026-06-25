@@ -1,11 +1,11 @@
-# atomeve
+# atom-eve
 
 CLI wrapper for installing Atom Eve agents into Eve and Flue projects.
 
 ```bash
-npx atomeve init
-npx atomeve add facebook-ads
-npx atomeve add facebook-ads --target flue
+npx atom-eve init
+npx atom-eve add facebook-ads
+npx atom-eve add facebook-ads --target flue
 ```
 
 The CLI resolves the target and delegates registry installs to shadcn where possible.

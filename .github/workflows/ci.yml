@@ -42,4 +42,4 @@ jobs:
         run: pnpm secret-scan
 
       - name: Pack CLI
-        run: pnpm --dir packages/cli pack --pack-destination /tmp/atomeve-pack
+        run: pnpm --dir packages/cli pack --pack-destination /tmp/atom-eve-pack

@@ -5,7 +5,7 @@
 Atom Eve is an open-source, shadcn-style registry of real agent source code. Browse an agent, install it into your own repo, add your credentials, and run it on [Eve](https://eve.dev) or [Flue](https://flueframework.com/).
 
 ```bash
-npx atomeve add facebook-ads
+npx atom-eve add facebook-ads
 ```
 
 The registry is source-first. Atom Eve does not host or run your agents, store credentials, or provide a managed runtime. It gives you code you can review, copy, modify, and deploy yourself.
@@ -37,27 +37,27 @@ Each agent page links back to its source folder and renders that agent's README.
 Initialize Atom Eve in your project:
 
 ```bash
-npx atomeve init
+npx atom-eve init
 ```
 
 Then add an agent:
 
 ```bash
-npx atomeve add facebook-ads
+npx atom-eve add facebook-ads
 ```
 
 Choose a target explicitly when needed:
 
 ```bash
-npx atomeve add facebook-ads --target eve
-npx atomeve add facebook-ads --target flue
+npx atom-eve add facebook-ads --target eve
+npx atom-eve add facebook-ads --target flue
 ```
 
 For Flue deployment context:
 
 ```bash
-npx atomeve add facebook-ads --target flue --runtime cloudflare
-npx atomeve add facebook-ads --target flue --runtime node
+npx atom-eve add facebook-ads --target flue --runtime cloudflare
+npx atom-eve add facebook-ads --target flue --runtime node
 ```
 
 The CLI writes `atom-eve.json` to remember project defaults. When it can safely detect your framework, it uses that. When it cannot, it asks for `--target eve` or `--target flue`.
@@ -163,7 +163,7 @@ For example, cron timing belongs in `targets/eve/schedules/daily.ts` or the targ
 apps/
   web/                    # Static generated catalog
 packages/
-  cli/                    # atomeve CLI
+  cli/                    # atom-eve CLI
   registry-generator/     # atom.json -> shadcn registry + site index
   schemas/                # Shared schemas
 registry/

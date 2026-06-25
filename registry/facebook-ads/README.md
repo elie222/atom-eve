@@ -12,14 +12,14 @@ Reviews Facebook Ads campaign performance and proposes daily budget, targeting, 
 ## Install
 
 ```bash
-npx atomeve add facebook-ads
+npx atom-eve add facebook-ads
 ```
 
 Target overrides:
 
 ```bash
-npx atomeve add facebook-ads --target eve
-npx atomeve add facebook-ads --target flue
+npx atom-eve add facebook-ads --target eve
+npx atom-eve add facebook-ads --target flue
 ```
 
 ## Setup
