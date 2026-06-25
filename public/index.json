@@ -1,6 +1,32 @@
 {
   "items": [
     {
+      "name": "website-qa",
+      "title": "Website QA Agent",
+      "description": "Audits a public website for obvious UX, content, SEO, accessibility, and technical quality issues.",
+      "category": "qa",
+      "family": "engineering",
+      "version": "0.1.0",
+      "targets": [
+        "flue"
+      ],
+      "integrations": [
+        "agent-browser"
+      ],
+      "connections": [
+        {
+          "name": "agent-browser",
+          "type": "custom-tool",
+          "auth": "none"
+        }
+      ],
+      "requiredEnv": [],
+      "scheduled": false,
+      "repoPath": "registry/website-qa",
+      "featured": true,
+      "order": 0
+    },
+    {
       "name": "facebook-ads",
       "title": "Facebook Ads Agent",
       "description": "Reviews campaign performance and proposes daily budget and creative actions.",
@@ -28,7 +54,7 @@
       "scheduled": true,
       "repoPath": "registry/facebook-ads",
       "featured": true,
-      "order": 0
+      "order": 1
     }
   ]
 }

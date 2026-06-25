@@ -1,4 +1,4 @@
 {
-  "featured": ["facebook-ads"],
-  "homepageOrder": ["facebook-ads"]
+  "featured": ["website-qa", "facebook-ads"],
+  "homepageOrder": ["website-qa", "facebook-ads"]
 }

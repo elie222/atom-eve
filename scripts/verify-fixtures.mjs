@@ -4,19 +4,22 @@ import path from "node:path";
 
 const root = process.cwd();
 const cli = path.join(root, "packages", "cli", "dist", "index.js");
-const agent = path.join(root, "registry", "facebook-ads");
+const index = JSON.parse(await fs.readFile(path.join(root, "public", "index.json"), "utf8"));
 
-for (const target of ["eve", "flue"]) {
-  const fixture = path.join(root, "fixtures", target);
-  const temp = path.join(root, "fixtures", `.tmp-${target}-facebook-ads`);
-  await fs.rm(temp, { recursive: true, force: true });
-  await fs.cp(fixture, temp, { recursive: true });
+for (const item of index.items) {
+  const agent = path.join(root, item.repoPath);
+  for (const target of item.targets) {
+    const fixture = path.join(root, "fixtures", target);
+    const temp = path.join(root, "fixtures", `.tmp-${target}-${item.name}`);
+    await fs.rm(temp, { recursive: true, force: true });
+    await fs.cp(fixture, temp, { recursive: true });
 
-  run("node", [cli, "init", "--target", target, ...(target === "flue" ? ["--runtime", "cloudflare"] : [])], temp);
-  run("node", [cli, "add", agent, "--target", target], temp);
-  run("pnpm", ["exec", "tsc", "-p", path.join(temp, "tsconfig.json"), "--noEmit"], root);
+    run("node", [cli, "init", "--target", target, ...(target === "flue" ? ["--runtime", "cloudflare"] : [])], temp);
+    run("node", [cli, "add", agent, "--target", target], temp);
+    run("pnpm", ["exec", "tsc", "-p", path.join(temp, "tsconfig.json"), "--noEmit"], root);
 
-  await fs.rm(temp, { recursive: true, force: true });
+    await fs.rm(temp, { recursive: true, force: true });
+  }
 }
 
 function run(command, args, cwd) {

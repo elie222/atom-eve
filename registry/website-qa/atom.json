@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "website-qa",
+  "title": "Website QA Agent",
+  "description": "Audits a public website for obvious UX, content, SEO, accessibility, and technical quality issues.",
+  "category": "qa",
+  "family": "engineering",
+  "targets": ["flue"],
+  "integrations": ["agent-browser"],
+  "connections": [
+    {
+      "name": "agent-browser",
+      "type": "custom-tool",
+      "auth": "none"
+    }
+  ],
+  "requiredEnv": []
+}
