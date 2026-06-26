@@ -4,7 +4,7 @@ import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { createInterface } from "node:readline/promises";
-import { createInstallFileSpecs, type InstallManifest, type Target } from "@atom-eve/install-map";
+import { createInstallFileSpecs, readLocalInstallFiles, type InstallManifest, type Target } from "@atom-eve/install-map";
 
 type Runtime = "vercel" | "node" | "cloudflare";
 
@@ -22,11 +22,6 @@ interface RemoteSkillRef {
 
 interface AtomManifest extends InstallManifest {
   skills: RemoteSkillRef[];
-}
-
-interface InstallFile {
-  target: string;
-  content: string;
 }
 
 interface Args {
@@ -217,7 +212,7 @@ async function installLocalAgent(agentDir: string, target: Target, config: AtomE
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
   if (!manifest.targets.includes(target)) throw new Error(`${manifest.name} does not support ${target}`);
 
-  const files = await mapFiles(rootDir, manifest, target);
+  const files = await readLocalInstallFiles(rootDir, manifest, target);
   for (const file of files) {
     const destination = resolveInstallTarget(file.target, config);
     await fs.mkdir(path.dirname(destination), { recursive: true });
@@ -389,51 +384,8 @@ async function promptForTarget(): Promise<Target> {
   }
 }
 
-async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target): Promise<InstallFile[]> {
-  const specs = await createInstallFileSpecs(manifest, target, {
-    hasFile: async (source) => Boolean(await optionalFile(rootDir, manifest, source)),
-    discoverFiles: (sourceDir) => discoverFiles(rootDir, manifest, sourceDir)
-  });
-
-  return Promise.all(
-    specs.map(async (file) => ({
-      target: file.target,
-      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
-    }))
-  );
-}
-
-async function optionalFile(rootDir: string, manifest: AtomManifest, source: string): Promise<string | undefined> {
-  const abs = path.join(rootDir, manifest.repoPath, source);
-  try {
-    const stat = await fs.stat(abs);
-    return stat.isFile() ? source : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-async function discoverFiles(rootDir: string, manifest: AtomManifest, sourceDir: string): Promise<string[]> {
-  const abs = path.join(rootDir, manifest.repoPath, sourceDir);
-  const files = await walk(abs).catch(() => []);
-  return files
-    .map((file) => toPosixPath(path.relative(path.join(rootDir, manifest.repoPath), file)))
-    .sort((a, b) => a.localeCompare(b));
-}
-
 function toPosixPath(filePath: string): string {
   return filePath.split(path.sep).join(path.posix.sep);
-}
-
-async function walk(dir: string): Promise<string[]> {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  const files: string[] = [];
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) files.push(...(await walk(full)));
-    else files.push(full);
-  }
-  return files;
 }
 
 function parseTarget(value: unknown): Target {

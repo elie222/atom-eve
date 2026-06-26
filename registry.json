@@ -30,7 +30,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/website-qa/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -101,7 +101,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/facebook-ads/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -192,13 +192,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/evals/eve/a11y-auditor/smoke.eval.ts",
-          "target": "~/evals/a11y-auditor/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/a11y-auditor/evals/eve/a11y-auditor/smoke.eval.ts",
+          "target": "~/evals/a11y-auditor/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -263,13 +263,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/adversarial-reviewer/evals/eve/adversarial-reviewer/smoke.eval.ts",
-          "target": "~/evals/adversarial-reviewer/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/adversarial-reviewer/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/adversarial-reviewer/evals/eve/adversarial-reviewer/smoke.eval.ts",
+          "target": "~/evals/adversarial-reviewer/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -344,13 +344,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/evals/eve/analytics-digest/smoke.eval.ts",
-          "target": "~/evals/analytics-digest/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/analytics-digest/evals/eve/analytics-digest/smoke.eval.ts",
+          "target": "~/evals/analytics-digest/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -420,13 +420,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/backup-verifier/evals/eve/backup-verifier/smoke.eval.ts",
-          "target": "~/evals/backup-verifier/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/backup-verifier/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/backup-verifier/evals/eve/backup-verifier/smoke.eval.ts",
+          "target": "~/evals/backup-verifier/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -501,13 +501,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/blog-writer/evals/eve/blog-writer/smoke.eval.ts",
-          "target": "~/evals/blog-writer/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/blog-writer/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/blog-writer/evals/eve/blog-writer/smoke.eval.ts",
+          "target": "~/evals/blog-writer/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -577,13 +577,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/buyer-voice/evals/eve/buyer-voice/smoke.eval.ts",
-          "target": "~/evals/buyer-voice/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/buyer-voice/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/buyer-voice/evals/eve/buyer-voice/smoke.eval.ts",
+          "target": "~/evals/buyer-voice/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -658,13 +658,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/claim-checker/evals/eve/claim-checker/smoke.eval.ts",
-          "target": "~/evals/claim-checker/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/claim-checker/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/claim-checker/evals/eve/claim-checker/smoke.eval.ts",
+          "target": "~/evals/claim-checker/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -734,13 +734,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/code-reviewer/evals/eve/code-reviewer/smoke.eval.ts",
-          "target": "~/evals/code-reviewer/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/code-reviewer/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/code-reviewer/evals/eve/code-reviewer/smoke.eval.ts",
+          "target": "~/evals/code-reviewer/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -820,13 +820,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/community-support/evals/eve/community-support/smoke.eval.ts",
-          "target": "~/evals/community-support/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/community-support/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/community-support/evals/eve/community-support/smoke.eval.ts",
+          "target": "~/evals/community-support/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -901,13 +901,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/competitor-analysis/evals/eve/competitor-analysis/smoke.eval.ts",
-          "target": "~/evals/competitor-analysis/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/competitor-analysis/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/competitor-analysis/evals/eve/competitor-analysis/smoke.eval.ts",
+          "target": "~/evals/competitor-analysis/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -967,13 +967,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/content-ideation/evals/eve/content-ideation/smoke.eval.ts",
-          "target": "~/evals/content-ideation/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/content-ideation/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/content-ideation/evals/eve/content-ideation/smoke.eval.ts",
+          "target": "~/evals/content-ideation/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1038,13 +1038,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/creative-studio/evals/eve/creative-studio/smoke.eval.ts",
-          "target": "~/evals/creative-studio/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/creative-studio/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/creative-studio/evals/eve/creative-studio/smoke.eval.ts",
+          "target": "~/evals/creative-studio/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1119,13 +1119,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/crm-hygiene/evals/eve/crm-hygiene/smoke.eval.ts",
-          "target": "~/evals/crm-hygiene/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/crm-hygiene/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/crm-hygiene/evals/eve/crm-hygiene/smoke.eval.ts",
+          "target": "~/evals/crm-hygiene/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1205,13 +1205,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/cro-optimizer/evals/eve/cro-optimizer/smoke.eval.ts",
-          "target": "~/evals/cro-optimizer/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/cro-optimizer/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/cro-optimizer/evals/eve/cro-optimizer/smoke.eval.ts",
+          "target": "~/evals/cro-optimizer/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1281,13 +1281,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/data-compliance/evals/eve/data-compliance/smoke.eval.ts",
-          "target": "~/evals/data-compliance/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/data-compliance/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/data-compliance/evals/eve/data-compliance/smoke.eval.ts",
+          "target": "~/evals/data-compliance/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1362,13 +1362,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/deal-followup/evals/eve/deal-followup/smoke.eval.ts",
-          "target": "~/evals/deal-followup/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/deal-followup/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/deal-followup/evals/eve/deal-followup/smoke.eval.ts",
+          "target": "~/evals/deal-followup/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1443,13 +1443,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/dep-guardian/evals/eve/dep-guardian/smoke.eval.ts",
-          "target": "~/evals/dep-guardian/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/dep-guardian/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/dep-guardian/evals/eve/dep-guardian/smoke.eval.ts",
+          "target": "~/evals/dep-guardian/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1529,13 +1529,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/docs-sync/evals/eve/docs-sync/smoke.eval.ts",
-          "target": "~/evals/docs-sync/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/docs-sync/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/docs-sync/evals/eve/docs-sync/smoke.eval.ts",
+          "target": "~/evals/docs-sync/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1615,13 +1615,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/dunning/evals/eve/dunning/smoke.eval.ts",
-          "target": "~/evals/dunning/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/dunning/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/dunning/evals/eve/dunning/smoke.eval.ts",
+          "target": "~/evals/dunning/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1701,13 +1701,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-loops/evals/eve/email-loops/smoke.eval.ts",
-          "target": "~/evals/email-loops/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/email-loops/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/email-loops/evals/eve/email-loops/smoke.eval.ts",
+          "target": "~/evals/email-loops/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1787,13 +1787,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-resend/evals/eve/email-resend/smoke.eval.ts",
-          "target": "~/evals/email-resend/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/email-resend/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/email-resend/evals/eve/email-resend/smoke.eval.ts",
+          "target": "~/evals/email-resend/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1873,13 +1873,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-userlist/evals/eve/email-userlist/smoke.eval.ts",
-          "target": "~/evals/email-userlist/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/email-userlist/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/email-userlist/evals/eve/email-userlist/smoke.eval.ts",
+          "target": "~/evals/email-userlist/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -1959,13 +1959,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/evals/eve/error-copy/smoke.eval.ts",
-          "target": "~/evals/error-copy/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/error-copy/evals/eve/error-copy/smoke.eval.ts",
+          "target": "~/evals/error-copy/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -2010,6 +2010,11 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/error-triage/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/error-triage/shared/lib/sentry.ts",
           "target": "~/agent/lib/sentry.ts",
           "type": "registry:file"
@@ -2030,13 +2035,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/error-triage/evals/eve/error-triage/smoke.eval.ts",
-          "target": "~/evals/error-triage/smoke.eval.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/error-triage/evals/eve/evals.config.ts",
-          "target": "~/evals/evals.config.ts",
+          "path": "registry/error-triage/evals/eve/error-triage/smoke.eval.ts",
+          "target": "~/evals/error-triage/smoke.eval.ts",
           "type": "registry:file"
         },
         {
@@ -2055,6 +2060,11 @@
         {
           "path": "registry/error-triage/targets/flue/agent.ts",
           "target": "~/src/agents/error-triage.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/error-triage/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -2111,7 +2121,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/experiment-analyst/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2187,7 +2197,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-aggregator/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2273,7 +2283,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-sweep/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2359,7 +2369,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/flaky-test-fixer/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2445,7 +2455,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/funnel-analyst/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2521,7 +2531,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/google-ads/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2607,7 +2617,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/inbox-triage/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2703,7 +2713,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/instantly-outreach/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2799,7 +2809,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/invoice-chaser/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2885,7 +2895,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kb-writer/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -2971,7 +2981,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/keyword-researcher/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3067,7 +3077,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3148,7 +3158,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/launch-captain/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3229,7 +3239,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/lead-router/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3315,7 +3325,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/link-builder/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3396,7 +3406,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/logging-coverage/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3472,7 +3482,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/meeting-notes/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3548,7 +3558,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/microcopy/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3629,7 +3639,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-coach/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3705,7 +3715,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-tester/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3781,7 +3791,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3857,7 +3867,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/pr-pitcher/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -3943,7 +3953,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/product-podcast/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4029,7 +4039,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/recruiter/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4115,7 +4125,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/reddit-radar/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4201,7 +4211,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/refund-chaser/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4287,7 +4297,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/release-notes/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4373,7 +4383,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/repo-janitor/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4444,7 +4454,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/research-assistant/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4515,7 +4525,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/revenue-digest/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4601,7 +4611,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/reviews-harvester/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4682,7 +4692,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4753,7 +4763,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/short-video/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4834,7 +4844,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/social-scheduler/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -4920,7 +4930,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/spend-tracker/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5006,7 +5016,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/standup-bot/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5087,7 +5097,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/status-comms/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5168,7 +5178,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/support-replies/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5249,7 +5259,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/test-writer/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5325,7 +5335,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/thumbnail-studio/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5401,7 +5411,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/ticket-to-pr/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5482,7 +5492,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/uptime-monitor/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5568,7 +5578,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/ux-reviewer/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5639,7 +5649,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/value-propagation/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5720,7 +5730,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/visual-regression/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5796,7 +5806,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/winback/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
@@ -5882,7 +5892,7 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/x-growth/evals/eve/evals.config.ts",
+          "path": "registry/_common/evals/eve/evals.config.ts",
           "target": "~/evals/evals.config.ts",
           "type": "registry:file"
         },
