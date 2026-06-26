@@ -9,3 +9,9 @@ fixtures/.tmp-*/
 .vercel
 public/index.json
 public/r/
+
+# Guard against accidental Eve/Flue installs into the repo root
+/agent/
+/evals/
+/atom-eve.json
+/tsconfig.json
