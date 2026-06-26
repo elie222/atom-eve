@@ -1,0 +1,12 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "perf-auditor",
+  "title": "Performance Auditor Agent",
+  "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
+  "category": "monitoring",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["browser"],
+  "connections": [],
+  "requiredEnv": []
+}

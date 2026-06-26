@@ -1,0 +1,13 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "buyer-voice",
+  "title": "Buyer Voice Agent",
+  "description": "Mines repeated buyer objections from call and ticket notes and drafts landing-page copy in customers' own words for operator approval.",
+  "category": "content",
+  "family": "growth",
+  "targets": ["eve", "flue"],
+  "integrations": ["fetch"],
+  "connections": [],
+  "requiredEnv": [],
+  "skills": [{ "ref": "coreyhaines31/marketingskills@copywriting" }]
+}

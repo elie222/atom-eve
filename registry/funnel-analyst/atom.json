@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "funnel-analyst",
+  "title": "Funnel Analyst Agent",
+  "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
+  "category": "analytics",
+  "family": "data",
+  "targets": ["eve", "flue"],
+  "integrations": ["posthog"],
+  "connections": [
+    {
+      "name": "posthog",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["POSTHOG_API_KEY", "POSTHOG_PROJECT_ID"]
+}

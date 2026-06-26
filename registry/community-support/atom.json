@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "community-support",
+  "title": "Community Support Agent",
+  "description": "Reads recent Discord channel messages and drafts doc-grounded answers for operator approval, escalating hard ones.",
+  "category": "community",
+  "family": "support",
+  "targets": ["eve", "flue"],
+  "integrations": ["discord"],
+  "connections": [
+    {
+      "name": "discord",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["DISCORD_BOT_TOKEN", "DISCORD_CHANNEL_ID"]
+}

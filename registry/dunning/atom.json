@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "dunning",
+  "title": "Dunning Agent",
+  "description": "Finds failed charges and expiring cards in Stripe and drafts a staged recovery email sequence for operator approval.",
+  "category": "finance",
+  "family": "revenue",
+  "targets": ["eve", "flue"],
+  "integrations": ["stripe"],
+  "connections": [
+    {
+      "name": "stripe",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["STRIPE_SECRET_KEY"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "crm-hygiene",
+  "title": "CRM Hygiene Agent",
+  "description": "Scans HubSpot contacts for duplicates, missing fields, and stale records and returns a cleanup report for approval.",
+  "category": "crm",
+  "family": "revenue",
+  "targets": ["eve", "flue"],
+  "integrations": ["hubspot"],
+  "connections": [
+    {
+      "name": "hubspot",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["HUBSPOT_ACCESS_TOKEN"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "experiment-analyst",
+  "title": "Experiment Analyst Agent",
+  "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
+  "category": "analytics",
+  "family": "data",
+  "targets": ["eve", "flue"],
+  "integrations": ["posthog"],
+  "connections": [
+    {
+      "name": "posthog",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["POSTHOG_API_KEY", "POSTHOG_PROJECT_ID"]
+}

@@ -1,0 +1,6 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom-eve.json",
+  "target": "eve",
+  "sourceRoot": "src",
+  "registry": "elie222/atom-eve"
+}

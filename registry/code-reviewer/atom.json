@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "code-reviewer",
+  "title": "Code Reviewer Agent",
+  "description": "Reviews open GitHub pull requests and drafts read-only review notes flagging correctness and simplification issues.",
+  "category": "code",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["github"],
+  "connections": [
+    {
+      "name": "github",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["GITHUB_TOKEN", "GITHUB_REPO"]
+}

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "revenue-digest",
+  "title": "Revenue Digest Agent",
+  "description": "Summarizes MRR, new/expansion/churn, and top accounts from Stripe into a weekly read-only digest.",
+  "category": "revops",
+  "family": "revenue",
+  "targets": ["eve", "flue"],
+  "integrations": ["stripe"],
+  "connections": [
+    {
+      "name": "stripe",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["STRIPE_SECRET_KEY"]
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "uptime-monitor",
+  "title": "Uptime Monitor Agent",
+  "description": "Checks operator-supplied endpoints for status, latency, and expected content, then returns a read-only health report.",
+  "category": "monitoring",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["fetch"],
+  "connections": [],
+  "requiredEnv": []
+}

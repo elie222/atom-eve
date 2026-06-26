@@ -1,0 +1,19 @@
+import { defineWorkflow } from "@flue/runtime";
+import agent from "../agents/revenue-digest.js";
+import { weeklyDigestPrompt } from "../lib/agents/revenue-digest/prompts.js";
+
+interface WorkflowContext {
+  harness: {
+    session(): Promise<{
+      prompt(message: string): Promise<unknown>;
+    }>;
+  };
+}
+
+export default defineWorkflow({
+  agent,
+  async run({ harness }: WorkflowContext) {
+    const session = await harness.session();
+    return session.prompt(weeklyDigestPrompt);
+  }
+});

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "dep-guardian",
+  "title": "Dependency Guardian Agent",
+  "description": "Reviews a repository's package.json dependencies from GitHub and flags outdated or risky packages in risk order.",
+  "category": "code",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["github"],
+  "connections": [
+    {
+      "name": "github",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["GITHUB_TOKEN", "GITHUB_REPO"]
+}

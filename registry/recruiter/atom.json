@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "recruiter",
+  "title": "Recruiter Agent",
+  "description": "Reviews new Ashby applicants, scores them against a role, shortlists the strongest, and drafts outreach for operator approval.",
+  "category": "hr",
+  "family": "ops",
+  "targets": ["eve", "flue"],
+  "integrations": ["ashby"],
+  "connections": [
+    {
+      "name": "ashby",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["ASHBY_API_KEY"]
+}
