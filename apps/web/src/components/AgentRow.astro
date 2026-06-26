@@ -1,0 +1,41 @@
+---
+import Glyph from "./Glyph.astro";
+import type { AgentCard } from "../lib/data";
+
+interface Props {
+  agent: AgentCard;
+}
+const { agent } = Astro.props;
+const c = agent.color;
+---
+
+<a
+  href={`/agents/${agent.name}/`}
+  class="agent-row agent-item group flex items-center gap-[14px] border-b border-edge px-[15px] py-[13px] transition-colors last:border-b-0 hover:bg-panel2"
+  style={`--famh:${c}66`}
+  data-family={agent.family}
+>
+  <div
+    class="flex h-8 w-8 flex-none items-center justify-center rounded-[7px]"
+    style={`background:${c}14;border:1px solid ${c}33`}
+  >
+    <Glyph glyph={agent.glyph} color={c} scale={4} />
+  </div>
+
+  <div class="flex min-w-0 flex-1 items-baseline gap-[10px]">
+    <span
+      class="flex-none text-[14.5px] font-semibold text-ink transition-colors group-hover:text-eve"
+    >
+      {agent.title}
+    </span>
+    <span class="flex-none font-pixel text-[8px] tracking-[0.01em]" style={`color:${c}`}>
+      {agent.categoryLabel.toUpperCase()}
+    </span>
+    <span class="min-w-0 flex-1 truncate text-[13px] text-muted">{agent.description}</span>
+  </div>
+
+  <span
+    class="flex-none font-mono text-[13px] text-dim opacity-0 transition-opacity group-hover:opacity-100"
+    aria-hidden="true">→</span
+  >
+</a>

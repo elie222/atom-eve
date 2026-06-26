@@ -12,7 +12,15 @@ import {
   variantsOf,
   type RegistryItem,
 } from "../../lib/data";
-import { catGlyph, famColor, highlightJson, prettify, REPO, targetLabel } from "../../lib/format";
+import {
+  catGlyph,
+  famColor,
+  highlightJson,
+  installCommand,
+  prettify,
+  REPO,
+  targetLabel,
+} from "../../lib/format";
 
 export function getStaticPaths() {
   const items = getItems();
@@ -119,11 +127,13 @@ const about: { k: string; v: string; accent?: boolean }[] = [
 
       <aside class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
-          <a
-            href="#install"
-            class="rounded-[7px] bg-eve px-4 py-[11px] text-center text-[13.5px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
-            >Deploy this agent</a
+          <button
+            type="button"
+            class="copy-btn w-full cursor-pointer rounded-[7px] border-none bg-eve px-4 py-[11px] text-center text-[13.5px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
+            data-cmd={installCommand(item.name)}
           >
+            Copy install command
+          </button>
           <a
             href={REPO}
             class="rounded-[7px] border border-edge px-4 py-[11px] text-center text-[13.5px] font-medium text-ink transition-colors hover:bg-panel2"
