@@ -3,7 +3,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { marked } from "marked";
-import { catGlyph, famColor, installCommand, prettify, targetLabel } from "./format";
+import { catGlyph, famColor, installCommand, prettify } from "./format";
 
 export interface RegistryItem {
   name: string;
@@ -81,7 +81,7 @@ export function toCard(item: RegistryItem): AgentCard {
     color: famColor(item.family),
     glyph: catGlyph(item.category),
     integrations: (item.integrations ?? []).map(prettify).join(" · "),
-    targets: (item.targets ?? []).map(targetLabel).join(" · "),
+    targets: (item.targets ?? []).join(" · "),
     memory: Boolean(item.memory),
     installCmd: installCommand(item.name),
   };
@@ -96,7 +96,56 @@ export function familyCounts(items: RegistryItem[]): Record<string, number> {
 export function getReadmeHtml(item: RegistryItem): string {
   const file = path.join(ROOT, item.repoPath, "README.md");
   const md = existsSync(file) ? readFileSync(file, "utf8") : `# ${item.title}\n\n${item.description}`;
-  return marked.parse(md, { async: false }) as string;
+  const pageMd = stripCatalogOnlySections(stripDuplicateTitle(md, item.title));
+  return marked.parse(pageMd, { async: false }) as string;
+}
+
+function stripDuplicateTitle(md: string, title: string): string {
+  const lines = md.split(/\r?\n/);
+  const firstContentIndex = lines.findIndex((line) => line.trim().length > 0);
+  if (firstContentIndex < 0) return md;
+
+  const heading = lines[firstContentIndex].trim().match(/^#\s+(.+?)\s*$/);
+  if (!heading) return md;
+
+  if (normalizeHeading(heading[1]) !== normalizeHeading(title)) return md;
+
+  lines.splice(firstContentIndex, 1);
+  if (lines[firstContentIndex]?.trim() === "") lines.splice(firstContentIndex, 1);
+  return lines.join("\n").trimStart();
+}
+
+function stripCatalogOnlySections(md: string): string {
+  const skip = new Set(["supported targets", "install"]);
+  const lines = md.split(/\r?\n/);
+  const kept: string[] = [];
+  let skippingLevel: number | null = null;
+
+  for (const line of lines) {
+    const heading = line.match(/^(#{1,6})\s+(.+?)\s*$/);
+    if (heading && skippingLevel !== null && heading[1].length <= skippingLevel) {
+      skippingLevel = null;
+    }
+
+    if (skippingLevel !== null) continue;
+
+    if (heading && heading[1].length === 2 && skip.has(normalizeHeading(heading[2]))) {
+      skippingLevel = heading[1].length;
+      continue;
+    }
+
+    kept.push(line);
+  }
+
+  return kept.join("\n").trim();
+}
+
+function normalizeHeading(value: string): string {
+  return value
+    .replace(/[`*_~[\]()]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
 }
 
 /* Other community builds of the same task — grouped by category. */
