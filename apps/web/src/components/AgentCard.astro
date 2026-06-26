@@ -17,16 +17,11 @@ const c = agent.color;
 >
   <div class="h-[4px]" style={`background:${c};box-shadow:0 0 10px ${c}66`}></div>
   <div class="flex flex-1 flex-col gap-[10px] p-4">
-    <div class="flex items-center gap-[10px]">
-      <div
-        class="flex h-[34px] w-[34px] flex-none items-center justify-center"
-        style={`background:${c}18;border:2px solid ${c}40`}
-      >
-        <Glyph glyph={agent.glyph} color={c} scale={4} />
-      </div>
-      <div class="font-pixel text-[8.5px] leading-[1.5] tracking-[0.01em]" style={`color:${c}`}>
-        {agent.categoryLabel.toUpperCase()}
-      </div>
+    <div
+      class="flex h-[34px] w-[34px] flex-none items-center justify-center"
+      style={`background:${c}18;border:2px solid ${c}40`}
+    >
+      <Glyph glyph={agent.glyph} color={c} scale={4} />
     </div>
 
     <div class="text-[15px] font-semibold leading-[1.3] text-ink transition-colors group-hover:text-cyan">
@@ -34,14 +29,8 @@ const c = agent.color;
     </div>
     <div class="line-clamp-2 text-[13.5px] leading-[1.45] text-ink2">{agent.description}</div>
 
-    {
-      agent.integrations && (
-        <div class="font-mono text-[11px] leading-[1.4] text-muted2">{agent.integrations}</div>
-      )
-    }
-
     <div class="mt-auto flex items-center justify-end pt-[5px]">
-      <span class="font-pixel text-[8px] tracking-[0.04em]" style={`color:${c}`}>VIEW →</span>
+      <span class="font-pixel text-[8px] tracking-[0.04em] text-muted2 transition-colors group-hover:text-ink">VIEW →</span>
     </div>
   </div>
 </a>
