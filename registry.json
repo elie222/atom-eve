@@ -238,6 +238,67 @@
       ]
     },
     {
+      "name": "eve/error-triage",
+      "type": "registry:block",
+      "title": "Error Triage Agent (eve)",
+      "description": "Reviews recent production errors, groups regressions, and proposes read-only TDD fix plans.",
+      "files": [
+        {
+          "path": "registry/error-triage/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/shared/lib/sentry.ts",
+          "target": "~/agent/lib/sentry.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/targets/eve/tools/review_errors.ts",
+          "target": "~/agent/tools/review_errors.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/error-triage",
+      "type": "registry:block",
+      "title": "Error Triage Agent (flue)",
+      "description": "Reviews recent production errors, groups regressions, and proposes read-only TDD fix plans.",
+      "files": [
+        {
+          "path": "registry/error-triage/targets/flue/agent.ts",
+          "target": "~/src/agents/error-triage.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/shared/lib/sentry.ts",
+          "target": "~/src/lib/agents/error-triage/sentry.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/targets/flue/tools/sentry.ts",
+          "target": "~/src/tools/error-triage/sentry.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/error-triage-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent (eve)",
