@@ -4,23 +4,8 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glyph from "../../components/Glyph.astro";
 import InstallBox from "../../components/InstallBox.tsx";
-import ContentTabs from "../../components/ContentTabs.tsx";
-import {
-  getItems,
-  getReadmeHtml,
-  getManifest,
-  variantsOf,
-  type RegistryItem,
-} from "../../lib/data";
-import {
-  catGlyph,
-  famColor,
-  highlightJson,
-  installCommand,
-  prettify,
-  REPO,
-  targetLabel,
-} from "../../lib/format";
+import { getItems, getReadmeHtml, variantsOf, type RegistryItem } from "../../lib/data";
+import { catGlyph, famColor, prettify, REPO, targetLabel } from "../../lib/format";
 
 export function getStaticPaths() {
   const items = getItems();
@@ -29,7 +14,6 @@ export function getStaticPaths() {
     props: {
       item,
       readmeHtml: getReadmeHtml(item),
-      manifestHtml: highlightJson(getManifest(item)),
       variants: variantsOf(item, items).map((v) => ({
         name: v.name,
         description: v.description,
@@ -42,11 +26,10 @@ export function getStaticPaths() {
 interface Props {
   item: RegistryItem;
   readmeHtml: string;
-  manifestHtml: string;
   variants: { name: string; description: string; version: string }[];
 }
 
-const { item, readmeHtml, manifestHtml, variants } = Astro.props as Props;
+const { item, readmeHtml, variants } = Astro.props as Props;
 
 const color = famColor(item.family);
 const glyph = catGlyph(item.category);
@@ -158,7 +141,7 @@ const about: { k: string; v: string; accent?: boolean }[] = [
 
     <!-- content + sidebar -->
     <div class="detail-grid mt-[34px] grid grid-cols-[1fr_318px] items-start gap-9 max-md:grid-cols-1">
-      <ContentTabs client:load readmeHtml={readmeHtml} manifestHtml={manifestHtml} />
+      <div class="md min-w-0" set:html={readmeHtml} />
 
       <aside class="flex flex-col gap-4">
         <a

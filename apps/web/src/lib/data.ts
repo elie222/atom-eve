@@ -99,21 +99,6 @@ export function getReadmeHtml(item: RegistryItem): string {
   return marked.parse(md, { async: false }) as string;
 }
 
-export function getManifest(item: RegistryItem): Record<string, unknown> {
-  return {
-    name: item.title,
-    category: `${item.family}/${item.category}`,
-    description: item.description,
-    integrations: item.integrations ?? [],
-    memory: Boolean(item.memory),
-    scheduled: Boolean(item.scheduled),
-    version: item.version,
-    requiredEnv: item.requiredEnv ?? [],
-    frameworks: (item.targets ?? []).map(targetLabel),
-    repoPath: item.repoPath,
-  };
-}
-
 /* Other community builds of the same task — grouped by category. */
 export function variantsOf(item: RegistryItem, items: RegistryItem[]): RegistryItem[] {
   return items.filter((it) => it.category === item.category && it.name !== item.name);
