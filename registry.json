@@ -131,6 +131,62 @@
       ]
     },
     {
+      "name": "eve/competitor-analysis",
+      "type": "registry:block",
+      "title": "Competitor Analysis Agent (eve)",
+      "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+      "files": [
+        {
+          "path": "registry/competitor-analysis/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/competitor-analysis",
+      "type": "registry:block",
+      "title": "Competitor Analysis Agent (flue)",
+      "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+      "files": [
+        {
+          "path": "registry/competitor-analysis/targets/flue/agent.ts",
+          "target": "~/src/agents/competitor-analysis.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/competitor-analysis/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/competitor-analysis-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/error-triage",
       "type": "registry:block",
       "title": "Error Triage Agent (eve)",
