@@ -1,5 +1,7 @@
 # Atom Eve
 
+![Atom Eve registry preview](apps/web/public/atom-eve-og.png)
+
 **Installable AI agents for Eve and Flue projects.**
 
 Atom Eve is an open-source, shadcn-style registry of real agent source code. Browse an agent, install it into your own repo, add your credentials, and run it on [Eve](https://eve.dev) or [Flue](https://flueframework.com/).
@@ -61,6 +63,8 @@ For Flue deployment context:
 npx atom-eve add facebook-ads --target flue --runtime cloudflare
 npx atom-eve add facebook-ads --target flue --runtime node
 ```
+
+![Atom Eve install flow](apps/web/public/atom-eve-install.png)
 
 The CLI writes `atom-eve.json` to remember project defaults. When it can safely detect your framework, it uses that. When it cannot, it asks for `--target eve` or `--target flue`.
 
