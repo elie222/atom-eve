@@ -99,6 +99,21 @@
           "path": "registry/facebook-ads/targets/eve/schedules/daily.ts",
           "target": "~/agent/schedules/daily.ts",
           "type": "registry:file"
+        },
+        {
+          "path": "registry/facebook-ads/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/facebook-ads/evals/eve/facebook-ads/smoke.eval.ts",
+          "target": "~/evals/facebook-ads/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/facebook-ads/evals/eve/shared/facebook-ads-smoke.ts",
+          "target": "~/evals/shared/facebook-ads-smoke.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -894,6 +909,21 @@
           "path": "registry/competitor-analysis/targets/eve/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/evals/eve/competitor-analysis/smoke.eval.ts",
+          "target": "~/evals/competitor-analysis/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/competitor-analysis/evals/eve/shared/competitor-analysis-smoke.ts",
+          "target": "~/evals/shared/competitor-analysis-smoke.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -944,6 +974,21 @@
         {
           "path": "registry/content-ideation/targets/eve/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/evals/eve/content-ideation/smoke.eval.ts",
+          "target": "~/evals/content-ideation/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/evals/eve/shared/content-ideation-smoke.ts",
+          "target": "~/evals/shared/content-ideation-smoke.ts",
           "type": "registry:file"
         }
       ]
@@ -1992,6 +2037,21 @@
         {
           "path": "registry/error-triage/targets/eve/schedules/daily.ts",
           "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/evals/eve/error-triage/smoke.eval.ts",
+          "target": "~/evals/error-triage/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/evals/eve/shared/error-triage-smoke.ts",
+          "target": "~/evals/shared/error-triage-smoke.ts",
           "type": "registry:file"
         }
       ]
@@ -4649,6 +4709,21 @@
         {
           "path": "registry/seo-audit/targets/eve/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/evals/eve/seo-audit/smoke.eval.ts",
+          "target": "~/evals/seo-audit/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/evals/eve/shared/seo-audit-smoke.ts",
+          "target": "~/evals/shared/seo-audit-smoke.ts",
           "type": "registry:file"
         }
       ]
