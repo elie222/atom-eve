@@ -1,6 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { createInstallFileSpecs, type InstallFileSpec } from "@atom-eve/install-map";
+import { readLocalInstallFiles, walk, type InstallFileSpec } from "@atom-eve/install-map";
 import {
   atomSchema,
   catalogConfigSchema,
@@ -122,6 +122,7 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
     validateTaxonomy(parsed, taxonomy);
     await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
     const repoPath = `registry/${entry.name}`;
+    await validateTriggerPromptSources(path.join(registryDir, entry.name), parsed.name);
     manifests.push({
       ...parsed,
       repoPath,
@@ -133,7 +134,7 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
 }
 
 export async function createRegistryItem(rootDir: string, manifest: RegistryManifest, target: Target): Promise<RegistryItem> {
-  const files = await mapFiles(rootDir, manifest, target);
+  const files = await readLocalInstallFiles(rootDir, manifest, target);
   return {
     name: `${target}/${manifest.name}`,
     type: "registry:block",
@@ -154,53 +155,6 @@ export async function createRegistryItem(rootDir: string, manifest: RegistryMani
 
 function dependenciesForTarget(manifest: RegistryManifest, target: Target): string[] {
   return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies[target] ?? [])])].sort();
-}
-
-export async function mapFiles(rootDir: string, manifest: RegistryManifest, target: Target): Promise<ResolvedRegistryFile[]> {
-  const specs = await createInstallFileSpecs(manifest, target, {
-    hasFile: async (source) => Boolean(await optionalFile(rootDir, manifest, source)),
-    discoverFiles: (sourceDir) => discoverFiles(rootDir, manifest, sourceDir)
-  });
-
-  return Promise.all(
-    specs.map(async (file) => ({
-      ...file,
-      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
-    }))
-  );
-}
-
-async function optionalFile(rootDir: string, manifest: RegistryManifest, source: string): Promise<string | undefined> {
-  const abs = path.join(rootDir, manifest.repoPath, source);
-  try {
-    const stat = await fs.stat(abs);
-    return stat.isFile() ? source : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-async function discoverFiles(rootDir: string, manifest: RegistryManifest, sourceDir: string): Promise<string[]> {
-  const abs = path.join(rootDir, manifest.repoPath, sourceDir);
-  const files = await walk(abs).catch(() => []);
-  return files
-    .map((file) => toPosixPath(path.relative(path.join(rootDir, manifest.repoPath), file)))
-    .sort((a, b) => a.localeCompare(b));
-}
-
-function toPosixPath(filePath: string): string {
-  return filePath.split(path.sep).join(path.posix.sep);
-}
-
-async function walk(dir: string): Promise<string[]> {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  const files: string[] = [];
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) files.push(...(await walk(full)));
-    else files.push(full);
-  }
-  return files;
 }
 
 async function readTaxonomy(rootDir: string): Promise<Taxonomy> {
@@ -233,6 +187,21 @@ async function validateReadme(readmePath: string, agentName: string) {
   for (const section of requiredSections) {
     const pattern = new RegExp(`^##\\s+${escapeRegExp(section)}\\s*$`, "im");
     if (!pattern.test(content)) throw new Error(`${agentName} README.md is missing "## ${section}"`);
+  }
+}
+
+async function validateTriggerPromptSources(agentDir: string, agentName: string) {
+  const triggerDirs = ["targets/eve/schedules", "targets/flue/workflows"];
+  for (const triggerDir of triggerDirs) {
+    const files = await walk(path.join(agentDir, triggerDir)).catch(() => []);
+    for (const file of files) {
+      if (!file.endsWith(".ts")) continue;
+      const content = await fs.readFile(file, "utf8");
+      if (/markdown:\s*["`]/.test(content) || /session\.prompt\(\s*["`]/.test(content)) {
+        const rel = path.relative(agentDir, file);
+        throw new Error(`${agentName} ${rel} must import trigger prompt text from shared/lib/prompts.ts`);
+      }
+    }
   }
 }
 

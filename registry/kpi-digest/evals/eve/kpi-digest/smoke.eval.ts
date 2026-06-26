@@ -14,7 +14,7 @@ export default defineEval({
   async test(t) {
     await t.send(kpiDigestSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_revenue");
     t.calledTool("bash", { input: { command: posthogCliCommandPattern } });

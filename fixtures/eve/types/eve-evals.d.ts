@@ -16,7 +16,7 @@ declare module "eve/evals" {
     readonly events: readonly unknown[];
     readonly signal: AbortSignal;
     send(input: string | Record<string, unknown>): Promise<EveEvalTurn>;
-    completed(): EveEvalAssertionHandle;
+    succeeded(): EveEvalAssertionHandle;
     didNotFail(): EveEvalAssertionHandle;
     waiting(): EveEvalAssertionHandle;
     messageIncludes(token: string | RegExp): EveEvalAssertionHandle;

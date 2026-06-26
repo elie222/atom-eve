@@ -14,7 +14,7 @@ export default defineEval({
   async test(t) {
     await t.send(perfAuditorSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("bash", { input: { command: agentBrowserCommandPattern } });
     t.check(t.reply, includes("example.com"));

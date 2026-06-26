@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(kbWriterSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_tickets");
     t.check(t.reply, includes("Intercom"));

@@ -12,7 +12,7 @@ export default defineEval({
   async test(t) {
     await t.send(socialSchedulerSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_queue");
     t.check(t.reply, includes("plan"));

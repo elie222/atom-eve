@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(redditRadarSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.calledTool(redditRadarToolName);
     t.check(t.reply, includes("Reddit"));
     t.messageIncludes(draftApprovalPattern);

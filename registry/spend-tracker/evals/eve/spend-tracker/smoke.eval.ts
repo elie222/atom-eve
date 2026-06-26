@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(spendTrackerSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_spend");
     t.check(t.reply, includes("spend"));

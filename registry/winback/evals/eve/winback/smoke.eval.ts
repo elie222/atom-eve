@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(winbackSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_churn");
     t.check(t.reply, includes("Stripe"));

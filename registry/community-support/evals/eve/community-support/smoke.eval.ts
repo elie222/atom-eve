@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(communitySupportSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_messages");
     t.check(t.reply, includes("Discord"));

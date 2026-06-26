@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(supportRepliesSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_conversations");
     t.check(t.reply, includes("Intercom"));

@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(flakyTestFixerSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_ci_runs");
     t.check(t.reply, includes("flak"));

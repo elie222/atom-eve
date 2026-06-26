@@ -9,7 +9,7 @@ export default defineEval({
   async test(t) {
     await t.send(backupVerifierSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("plan_restore_check");
     t.check(t.reply, includes("restore"));

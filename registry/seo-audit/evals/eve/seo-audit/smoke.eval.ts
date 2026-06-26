@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(seoAuditSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("bash");
     t.check(t.reply, includes(expectedReplyToken));

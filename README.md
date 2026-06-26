@@ -85,16 +85,16 @@ npx atom-eve create facebook-ads --target eve --agent facebook-ads
 
 The CLI writes `atom-eve.json` to remember project defaults. When it can safely detect your framework, it uses that. When it cannot, it asks for `--target eve` or `--target flue`.
 
-### Manual Shadcn Fallback
+### Local Checkout Fallback
 
-Atom Eve stays compatible with shadcn registry installs. The CLI mostly resolves the target and calls shadcn for you.
+If you are developing the registry locally or need to bypass the public GitHub source, install from a checkout path:
 
 ```bash
-npx shadcn@latest add elie222/atom-eve/eve/facebook-ads
-npx shadcn@latest add elie222/atom-eve/flue/facebook-ads
+npx atom-eve add /path/to/atom-eve/registry/facebook-ads --target eve
+npx atom-eve add /path/to/atom-eve/registry/facebook-ads --target flue
 ```
 
-Use the raw shadcn command when debugging registry output or when you want to bypass the Atom Eve resolver.
+This uses the same install map as public registry installs, but reads the source files directly from disk.
 
 ## Eve And Flue Are New
 

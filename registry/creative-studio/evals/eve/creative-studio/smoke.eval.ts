@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(creativeStudioSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool(generateCreativeToolName);
     t.check(t.reply, includes("draft"));

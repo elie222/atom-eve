@@ -15,13 +15,15 @@ If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, 
 1. **Detect or pick a target.** Atom Eve installs into an `eve.dev` or `flue` project.
    - An `eve.dev` project has an `agent/` directory.
    - A `flue` project has a `flue.config.ts` (or `.js`).
-   - If neither exists, scaffold one with `npx atom-eve init` (see below).
+   - If neither exists, scaffold a complete app with `npx atom-eve create <name> --target eve --agent <agent>` (or `--target flue`).
 2. **Find the right agents.** Match the user's goal to agents in the registry
    (see "Browse" below). Prefer agents whose `family`/`category` fit the job.
-3. **Install each agent** with `npx atom-eve add <agent>`.
-4. **Wire up keys.** After install, copy `.env.example` to `.env` and fill the keys each
-   agent declares in its `atom.json` `requiredEnv`. Never invent secret values — ask the user.
-5. **Run it.** For eve.dev: `eve dev`. For flue: follow the flue project's run script.
+3. **Install each agent.** For a new app, use `npx atom-eve create <name> --target eve --agent <agent>`.
+   For an existing Eve or Flue app, use `npx atom-eve add <agent> --target <target>`.
+4. **Wire up keys.** Check the agent page or `https://atomeve.dev/index.json` for `requiredEnv`.
+   Never invent secret values — ask the user. On Eve, set integration secrets as Vercel project env vars.
+5. **Run it.** For eve.dev: link Vercel with `vercel link`, pull env with `vercel env pull`, then run `npx eve dev`.
+   For flue: follow the flue project's run script.
 
 Agents never auto-publish or take destructive actions on their own — they open PRs or post
 drafts for review. Keep that behavior intact when wiring them in.
@@ -31,13 +33,13 @@ drafts for review. Keep that behavior intact when wiring them in.
 ## CLI
 
 ```bash
-# Scaffold a new project (asks for eve or flue, writes atom-eve.json)
-npx atom-eve init
+# Scaffold a new Eve app and install an agent
+npx atom-eve create my-agent --target eve --agent website-qa
 
-# Add an agent from the registry
-npx atom-eve add seo-audit
+# Scaffold a new Flue app and install an agent
+npx atom-eve create seo-agent --target flue --agent seo-audit
 
-# Pin the target explicitly
+# Add an agent to an existing project
 npx atom-eve add website-qa --target eve
 npx atom-eve add facebook-ads --target flue
 
@@ -45,8 +47,8 @@ npx atom-eve add facebook-ads --target flue
 npx atom-eve list
 ```
 
-`init` accepts `--target eve|flue` and `--runtime node|cloudflare|vercel`. If you don't pass
-`--target`, the CLI detects it from the project or prompts for it.
+`create` delegates to the framework scaffolder, installs the selected agent, and writes `atom-eve.json`.
+`init` still exists for advanced/manual setups, but `create` is the first-time happy path.
 
 ---
 

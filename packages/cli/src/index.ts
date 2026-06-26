@@ -4,7 +4,7 @@ import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { createInterface } from "node:readline/promises";
-import { createInstallFileSpecs, type InstallManifest, type Target } from "@atom-eve/install-map";
+import { createInstallFileSpecs, readLocalInstallFiles, type InstallManifest, type Target } from "@atom-eve/install-map";
 
 type Runtime = "vercel" | "node" | "cloudflare";
 
@@ -24,11 +24,6 @@ interface AtomManifest extends InstallManifest {
   dependencies: string[];
   targetDependencies: Partial<Record<Target, string[]>>;
   skills: RemoteSkillRef[];
-}
-
-interface InstallFile {
-  target: string;
-  content: string;
 }
 
 interface Args {
@@ -72,7 +67,10 @@ async function main() {
 
   if (command === "add") {
     const agent = args._[1];
-    if (!agent) throw new Error("Usage: atom-eve add <agent>");
+    if (!agent || isHelpFlag(agent)) {
+      printAddHelp();
+      return;
+    }
     await add(agent, args);
     return;
   }
@@ -207,24 +205,7 @@ async function add(agent: string, args: Args) {
     return;
   }
 
-  const item = `${config.registry}/${target}/${agent}`;
-  const result = spawnSync("npx", ["shadcn@latest", "add", item], {
-    cwd,
-    stdio: "inherit",
-    shell: false
-  });
-
-  if (result.status !== 0) {
-    throw new Error(
-      [
-        `shadcn add failed for ${item}.`,
-        `Make sure ${config.registry} is public and exposes registry.json at the repository root, or install from a local registry checkout:`,
-        `  atom-eve add /path/to/atom-eve/registry/${agent} --target ${target}`
-      ].join("\n")
-    );
-  }
-
-  await installRemoteSkills(await remoteSkillsForAgent(agent, config), target);
+  await installRemoteAgent(agent, target, config);
 }
 
 async function installLocalAgent(agentDir: string, target: Target, config: AtomEveConfig) {
@@ -233,11 +214,32 @@ async function installLocalAgent(agentDir: string, target: Target, config: AtomE
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
   if (!manifest.targets.includes(target)) throw new Error(`${manifest.name} does not support ${target}`);
 
-  const files = await mapFiles(rootDir, manifest, target);
+  const files = await readLocalInstallFiles(rootDir, manifest, target);
   for (const file of files) {
     const destination = resolveInstallTarget(file.target, config);
     await fs.mkdir(path.dirname(destination), { recursive: true });
     await fs.writeFile(destination, file.content);
+    console.log(`installed ${path.relative(cwd, destination)}`);
+  }
+
+  await installPackageDependencies(dependenciesForTarget(manifest, target));
+  await installRemoteSkills(manifest.skills, target);
+}
+
+async function installRemoteAgent(agent: string, target: Target, config: AtomEveConfig) {
+  const repoPath = `registry/${agent}`;
+  const manifest = validateManifest(await fetchGitHubJson(config, `${repoPath}/atom.json`), repoPath);
+  if (!manifest.targets.includes(target)) throw new Error(`${manifest.name} does not support ${target}`);
+
+  const files = await createInstallFileSpecs(manifest, target, {
+    hasFile: async (source) => remoteFileExists(config, `${repoPath}/${source}`),
+    discoverFiles: async (sourceDir) => discoverRemoteFiles(config, repoPath, sourceDir)
+  });
+
+  for (const file of files) {
+    const destination = resolveInstallTarget(file.target, config);
+    await fs.mkdir(path.dirname(destination), { recursive: true });
+    await fs.writeFile(destination, await fetchGitHubRaw(config, file.path));
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
 
@@ -428,51 +430,8 @@ async function promptForTarget(): Promise<Target> {
   }
 }
 
-async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target): Promise<InstallFile[]> {
-  const specs = await createInstallFileSpecs(manifest, target, {
-    hasFile: async (source) => Boolean(await optionalFile(rootDir, manifest, source)),
-    discoverFiles: (sourceDir) => discoverFiles(rootDir, manifest, sourceDir)
-  });
-
-  return Promise.all(
-    specs.map(async (file) => ({
-      target: file.target,
-      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
-    }))
-  );
-}
-
-async function optionalFile(rootDir: string, manifest: AtomManifest, source: string): Promise<string | undefined> {
-  const abs = path.join(rootDir, manifest.repoPath, source);
-  try {
-    const stat = await fs.stat(abs);
-    return stat.isFile() ? source : undefined;
-  } catch {
-    return undefined;
-  }
-}
-
-async function discoverFiles(rootDir: string, manifest: AtomManifest, sourceDir: string): Promise<string[]> {
-  const abs = path.join(rootDir, manifest.repoPath, sourceDir);
-  const files = await walk(abs).catch(() => []);
-  return files
-    .map((file) => toPosixPath(path.relative(path.join(rootDir, manifest.repoPath), file)))
-    .sort((a, b) => a.localeCompare(b));
-}
-
 function toPosixPath(filePath: string): string {
   return filePath.split(path.sep).join(path.posix.sep);
-}
-
-async function walk(dir: string): Promise<string[]> {
-  const entries = await fs.readdir(dir, { withFileTypes: true });
-  const files: string[] = [];
-  for (const entry of entries) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) files.push(...(await walk(full)));
-    else files.push(full);
-  }
-  return files;
 }
 
 function parseTarget(value: unknown): Target {
@@ -483,6 +442,10 @@ function parseTarget(value: unknown): Target {
 function parseRuntime(value: unknown): Runtime {
   if (value === "vercel" || value === "node" || value === "cloudflare") return value;
   throw new Error(`Invalid runtime: ${String(value)}. Expected vercel, node, or cloudflare.`);
+}
+
+function isHelpFlag(value: unknown): boolean {
+  return value === "help" || value === "--help" || value === "-h";
 }
 
 function validateConfig(value: unknown): AtomEveConfig {
@@ -573,20 +536,6 @@ function splitSkillRef(ref: string): { repo: string; skill?: string } {
   return { repo: ref.slice(0, at), skill: ref.slice(at + 1) };
 }
 
-// Best-effort lookup of an agent's declared remote skills for the shadcn install path,
-// where we never read the local atom.json. Reads it from the GitHub registry instead.
-async function remoteSkillsForAgent(agent: string, config: AtomEveConfig): Promise<RemoteSkillRef[]> {
-  const url = `https://raw.githubusercontent.com/${config.registry}/HEAD/registry/${agent}/atom.json`;
-  try {
-    const response = await fetch(url, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(5000) });
-    if (!response.ok) return [];
-    const data = (await response.json()) as { skills?: unknown };
-    return parseSkillRefs(data.skills);
-  } catch {
-    return [];
-  }
-}
-
 function detectTarget(): Target | undefined {
   try {
     const names = new Set(requireLikeReadDir(cwd));
@@ -625,6 +574,83 @@ function findUp(start: string, name: string): string | undefined {
   return undefined;
 }
 
+async function remoteFileExists(config: AtomEveConfig, repoFilePath: string): Promise<boolean> {
+  const response = await fetch(gitHubContentsUrl(config, repoFilePath), {
+    headers: { accept: "application/vnd.github+json" },
+    signal: AbortSignal.timeout(5000)
+  });
+  if (response.status === 404) return false;
+  if (!response.ok) throw new Error(`Could not read ${repoFilePath} from ${config.registry}: HTTP ${response.status}`);
+  const data = (await response.json()) as GitHubContentEntry | GitHubContentEntry[];
+  return !Array.isArray(data) && data.type === "file";
+}
+
+async function discoverRemoteFiles(config: AtomEveConfig, repoPath: string, sourceDir: string): Promise<string[]> {
+  const root = `${repoPath}/${sourceDir}`;
+  const response = await fetch(gitHubContentsUrl(config, root), {
+    headers: { accept: "application/vnd.github+json" },
+    signal: AbortSignal.timeout(5000)
+  });
+  if (response.status === 404) return [];
+  if (!response.ok) throw new Error(`Could not list ${root} from ${config.registry}: HTTP ${response.status}`);
+
+  const data = (await response.json()) as GitHubContentEntry | GitHubContentEntry[];
+  if (!Array.isArray(data)) return data.type === "file" ? [toPosixPath(path.posix.relative(repoPath, data.path))] : [];
+
+  const files: string[] = [];
+  for (const entry of data) {
+    if (entry.type === "file") {
+      files.push(toPosixPath(path.posix.relative(repoPath, entry.path)));
+    } else if (entry.type === "dir") {
+      files.push(...(await discoverRemoteFiles(config, repoPath, path.posix.relative(repoPath, entry.path))));
+    }
+  }
+  return files.sort((a, b) => a.localeCompare(b));
+}
+
+async function fetchGitHubJson(config: AtomEveConfig, repoFilePath: string): Promise<unknown> {
+  const response = await fetch(rawGitHubUrl(config, repoFilePath), {
+    headers: { accept: "application/json" },
+    signal: AbortSignal.timeout(10000)
+  });
+  if (!response.ok) throw new Error(`Could not fetch ${repoFilePath} from ${config.registry}: HTTP ${response.status}`);
+  return response.json();
+}
+
+async function fetchGitHubRaw(config: AtomEveConfig, repoFilePath: string): Promise<string> {
+  const response = await fetch(rawGitHubUrl(config, repoFilePath), {
+    headers: { accept: "text/plain" },
+    signal: AbortSignal.timeout(10000)
+  });
+  if (!response.ok) throw new Error(`Could not fetch ${repoFilePath} from ${config.registry}: HTTP ${response.status}`);
+  return response.text();
+}
+
+interface GitHubContentEntry {
+  path: string;
+  type: "file" | "dir" | string;
+}
+
+function gitHubContentsUrl(config: AtomEveConfig, repoFilePath: string): string {
+  assertGitHubRegistry(config.registry);
+  return `https://api.github.com/repos/${config.registry}/contents/${encodeGitHubPath(repoFilePath)}`;
+}
+
+function rawGitHubUrl(config: AtomEveConfig, repoFilePath: string): string {
+  assertGitHubRegistry(config.registry);
+  return `https://raw.githubusercontent.com/${config.registry}/HEAD/${encodeGitHubPath(repoFilePath)}`;
+}
+
+function assertGitHubRegistry(registry: string) {
+  if (!/^[^/\s]+\/[^/\s]+$/.test(registry)) {
+    throw new Error(`Remote installs require a GitHub registry in owner/repo form. Got: ${registry}`);
+  }
+}
+
+function encodeGitHubPath(repoFilePath: string): string {
+  return repoFilePath.split("/").map(encodeURIComponent).join("/");
+}
+
 function printHelp() {
   console.log(`atom-eve
 
@@ -643,5 +669,18 @@ Commands:
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
 VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_SECRET_KEY)
 are set as Vercel project env vars. For Flue, set env vars per its docs.
+`);
+}
+
+function printAddHelp() {
+  console.log(`atom-eve add
+
+Usage:
+  atom-eve add <agent> [--target eve|flue] [--runtime node|cloudflare|vercel]
+  atom-eve add ./registry/<agent> --target eve|flue
+
+Examples:
+  atom-eve add website-qa --target eve
+  atom-eve add facebook-ads --target flue
 `);
 }

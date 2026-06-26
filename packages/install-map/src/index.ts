@@ -1,3 +1,4 @@
+import { promises as fs } from "node:fs";
 import path from "node:path";
 
 export type Target = "eve" | "flue";
@@ -12,6 +13,10 @@ export interface InstallFileSpec {
   path: string;
   target: string;
   type: "registry:file";
+}
+
+export interface ResolvedInstallFileSpec extends InstallFileSpec {
+  content: string;
 }
 
 export interface InstallSourceReader {
@@ -29,12 +34,15 @@ export async function createInstallFileSpecs(
   }
 
   const files: InstallFileSpec[] = [];
-  const add = (source: string, destination: string) => {
+  const addPath = (sourcePath: string, destination: string) => {
     files.push({
-      path: `${manifest.repoPath}/${source}`,
+      path: sourcePath,
       target: destination,
       type: "registry:file"
     });
+  };
+  const add = (source: string, destination: string) => {
+    addPath(`${manifest.repoPath}/${source}`, destination);
   };
 
   const optionalFile = async (source: string): Promise<string | undefined> =>
@@ -65,7 +73,8 @@ export async function createInstallFileSpecs(
       add(skill, `${base}/skills/${path.posix.basename(skill)}`);
     }
     for (const lib of await sourceReader.discoverFiles("shared/lib")) {
-      add(lib, `${base}/lib/${path.posix.basename(lib)}`);
+      const relInside = path.posix.relative("shared/lib", lib);
+      add(lib, `${base}/lib/${relInside}`);
     }
     await addTree("targets/eve/lib", `${base}/lib`);
     add(await requiredFile("targets/eve/agent.ts"), `${base}/agent.ts`);
@@ -73,7 +82,14 @@ export async function createInstallFileSpecs(
     await addTree("targets/eve/connections", `${base}/connections`);
     await addTree("targets/eve/sandbox", `${base}/sandbox`);
     await addTree("targets/eve/schedules", "~/agent/schedules");
-    await addTree("evals/eve", "~/evals");
+    const evalFiles = await sourceReader.discoverFiles("evals/eve");
+    if (evalFiles.length > 0 && !evalFiles.includes("evals/eve/evals.config.ts")) {
+      addPath("registry/_common/evals/eve/evals.config.ts", "~/evals/evals.config.ts");
+    }
+    for (const source of evalFiles) {
+      const relInside = path.posix.relative("evals/eve", source);
+      add(source, `~/evals/${relInside}`);
+    }
     return files;
   }
 
@@ -84,7 +100,8 @@ export async function createInstallFileSpecs(
     add(skill, `~/${sourceRoot}/skills/${manifest.name}-${name}/SKILL.md`);
   }
   for (const lib of await sourceReader.discoverFiles("shared/lib")) {
-    add(lib, `~/${sourceRoot}/lib/agents/${manifest.name}/${path.posix.basename(lib)}`);
+    const relInside = path.posix.relative("shared/lib", lib);
+    add(lib, `~/${sourceRoot}/lib/agents/${manifest.name}/${relInside}`);
   }
   await addTree("targets/flue/lib", `~/${sourceRoot}/lib/agents/${manifest.name}`);
   await addTree("targets/flue/tools", `~/${sourceRoot}/tools/${manifest.name}`);
@@ -93,5 +110,63 @@ export async function createInstallFileSpecs(
     const stem = destination.slice(0, -ext.length);
     add(source, `${stem.replace(/\/([^/]+)$/, `/${manifest.name}-$1`)}${ext}`);
   });
+  return files;
+}
+
+function createLocalSourceReader(rootDir: string, manifest: Pick<InstallManifest, "repoPath">): InstallSourceReader {
+  return {
+    hasFile: async (source) => Boolean(await optionalFile(rootDir, manifest, source)),
+    discoverFiles: (sourceDir) => discoverFiles(rootDir, manifest, sourceDir)
+  };
+}
+
+export async function readLocalInstallFiles(
+  rootDir: string,
+  manifest: InstallManifest,
+  target: Target
+): Promise<ResolvedInstallFileSpec[]> {
+  const specs = await createInstallFileSpecs(manifest, target, createLocalSourceReader(rootDir, manifest));
+  return Promise.all(
+    specs.map(async (file) => ({
+      ...file,
+      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
+    }))
+  );
+}
+
+async function optionalFile(
+  rootDir: string,
+  manifest: Pick<InstallManifest, "repoPath">,
+  source: string
+): Promise<string | undefined> {
+  const abs = path.join(rootDir, manifest.repoPath, source);
+  try {
+    const stat = await fs.stat(abs);
+    return stat.isFile() ? source : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+async function discoverFiles(rootDir: string, manifest: Pick<InstallManifest, "repoPath">, sourceDir: string): Promise<string[]> {
+  const abs = path.join(rootDir, manifest.repoPath, sourceDir);
+  const files = await walk(abs).catch(() => []);
+  return files
+    .map((file) => toPosixPath(path.relative(path.join(rootDir, manifest.repoPath), file)))
+    .sort((a, b) => a.localeCompare(b));
+}
+
+function toPosixPath(filePath: string): string {
+  return filePath.split(path.sep).join(path.posix.sep);
+}
+
+export async function walk(dir: string): Promise<string[]> {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  const files: string[] = [];
+  for (const entry of entries) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) files.push(...(await walk(full)));
+    else files.push(full);
+  }
   return files;
 }

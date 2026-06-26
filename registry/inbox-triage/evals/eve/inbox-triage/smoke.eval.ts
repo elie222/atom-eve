@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(inboxTriageSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_inbox");
     t.check(t.reply, includes("inbox"));

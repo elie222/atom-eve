@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(invoiceChaserSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_invoices");
     t.check(t.reply, includes("invoice"));
