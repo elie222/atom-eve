@@ -20,7 +20,7 @@ export interface RegistryItem {
   scheduled?: boolean;
   repoPath: string;
   featured?: boolean;
-  order?: number;
+  order?: number | null;
 }
 
 export interface AgentCard {
@@ -62,7 +62,7 @@ const ROOT = findRoot();
 export function getItems(): RegistryItem[] {
   const index = JSON.parse(readFileSync(path.join(ROOT, "public", "index.json"), "utf8"));
   const items = (index.items ?? []) as RegistryItem[];
-  return [...items].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  return [...items].sort((a, b) => (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER));
 }
 
 export function getTaxonomy(): Taxonomy {

@@ -1,0 +1,19 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "email-resend",
+  "title": "Resend Email Agent",
+  "description": "Reviews Resend audiences and drafts lifecycle and broadcast emails for operator approval.",
+  "category": "email",
+  "family": "growth",
+  "targets": ["eve", "flue"],
+  "integrations": ["resend"],
+  "connections": [
+    {
+      "name": "resend",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["RESEND_API_KEY"],
+  "skills": [{ "ref": "coreyhaines31/marketingskills@copywriting" }]
+}

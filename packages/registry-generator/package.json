@@ -16,6 +16,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@atom-eve/install-map": "workspace:*",
     "@atom-eve/schemas": "workspace:*",
     "zod": "^3.24.1"
   },

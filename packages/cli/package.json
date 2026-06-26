@@ -19,7 +19,9 @@
     "prepack": "pnpm build",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@atom-eve/install-map": "workspace:*"
+  },
   "devDependencies": {
     "typescript": "^5.7.2"
   }

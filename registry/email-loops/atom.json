@@ -1,0 +1,19 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "email-loops",
+  "title": "Loops Email Agent",
+  "description": "Reviews the Loops audience and drafts lifecycle and broadcast emails for operator approval.",
+  "category": "email",
+  "family": "growth",
+  "targets": ["eve", "flue"],
+  "integrations": ["loops"],
+  "connections": [
+    {
+      "name": "loops",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["LOOPS_API_KEY"],
+  "skills": [{ "ref": "coreyhaines31/marketingskills@copywriting" }]
+}
