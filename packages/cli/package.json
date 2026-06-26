@@ -9,20 +9,33 @@
     "atom-eve": "dist/index.js"
   },
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "files": [
     "dist",
     "README.md"
   ],
+  "homepage": "https://atomeve.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elie222/atom-eve.git",
+    "directory": "packages/cli"
+  },
+  "keywords": [
+    "eve",
+    "flue",
+    "agents",
+    "ai",
+    "shadcn",
+    "registry",
+    "atom-eve"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.json && chmod +x dist/index.js",
+    "build": "pnpm --filter @atom-eve/install-map build && tsup && chmod +x dist/index.js",
     "prepack": "pnpm build",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
-  "dependencies": {
-    "@atom-eve/install-map": "workspace:*"
-  },
   "devDependencies": {
+    "@atom-eve/install-map": "workspace:*",
+    "tsup": "8.5.1",
     "typescript": "^5.7.2"
   }
 }
