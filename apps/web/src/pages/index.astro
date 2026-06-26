@@ -157,22 +157,9 @@ const HERO_STARS = starfield(120, 1280, 470, ["#ffffff", "#37d6ff", "#ff45c2", "
       <div class="flex flex-none items-center gap-[7px]" role="group" aria-label="View">
         <button
           type="button"
-          data-view-btn="list"
+          data-view-btn="grid"
           aria-pressed="true"
           class="view-btn active inline-flex items-center gap-[6px] border-2 border-edge px-[11px] py-[7px] font-mono text-[11px] font-semibold text-muted"
-        >
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <rect x="1" y="2" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
-            <rect x="1" y="6.8" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
-            <rect x="1" y="11.6" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
-          </svg>
-          LIST
-        </button>
-        <button
-          type="button"
-          data-view-btn="grid"
-          aria-pressed="false"
-          class="view-btn inline-flex items-center gap-[6px] border-2 border-edge px-[11px] py-[7px] font-mono text-[11px] font-semibold text-muted"
         >
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <rect x="1" y="1" width="6" height="6" rx="1.2" fill="currentColor"></rect>
@@ -182,11 +169,24 @@ const HERO_STARS = starfield(120, 1280, 470, ["#ffffff", "#37d6ff", "#ff45c2", "
           </svg>
           GRID
         </button>
+        <button
+          type="button"
+          data-view-btn="list"
+          aria-pressed="false"
+          class="view-btn inline-flex items-center gap-[6px] border-2 border-edge px-[11px] py-[7px] font-mono text-[11px] font-semibold text-muted"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="1" y="2" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+            <rect x="1" y="6.8" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+            <rect x="1" y="11.6" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+          </svg>
+          LIST
+        </button>
       </div>
     </div>
 
     <!-- registry -->
-    <div id="registry-views" data-view="list" class="mt-[22px]">
+    <div id="registry-views" data-view="grid" class="mt-[22px]">
       <div
         id="agent-grid"
         class="grid gap-4 [grid-template-columns:repeat(3,1fr)] max-lg:[grid-template-columns:repeat(2,1fr)] max-sm:grid-cols-1"
