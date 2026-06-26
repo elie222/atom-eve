@@ -1,0 +1,79 @@
+name: Publish CLI
+
+# Auto-publishes the `atom-eve` npm package when CLI-affecting code lands on main.
+# The version is bumped automatically: each run publishes the next patch above
+# whatever is currently on npm, so the repo and registry never collide.
+#
+# One-time setup required:
+#   1. Create an npm Automation access token (npmjs.com -> Access Tokens ->
+#      Generate New Token -> Automation). Automation tokens bypass 2FA, which CI
+#      cannot satisfy interactively.
+#   2. Add it as a repository secret named NPM_TOKEN
+#      (Settings -> Secrets and variables -> Actions).
+#   3. Allow GitHub Actions to push to main (so the version-bump commit lands).
+#      If main is a protected branch, add `github-actions[bot]` to the bypass
+#      list — otherwise the publish still succeeds and only the bump commit is skipped.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "packages/cli/**"
+      - "packages/install-map/**"
+      - "pnpm-lock.yaml"
+
+# Never run two publishes at once (they'd race on the npm version number).
+concurrency:
+  group: publish-cli
+  cancel-in-progress: false
+
+permissions:
+  contents: write # push the version-bump commit
+  id-token: write # npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Compute next version (npm latest + 1 patch)
+        id: bump
+        run: |
+          LATEST=$(npm view atom-eve version 2>/dev/null || echo "0.0.0")
+          NEXT=$(node -e "const p=process.argv[1].split('.').map(Number); p[2]++; console.log(p.join('.'))" "$LATEST")
+          echo "Publishing atom-eve $LATEST -> $NEXT"
+          cd packages/cli
+          npm version "$NEXT" --no-git-tag-version --allow-same-version >/dev/null
+          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to npm
+        run: pnpm --filter atom-eve publish --no-git-checks --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit version bump back to main
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/cli/package.json
+          git commit -m "chore(release): atom-eve@${{ steps.bump.outputs.version }} [skip ci]"
+          git push origin HEAD:main || echo "::warning::Published, but could not push the version bump (protected branch?). npm remains the source of truth."
