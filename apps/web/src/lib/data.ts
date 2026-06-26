@@ -3,7 +3,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { marked } from "marked";
-import { catGlyph, famColor, installCommand, prettify, targetLabel } from "./format";
+import { catGlyph, famColor, installCommand, prettify } from "./format";
 
 export interface RegistryItem {
   name: string;
@@ -81,7 +81,7 @@ export function toCard(item: RegistryItem): AgentCard {
     color: famColor(item.family),
     glyph: catGlyph(item.category),
     integrations: (item.integrations ?? []).map(prettify).join(" · "),
-    targets: (item.targets ?? []).map(targetLabel).join(" · "),
+    targets: (item.targets ?? []).join(" · "),
     memory: Boolean(item.memory),
     installCmd: installCommand(item.name),
   };

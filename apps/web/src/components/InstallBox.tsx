@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { installCommand, targetLabel } from "../lib/format";
+import { installCommand } from "../lib/format";
 
 interface Props {
   name: string;
@@ -25,8 +25,6 @@ export default function InstallBox({ name, targets }: Props) {
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1400);
   };
-
-  const label = (t: string) => (t === "npm" ? "npm" : targetLabel(t));
 
   return (
     <div
@@ -55,7 +53,7 @@ export default function InstallBox({ name, targets }: Props) {
                   background: on ? ACC : "transparent",
                 }}
               >
-                {label(t)}
+                {t}
               </button>
             );
           })}

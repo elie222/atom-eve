@@ -1,6 +1,6 @@
 ---
 import AtomLogo from "./AtomLogo.astro";
-import { REPO, DISCORD, X_PROFILE } from "../lib/format";
+import { REPO, DISCORD, X_PROFILE, EVE_URL, FLUE_URL } from "../lib/format";
 ---
 
 <footer class="relative mt-14 overflow-hidden border-t-2 border-edge">
@@ -31,12 +31,11 @@ import { REPO, DISCORD, X_PROFILE } from "../lib/format";
       <a href={REPO} class="whitespace-nowrap transition-colors hover:text-ink">GitHub</a>
       <a href={DISCORD} class="whitespace-nowrap transition-colors hover:text-ink">Discord</a>
       <a href={X_PROFILE} class="whitespace-nowrap transition-colors hover:text-ink">X</a>
-      <a href="https://eve.dev" class="whitespace-nowrap text-ink transition-colors hover:text-cyan"
+      <a href={EVE_URL} class="whitespace-nowrap text-ink transition-colors hover:text-cyan"
         >eve ↗</a
       >
-      <a
-        href="https://flueframework.com"
-        class="whitespace-nowrap text-ink transition-colors hover:text-pink">flue ↗</a
+      <a href={FLUE_URL} class="whitespace-nowrap text-ink transition-colors hover:text-pink"
+        >flue ↗</a
       >
     </div>
   </div>

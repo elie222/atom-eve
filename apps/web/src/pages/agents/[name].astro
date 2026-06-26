@@ -5,7 +5,7 @@ import Footer from "../../components/Footer.astro";
 import Glyph from "../../components/Glyph.astro";
 import InstallBox from "../../components/InstallBox.tsx";
 import { getItems, getReadmeHtml, variantsOf, type RegistryItem } from "../../lib/data";
-import { catGlyph, famColor, prettify, REPO, targetLabel } from "../../lib/format";
+import { catGlyph, famColor, prettify, REPO } from "../../lib/format";
 
 export function getStaticPaths() {
   const items = getItems();
@@ -17,7 +17,6 @@ export function getStaticPaths() {
       variants: variantsOf(item, items).map((v) => ({
         name: v.name,
         title: v.title,
-        description: v.description,
       })),
     },
   }));
@@ -26,14 +25,14 @@ export function getStaticPaths() {
 interface Props {
   item: RegistryItem;
   readmeHtml: string;
-  variants: { name: string; title: string; description: string }[];
+  variants: { name: string; title: string }[];
 }
 
 const { item, readmeHtml, variants } = Astro.props as Props;
 
 const color = famColor(item.family);
 const glyph = catGlyph(item.category);
-const frameworks = (item.targets ?? []).map(targetLabel);
+const frameworks = item.targets ?? [];
 const integrations = item.integrations ?? [];
 const requiredEnv = item.requiredEnv ?? [];
 
