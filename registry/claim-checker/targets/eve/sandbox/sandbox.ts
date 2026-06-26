@@ -1,11 +1,18 @@
 import { defineSandbox } from "eve/sandbox";
+import { docker } from "eve/sandbox/docker";
+import { vercel } from "eve/sandbox/vercel";
+
+const browserSandboxBackend =
+  process.env.VERCEL || process.env.VERCEL_OIDC_TOKEN
+    ? vercel({ runtime: "node24", resources: { vcpus: 2 } })
+    : docker();
 
 export default defineSandbox({
+  backend: browserSandboxBackend,
   async bootstrap({ use }) {
     const sandbox = await use();
     await sandbox.run({
-      command:
-        "mkdir -p reports/claim-checker/history reports/claim-checker/artifacts && bash setup-agent-browser.sh"
+      command: "bash setup-agent-browser.sh"
     });
   },
   async onSession({ use }) {
