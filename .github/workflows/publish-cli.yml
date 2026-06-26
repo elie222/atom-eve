@@ -1,18 +1,7 @@
 name: Publish CLI
 
-# Auto-publishes the `atom-eve` npm package when CLI-affecting code lands on main.
-# The version is bumped automatically: each run publishes the next patch above
-# whatever is currently on npm, so the repo and registry never collide.
-#
-# One-time setup required:
-#   1. Create an npm Automation access token (npmjs.com -> Access Tokens ->
-#      Generate New Token -> Automation). Automation tokens bypass 2FA, which CI
-#      cannot satisfy interactively.
-#   2. Add it as a repository secret named NPM_TOKEN
-#      (Settings -> Secrets and variables -> Actions).
-#   3. Allow GitHub Actions to push to main (so the version-bump commit lands).
-#      If main is a protected branch, add `github-actions[bot]` to the bypass
-#      list — otherwise the publish still succeeds and only the bump commit is skipped.
+# Publishes the next patch of the `atom-eve` npm package on merge to main.
+# Requires an NPM_TOKEN (npm Automation token) repository secret.
 
 on:
   push:
