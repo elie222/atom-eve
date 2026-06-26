@@ -319,11 +319,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/shared/lib/posthog.ts",
-          "target": "~/agent/lib/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/analytics-digest/shared/lib/prompts.ts",
           "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
@@ -334,8 +329,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/targets/eve/tools/review_trends.ts",
-          "target": "~/agent/tools/review_trends.ts",
+          "path": "registry/analytics-digest/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/targets/eve/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -372,18 +372,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/shared/lib/posthog.ts",
-          "target": "~/src/lib/agents/analytics-digest/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/analytics-digest/shared/lib/prompts.ts",
           "target": "~/src/lib/agents/analytics-digest/prompts.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/analytics-digest/targets/flue/tools/posthog.ts",
-          "target": "~/src/tools/analytics-digest/posthog.ts",
           "type": "registry:file"
         },
         {
@@ -2096,11 +2086,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/experiment-analyst/shared/lib/posthog.ts",
-          "target": "~/agent/lib/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/experiment-analyst/shared/lib/prompts.ts",
           "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
@@ -2111,8 +2096,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/experiment-analyst/targets/eve/tools/review_experiments.ts",
-          "target": "~/agent/tools/review_experiments.ts",
+          "path": "registry/experiment-analyst/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/targets/eve/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -2149,18 +2139,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/experiment-analyst/shared/lib/posthog.ts",
-          "target": "~/src/lib/agents/experiment-analyst/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/experiment-analyst/shared/lib/prompts.ts",
           "target": "~/src/lib/agents/experiment-analyst/prompts.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/experiment-analyst/targets/flue/tools/posthog.ts",
-          "target": "~/src/tools/experiment-analyst/posthog.ts",
           "type": "registry:file"
         },
         {
@@ -2440,11 +2420,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/funnel-analyst/shared/lib/posthog.ts",
-          "target": "~/agent/lib/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/funnel-analyst/shared/lib/prompts.ts",
           "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
@@ -2455,8 +2430,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/funnel-analyst/targets/eve/tools/review_funnels.ts",
-          "target": "~/agent/tools/review_funnels.ts",
+          "path": "registry/funnel-analyst/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/targets/eve/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -2493,18 +2473,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/funnel-analyst/shared/lib/posthog.ts",
-          "target": "~/src/lib/agents/funnel-analyst/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/funnel-analyst/shared/lib/prompts.ts",
           "target": "~/src/lib/agents/funnel-analyst/prompts.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/funnel-analyst/targets/flue/tools/posthog.ts",
-          "target": "~/src/tools/funnel-analyst/posthog.ts",
           "type": "registry:file"
         },
         {
@@ -3624,11 +3594,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-coach/shared/lib/posthog.ts",
-          "target": "~/agent/lib/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/onboarding-coach/shared/lib/prompts.ts",
           "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
@@ -3639,8 +3604,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-coach/targets/eve/tools/review_activation.ts",
-          "target": "~/agent/tools/review_activation.ts",
+          "path": "registry/onboarding-coach/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/targets/eve/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -3677,18 +3647,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-coach/shared/lib/posthog.ts",
-          "target": "~/src/lib/agents/onboarding-coach/posthog.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/onboarding-coach/shared/lib/prompts.ts",
           "target": "~/src/lib/agents/onboarding-coach/prompts.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/onboarding-coach/targets/flue/tools/posthog.ts",
-          "target": "~/src/tools/onboarding-coach/posthog.ts",
           "type": "registry:file"
         },
         {

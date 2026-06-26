@@ -2,9 +2,9 @@
 
 ## What it does
 
-Pulls key event trends from your [PostHog](https://posthog.com) project and writes a plain-language weekly digest an operator can skim. It compares the last week of event volume against the prior week, highlights events that rose or fell materially, and flags possible tracking regressions.
+Pulls key event trends from your [PostHog](https://posthog.com) project and writes a plain-language weekly digest an operator can skim. It highlights the headline movement, calls out events that rose or fell materially week over week, and flags possible tracking regressions.
 
-The agent uses framework-native agent, schedule, and workflow files. The only custom tool is a small PostHog query-API reader. It is read-only: it never creates or edits dashboards, insights, or any PostHog configuration.
+The agent uses framework-native agent, schedule, and workflow files. It queries PostHog through the official PostHog CLI (`posthog-cli`) running in the framework sandbox, not a hand-written REST client. It is read-only and draft-first: it never creates or edits dashboards, insights, or any PostHog configuration.
 
 ## Supported targets
 
@@ -26,22 +26,26 @@ npx atom-eve add analytics-digest --target flue
 
 ## Setup
 
-Create a personal API key in PostHog (Settings → Personal API keys) with query read access, and note your project ID (Settings → Project).
+The agent runs the official PostHog CLI (`posthog-cli`) in the framework sandbox. For Eve, the installed sandbox bootstrap (`agent/sandbox/`) runs `setup-posthog-cli.sh`, which installs `@posthog/cli` the first time the sandbox starts. The first run may spend extra time while the sandbox template is built.
+
+Create a personal API key in PostHog (Settings → Personal API keys) with read access, and note your project ID (Settings → Project).
 
 Required environment variables:
 
 ```bash
-POSTHOG_API_KEY=phx_...
-POSTHOG_PROJECT_ID=12345
+POSTHOG_CLI_API_KEY=phx_...
+POSTHOG_CLI_PROJECT_ID=12345
 ```
 
-If your project is on the EU cloud or self-hosted, set `POSTHOG_HOST` (defaults to `https://us.posthog.com`):
+If your project is on the EU cloud or self-hosted, pass `--host` to the CLI (for example `--host https://eu.posthog.com`).
+
+As an interactive alternative to the env vars, you can authenticate the CLI once with:
 
 ```bash
-POSTHOG_HOST=https://eu.posthog.com
+posthog-cli login
 ```
 
-Configure these variables in your local shell and in the deployment environment that runs the Eve schedule or Flue workflow.
+Configure the variables in your local shell and in the deployment environment that runs the Eve schedule or Flue workflow. For Flue or another isolated sandbox, install `@posthog/cli` as part of that sandbox's setup/lifecycle so `posthog-cli` is on PATH.
 
 ## Usage
 
@@ -50,17 +54,17 @@ Run the agent manually to review recent event trends, or wire the installed week
 - Eve installs as the root agent under `agent/`, including `agent/schedules/weekly.ts`.
 - Flue installs an agent plus `src/workflows/analytics-digest-weekly.ts`.
 
-The agent queries event counts for the last week and the prior week, computes per-event change and share of total, then writes a plain-language digest. Optional tool inputs let you set the `asOf` end date, the comparison `windowDays`, and the event `limit`.
+The agent runs `posthog-cli api` in the sandbox following the discover → info → call workflow: it searches for the right tool, reads the tool's schema with `posthog-cli api info`, confirms the events exist with `read-data-schema`, then calls the tool to read trends and writes a plain-language digest.
 
 For lightweight run history, save the weekly digest somewhere your operator can review, such as `runs/analytics-digest/YYYY-MM-DD.md` or a team ticket/comment.
 
 ## Connections and auth
 
-This package uses a custom PostHog tool with env-token auth because the PostHog query/insights API is outside the framework-native toolset. The personal API key and project ID are read by the installed project at runtime via a Bearer header.
+This package queries PostHog through the official `posthog-cli` running in the framework sandbox, declared as a `posthog-cli` custom-tool connection with env auth. The CLI reads `POSTHOG_CLI_API_KEY` and `POSTHOG_CLI_PROJECT_ID` from the environment (or you can run `posthog-cli login` once). The agent never passes `--confirm`, so it cannot run PostHog's destructive tools.
 
 ## Limitations
 
-- The reference implementation is read-only and only calls the query API for event counts; it does not read funnels, retention, or session data.
-- It compares the last window with the immediately preceding window. Save weekly outputs externally if you want longer run history.
-- HogQL person-property values reflect what was set at ingest time, not the person's current value.
-- Always confirm surprising movements against PostHog directly before acting on them.
+- The agent is read-only and draft-first; it must follow the CLI's `posthog-cli api info <tool>` step before any call and never guesses tool names or schemas.
+- It relies on `posthog-cli` being installed and authenticated in the runtime environment or Eve sandbox. If the CLI is unavailable, the agent reports the blocker instead of inventing numbers.
+- Outputs are local Markdown digests. Save them externally if you want longer run history.
+- PostHog person-property values reflect what was set at ingest time, not the person's current value. Always confirm surprising movements against PostHog directly before acting on them.

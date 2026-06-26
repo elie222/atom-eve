@@ -54,7 +54,11 @@ const frameworks = (item.targets ?? []).map(targetLabel);
 const integrations = item.integrations ?? [];
 const requiredEnv = item.requiredEnv ?? [];
 
+// "Paste into your agent" prompt for this specific agent.
+const pastePrompt = `Read atomeve.dev/start.md and add the ${item.title} agent to my project.`;
+
 const about: { k: string; v: string; accent?: boolean }[] = [
+  { k: "Category", v: `${prettify(item.family)} / ${prettify(item.category)}` },
   { k: "Version", v: item.version },
   { k: "License", v: "MIT" },
   { k: "Memory", v: item.memory ? "Yes" : "No", accent: item.memory },
@@ -64,14 +68,14 @@ const about: { k: string; v: string; accent?: boolean }[] = [
 ---
 
 <Base title={`${item.title} — Atom Eve`} description={item.description}>
-  <Nav />
+  <Nav variant="detail" />
 
-  <div class="mx-auto max-w-[1120px] px-8 pb-20 pt-[34px]">
+  <div class="relative z-[2] mx-auto max-w-[1120px] px-8 pb-20 pt-[30px]">
     <!-- breadcrumb -->
     <div class="font-mono text-[12px] text-dim">
       <a href="/" class="text-muted transition-colors hover:text-ink">Browse</a>
       <span class="text-dim2">/</span>
-      <span class="text-eve">{prettify(item.family)}</span>
+      <span style={`color:${color}`}>{prettify(item.family)}</span>
       <span class="text-dim2">/</span>
       <span class="text-ink2">{item.title}</span>
     </div>
@@ -79,40 +83,42 @@ const about: { k: string; v: string; accent?: boolean }[] = [
     <!-- header -->
     <div class="mt-[22px] flex flex-wrap items-start gap-[18px]">
       <div
-        class="flex h-[54px] w-[54px] flex-none items-center justify-center rounded-xl"
-        style={`background:${color}1f;border:1px solid ${color}4d`}
+        class="flex h-[56px] w-[56px] flex-none items-center justify-center"
+        style={`background:${color}1f;border:2px solid ${color}4d`}
       >
         <Glyph glyph={glyph} color={color} scale={5} />
       </div>
       <div class="min-w-[280px] flex-1">
         <div class="flex flex-wrap items-center gap-3">
-          <h1 class="m-0 text-[34px] font-bold tracking-[-0.02em]">{item.title}</h1>
+          <h1 class="m-0 text-[32px] font-bold tracking-[-0.02em]">{item.title}</h1>
           <span
-            class="rounded-[5px] px-[9px] py-[3px] font-mono text-[12px] text-eve"
-            style="background:rgba(155,255,92,0.10);border:1px solid rgba(155,255,92,0.34)"
+            class="font-pixel text-[8px] tracking-[0.04em] text-[#0b0820]"
+            style={`background:${color};padding:5px 8px`}>{prettify(item.family).toUpperCase()}</span
+          >
+          <span class="border-2 border-edge px-[8px] py-[3px] font-mono text-[11px] text-ink2"
             >v{item.version}</span
           >
           {
             item.memory ? (
               <span
-                class="whitespace-nowrap rounded-[5px] px-[9px] py-[3px] font-mono text-[11px] text-eve"
-                style="background:rgba(155,255,92,0.10);border:1px solid rgba(155,255,92,0.30)"
+                class="whitespace-nowrap border-2 px-[8px] py-[3px] font-mono text-[11px] text-green"
+                style="border-color:rgba(84,240,168,0.4)"
               >
                 ● MEMORY
               </span>
             ) : (
-              <span class="whitespace-nowrap rounded-[5px] border border-edge px-[9px] py-[3px] font-mono text-[11px] text-muted">
+              <span class="whitespace-nowrap border-2 border-edge px-[8px] py-[3px] font-mono text-[11px] text-muted">
                 STATELESS
               </span>
             )
           }
         </div>
-        <div class="mt-2 text-[17px] text-ink2">{item.description}</div>
-        <div class="mt-3 flex flex-wrap gap-[14px] font-mono text-[12.5px] text-muted">
+        <div class="mt-[10px] text-[16.5px] text-ink2">{item.description}</div>
+        <div class="mt-3 flex flex-wrap items-center gap-3 font-mono text-[12.5px] text-muted">
           <span>{prettify(item.family)} / {prettify(item.category)}</span>
-          <span class="text-dim2">·</span>
+          <span class="text-dim2">◆</span>
           <span>{frameworks.join(" · ")}</span>
-          <span class="text-dim2">·</span>
+          <span class="text-dim2">◆</span>
           <span>MIT</span>
         </div>
       </div>
@@ -121,36 +127,56 @@ const about: { k: string; v: string; accent?: boolean }[] = [
     <!-- install (React island) -->
     <InstallBox client:load name={item.name} targets={item.targets ?? []} />
 
+    <!-- or paste into your agent -->
+    <div
+      class="mt-3 border-2 border-edge bg-code"
+      style="box-shadow:4px 4px 0 rgba(0,0,0,0.35)"
+    >
+      <div class="flex items-center gap-2 border-b-2 border-edgedim px-4 py-[10px]">
+        <span class="h-[9px] w-[9px] bg-pink"></span>
+        <span class="h-[9px] w-[9px] bg-amber"></span>
+        <span class="h-[9px] w-[9px] bg-cyan"></span>
+        <span class="ml-[6px] font-pixel text-[8px] tracking-[0.06em] text-dim"
+          >OR PASTE INTO YOUR AGENT</span
+        >
+      </div>
+      <div class="flex items-center gap-[14px] px-[18px] py-[14px]">
+        <code
+          class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13px] text-ink2"
+          ><span class="text-cyan">▸</span> {pastePrompt}</code
+        >
+        <button
+          type="button"
+          class="copy-btn arcade-btn flex-none whitespace-nowrap bg-cyan px-[13px] py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
+          style="box-shadow:3px 3px 0 rgba(0,0,0,0.4)"
+          data-cmd={pastePrompt}
+        >
+          COPY
+        </button>
+      </div>
+    </div>
+
     <!-- content + sidebar -->
     <div class="detail-grid mt-[34px] grid grid-cols-[1fr_318px] items-start gap-9 max-md:grid-cols-1">
       <ContentTabs client:load readmeHtml={readmeHtml} manifestHtml={manifestHtml} />
 
       <aside class="flex flex-col gap-4">
-        <div class="flex flex-col gap-2">
-          <button
-            type="button"
-            class="copy-btn w-full cursor-pointer rounded-[7px] border-none bg-eve px-4 py-[11px] text-center text-[13.5px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
-            data-cmd={installCommand(item.name)}
-          >
-            Copy install command
-          </button>
-          <a
-            href={REPO}
-            class="rounded-[7px] border border-edge px-4 py-[11px] text-center text-[13.5px] font-medium text-ink transition-colors hover:bg-panel2"
-            >View on GitHub ↗</a
-          >
-        </div>
+        <a
+          href={REPO}
+          class="border-2 border-edge px-4 py-[12px] text-center font-pixel text-[10px] leading-[1.5] tracking-[0.02em] text-ink2 transition-colors hover:border-green hover:text-green"
+          >VIEW ON GITHUB ↗</a
+        >
 
-        <div class="rounded-[9px] border border-edge bg-panel px-4 py-[15px]">
-          <div class="mb-3 font-mono text-[10.5px] tracking-[0.06em] text-dim">ABOUT</div>
-          <div class="flex flex-col gap-[10px] text-[13.5px]">
+        <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
+          <div class="mb-[14px] font-pixel text-[8px] tracking-[0.06em] text-dim">ABOUT</div>
+          <div class="flex flex-col gap-[11px] text-[13px]">
             {
               about.map((row) => (
                 <div class="flex justify-between gap-3">
                   <span class="text-muted2">{row.k}</span>
                   <span
-                    class="text-right font-mono text-[12.5px]"
-                    style={row.accent ? "color:#9bff5c" : "color:#eef0ff"}
+                    class="text-right font-mono text-[12px]"
+                    style={row.accent ? "color:#54f0a8" : "color:#efe9ff"}
                   >
                     {row.v}
                   </span>
@@ -162,11 +188,13 @@ const about: { k: string; v: string; accent?: boolean }[] = [
 
         {
           integrations.length > 0 && (
-            <div class="rounded-[9px] border border-edge bg-panel px-4 py-[15px]">
-              <div class="mb-3 font-mono text-[10.5px] tracking-[0.06em] text-dim">INTEGRATIONS</div>
+            <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
+              <div class="mb-[14px] font-pixel text-[8px] tracking-[0.06em] text-dim">
+                INTEGRATIONS
+              </div>
               <div class="flex flex-wrap gap-[7px]">
                 {integrations.map((s) => (
-                  <span class="rounded-[5px] border border-edge bg-bg2 px-[9px] py-[5px] font-mono text-[11.5px] text-ink2">
+                  <span class="border-2 border-edge bg-bg px-[9px] py-[5px] font-mono text-[11.5px] text-ink2">
                     {prettify(s)}
                   </span>
                 ))}
@@ -177,18 +205,17 @@ const about: { k: string; v: string; accent?: boolean }[] = [
 
         {
           variants.length > 0 ? (
-            <div class="rounded-[9px] border border-edge bg-panel px-4 py-[15px]">
-              <div class="font-mono text-[10.5px] tracking-[0.06em] text-dim">
-                OTHER VARIANTS · {prettify(item.category).toUpperCase()}
-              </div>
-              <div class="mb-3 mt-1 text-[12px] text-muted2">Same task, different builds.</div>
+            <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
+              <div class="font-pixel text-[8px] tracking-[0.06em] text-dim">OTHER VARIANTS</div>
+              <div class="mb-1 mt-[6px] text-[11.5px] text-muted2">Same task, different builds.</div>
               {variants.map((v) => (
                 <a
                   href={`/agents/${v.name}/`}
-                  class="flex items-center justify-between border-t border-edgedim py-[9px]"
+                  class="flex items-center gap-[10px] border-t-2 border-edgedim py-[11px]"
                 >
-                  <span>
-                    <span class="text-[13.5px] text-ink2">{v.description.slice(0, 40)}</span>
+                  <span class="h-[9px] w-[9px] flex-none" style={`background:${color}`} />
+                  <span class="flex-1">
+                    <span class="text-[13px] text-ink2">{v.description.slice(0, 40)}</span>
                     <br />
                     <span class="font-mono text-[11px] text-muted2">v{v.version}</span>
                   </span>
@@ -197,14 +224,14 @@ const about: { k: string; v: string; accent?: boolean }[] = [
               ))}
             </div>
           ) : (
-            <div class="rounded-[9px] border border-edge bg-panel px-4 py-[15px]">
-              <div class="mb-[10px] font-mono text-[10.5px] tracking-[0.06em] text-dim">
+            <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
+              <div class="mb-[10px] font-pixel text-[8px] tracking-[0.06em] text-dim">
                 REQUIRED ENV
               </div>
               {requiredEnv.length > 0 ? (
                 requiredEnv.map((e) => (
-                  <div class="flex items-center justify-between border-t border-edgedim py-[9px]">
-                    <span class="font-mono text-[12px] text-eve">{e}</span>
+                  <div class="flex items-center justify-between border-t-2 border-edgedim py-[9px]">
+                    <span class="font-mono text-[12px] text-green">{e}</span>
                     <span class="font-mono text-[11px] text-dim">required</span>
                   </div>
                 ))

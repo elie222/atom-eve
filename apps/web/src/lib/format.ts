@@ -2,16 +2,16 @@
 
 export const REPO = "https://github.com/atomeve";
 
-/* family -> accent colour */
+/* family -> accent colour (arcade palette) */
 export const FAM: Record<string, string> = {
-  engineering: "#4d9fff",
-  growth: "#9bff5c",
-  revenue: "#ffb84d",
-  support: "#ff5cce",
-  ops: "#4dffd0",
+  engineering: "#37d6ff",
+  growth: "#54f0a8",
+  revenue: "#ffb454",
+  support: "#ff45c2",
+  ops: "#a974ff",
   data: "#c08bff",
 };
-export const famColor = (family: string): string => FAM[family] ?? "#9bff5c";
+export const famColor = (family: string): string => FAM[family] ?? "#54f0a8";
 
 /* category -> glyph key */
 const CAT_GLYPH: Record<string, string> = {
@@ -54,9 +54,9 @@ export function highlightJson(obj: unknown): string {
   s = s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
   s = s.replace(/"([^"\\]*)"(\s*:)?/g, (_m, content: string, colon?: string) =>
     colon
-      ? `<span style="color:#9bff5c">"${content}"</span>${colon}`
-      : `<span style="color:#ffb84d">"${content}"</span>`,
+      ? `<span style="color:#54f0a8">"${content}"</span>${colon}`
+      : `<span style="color:#ffb454">"${content}"</span>`,
   );
-  s = s.replace(/: (true|false|-?\d+(?:\.\d+)?)/g, ': <span style="color:#4d9fff">$1</span>');
+  s = s.replace(/: (true|false|-?\d+(?:\.\d+)?)/g, ': <span style="color:#37d6ff">$1</span>');
   return s;
 }

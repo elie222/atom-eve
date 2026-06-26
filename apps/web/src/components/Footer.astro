@@ -3,23 +3,35 @@ import AtomLogo from "./AtomLogo.astro";
 import { REPO } from "../lib/format";
 ---
 
-<footer class="border-t border-edge">
-  <div class="mx-auto flex max-w-[1180px] flex-wrap items-start justify-between gap-[30px] px-8 py-[30px]">
+<footer class="relative mt-14 overflow-hidden border-t-2 border-edge">
+  <!-- perspective grid floor -->
+  <div
+    class="pointer-events-none absolute inset-x-0 bottom-0 h-[150px] opacity-50"
+    style="background-image:linear-gradient(rgba(255,69,194,0.14) 2px,transparent 2px),linear-gradient(90deg,rgba(55,214,255,0.10) 2px,transparent 2px);background-size:44px 44px;transform:perspective(220px) rotateX(64deg);transform-origin:bottom center"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div
+    class="relative z-[2] mx-auto flex max-w-[1200px] flex-wrap items-start justify-between gap-[30px] px-8 py-[30px]"
+  >
     <div class="max-w-[560px]">
       <div class="flex items-center gap-[10px]">
         <AtomLogo size={20} />
-        <div class="font-pixel text-[11px]">ATOM <span class="text-eve">EVE</span></div>
+        <div class="font-pixel text-[11px]">
+          <span class="text-pink">ATOM</span> <span class="text-cyan">EVE</span>
+        </div>
       </div>
-      <p class="mt-[14px] text-[13px] leading-[1.65] text-dim">
+      <p class="mt-[14px] text-[12px] leading-[1.6] text-dim">
         Atom Eve is an open-source community project. Not affiliated with or endorsed by Vercel, Eve,
         Cloudflare, or Flue. Built on eve.dev and supports flue — credit &amp; thanks to both teams.
       </p>
     </div>
-    <div class="flex gap-6 font-mono text-[13px] text-muted">
+    <div class="flex gap-6 font-mono text-[12px] text-muted">
       <a href={REPO} class="whitespace-nowrap transition-colors hover:text-ink">Docs</a>
       <a href={REPO} class="whitespace-nowrap transition-colors hover:text-ink">GitHub</a>
       <a href={REPO} class="whitespace-nowrap transition-colors hover:text-ink">Discord</a>
-      <a href="https://eve.dev" class="whitespace-nowrap text-ink transition-colors hover:text-eve"
+      <a href="https://eve.dev" class="whitespace-nowrap text-ink transition-colors hover:text-cyan"
         >Built on eve.dev ↗</a
       >
     </div>

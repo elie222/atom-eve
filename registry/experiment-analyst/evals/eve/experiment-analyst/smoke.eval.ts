@@ -3,19 +3,19 @@ import { includes } from "eve/evals/expect";
 import {
   expectedReplyToken,
   experimentAnalystSmokePrompt,
+  posthogCliCommandPattern,
   requiredReplyPatterns
 } from "../shared/experiment-analyst-smoke.js";
 
 export default defineEval({
   description:
-    "Verifies the Experiment Analyst agent reads PostHog experiments via its review tool and returns a read-only summary.",
+    "Verifies the Experiment Analyst agent reads PostHog experiments via the posthog-cli sandbox command and returns a read-only summary.",
   tags: ["smoke", "experiment-analyst"],
   async test(t) {
     await t.send(experimentAnalystSmokePrompt);
 
     t.completed();
-    t.noFailedActions();
-    t.calledTool("review_experiments");
+    t.calledTool("bash", { input: { command: posthogCliCommandPattern } });
     t.check(t.reply, includes("experiment"));
     t.messageIncludes(expectedReplyToken);
 

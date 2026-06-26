@@ -3,19 +3,20 @@ import { includes } from "eve/evals/expect";
 import {
   expectedReplyToken,
   funnelAnalystSmokePrompt,
+  posthogCliCommandPattern,
   requiredReplyPatterns
 } from "../shared/funnel-analyst-smoke.js";
 
 export default defineEval({
   description:
-    "Verifies the Funnel Analyst agent reviews PostHog funnels via its review tool and returns a read-only recommendation.",
+    "Verifies the Funnel Analyst agent reviews PostHog funnels via posthog-cli in the sandbox and returns a read-only recommendation.",
   tags: ["smoke", "funnel-analyst"],
   async test(t) {
     await t.send(funnelAnalystSmokePrompt);
 
     t.completed();
     t.noFailedActions();
-    t.calledTool("review_funnels");
+    t.calledTool("bash", { input: { command: posthogCliCommandPattern } });
     t.check(t.reply, includes("PostHog"));
     t.messageIncludes(expectedReplyToken);
 

@@ -2,42 +2,73 @@
 import AtomLogo from "./AtomLogo.astro";
 import { REPO } from "../lib/format";
 
-const links = [
-  { label: "Browse", href: "/" },
-  { label: "Agents", href: "/#registry" },
-  { label: "Docs", href: REPO },
-  { label: "Contribute", href: REPO },
-];
+interface Props {
+  variant?: "landing" | "detail";
+}
+const { variant = "landing" } = Astro.props;
+
+const links =
+  variant === "detail"
+    ? [
+        { label: "Browse", href: "/" },
+        { label: "Docs", href: REPO },
+        { label: "Contribute", href: REPO },
+      ]
+    : [
+        { label: "Docs", href: REPO },
+        { label: "Contribute", href: REPO },
+      ];
 ---
 
-<header class="relative z-10 border-b border-edge">
-  <div class="mx-auto flex max-w-[1180px] items-center justify-between gap-[18px] px-8 py-[17px]">
-    <a href="/" class="flex items-center gap-[11px]">
+<header class="relative z-[5] border-b-2 border-edge bg-bg/90">
+  <div class="mx-auto flex max-w-[1200px] items-center justify-between gap-[18px] px-[30px] py-[15px]">
+    <a href="/" class="flex items-center gap-3">
       <AtomLogo size={24} />
-      <div class="font-pixel text-[14px] tracking-[0.02em]">ATOM <span class="text-eve">EVE</span></div>
+      <div class="font-pixel text-[13px] tracking-[0.02em]">
+        <span class="text-pink">ATOM</span> <span class="text-cyan">EVE</span>
+      </div>
     </a>
 
-    <nav class="nav-mid hidden items-center gap-[26px] md:flex">
+    <nav class="hidden items-center gap-[26px] md:flex">
       {
         links.map((l) => (
-          <a href={l.href} class="font-mono text-[13px] text-muted transition-colors hover:text-ink">
+          <a
+            href={l.href}
+            class="font-mono text-[12.5px] text-muted transition-colors hover:text-ink"
+          >
             {l.label}
           </a>
         ))
       }
     </nav>
 
-    <div class="flex items-center gap-3">
-      <a
-        href={REPO}
-        class="whitespace-nowrap rounded-md border border-edge px-[11px] py-[7px] font-mono text-[12px] text-ink transition-colors hover:border-dim2"
-        >★ GitHub</a
-      >
-      <a
-        href={REPO}
-        class="whitespace-nowrap rounded-md bg-eve px-[14px] py-2 text-[13px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
-        >Submit an agent</a
-      >
+    <div class="flex items-center gap-4">
+      {
+        variant === "detail" ? (
+          <a
+            href={REPO}
+            class="whitespace-nowrap border-2 border-edge px-[11px] py-[7px] font-mono text-[12px] text-ink transition-colors hover:border-amber"
+          >
+            <span class="text-amber">★</span> GitHub
+          </a>
+        ) : (
+          <>
+            <a
+              href={REPO}
+              class="whitespace-nowrap font-mono text-[12.5px] text-muted transition-colors hover:text-ink"
+            >
+              GitHub ↗
+            </a>
+            <button
+              type="button"
+              data-open-modal
+              class="arcade-btn whitespace-nowrap bg-pink px-[14px] py-[11px] font-pixel text-[9px] leading-[1.5] tracking-[0.02em] text-[#0b0820] shadow-[3px_3px_0_#8a1668]"
+            >
+              GET STARTED
+            </button>
+          </>
+        )
+      }
     </div>
   </div>
 </header>

@@ -4,9 +4,8 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import AgentCard from "../components/AgentCard.astro";
 import AgentRow from "../components/AgentRow.astro";
-import HeroFigure from "../components/HeroFigure.astro";
-import { getItems, getTaxonomy, toCard, familyCounts, getManifest } from "../lib/data";
-import { FAM, famColor, highlightJson, prettify, REPO } from "../lib/format";
+import { getItems, getTaxonomy, toCard, familyCounts } from "../lib/data";
+import { famColor, prettify, REPO } from "../lib/format";
 
 const items = getItems();
 const taxonomy = getTaxonomy();
@@ -14,89 +13,136 @@ const cards = items.map(toCard);
 const counts = familyCounts(items);
 const total = items.length;
 
-const manifestExample =
-  items.length > 0
-    ? getManifest(items[0])
-    : {
-        name: "SEO Improver",
-        category: "growth/seo",
-        description: "Search Console + rewrite",
-        integrations: ["search-console", "openai"],
-        memory: true,
-        scheduled: true,
-        version: "1.2.0",
-        requiredEnv: ["GSC_KEY", "OPENAI_API_KEY"],
-      };
-
-const steps = [
-  { no: "01", title: "Fork an agent", body: "Grab any variant — a full eve.dev / flue agent in one folder.", color: FAM.growth },
-  { no: "02", title: "Add your keys", body: "Every atom declares the keys it needs in atom.json.", color: FAM.engineering },
-  { no: "03", title: "Deploy", body: "Ship it on eve.dev or flue. Same flow for every agent.", color: FAM.revenue },
-];
-
-const stats = ["MIT licensed", "Fork any agent", "Manifest-driven (atom.json)", "Open source on GitHub"];
-const publishSteps = [
-  { n: "1", color: FAM.growth, text: "Fork the agent template" },
-  { n: "2", color: FAM.engineering, text: "Drop in your atom.json" },
-  { n: "3", color: FAM.revenue, text: "Open a PR — auto-listed on merge" },
-];
+// Get Started modal commands (real atom-eve CLI).
+const PROMPT = "Read atomeve.dev/start.md and add agents to grow my business.";
+const INIT_CMD = "npx atom-eve init";
 ---
 
 <Base
   title="Atom Eve — an agent for every job"
   description="An open-source, shadcn-style registry of installable AI agents for eve.dev and flue."
 >
-  <Nav />
+  <Nav variant="landing" />
 
   <!-- hero -->
-  <section class="mx-auto max-w-[720px] px-8 pb-[40px] pt-[76px] text-center">
-    <div class="font-pixel text-[10px] tracking-[0.12em] text-eve">▸ OPEN-SOURCE AGENT REGISTRY</div>
-    <h1 class="mt-[26px] text-[58px] font-bold leading-none tracking-[-0.025em] max-sm:text-[40px]">
-      An agent for every job.
-    </h1>
-    <p class="mx-auto mt-5 max-w-[540px] text-[18px] leading-[1.55] text-muted">
-      Open-source agents for eve.dev and flue. Find one, add your keys, ship it.
-    </p>
-    <div class="mt-[30px] flex flex-wrap justify-center gap-[11px]">
-      <a
-        href="#registry"
-        class="whitespace-nowrap rounded-md bg-eve px-[22px] py-[13px] text-[14px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
-        >Browse the agents</a
+  <section class="relative z-[2] mx-auto max-w-[1100px] px-8 pb-7 pt-[46px] text-center">
+    <div class="font-pixel text-[11px] leading-[1.6] tracking-[0.16em] text-cyan">
+      ▸ OPEN-SOURCE AGENT REGISTRY
+    </div>
+
+    <!-- top banner image -->
+    <div
+      class="relative mx-auto mt-[22px] max-w-[900px] border-2 border-edge2 bg-code p-[9px]"
+      style="box-shadow:0 0 0 2px #0b0820, 0 0 56px rgba(255,69,194,0.24), 9px 9px 0 rgba(0,0,0,0.45)"
+    >
+      <img
+        src="/atom-eve-og.png"
+        alt="Atom Eve"
+        class="block w-full"
+        style="image-rendering:pixelated"
+      />
+      <div
+        class="pointer-events-none absolute inset-[9px]"
+        style="background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,0.30) 3px)"
+        aria-hidden="true"
       >
+      </div>
+      <span class="absolute -left-[5px] -top-[5px] h-[9px] w-[9px] bg-pink"></span>
+      <span class="absolute -right-[5px] -top-[5px] h-[9px] w-[9px] bg-cyan"></span>
+      <span class="absolute -bottom-[5px] -left-[5px] h-[9px] w-[9px] bg-cyan"></span>
+      <span class="absolute -bottom-[5px] -right-[5px] h-[9px] w-[9px] bg-pink"></span>
+    </div>
+
+    <p class="mx-auto mt-6 max-w-[640px] text-[21px] leading-[1.55] text-ink2">
+      Open-source AI agents for <span class="text-cyan">eve.dev</span> &amp; <span class="text-pink"
+        >flue</span
+      > — one for every job. Drop them straight into your project.
+    </p>
+
+    <div class="mt-7 flex flex-wrap items-center justify-center gap-[13px]">
+      <button
+        type="button"
+        data-open-modal
+        class="arcade-btn bg-pink px-[26px] py-[17px] font-pixel text-[12px] leading-[1.5] tracking-[0.03em] text-[#0b0820] shadow-[6px_6px_0_#8a1668]"
+      >
+        GET STARTED ▸
+      </button>
       <a
         href={REPO}
-        class="whitespace-nowrap rounded-md border border-edge2 px-5 py-[13px] text-[14px] font-semibold text-ink transition-colors hover:bg-panel2"
-        >★ Get started on GitHub</a
+        class="arcade-btn border-2 border-cyan px-5 py-[15px] font-pixel text-[11px] leading-[1.5] tracking-[0.03em] text-cyan shadow-[6px_6px_0_rgba(55,214,255,0.22)]"
       >
+        ★ GITHUB
+      </a>
     </div>
   </section>
 
-  <!-- stats bar -->
-  <div class="border-y border-edge bg-bg2">
-    <div
-      class="mx-auto flex max-w-[1180px] flex-wrap justify-between gap-[14px] px-8 py-4 font-mono text-[13px] text-muted"
+  <!-- browse: search + tabs + view toggle -->
+  <section id="registry" class="relative z-[3] mx-auto mt-[22px] max-w-[1200px] px-8">
+    <!-- search — filters the registry below -->
+    <label
+      id="categories"
+      class="flex cursor-text items-center gap-[10px] border-2 border-edge2 bg-bg2 px-4 py-3 shadow-[3px_3px_0_rgba(0,0,0,0.3)]"
     >
-      {stats.map((s) => <span><span class="text-eve">▪</span>&nbsp; {s}</span>)}
-    </div>
-  </div>
+      <span class="font-mono text-[13px] text-dim">/</span>
+      <input
+        id="agent-search"
+        placeholder={'Search agents — "seo", "ads", "qa"…'}
+        class="flex-1 border-none bg-transparent text-left font-mono text-[13px] tracking-[0.02em] text-ink outline-none"
+      />
+      <span class="animate-blink inline-block h-[16px] w-2 bg-cyan"></span>
+    </label>
 
-  <!-- the registry -->
-  <section id="registry" class="mx-auto max-w-[1180px] px-8 pt-[40px]">
-    <div class="flex flex-wrap items-end justify-between gap-x-5 gap-y-3">
-      <div>
-        <div class="font-mono text-[11px] tracking-[0.08em] text-eve">// the registry</div>
-        <div class="mt-3 font-pixel text-[17px]">PICK AN AGENT</div>
+    <div
+      class="mt-4 flex flex-wrap items-center justify-between gap-4 border-b-2 border-edge pb-4"
+    >
+      <!-- category tabs -->
+      <div class="cat-bar -mx-1 flex items-center gap-[9px] overflow-x-auto px-1 pb-1">
+        <button
+          type="button"
+          data-family="all"
+          aria-pressed="true"
+          class="cat-pill active inline-flex flex-none items-center gap-[8px] border-2 border-edge px-3 py-2 font-mono text-[12px] font-semibold text-ink2"
+          style="--fam:#ff45c2"
+        >
+          ALL
+          <span class="cat-count font-mono text-[11px] opacity-55">{total}</span>
+        </button>
+        {
+          taxonomy.families.map((family) => (
+            <button
+              type="button"
+              data-family={family}
+              aria-pressed="false"
+              class="cat-pill inline-flex flex-none items-center gap-[8px] border-2 border-edge px-3 py-2 font-mono text-[12px] font-semibold text-ink2"
+              style={`--fam:${famColor(family)}`}
+            >
+              {prettify(family).toUpperCase()}
+              <span class="cat-count font-mono text-[11px] opacity-55">{counts[family] ?? 0}</span>
+            </button>
+          ))
+        }
       </div>
-      <div
-        class="view-toggle flex flex-none items-center gap-[2px] rounded-[9px] border border-edge bg-panel p-[3px]"
-        role="group"
-        aria-label="View"
-      >
+
+      <!-- view toggle -->
+      <div class="flex flex-none items-center gap-[7px]" role="group" aria-label="View">
+        <button
+          type="button"
+          data-view-btn="list"
+          aria-pressed="true"
+          class="view-btn active inline-flex items-center gap-[6px] border-2 border-edge px-[11px] py-[7px] font-mono text-[11px] font-semibold text-muted"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="1" y="2" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+            <rect x="1" y="6.8" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+            <rect x="1" y="11.6" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+          </svg>
+          LIST
+        </button>
         <button
           type="button"
           data-view-btn="grid"
-          aria-pressed="true"
-          class="view-btn active inline-flex items-center gap-[6px] rounded-[6px] px-[11px] py-[6px] text-[12.5px] font-medium text-ink2"
+          aria-pressed="false"
+          class="view-btn inline-flex items-center gap-[6px] border-2 border-edge px-[11px] py-[7px] font-mono text-[11px] font-semibold text-muted"
         >
           <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <rect x="1" y="1" width="6" height="6" rx="1.2" fill="currentColor"></rect>
@@ -104,76 +150,20 @@ const publishSteps = [
             <rect x="1" y="9" width="6" height="6" rx="1.2" fill="currentColor"></rect>
             <rect x="9" y="9" width="6" height="6" rx="1.2" fill="currentColor"></rect>
           </svg>
-          Grid
-        </button>
-        <button
-          type="button"
-          data-view-btn="list"
-          aria-pressed="false"
-          class="view-btn inline-flex items-center gap-[6px] rounded-[6px] px-[11px] py-[6px] text-[12.5px] font-medium text-ink2"
-        >
-          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <rect x="1" y="2" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
-            <rect x="1" y="6.8" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
-            <rect x="1" y="11.6" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
-          </svg>
-          List
+          GRID
         </button>
       </div>
     </div>
 
-    <!-- search — filters the grid directly below it -->
-    <label
-      id="categories"
-      class="mt-[24px] flex cursor-text items-center gap-[11px] rounded-[10px] border border-edge2 bg-panel px-[17px] py-[14px]"
-    >
-      <span class="font-pixel text-[10px] text-eve">▸</span>
-      <input
-        id="agent-search"
-        placeholder={'Search agents — "seo", "ads", "qa"…'}
-        class="flex-1 border-none bg-transparent text-left font-mono text-[14px] text-ink outline-none"
-      />
-      <span class="animate-blink inline-block h-[17px] w-2 bg-eve"></span>
-    </label>
-
-    <!-- category toolbar — scrolls horizontally on small screens -->
-    <div class="cat-bar -mx-1 mt-[14px] flex items-center gap-[7px] overflow-x-auto px-1 pb-1">
-      <button
-        type="button"
-        data-family="all"
-        aria-pressed="true"
-        class="cat-pill active inline-flex flex-none items-center gap-[8px] rounded-full border border-edge bg-panel px-[14px] py-[8px] text-[13px] font-medium text-ink2"
-      >
-        All agents
-        <span class="cat-count font-mono text-[11px] text-dim">{total}</span>
-      </button>
-      {
-        taxonomy.families.map((family) => (
-          <button
-            type="button"
-            data-family={family}
-            aria-pressed="false"
-            class="cat-pill inline-flex flex-none items-center gap-[8px] rounded-full border border-edge bg-panel px-[14px] py-[8px] text-[13px] font-medium text-ink2"
-          >
-            <span
-              class="h-[8px] w-[8px] flex-none rounded-full"
-              style={`background:${famColor(family)}`}
-            />
-            {prettify(family)}
-            <span class="cat-count font-mono text-[11px] text-dim">{counts[family] ?? 0}</span>
-          </button>
-        ))
-      }
-    </div>
-
-    <div id="registry-views" data-view="grid" class="mt-[22px]">
+    <!-- registry -->
+    <div id="registry-views" data-view="list" class="mt-[22px]">
       <div
         id="agent-grid"
-        class="grid gap-[14px] [grid-template-columns:repeat(auto-fill,minmax(230px,1fr))]"
+        class="grid gap-4 [grid-template-columns:repeat(3,1fr)] max-lg:[grid-template-columns:repeat(2,1fr)] max-sm:grid-cols-1"
       >
         {cards.map((agent) => <AgentCard agent={agent} />)}
       </div>
-      <div id="agent-list" class="overflow-hidden rounded-lg border border-edge bg-panel">
+      <div id="agent-list" class="flex flex-col gap-[10px]">
         {cards.map((agent) => <AgentRow agent={agent} />)}
       </div>
       <p id="no-results" class="hidden py-10 text-center font-mono text-[13px] text-muted">
@@ -182,102 +172,149 @@ const publishSteps = [
     </div>
   </section>
 
-  <!-- how it works -->
-  <section class="mx-auto max-w-[1180px] px-8 pt-[60px]">
-    <div class="font-mono text-[11px] tracking-[0.08em] text-eve">// how it works</div>
-    <div class="mt-3 font-pixel text-[17px]">THREE STEPS TO SHIP</div>
-    <div class="mt-[22px] grid grid-cols-1 gap-[14px] sm:grid-cols-3">
-      {
-        steps.map((s) => (
-          <div class="rounded-lg border border-edge bg-panel p-5">
-            <div class="font-pixel text-[15px]" style={`color:${s.color}`}>
-              {s.no}
-            </div>
-            <div class="mt-[14px] text-[16.5px] font-semibold">{s.title}</div>
-            <div class="mt-2 text-[14.5px] leading-[1.55] text-muted">{s.body}</div>
-          </div>
-        ))
-      }
+  <!-- bottom banner -->
+  <section class="relative z-[2] mx-auto mt-16 max-w-[1200px] px-8">
+    <div class="font-mono text-[11px] tracking-[0.08em] text-cyan">// built for every team</div>
+    <div class="mt-3 font-pixel text-[16px] leading-[1.5]">ONE REGISTRY, EVERY TEAM</div>
+    <div
+      class="relative mt-6 border-2 border-edge2 bg-code p-[9px]"
+      style="box-shadow:0 0 0 2px #0b0820, 0 0 48px rgba(55,214,255,0.14), 8px 8px 0 rgba(0,0,0,0.45)"
+    >
+      <img
+        src="/atom-eve-install.png"
+        alt="Atom Eve agents overview"
+        class="block w-full"
+        style="image-rendering:pixelated"
+      />
+      <span class="absolute -left-[5px] -top-[5px] h-[9px] w-[9px] bg-cyan"></span>
+      <span class="absolute -right-[5px] -top-[5px] h-[9px] w-[9px] bg-pink"></span>
+      <span class="absolute -bottom-[5px] -left-[5px] h-[9px] w-[9px] bg-pink"></span>
+      <span class="absolute -bottom-[5px] -right-[5px] h-[9px] w-[9px] bg-cyan"></span>
     </div>
   </section>
 
-  <!-- publish your own -->
-  <section id="publish" class="mx-auto max-w-[1180px] px-8 py-[60px]">
-    <div class="publish-grid grid grid-cols-[1fr_480px] items-start gap-12 max-md:grid-cols-1">
-      <div>
-        <div class="font-mono text-[11px] tracking-[0.08em] text-eve">// open source</div>
-        <div class="mt-3 font-pixel text-[17px] leading-[1.5]">PUBLISH<br />YOUR OWN</div>
-        <p class="mt-[18px] max-w-[480px] text-[15.5px] leading-[1.6] text-muted">
-          It's all open source. Every agent is a folder + an <span
-            class="font-mono text-[13.5px] text-ink">atom.json</span
-          > manifest that declares what it does and what keys it needs. Add yours, open a PR, and the
-          registry updates itself — same copy-and-configure flow for everyone.
+  <!-- publish band -->
+  <section id="publish" class="relative z-[2] mx-auto mt-9 max-w-[1200px] px-8">
+    <div
+      class="flex flex-wrap items-center justify-between gap-[30px] border-2 border-edge bg-panel p-[30px] shadow-[6px_6px_0_rgba(0,0,0,0.3)]"
+    >
+      <div class="max-w-[560px]">
+        <div class="font-mono text-[11px] tracking-[0.08em] text-green">// open source</div>
+        <div class="mt-3 font-pixel text-[15px] leading-[1.5]">PUBLISH YOUR OWN</div>
+        <p class="mt-[14px] text-[14.5px] leading-[1.6] text-muted">
+          Every agent is a folder + an <span class="font-mono text-[13px] text-ink">atom.json</span>
+          manifest. Fork the template, open a PR, and it's auto-listed on merge.
         </p>
-        <div class="mt-[22px] flex flex-col gap-[10px]">
-          {
-            publishSteps.map((p) => (
-              <div class="flex items-center gap-[11px]">
-                <span class="font-pixel text-[10px]" style={`color:${p.color}`}>
-                  {p.n}
-                </span>
-                <span class="text-[14px] text-ink2">{p.text}</span>
-              </div>
-            ))
-          }
-        </div>
-        <div class="mt-[26px] flex gap-[10px]">
-          <a
-            href={REPO}
-            class="rounded-md bg-eve px-5 py-3 text-[14px] font-semibold text-[#0a0a0c] transition-[filter] hover:brightness-[1.08]"
-            >Read the guide</a
-          >
-          <a
-            href={REPO}
-            class="rounded-md border border-edge px-[18px] py-3 text-[14px] font-semibold text-ink transition-colors hover:bg-panel2"
-            >Use the template</a
-          >
-        </div>
       </div>
-
-      <div class="flex flex-col gap-4">
-        <div
-          class="relative flex h-[228px] items-center justify-center overflow-hidden rounded-[10px] border border-edge"
-          style="background:radial-gradient(ellipse 70% 60% at 50% 42%, rgba(155,255,92,0.12), rgba(0,0,0,0) 70%), #0a0d1a"
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={REPO}
+          class="arcade-btn bg-green px-[17px] py-[13px] font-pixel text-[10px] leading-[1.5] tracking-[0.02em] text-[#0b0820] shadow-[4px_4px_0_#1d7a4e]"
         >
-          <div
-            class="absolute bottom-[44px] left-[34px] right-[34px] h-[22px] rounded-[50%]"
-            style="background:radial-gradient(ellipse at center, rgba(155,255,92,0.18), rgba(0,0,0,0) 70%)"
-          >
-          </div>
-          <div class="animate-bob mb-[30px]"><HeroFigure /></div>
-          <div
-            class="pointer-events-none absolute inset-0"
-            style="background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,0.32) 3px)"
-          >
-          </div>
-          <div class="absolute bottom-3 left-4 font-mono text-[10px]" style="color:#5a618a">
-            // your agent joins the roster
-          </div>
-        </div>
-        <div class="overflow-hidden rounded-[10px] border border-edge bg-code">
-          <div class="flex items-center gap-[7px] border-b border-edge px-[15px] py-3">
-            <span class="h-[11px] w-[11px] rounded-full bg-sup"></span>
-            <span class="h-[11px] w-[11px] rounded-full bg-rev"></span>
-            <span class="h-[11px] w-[11px] rounded-full bg-eve"></span>
-            <span class="ml-2 font-mono text-[11px] text-dim">atom.json</span>
-          </div>
-          <pre
-            class="m-0 overflow-x-auto p-[18px] font-mono text-[12.5px] leading-[1.7] text-ink2"
-            set:html={highlightJson(manifestExample)}
-          />
-        </div>
+          READ THE GUIDE
+        </a>
+        <a
+          href={REPO}
+          class="border-2 border-edge px-[15px] py-[11px] font-pixel text-[10px] leading-[1.5] tracking-[0.02em] text-ink transition-colors hover:border-green hover:text-green"
+        >
+          USE TEMPLATE
+        </a>
       </div>
     </div>
   </section>
 
   <Footer />
 
+  <!-- get started modal -->
+  <div
+    id="get-started-modal"
+    class="modal-overlay fixed inset-0 z-[200] items-center justify-center bg-[rgba(5,3,15,0.82)] p-6"
+    data-close-modal
+  >
+    <div
+      class="relative max-h-[90vh] w-[min(560px,100%)] overflow-auto border-2 border-edge2 bg-panel shadow-[9px_9px_0_rgba(0,0,0,0.5)]"
+    >
+      <div class="flex items-center justify-between gap-3 border-b-2 border-edge px-5 py-[18px]">
+        <div class="font-pixel text-[13px]">
+          <span class="text-pink">GET</span> <span class="text-cyan">STARTED</span>
+        </div>
+        <button
+          type="button"
+          data-close-modal
+          aria-label="Close"
+          class="cursor-pointer border-2 border-edge bg-transparent px-[10px] py-[7px] font-pixel text-[11px] leading-none text-muted transition-colors hover:border-pink hover:text-pink"
+        >
+          ✕
+        </button>
+      </div>
+      <div class="p-5">
+        <p class="m-0 text-[14.5px] leading-[1.6] text-ink2">
+          Atom Eve drops open-source AI agents straight into your project — like shadcn, but for
+          agents. Works with <span class="text-cyan">eve.dev</span> &amp; <span class="text-pink"
+            >flue</span
+          >.
+        </p>
+
+        <!-- step 1 -->
+        <div class="mt-5 border-2 border-edge bg-code">
+          <div class="flex items-center gap-2 border-b-2 border-edgedim px-[14px] py-[11px]">
+            <span class="font-pixel text-[8px] tracking-[0.04em] text-green">1 · HAVE A PROJECT?</span
+            >
+          </div>
+          <div class="px-[14px] py-[13px]">
+            <div class="mb-[11px] text-[13px] leading-[1.5] text-muted">
+              Paste this into Claude, Cursor, or your coding agent:
+            </div>
+            <div class="flex items-center gap-3">
+              <code
+                class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-ink2"
+                ><span class="text-green">▸</span> {PROMPT}</code
+              >
+              <button
+                type="button"
+                class="copy-btn arcade-btn flex-none whitespace-nowrap bg-cyan px-3 py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820] shadow-[3px_3px_0_rgba(0,0,0,0.4)]"
+                data-cmd={PROMPT}
+              >
+                COPY
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- step 2 -->
+        <div class="mt-[14px] border-2 border-edge bg-code">
+          <div class="flex items-center gap-2 border-b-2 border-edgedim px-[14px] py-[11px]">
+            <span class="font-pixel text-[8px] tracking-[0.04em] text-cyan">2 · STARTING FRESH?</span>
+          </div>
+          <div class="px-[14px] py-[13px]">
+            <div class="mb-[11px] text-[13px] leading-[1.5] text-muted">
+              No eve.dev or flue project yet? Scaffold one in the format Atom Eve expects:
+            </div>
+            <div class="flex items-center gap-3">
+              <code
+                class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-ink2"
+                ><span class="text-cyan">$</span> {INIT_CMD}</code
+              >
+              <button
+                type="button"
+                class="copy-btn arcade-btn flex-none whitespace-nowrap bg-green px-3 py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820] shadow-[3px_3px_0_rgba(0,0,0,0.4)]"
+                data-cmd={INIT_CMD}
+              >
+                COPY
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-[18px] font-mono text-[12px] text-muted2">
+          New to eve.dev / flue? <a href={REPO} class="text-ink hover:text-cyan">Read the docs ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // ----- registry: search + category filter + grid/list view -----
     const wrap = document.getElementById("registry-views");
     const search = document.getElementById("agent-search") as HTMLInputElement | null;
     const empty = document.getElementById("no-results");
@@ -320,7 +357,7 @@ const publishSteps = [
 
       for (const btn of viewButtons) {
         btn.addEventListener("click", () => {
-          wrap.dataset.view = btn.dataset.viewBtn ?? "grid";
+          wrap.dataset.view = btn.dataset.viewBtn ?? "list";
           for (const b of viewButtons) {
             const on = b === btn;
             b.classList.toggle("active", on);
@@ -328,6 +365,25 @@ const publishSteps = [
           }
         });
       }
+    }
+
+    // ----- get started modal -----
+    const modal = document.getElementById("get-started-modal");
+    if (modal) {
+      const open = () => modal.classList.add("is-open");
+      const close = () => modal.classList.remove("is-open");
+      for (const b of Array.from(document.querySelectorAll("[data-open-modal]"))) {
+        b.addEventListener("click", open);
+      }
+      // Close on backdrop click or the close button; clicks inside the panel
+      // (which has no data-close-modal) are ignored.
+      modal.addEventListener("click", (e) => {
+        const t = e.target as HTMLElement;
+        if (t === modal || t.hasAttribute("data-close-modal")) close();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
     }
   </script>
 </Base>

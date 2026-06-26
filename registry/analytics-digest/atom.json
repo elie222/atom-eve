@@ -9,10 +9,10 @@
   "integrations": ["posthog"],
   "connections": [
     {
-      "name": "posthog",
+      "name": "posthog-cli",
       "type": "custom-tool",
       "auth": "env"
     }
   ],
-  "requiredEnv": ["POSTHOG_API_KEY", "POSTHOG_PROJECT_ID"]
+  "requiredEnv": ["POSTHOG_CLI_API_KEY", "POSTHOG_CLI_PROJECT_ID"]
 }
