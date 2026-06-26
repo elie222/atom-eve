@@ -9,6 +9,7 @@
     { "id": "outreach", "family": "revenue", "label": "Outreach" },
     { "id": "analytics", "family": "data", "label": "Analytics" },
     { "id": "content", "family": "growth", "label": "Content" },
-    { "id": "social", "family": "growth", "label": "Social" }
+    { "id": "social", "family": "growth", "label": "Social" },
+    { "id": "email", "family": "growth", "label": "Email" }
   ]
 }

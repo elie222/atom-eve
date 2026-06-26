@@ -60,7 +60,50 @@ Use this pattern:
 - Keep schedules and workflows as thin triggers that import or reference shared prompt text.
 - Keep target-specific wrappers focused on framework API differences.
 
+Schedules and workflows must import their trigger prompt from `shared/lib/prompts.ts`, not
+inline a copy. The same trigger string appearing in both the Eve schedule and the Flue workflow
+is the canonical example of drift waiting to happen. Post-install import paths:
+
+- Eve schedule (`agent/schedules/*.ts`) → `../lib/prompts.js`
+- Flue workflow (`src/workflows/<agent>-*.ts`) and Flue agent (`src/agents/<agent>.ts`) →
+  `../lib/agents/<agent>/prompts.js`
+
 Some small duplication is acceptable when frameworks require different entrypoints, but copied paragraphs that drift between targets are a bug.
+
+## Skills: Owned And Remote
+
+Agents reference two kinds of skills. Both end up as local files the framework discovers; the
+difference is where the source of truth lives.
+
+**Owned skills** are authored in this repo under `registry/<agent>/shared/skills/` and copied on
+install (Eve → `agent/skills/`, Flue → `src/skills/<agent>-<name>/SKILL.md`). Use these for an
+agent's own operational loop. We may also publish an owned skill to skills.sh for reach.
+
+**Remote skills** are cross-cutting expertise (e.g. a marketing playbook) shared across many
+agents. Do not copy a third-party skill into this repo. Declare it in `atom.json`:
+
+```jsonc
+"skills": [{ "ref": "coreyhaines31/marketingskills@copywriting" }]
+```
+
+The `ref` is the skills.sh install id: `owner/repo`, optionally `@skill` to pick one skill from a
+multi-skill repo (the same value `npx skills add <ref>` accepts). At install time the CLI
+delegates to the `skills` CLI (`npx skills add <repo> -s <skill> -a <target> --copy -y`), which
+owns auth and placement: `-a eve` lands skills in `agent/skills/<skill>/`, and every other target
+uses `-a universal` (the shared `.agents/skills/<skill>/` location). A shared skill therefore
+lives once at its source and is referenced by many agents.
+
+Notes:
+
+- The skills.sh REST API requires a Vercel OIDC token, so we never call it directly — the
+  `skills` CLI handles auth. `flue` is not a `skills`-CLI target, hence the `universal` fallback.
+- Remote-skill install is best-effort: if it fails it warns and prints the `npx skills add <ref>`
+  fallback rather than failing the whole install. A `skills-lock.json` is written in the user's
+  project so they can `npx skills update` later.
+- Set `ATOM_EVE_SKIP_REMOTE_SKILLS=1` to skip remote installs (the fixture checks set this so
+  `pnpm check` stays hermetic).
+- Neither Eve nor Flue support runtime-remote skills, so the files must land locally — but the
+  authored source stays remote and DRY across the registry.
 
 ## Eve Target Rules
 

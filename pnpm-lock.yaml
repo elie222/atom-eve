@@ -78,6 +78,16 @@ importers:
         version: 5.9.3
 
   packages/cli:
+    dependencies:
+      '@atom-eve/install-map':
+        specifier: workspace:*
+        version: link:../install-map
+    devDependencies:
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
+
+  packages/install-map:
     devDependencies:
       typescript:
         specifier: ^5.7.2
@@ -85,6 +95,9 @@ importers:
 
   packages/registry-generator:
     dependencies:
+      '@atom-eve/install-map':
+        specifier: workspace:*
+        version: link:../install-map
       '@atom-eve/schemas':
         specifier: workspace:*
         version: link:../schemas

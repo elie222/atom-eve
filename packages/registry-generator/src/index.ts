@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { createInstallFileSpecs, type InstallFileSpec } from "@atom-eve/install-map";
 import {
   atomSchema,
   catalogConfigSchema,
@@ -15,11 +16,7 @@ type RegistryManifest = AtomManifest & {
   scheduled: boolean;
 };
 
-export interface RegistryFile {
-  path: string;
-  target: string;
-  type: "registry:file";
-}
+export interface RegistryFile extends InstallFileSpec {}
 
 export interface ResolvedRegistryFile extends RegistryFile {
   content: string;
@@ -41,6 +38,7 @@ export interface RegistryItem extends SourceRegistryItem {
     version: string;
     requiredEnv: string[];
     connections: RegistryManifest["connections"];
+    skills: RegistryManifest["skills"];
   };
 }
 
@@ -56,6 +54,7 @@ export interface SiteIndexItem {
   integrations: string[];
   connections: RegistryManifest["connections"];
   requiredEnv: string[];
+  skills: RegistryManifest["skills"];
   scheduled: boolean;
   repoPath: string;
   featured: boolean;
@@ -131,10 +130,6 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
 }
 
 export async function createRegistryItem(rootDir: string, manifest: RegistryManifest, target: Target): Promise<RegistryItem> {
-  if (!manifest.targets.includes(target)) {
-    throw new Error(`${manifest.name} does not support target ${target}`);
-  }
-
   const files = await mapFiles(rootDir, manifest, target);
   return {
     name: `${target}/${manifest.name}`,
@@ -147,58 +142,24 @@ export async function createRegistryItem(rootDir: string, manifest: RegistryMani
       target,
       version: manifest.version,
       requiredEnv: manifest.requiredEnv,
-      connections: manifest.connections
+      connections: manifest.connections,
+      skills: manifest.skills
     }
   };
 }
 
 export async function mapFiles(rootDir: string, manifest: RegistryManifest, target: Target): Promise<ResolvedRegistryFile[]> {
-  const files: ResolvedRegistryFile[] = [];
-  const add = async (source: string, destination: string) => {
-    const absSource = path.join(rootDir, manifest.repoPath, source);
-    const content = await fs.readFile(absSource, "utf8");
-    files.push({
-      path: `${manifest.repoPath}/${source}`,
-      target: destination,
-      type: "registry:file",
-      content
-    });
-  };
+  const specs = await createInstallFileSpecs(manifest, target, {
+    hasFile: async (source) => Boolean(await optionalFile(rootDir, manifest, source)),
+    discoverFiles: (sourceDir) => discoverFiles(rootDir, manifest, sourceDir)
+  });
 
-  if (target === "eve") {
-    const base = "~/agent";
-    const instructions = await optionalFile(rootDir, manifest, "shared/instructions.md");
-    if (instructions) await add(instructions, `${base}/instructions.md`);
-    for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) await add(skill, `${base}/skills/${path.basename(skill)}`);
-    for (const lib of await discoverFiles(rootDir, manifest, "shared/lib")) await add(lib, `${base}/lib/${path.basename(lib)}`);
-    const entrypoint = await requiredFile(rootDir, manifest, "targets/eve/agent.ts");
-    await add(entrypoint, `${base}/agent.ts`);
-    await addTree(rootDir, manifest, "targets/eve/tools", `${base}/tools`, add);
-    await addTree(rootDir, manifest, "targets/eve/connections", `${base}/connections`, add);
-    await addTree(rootDir, manifest, "targets/eve/sandbox", `${base}/sandbox`, add);
-    await addTree(rootDir, manifest, "targets/eve/schedules", "~/agent/schedules", async (source, destination) => {
-      await add(source, destination);
-    });
-    await addTree(rootDir, manifest, "evals/eve", "~/evals", add);
-  } else {
-    const root = "src";
-    const entrypoint = await requiredFile(rootDir, manifest, "targets/flue/agent.ts");
-    await add(entrypoint, `~/${root}/agents/${manifest.name}.ts`);
-    for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) {
-      await add(skill, `~/${root}/skills/${manifest.name}-${path.basename(skill, path.extname(skill))}/SKILL.md`);
-    }
-    for (const lib of await discoverFiles(rootDir, manifest, "shared/lib")) {
-      await add(lib, `~/${root}/lib/agents/${manifest.name}/${path.basename(lib)}`);
-    }
-    await addTree(rootDir, manifest, "targets/flue/tools", `~/${root}/tools/${manifest.name}`, add);
-    await addTree(rootDir, manifest, "targets/flue/workflows", `~/${root}/workflows`, async (source, destination) => {
-      const ext = path.extname(destination);
-      const stem = destination.slice(0, -ext.length);
-      await add(source, `${stem.replace(/\/([^/]+)$/, `/${manifest.name}-$1`)}${ext}`);
-    });
-  }
-
-  return files;
+  return Promise.all(
+    specs.map(async (file) => ({
+      ...file,
+      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
+    }))
+  );
 }
 
 async function optionalFile(rootDir: string, manifest: RegistryManifest, source: string): Promise<string | undefined> {
@@ -211,34 +172,16 @@ async function optionalFile(rootDir: string, manifest: RegistryManifest, source:
   }
 }
 
-async function requiredFile(rootDir: string, manifest: RegistryManifest, source: string): Promise<string> {
-  const found = await optionalFile(rootDir, manifest, source);
-  if (!found) throw new Error(`${manifest.name} is missing ${source}`);
-  return found;
-}
-
 async function discoverFiles(rootDir: string, manifest: RegistryManifest, sourceDir: string): Promise<string[]> {
   const abs = path.join(rootDir, manifest.repoPath, sourceDir);
   const files = await walk(abs).catch(() => []);
   return files
-    .map((file) => path.relative(path.join(rootDir, manifest.repoPath), file))
+    .map((file) => toPosixPath(path.relative(path.join(rootDir, manifest.repoPath), file)))
     .sort((a, b) => a.localeCompare(b));
 }
 
-async function addTree(
-  rootDir: string,
-  manifest: RegistryManifest,
-  sourceDir: string,
-  destinationDir: string,
-  add: (source: string, destination: string) => Promise<void>
-) {
-  const abs = path.join(rootDir, manifest.repoPath, sourceDir);
-  const entries = await walk(abs).catch(() => []);
-  for (const file of entries) {
-    const rel = path.relative(path.join(rootDir, manifest.repoPath), file);
-    const relInside = path.relative(abs, file);
-    await add(rel, `${destinationDir}/${relInside}`);
-  }
+function toPosixPath(filePath: string): string {
+  return filePath.split(path.sep).join(path.posix.sep);
 }
 
 async function walk(dir: string): Promise<string[]> {
@@ -328,6 +271,7 @@ function toSiteIndexItem(manifest: RegistryManifest, config: CatalogConfig): Sit
     integrations: manifest.integrations,
     connections: manifest.connections,
     requiredEnv: manifest.requiredEnv,
+    skills: manifest.skills,
     scheduled: manifest.scheduled,
     repoPath: manifest.repoPath,
     featured: config.featured.includes(manifest.name),

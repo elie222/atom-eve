@@ -13,6 +13,16 @@ export const connectionSchema = z.object({
 }).strict();
 export type AtomConnection = z.infer<typeof connectionSchema>;
 
+// A remote skill the agent depends on but does not vendor. Resolved from skills.sh
+// at install time and written into the framework's skills dir, so a shared skill
+// (e.g. a marketing playbook) lives once at its source and is referenced by many agents.
+// `ref` is the skills.sh install id, e.g. "coreyhaines31/marketingskills@copywriting"
+// (owner/repo, optionally @skill to pick one skill from a multi-skill repo).
+export const remoteSkillSchema = z.object({
+  ref: z.string().regex(/^[a-z0-9][a-z0-9._-]*(?:\/[a-z0-9][a-z0-9._-]*)+(?:@[a-z0-9][a-z0-9._-]*)?$/i)
+}).strict();
+export type RemoteSkill = z.infer<typeof remoteSkillSchema>;
+
 export const atomSchema = z.object({
   $schema: z.string().url().optional(),
   name: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -29,7 +39,10 @@ export const atomSchema = z.object({
   targets: z.array(targetSchema).min(1),
   integrations: z.array(z.string()).default([]),
   connections: z.array(connectionSchema).default([]),
-  requiredEnv: z.array(z.string().regex(/^[A-Z][A-Z0-9_]*$/)).default([])
+  requiredEnv: z.array(z.string().regex(/^[A-Z][A-Z0-9_]*$/)).default([]),
+  // Owned skills live as files under shared/skills/ and are copied on install.
+  // This array declares remote skills pulled from skills.sh at install time instead.
+  skills: z.array(remoteSkillSchema).default([])
 }).strict();
 export type AtomManifest = z.infer<typeof atomSchema>;
 

@@ -4,8 +4,8 @@ import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { createInterface } from "node:readline/promises";
+import { createInstallFileSpecs, type InstallManifest, type Target } from "@atom-eve/install-map";
 
-type Target = "eve" | "flue";
 type Runtime = "vercel" | "node" | "cloudflare";
 
 interface AtomEveConfig {
@@ -16,10 +16,12 @@ interface AtomEveConfig {
   registry: string;
 }
 
-interface AtomManifest {
-  name: string;
-  targets: Target[];
-  repoPath: string;
+interface RemoteSkillRef {
+  ref: string;
+}
+
+interface AtomManifest extends InstallManifest {
+  skills: RemoteSkillRef[];
 }
 
 interface InstallFile {
@@ -111,6 +113,8 @@ async function add(agent: string, args: Args) {
       ].join("\n")
     );
   }
+
+  await installRemoteSkills(await remoteSkillsForAgent(agent, config), target);
 }
 
 async function installLocalAgent(agentDir: string, target: Target, config: AtomEveConfig) {
@@ -119,13 +123,15 @@ async function installLocalAgent(agentDir: string, target: Target, config: AtomE
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
   if (!manifest.targets.includes(target)) throw new Error(`${manifest.name} does not support ${target}`);
 
-  const files = await mapFiles(rootDir, manifest, target, config);
+  const files = await mapFiles(rootDir, manifest, target);
   for (const file of files) {
     const destination = resolveInstallTarget(file.target, config);
     await fs.mkdir(path.dirname(destination), { recursive: true });
     await fs.writeFile(destination, file.content);
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
+
+  await installRemoteSkills(manifest.skills, target);
 }
 
 function resolveInstallTarget(target: string, config: AtomEveConfig): string {
@@ -277,48 +283,18 @@ async function promptForTarget(): Promise<Target> {
   }
 }
 
-async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target, config: AtomEveConfig): Promise<InstallFile[]> {
-  const files: InstallFile[] = [];
-  const add = async (source: string, destination: string) => {
-    const absSource = path.join(rootDir, manifest.repoPath, source);
-    files.push({
-      target: destination,
-      content: await fs.readFile(absSource, "utf8")
-    });
-  };
-
-  if (target === "eve") {
-    const base = "~/agent";
-    const instructions = await optionalFile(rootDir, manifest, "shared/instructions.md");
-    if (instructions) await add(instructions, `${base}/instructions.md`);
-    for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) await add(skill, `${base}/skills/${path.basename(skill)}`);
-    for (const lib of await discoverFiles(rootDir, manifest, "shared/lib")) await add(lib, `${base}/lib/${path.basename(lib)}`);
-    await add(await requiredFile(rootDir, manifest, "targets/eve/agent.ts"), `${base}/agent.ts`);
-    await addTree(rootDir, manifest, "targets/eve/tools", `${base}/tools`, add);
-    await addTree(rootDir, manifest, "targets/eve/connections", `${base}/connections`, add);
-    await addTree(rootDir, manifest, "targets/eve/sandbox", `${base}/sandbox`, add);
-    await addTree(rootDir, manifest, "targets/eve/schedules", "~/agent/schedules", async (source, destination) => {
-      await add(source, destination);
-    });
-    await addTree(rootDir, manifest, "evals/eve", "~/evals", add);
-    return files;
-  }
-
-  const sourceRoot = "src";
-  await add(await requiredFile(rootDir, manifest, "targets/flue/agent.ts"), `~/${sourceRoot}/agents/${manifest.name}.ts`);
-  for (const skill of await discoverFiles(rootDir, manifest, "shared/skills")) {
-    await add(skill, `~/${sourceRoot}/skills/${manifest.name}-${path.basename(skill, path.extname(skill))}/SKILL.md`);
-  }
-  for (const lib of await discoverFiles(rootDir, manifest, "shared/lib")) {
-    await add(lib, `~/${sourceRoot}/lib/agents/${manifest.name}/${path.basename(lib)}`);
-  }
-  await addTree(rootDir, manifest, "targets/flue/tools", `~/${sourceRoot}/tools/${manifest.name}`, add);
-  await addTree(rootDir, manifest, "targets/flue/workflows", `~/${sourceRoot}/workflows`, async (source, destination) => {
-    const ext = path.extname(destination);
-    const stem = destination.slice(0, -ext.length);
-    await add(source, `${stem.replace(/\/([^/]+)$/, `/${manifest.name}-$1`)}${ext}`);
+async function mapFiles(rootDir: string, manifest: AtomManifest, target: Target): Promise<InstallFile[]> {
+  const specs = await createInstallFileSpecs(manifest, target, {
+    hasFile: async (source) => Boolean(await optionalFile(rootDir, manifest, source)),
+    discoverFiles: (sourceDir) => discoverFiles(rootDir, manifest, sourceDir)
   });
-  return files;
+
+  return Promise.all(
+    specs.map(async (file) => ({
+      target: file.target,
+      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
+    }))
+  );
 }
 
 async function optionalFile(rootDir: string, manifest: AtomManifest, source: string): Promise<string | undefined> {
@@ -331,34 +307,16 @@ async function optionalFile(rootDir: string, manifest: AtomManifest, source: str
   }
 }
 
-async function requiredFile(rootDir: string, manifest: AtomManifest, source: string): Promise<string> {
-  const found = await optionalFile(rootDir, manifest, source);
-  if (!found) throw new Error(`${manifest.name} is missing ${source}`);
-  return found;
-}
-
 async function discoverFiles(rootDir: string, manifest: AtomManifest, sourceDir: string): Promise<string[]> {
   const abs = path.join(rootDir, manifest.repoPath, sourceDir);
   const files = await walk(abs).catch(() => []);
   return files
-    .map((file) => path.relative(path.join(rootDir, manifest.repoPath), file))
+    .map((file) => toPosixPath(path.relative(path.join(rootDir, manifest.repoPath), file)))
     .sort((a, b) => a.localeCompare(b));
 }
 
-async function addTree(
-  rootDir: string,
-  manifest: AtomManifest,
-  sourceDir: string,
-  destinationDir: string,
-  add: (source: string, destination: string) => Promise<void>
-) {
-  const abs = path.join(rootDir, manifest.repoPath, sourceDir);
-  const entries = await walk(abs).catch(() => []);
-  for (const file of entries) {
-    const rel = path.relative(path.join(rootDir, manifest.repoPath), file);
-    const relInside = path.relative(abs, file);
-    await add(rel, `${destinationDir}/${relInside}`);
-  }
+function toPosixPath(filePath: string): string {
+  return filePath.split(path.sep).join(path.posix.sep);
 }
 
 async function walk(dir: string): Promise<string[]> {
@@ -403,8 +361,64 @@ function validateManifest(value: unknown, repoPath: string): AtomManifest {
   return {
     name: record.name,
     repoPath,
-    targets
+    targets,
+    skills: parseSkillRefs(record.skills)
   };
+}
+
+function parseSkillRefs(value: unknown): RemoteSkillRef[] {
+  if (value === undefined) return [];
+  if (!Array.isArray(value)) throw new Error("atom.json skills must be an array");
+  return value.map((entry) => {
+    if (!entry || typeof entry !== "object") throw new Error("Invalid skill ref");
+    const record = entry as Record<string, unknown>;
+    if (typeof record.ref !== "string") throw new Error("skill ref is missing 'ref'");
+    return { ref: record.ref };
+  });
+}
+
+// Remote skills are not vendored in the registry. They are declared in atom.json and
+// pulled from skills.sh at install time by delegating to the `skills` CLI, which owns
+// auth and per-tool placement: eve installs into agent/skills/, every other target uses
+// the universal .agents/skills/ location. The framework then discovers them as local files.
+async function installRemoteSkills(skills: RemoteSkillRef[], target: Target) {
+  if (!skills.length) return;
+  if (process.env.ATOM_EVE_SKIP_REMOTE_SKILLS) {
+    console.log(`Skipping ${skills.length} remote skill(s) (ATOM_EVE_SKIP_REMOTE_SKILLS set).`);
+    return;
+  }
+
+  const agentTarget = target === "eve" ? "eve" : "universal";
+  for (const skill of skills) {
+    const { repo, skill: skillName } = splitSkillRef(skill.ref);
+    const args = ["--yes", "skills", "add", repo, "-a", agentTarget, "--copy", "-y"];
+    if (skillName) args.push("-s", skillName);
+    const result = spawnSync("npx", args, { cwd, stdio: "inherit", shell: false });
+    if (result.status !== 0) {
+      console.warn(`Could not install remote skill ${skill.ref}. Install it manually with: npx skills add ${skill.ref}`);
+    }
+  }
+}
+
+// "owner/repo@skill" -> { repo: "owner/repo", skill: "skill" }; the @skill part is optional.
+function splitSkillRef(ref: string): { repo: string; skill?: string } {
+  const at = ref.indexOf("@");
+  if (at === -1) return { repo: ref };
+  return { repo: ref.slice(0, at), skill: ref.slice(at + 1) };
+}
+
+// Best-effort lookup of an agent's declared remote skills for the shadcn install path,
+// where we never read the local atom.json. Reads it from the GitHub registry instead.
+async function remoteSkillsForAgent(agent: string, config: AtomEveConfig): Promise<RemoteSkillRef[]> {
+  const url = `https://raw.githubusercontent.com/${config.registry}/HEAD/registry/${agent}/atom.json`;
+  try {
+    const response = await fetch(url, { headers: { accept: "application/json" }, signal: AbortSignal.timeout(5000) });
+    if (!response.ok) return [];
+    const data = (await response.json()) as { skills?: unknown };
+    return parseSkillRefs(data.skills);
+  } catch {
+    return [];
+  }
 }
 
 function detectTarget(): Target | undefined {
