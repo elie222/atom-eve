@@ -1,5 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/error-triage.js";
+import { dailyErrorTriagePrompt } from "../lib/agents/error-triage/prompts.js";
 
 interface WorkflowContext {
   harness: {
@@ -13,6 +14,6 @@ export default defineWorkflow({
   agent,
   async run({ harness }: WorkflowContext) {
     const session = await harness.session();
-    return session.prompt("Run the read-only error triage review for recent production Sentry errors and summarize severity, likely owners/files, regressions, and TDD fix plans.");
+    return session.prompt(dailyErrorTriagePrompt);
   }
 });
