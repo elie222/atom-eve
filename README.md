@@ -14,6 +14,24 @@ The registry is source-first. Atom Eve does not host or run your agents, store c
 
 > Atom Eve is a community project. It is not affiliated with or endorsed by Vercel, Eve, Cloudflare, or Flue.
 
+## Get Started With An AI Coding Agent
+
+The fastest way to start — especially if you've never used Eve or Flue — is to let your coding
+agent set it up. Paste this into **Claude Code**, **Codex**, **Cursor**, or similar:
+
+```text
+Set up a new Eve project in this directory using Atom Eve.
+Read https://raw.githubusercontent.com/elie222/atom-eve/main/USAGE.md and follow it.
+Start with one agent so we can confirm it builds and runs, then we'll add more.
+```
+
+The agent fetches [`USAGE.md`](USAGE.md), scaffolds the project, installs an agent, and verifies the
+build — you don't need to read the rest of this README first. Swap `Eve` for `Flue` to target Flue,
+and name specific agents (browse [atomeve.dev](https://atomeve.dev)) if you already know what you
+want.
+
+Prefer to drive it yourself? Keep reading, or jump to [`USAGE.md`](USAGE.md) for the manual steps.
+
 ## Why This Exists
 
 Skills and prompts are useful, but they usually run only when a human invokes them. Production agents need structure: instructions, tools, skills, schedules, credentials, evals, deployment shape, and framework-specific entrypoints.
@@ -36,32 +54,31 @@ Each agent page links back to its source folder and renders that agent's README.
 
 ## Install An Agent
 
-Initialize Atom Eve in your project:
+Scaffold a full app and install an agent in one step (`create` delegates to the framework's own
+scaffolder, then installs the agent's source):
 
 ```bash
-npx atom-eve init
+npx atom-eve create my-agent --target eve --agent facebook-ads
+cd my-agent
 ```
 
-For a new Eve app, `init --target eve` also creates a minimal `package.json` and `tsconfig.json` when those files do not already exist. It does not overwrite existing app files.
+On Eve this is **Vercel-native**: run `vercel link` and the model resolves through the Vercel AI
+Gateway via `VERCEL_OIDC_TOKEN` — no model API key to set. Per-agent integration secrets (e.g.
+`STRIPE_SECRET_KEY`) are Vercel project env vars. See [`USAGE.md`](USAGE.md) for the full flow.
 
-Then add an agent:
-
-```bash
-npx atom-eve add facebook-ads
-```
-
-Choose a target explicitly when needed:
+Adding an agent to an existing project instead:
 
 ```bash
 npx atom-eve add facebook-ads --target eve
-npx atom-eve add facebook-ads --target flue
+npx atom-eve add facebook-ads --target flue --runtime cloudflare
 ```
 
-For Flue deployment context:
+Running many agents from one repo? Scaffold a workspace root and create one app per agent:
 
 ```bash
-npx atom-eve add facebook-ads --target flue --runtime cloudflare
-npx atom-eve add facebook-ads --target flue --runtime node
+npx atom-eve init --workspace my-agents
+cd my-agents
+npx atom-eve create facebook-ads --target eve --agent facebook-ads
 ```
 
 ![Atom Eve install flow](apps/web/public/atom-eve-install.png)
@@ -109,31 +126,6 @@ my-agents/
 ```
 
 Install Atom Eve packages into the app folder for the agent you are deploying. This keeps each production agent isolated while still letting your team manage a private agent catalog in one GitHub repo.
-
-## For Coding Agents
-
-If you are an AI coding agent working in this repository, start here:
-
-1. Read `registry/<agent>/atom.json` for catalog metadata, targets, env vars, and connections.
-2. Read `registry/<agent>/README.md` for human setup and usage.
-3. Edit source under `registry/<agent>/shared/` and `registry/<agent>/targets/`. The generator discovers files from this folder layout.
-4. Run `pnpm generate` after changing manifests or agent source. This updates the tracked root `registry.json` and regenerates ignored website payloads under `public/`.
-5. Run `pnpm check` before finishing.
-
-Do not hand-edit generated registry files unless you are debugging the generator.
-
-Tracked generated file:
-
-```text
-registry.json
-```
-
-Ignored build artifacts:
-
-```text
-public/r/
-public/index.json
-```
 
 ## Add Your Own Agent
 
@@ -223,10 +215,6 @@ pnpm check
 ```
 
 `pnpm check` runs generation, package typechecks, builds, fixture installs/typechecks, and a basic secret scan.
-
-## Current Status
-
-This repo is in early implementation. The first reference package is `facebook-ads`, with both Eve and Flue targets. The goal is to grow into a broad catalog of high-quality, installable agents.
 
 ## License
 
