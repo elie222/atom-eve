@@ -1,0 +1,66 @@
+name: Release CLI
+
+# Manually publish a new `atom-eve` npm version: Actions -> Release CLI -> Run workflow.
+# Requires an NPM_TOKEN (npm Automation token) repository secret.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump"
+        type: choice
+        default: patch
+        options: [patch, minor, major]
+
+concurrency:
+  group: release-cli
+  cancel-in-progress: false
+
+permissions:
+  contents: write # push the version-bump commit + tag
+  id-token: write # npm provenance
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Bump version
+        id: bump
+        run: |
+          cd packages/cli
+          NEW=$(npm version ${{ inputs.bump }} --no-git-tag-version)
+          echo "version=${NEW#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish to npm
+        run: pnpm --filter atom-eve publish --no-git-checks --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit and tag the release
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add packages/cli/package.json
+          git commit -m "chore(release): atom-eve@${{ steps.bump.outputs.version }}"
+          git tag "atom-eve-v${{ steps.bump.outputs.version }}"
+          git push origin HEAD:main --follow-tags || echo "::warning::Published atom-eve@${{ steps.bump.outputs.version }}, but could not push the bump/tag (protected branch?)."
