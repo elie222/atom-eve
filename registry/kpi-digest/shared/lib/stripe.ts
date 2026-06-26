@@ -1,12 +1,7 @@
-// Read-only KPI digest reader. It pulls revenue KPIs from Stripe (MRR, active/new/churned
-// subscriptions, and collected revenue) and product KPIs from PostHog (event volume plus top
-// event trends), then assembles them into one weekly digest. It never creates, updates, or
-// cancels anything in Stripe or PostHog.
-
-export interface DateRange {
-  since: string;
-  until: string;
-}
+// Read-only Stripe revenue-KPI reader. It pulls revenue KPIs from Stripe (MRR, active/new/churned
+// subscriptions, collected revenue, and top accounts) and returns them as a structured digest.
+// It never creates, updates, or cancels anything in Stripe. Product KPIs come from PostHog, which
+// the agent reads separately through the posthog-cli in the framework sandbox.
 
 export interface TopAccount {
   customerId: string;
@@ -27,40 +22,22 @@ export interface RevenueKpis {
   topAccounts: TopAccount[];
 }
 
-export interface EventTrend {
-  event: string;
-  count: number;
-  previousCount: number;
-  changePct: number | null;
-  shareOfTotalPct: number | null;
-}
-
-export interface ProductKpis {
-  current: DateRange;
-  comparison: DateRange;
-  totalEvents: number;
-  previousTotalEvents: number;
-  totalEventsChangePct: number | null;
-  topEvents: EventTrend[];
-}
-
-export interface KpiObservation {
-  area: "revenue" | "product";
+export interface RevenueObservation {
+  area: "revenue";
   severity: "info" | "watch" | "action";
   observation: string;
 }
 
-export interface KpiDigest {
+export interface RevenueDigest {
   generatedAt: string;
   mode: "read_only_digest";
   window: { since: string; until: string; days: number };
   revenue: RevenueKpis;
-  product: ProductKpis;
-  observations: KpiObservation[];
+  observations: RevenueObservation[];
   digestHint: string;
 }
 
-export const reviewKpisInputSchema = {
+export const reviewRevenueInputSchema = {
   type: "object",
   additionalProperties: false,
   properties: {
@@ -68,69 +45,56 @@ export const reviewKpisInputSchema = {
       type: "integer",
       minimum: 1,
       maximum: 90,
-      description: "Lookback window in days for revenue and product metrics. Defaults to 7."
+      description: "Lookback window in days for revenue metrics. Defaults to 7."
     },
     topAccountsLimit: {
       type: "integer",
       minimum: 1,
       maximum: 50,
       description: "How many top accounts by MRR to include. Defaults to 5."
-    },
-    topEventsLimit: {
-      type: "integer",
-      minimum: 1,
-      maximum: 100,
-      description: "How many top PostHog events by volume to include. Defaults to 10."
     }
   }
 } as const;
 
-export interface ReviewKpisInput {
+export interface ReviewRevenueInput {
   windowDays?: number;
   topAccountsLimit?: number;
-  topEventsLimit?: number;
 }
 
-export function normalizeReviewKpisInput(input: unknown): ReviewKpisInput {
+export function normalizeReviewRevenueInput(input: unknown): ReviewRevenueInput {
   if (input === undefined || input === null) return {};
   if (typeof input !== "object" || Array.isArray(input)) {
-    throw new Error("KPI digest input must be an object.");
+    throw new Error("Revenue KPI input must be an object.");
   }
 
   const value = input as Record<string, unknown>;
   return {
     windowDays: optionalInteger(value.windowDays, "windowDays", 1, 90),
-    topAccountsLimit: optionalInteger(value.topAccountsLimit, "topAccountsLimit", 1, 50),
-    topEventsLimit: optionalInteger(value.topEventsLimit, "topEventsLimit", 1, 100)
+    topAccountsLimit: optionalInteger(value.topAccountsLimit, "topAccountsLimit", 1, 50)
   };
 }
 
-export async function reviewKpis(
-  input: ReviewKpisInput = {},
+export async function reviewRevenue(
+  input: ReviewRevenueInput = {},
   fetchImpl: typeof fetch = fetch
-): Promise<KpiDigest> {
-  const parsed = normalizeReviewKpisInput(input);
+): Promise<RevenueDigest> {
+  const parsed = normalizeReviewRevenueInput(input);
   const windowDays = parsed.windowDays ?? 7;
   const topAccountsLimit = parsed.topAccountsLimit ?? 5;
-  const topEventsLimit = parsed.topEventsLimit ?? 10;
 
   const now = new Date();
   const windowStart = new Date(now.getTime() - windowDays * 24 * 60 * 60 * 1000);
 
-  const [revenue, product] = await Promise.all([
-    readRevenueKpis(windowStart, topAccountsLimit, fetchImpl),
-    readProductKpis(isoDate(now), windowDays, topEventsLimit, fetchImpl)
-  ]);
+  const revenue = await readRevenueKpis(windowStart, topAccountsLimit, fetchImpl);
 
   return {
     generatedAt: now.toISOString(),
     mode: "read_only_digest",
     window: { since: isoDate(windowStart), until: isoDate(now), days: windowDays },
     revenue,
-    product,
-    observations: [...observeRevenue(revenue), ...observeProduct(product)],
+    observations: observeRevenue(revenue),
     digestHint:
-      "Combine these revenue and product KPIs into one short weekly digest for the team. Lead with the headline revenue movement, pair it with the matching product-usage signal, and flag anything worth investigating. This is read-only: do not claim to have changed subscriptions, tracking, dashboards, or any Stripe or PostHog configuration."
+      "Combine these Stripe revenue KPIs with the PostHog product KPIs you read via posthog-cli into one short weekly digest for the team. Lead with the headline revenue movement, pair it with the matching product-usage signal, and flag anything worth investigating. This is read-only: do not claim to have changed subscriptions, tracking, dashboards, or any Stripe or PostHog configuration."
   };
 }
 
@@ -319,8 +283,8 @@ function dominantCurrency(currencies: string[]): string | null {
   return best;
 }
 
-export function observeRevenue(revenue: RevenueKpis): KpiObservation[] {
-  const observations: KpiObservation[] = [];
+export function observeRevenue(revenue: RevenueKpis): RevenueObservation[] {
+  const observations: RevenueObservation[] = [];
 
   if (revenue.mixedCurrencies) {
     observations.push({
@@ -376,171 +340,7 @@ export function observeRevenue(revenue: RevenueKpis): KpiObservation[] {
   return observations;
 }
 
-// --- PostHog product KPIs ----------------------------------------------------------------
-
-interface EventCount {
-  event: string;
-  count: number;
-}
-
-export async function readProductKpis(
-  asOf: string,
-  windowDays: number,
-  limit: number,
-  fetchImpl: typeof fetch = fetch
-): Promise<ProductKpis> {
-  // Windows are half-open on the end: [since, until) using whole UTC days.
-  const currentUntil = shiftDate(asOf, 1);
-  const currentSince = shiftDate(currentUntil, -windowDays);
-  const comparisonUntil = currentSince;
-  const comparisonSince = shiftDate(comparisonUntil, -windowDays);
-
-  const current: DateRange = { since: currentSince, until: currentUntil };
-  const comparison: DateRange = { since: comparisonSince, until: comparisonUntil };
-
-  const [currentCounts, previousCounts] = await Promise.all([
-    fetchEventCounts(current, limit, fetchImpl),
-    fetchEventCounts(comparison, limit, fetchImpl)
-  ]);
-
-  const totalEvents = sumCounts(currentCounts);
-  const previousTotalEvents = sumCounts(previousCounts);
-
-  return {
-    current,
-    comparison,
-    totalEvents,
-    previousTotalEvents,
-    totalEventsChangePct: percentChange(totalEvents, previousTotalEvents),
-    topEvents: mergeTrends(currentCounts, previousCounts, totalEvents, limit)
-  };
-}
-
-async function fetchEventCounts(
-  range: DateRange,
-  limit: number,
-  fetchImpl: typeof fetch
-): Promise<EventCount[]> {
-  const query =
-    `SELECT event, count() AS total FROM events ` +
-    `WHERE timestamp >= toDateTime('${range.since} 00:00:00') ` +
-    `AND timestamp < toDateTime('${range.until} 00:00:00') ` +
-    `GROUP BY event ORDER BY total DESC LIMIT ${limit}`;
-
-  const rows = await runHogQLQuery(query, fetchImpl);
-  return rows.map((row) => ({
-    event: String(row[0] ?? "unknown"),
-    count: Number(row[1] ?? 0)
-  }));
-}
-
-async function runHogQLQuery(query: string, fetchImpl: typeof fetch): Promise<unknown[][]> {
-  const apiKey = process.env.POSTHOG_API_KEY;
-  const projectId = process.env.POSTHOG_PROJECT_ID;
-  if (!apiKey || !projectId) {
-    throw new Error("POSTHOG_API_KEY and POSTHOG_PROJECT_ID are required");
-  }
-  const host = (process.env.POSTHOG_HOST ?? "https://us.posthog.com").replace(/\/$/, "");
-
-  const response = await fetchImpl(`${host}/api/projects/${projectId}/query/`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ query: { kind: "HogQLQuery", query } })
-  });
-
-  if (!response.ok) {
-    const body = await response.text().catch(() => "");
-    throw new Error(`PostHog query API failed: ${response.status} ${response.statusText}${body ? ` - ${body}` : ""}`);
-  }
-
-  const payload = (await response.json()) as { results?: unknown };
-  const results = Array.isArray(payload.results) ? payload.results : [];
-  return results.map((row) => (Array.isArray(row) ? (row as unknown[]) : [row]));
-}
-
-function mergeTrends(
-  current: EventCount[],
-  previous: EventCount[],
-  total: number,
-  limit: number
-): EventTrend[] {
-  const previousByEvent = new Map(previous.map((item) => [item.event, item.count]));
-  return current.slice(0, limit).map((item) => {
-    const previousCount = previousByEvent.get(item.event) ?? 0;
-    return {
-      event: item.event,
-      count: item.count,
-      previousCount,
-      changePct: percentChange(item.count, previousCount),
-      shareOfTotalPct: total > 0 ? Math.round((item.count / total) * 1000) / 10 : null
-    };
-  });
-}
-
-export function observeProduct(product: ProductKpis): KpiObservation[] {
-  const observations: KpiObservation[] = [];
-
-  const totalChange = product.totalEventsChangePct;
-  if (totalChange !== null && totalChange <= -25) {
-    observations.push({
-      area: "product",
-      severity: "action",
-      observation:
-        `Total tracked events fell ${Math.abs(totalChange)}% versus the prior window. Investigate a possible tracking regression, release, or genuine usage decline.`
-    });
-  } else if (totalChange !== null && totalChange >= 50) {
-    observations.push({
-      area: "product",
-      severity: "watch",
-      observation:
-        `Total tracked events rose ${totalChange}% versus the prior window. Confirm whether this reflects real growth or duplicate/instrumentation changes before celebrating.`
-    });
-  }
-
-  for (const item of product.topEvents) {
-    const material = item.count >= 50 || (item.shareOfTotalPct ?? 0) >= 5;
-    if (item.previousCount > 0 && item.count === 0) {
-      observations.push({
-        area: "product",
-        severity: "action",
-        observation:
-          `"${item.event}" had ${item.previousCount} events last window but zero this window. Likely a broken or removed event; verify instrumentation.`
-      });
-    } else if (material && item.changePct !== null && item.changePct <= -25) {
-      observations.push({
-        area: "product",
-        severity: "watch",
-        observation:
-          `"${item.event}" dropped ${Math.abs(item.changePct)}% versus the prior window. Check for a related release or tracking change.`
-      });
-    }
-  }
-
-  if (observations.length === 0) {
-    observations.push({
-      area: "product",
-      severity: "info",
-      observation:
-        `Product usage is steady (${product.totalEvents} tracked events this window). No action needed. This run only reads PostHog and makes no changes.`
-    });
-  }
-
-  return observations;
-}
-
 // --- shared helpers ----------------------------------------------------------------------
-
-function sumCounts(items: EventCount[]): number {
-  return items.reduce((acc, item) => acc + item.count, 0);
-}
-
-function percentChange(current: number, previous: number): number | null {
-  if (previous === 0) return current === 0 ? 0 : null;
-  return Math.round(((current - previous) / previous) * 1000) / 10;
-}
 
 function toMajor(minor: number): number {
   return Math.round((minor / 100) * 100) / 100;
@@ -548,12 +348,6 @@ function toMajor(minor: number): number {
 
 function isoDate(date: Date): string {
   return date.toISOString().slice(0, 10);
-}
-
-function shiftDate(date: string, days: number): string {
-  const parsed = new Date(`${date}T00:00:00.000Z`);
-  parsed.setUTCDate(parsed.getUTCDate() + days);
-  return parsed.toISOString().slice(0, 10);
 }
 
 function optionalInteger(value: unknown, field: string, min: number, max: number): number | undefined {
