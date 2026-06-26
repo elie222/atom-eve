@@ -14,10 +14,10 @@
       "auth": "env"
     },
     {
-      "name": "posthog",
+      "name": "posthog-cli",
       "type": "custom-tool",
       "auth": "env"
     }
   ],
-  "requiredEnv": ["STRIPE_SECRET_KEY", "POSTHOG_API_KEY", "POSTHOG_PROJECT_ID"]
+  "requiredEnv": ["STRIPE_SECRET_KEY", "POSTHOG_CLI_API_KEY", "POSTHOG_CLI_PROJECT_ID"]
 }

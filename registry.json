@@ -3032,13 +3032,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/shared/lib/kpi.ts",
-          "target": "~/agent/lib/kpi.ts",
+          "path": "registry/kpi-digest/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/kpi-digest/shared/lib/stripe.ts",
+          "target": "~/agent/lib/stripe.ts",
           "type": "registry:file"
         },
         {
@@ -3047,8 +3047,18 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/targets/eve/tools/review_kpis.ts",
-          "target": "~/agent/tools/review_kpis.ts",
+          "path": "registry/kpi-digest/targets/eve/tools/review_revenue.ts",
+          "target": "~/agent/tools/review_revenue.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/eve/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -3085,18 +3095,18 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/shared/lib/kpi.ts",
-          "target": "~/src/lib/agents/kpi-digest/kpi.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/kpi-digest/shared/lib/prompts.ts",
           "target": "~/src/lib/agents/kpi-digest/prompts.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/targets/flue/tools/kpi.ts",
-          "target": "~/src/tools/kpi-digest/kpi.ts",
+          "path": "registry/kpi-digest/shared/lib/stripe.ts",
+          "target": "~/src/lib/agents/kpi-digest/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/flue/tools/revenue.ts",
+          "target": "~/src/tools/kpi-digest/revenue.ts",
           "type": "registry:file"
         },
         {
