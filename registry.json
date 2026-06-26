@@ -141,6 +141,234 @@
       ]
     },
     {
+      "name": "eve/blog-writer",
+      "type": "registry:block",
+      "title": "Blog Writer Agent (eve)",
+      "description": "Drafts long-form SEO articles from a keyword brief: outline, draft with internal-link suggestions, and SEO checks for operator approval.",
+      "files": [
+        {
+          "path": "registry/blog-writer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/shared/lib/article.ts",
+          "target": "~/agent/lib/article.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/targets/eve/tools/draft_article.ts",
+          "target": "~/agent/tools/draft_article.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/evals/eve/blog-writer/smoke.eval.ts",
+          "target": "~/evals/blog-writer/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/evals/eve/shared/blog-writer-smoke.ts",
+          "target": "~/evals/shared/blog-writer-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/blog-writer",
+      "type": "registry:block",
+      "title": "Blog Writer Agent (flue)",
+      "description": "Drafts long-form SEO articles from a keyword brief: outline, draft with internal-link suggestions, and SEO checks for operator approval.",
+      "files": [
+        {
+          "path": "registry/blog-writer/targets/flue/agent.ts",
+          "target": "~/src/agents/blog-writer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/shared/lib/article.ts",
+          "target": "~/src/lib/agents/blog-writer/article.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/blog-writer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/blog-writer/targets/flue/tools/article.ts",
+          "target": "~/src/tools/blog-writer/article.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/buyer-voice",
+      "type": "registry:block",
+      "title": "Buyer Voice Agent (eve)",
+      "description": "Mines repeated buyer objections from call and ticket notes and drafts landing-page copy in customers' own words for operator approval.",
+      "files": [
+        {
+          "path": "registry/buyer-voice/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/shared/lib/voice.ts",
+          "target": "~/agent/lib/voice.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/targets/eve/tools/draft_copy.ts",
+          "target": "~/agent/tools/draft_copy.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/evals/eve/buyer-voice/smoke.eval.ts",
+          "target": "~/evals/buyer-voice/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/evals/eve/shared/buyer-voice-smoke.ts",
+          "target": "~/evals/shared/buyer-voice-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/buyer-voice",
+      "type": "registry:block",
+      "title": "Buyer Voice Agent (flue)",
+      "description": "Mines repeated buyer objections from call and ticket notes and drafts landing-page copy in customers' own words for operator approval.",
+      "files": [
+        {
+          "path": "registry/buyer-voice/targets/flue/agent.ts",
+          "target": "~/src/agents/buyer-voice.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/buyer-voice/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/shared/lib/voice.ts",
+          "target": "~/src/lib/agents/buyer-voice/voice.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/buyer-voice/targets/flue/tools/voice.ts",
+          "target": "~/src/tools/buyer-voice/voice.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/claim-checker",
+      "type": "registry:block",
+      "title": "Claim Checker Agent (eve)",
+      "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
+      "files": [
+        {
+          "path": "registry/claim-checker/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/evals/eve/claim-checker/smoke.eval.ts",
+          "target": "~/evals/claim-checker/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/evals/eve/shared/claim-checker-smoke.ts",
+          "target": "~/evals/shared/claim-checker-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/claim-checker",
+      "type": "registry:block",
+      "title": "Claim Checker Agent (flue)",
+      "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
+      "files": [
+        {
+          "path": "registry/claim-checker/targets/flue/agent.ts",
+          "target": "~/src/agents/claim-checker.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/claim-checker/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/claim-checker-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/competitor-analysis",
       "type": "registry:block",
       "title": "Competitor Analysis Agent (eve)",
@@ -248,6 +476,158 @@
       ]
     },
     {
+      "name": "eve/creative-studio",
+      "type": "registry:block",
+      "title": "Creative Studio Agent (eve)",
+      "description": "Generates ad and social image creative variants from a brief and returns draft image URLs with rationale for operator approval.",
+      "files": [
+        {
+          "path": "registry/creative-studio/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/shared/lib/fal.ts",
+          "target": "~/agent/lib/fal.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/targets/eve/tools/generate_creative.ts",
+          "target": "~/agent/tools/generate_creative.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/evals/eve/creative-studio/smoke.eval.ts",
+          "target": "~/evals/creative-studio/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/evals/eve/shared/creative-studio-smoke.ts",
+          "target": "~/evals/shared/creative-studio-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/creative-studio",
+      "type": "registry:block",
+      "title": "Creative Studio Agent (flue)",
+      "description": "Generates ad and social image creative variants from a brief and returns draft image URLs with rationale for operator approval.",
+      "files": [
+        {
+          "path": "registry/creative-studio/targets/flue/agent.ts",
+          "target": "~/src/agents/creative-studio.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/shared/lib/fal.ts",
+          "target": "~/src/lib/agents/creative-studio/fal.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/creative-studio/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/creative-studio/targets/flue/tools/fal.ts",
+          "target": "~/src/tools/creative-studio/fal.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/cro-optimizer",
+      "type": "registry:block",
+      "title": "CRO Optimizer Agent (eve)",
+      "description": "Audits landing pages with native browser automation and conversion heuristics, then proposes ranked A/B test ideas with hypotheses.",
+      "files": [
+        {
+          "path": "registry/cro-optimizer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/evals/eve/cro-optimizer/smoke.eval.ts",
+          "target": "~/evals/cro-optimizer/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/evals/eve/shared/cro-optimizer-smoke.ts",
+          "target": "~/evals/shared/cro-optimizer-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/cro-optimizer",
+      "type": "registry:block",
+      "title": "CRO Optimizer Agent (flue)",
+      "description": "Audits landing pages with native browser automation and conversion heuristics, then proposes ranked A/B test ideas with hypotheses.",
+      "files": [
+        {
+          "path": "registry/cro-optimizer/targets/flue/agent.ts",
+          "target": "~/src/agents/cro-optimizer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/cro-optimizer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/cro-optimizer/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/cro-optimizer-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/email-loops",
       "type": "registry:block",
       "title": "Loops Email Agent (eve)",
@@ -281,6 +661,21 @@
         {
           "path": "registry/email-loops/targets/eve/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-loops/evals/eve/email-loops/smoke.eval.ts",
+          "target": "~/evals/email-loops/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-loops/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-loops/evals/eve/shared/email-loops-smoke.ts",
+          "target": "~/evals/shared/email-loops-smoke.ts",
           "type": "registry:file"
         }
       ]
@@ -353,6 +748,21 @@
           "path": "registry/email-resend/targets/eve/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
+        },
+        {
+          "path": "registry/email-resend/evals/eve/email-resend/smoke.eval.ts",
+          "target": "~/evals/email-resend/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-resend/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-resend/evals/eve/shared/email-resend-smoke.ts",
+          "target": "~/evals/shared/email-resend-smoke.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -423,6 +833,21 @@
         {
           "path": "registry/email-userlist/targets/eve/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-userlist/evals/eve/email-userlist/smoke.eval.ts",
+          "target": "~/evals/email-userlist/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-userlist/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/email-userlist/evals/eve/shared/email-userlist-smoke.ts",
+          "target": "~/evals/shared/email-userlist-smoke.ts",
           "type": "registry:file"
         }
       ]
@@ -522,6 +947,684 @@
       ]
     },
     {
+      "name": "eve/google-ads",
+      "type": "registry:block",
+      "title": "Google Ads Agent (eve)",
+      "description": "Reviews campaign performance and proposes conservative budget, keyword, and negative-keyword actions.",
+      "files": [
+        {
+          "path": "registry/google-ads/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/shared/lib/googleAds.ts",
+          "target": "~/agent/lib/googleAds.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/targets/eve/tools/review_campaigns.ts",
+          "target": "~/agent/tools/review_campaigns.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/evals/eve/google-ads/smoke.eval.ts",
+          "target": "~/evals/google-ads/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/evals/eve/shared/google-ads-smoke.ts",
+          "target": "~/evals/shared/google-ads-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/google-ads",
+      "type": "registry:block",
+      "title": "Google Ads Agent (flue)",
+      "description": "Reviews campaign performance and proposes conservative budget, keyword, and negative-keyword actions.",
+      "files": [
+        {
+          "path": "registry/google-ads/targets/flue/agent.ts",
+          "target": "~/src/agents/google-ads.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/shared/lib/googleAds.ts",
+          "target": "~/src/lib/agents/google-ads/googleAds.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/google-ads/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/targets/flue/tools/googleAds.ts",
+          "target": "~/src/tools/google-ads/googleAds.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/google-ads/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/google-ads-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/keyword-researcher",
+      "type": "registry:block",
+      "title": "Keyword Researcher Agent (eve)",
+      "description": "Researches keywords and topics with search volume and difficulty, then clusters them into a prioritized content map.",
+      "files": [
+        {
+          "path": "registry/keyword-researcher/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/shared/lib/dataforseo.ts",
+          "target": "~/agent/lib/dataforseo.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/targets/eve/tools/research_keywords.ts",
+          "target": "~/agent/tools/research_keywords.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/evals/eve/keyword-researcher/smoke.eval.ts",
+          "target": "~/evals/keyword-researcher/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/evals/eve/shared/keyword-researcher-smoke.ts",
+          "target": "~/evals/shared/keyword-researcher-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/keyword-researcher",
+      "type": "registry:block",
+      "title": "Keyword Researcher Agent (flue)",
+      "description": "Researches keywords and topics with search volume and difficulty, then clusters them into a prioritized content map.",
+      "files": [
+        {
+          "path": "registry/keyword-researcher/targets/flue/agent.ts",
+          "target": "~/src/agents/keyword-researcher.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/shared/lib/dataforseo.ts",
+          "target": "~/src/lib/agents/keyword-researcher/dataforseo.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/keyword-researcher/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/targets/flue/tools/dataforseo.ts",
+          "target": "~/src/tools/keyword-researcher/dataforseo.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/keyword-researcher/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/keyword-researcher-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/launch-captain",
+      "type": "registry:block",
+      "title": "Launch Captain Agent (eve)",
+      "description": "Plans and prepares a draft-first Product Hunt, Hacker News, or launch-day playbook with an asset checklist, draft copy and comments, and a posting schedule for operator approval.",
+      "files": [
+        {
+          "path": "registry/launch-captain/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/shared/lib/launch.ts",
+          "target": "~/agent/lib/launch.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/targets/eve/tools/plan_launch.ts",
+          "target": "~/agent/tools/plan_launch.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/evals/eve/launch-captain/smoke.eval.ts",
+          "target": "~/evals/launch-captain/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/evals/eve/shared/launch-captain-smoke.ts",
+          "target": "~/evals/shared/launch-captain-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/launch-captain",
+      "type": "registry:block",
+      "title": "Launch Captain Agent (flue)",
+      "description": "Plans and prepares a draft-first Product Hunt, Hacker News, or launch-day playbook with an asset checklist, draft copy and comments, and a posting schedule for operator approval.",
+      "files": [
+        {
+          "path": "registry/launch-captain/targets/flue/agent.ts",
+          "target": "~/src/agents/launch-captain.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/shared/lib/launch.ts",
+          "target": "~/src/lib/agents/launch-captain/launch.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/launch-captain/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/launch-captain/targets/flue/tools/launch.ts",
+          "target": "~/src/tools/launch-captain/launch.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/link-builder",
+      "type": "registry:block",
+      "title": "Link Builder Agent (eve)",
+      "description": "Finds backlink and guest-post prospects for a topic and drafts personalized outreach for operator approval.",
+      "files": [
+        {
+          "path": "registry/link-builder/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/shared/lib/linkbuilder.ts",
+          "target": "~/agent/lib/linkbuilder.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/targets/eve/tools/find_prospects.ts",
+          "target": "~/agent/tools/find_prospects.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/evals/eve/link-builder/smoke.eval.ts",
+          "target": "~/evals/link-builder/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/evals/eve/shared/link-builder-smoke.ts",
+          "target": "~/evals/shared/link-builder-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/link-builder",
+      "type": "registry:block",
+      "title": "Link Builder Agent (flue)",
+      "description": "Finds backlink and guest-post prospects for a topic and drafts personalized outreach for operator approval.",
+      "files": [
+        {
+          "path": "registry/link-builder/targets/flue/agent.ts",
+          "target": "~/src/agents/link-builder.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/shared/lib/linkbuilder.ts",
+          "target": "~/src/lib/agents/link-builder/linkbuilder.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/link-builder/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/targets/flue/tools/linkbuilder.ts",
+          "target": "~/src/tools/link-builder/linkbuilder.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/link-builder/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/link-builder-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/pr-pitcher",
+      "type": "registry:block",
+      "title": "PR Pitcher Agent (eve)",
+      "description": "Matches journalist source requests to this project's expertise and drafts quotable pitch responses for operator approval.",
+      "files": [
+        {
+          "path": "registry/pr-pitcher/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/shared/lib/pitcher.ts",
+          "target": "~/agent/lib/pitcher.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/targets/eve/tools/draft_pitch.ts",
+          "target": "~/agent/tools/draft_pitch.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/evals/eve/pr-pitcher/smoke.eval.ts",
+          "target": "~/evals/pr-pitcher/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/evals/eve/shared/pr-pitcher-smoke.ts",
+          "target": "~/evals/shared/pr-pitcher-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/pr-pitcher",
+      "type": "registry:block",
+      "title": "PR Pitcher Agent (flue)",
+      "description": "Matches journalist source requests to this project's expertise and drafts quotable pitch responses for operator approval.",
+      "files": [
+        {
+          "path": "registry/pr-pitcher/targets/flue/agent.ts",
+          "target": "~/src/agents/pr-pitcher.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/shared/lib/pitcher.ts",
+          "target": "~/src/lib/agents/pr-pitcher/pitcher.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/pr-pitcher/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/targets/flue/tools/pitcher.ts",
+          "target": "~/src/tools/pr-pitcher/pitcher.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/pr-pitcher/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/pr-pitcher-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/product-podcast",
+      "type": "registry:block",
+      "title": "Product Podcast Agent (eve)",
+      "description": "Turns recent product updates into a short, source-grounded podcast script and ElevenLabs audio plan for operator approval.",
+      "files": [
+        {
+          "path": "registry/product-podcast/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/shared/lib/podcast.ts",
+          "target": "~/agent/lib/podcast.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/targets/eve/tools/plan_episode.ts",
+          "target": "~/agent/tools/plan_episode.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/evals/eve/product-podcast/smoke.eval.ts",
+          "target": "~/evals/product-podcast/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/evals/eve/shared/product-podcast-smoke.ts",
+          "target": "~/evals/shared/product-podcast-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/product-podcast",
+      "type": "registry:block",
+      "title": "Product Podcast Agent (flue)",
+      "description": "Turns recent product updates into a short, source-grounded podcast script and ElevenLabs audio plan for operator approval.",
+      "files": [
+        {
+          "path": "registry/product-podcast/targets/flue/agent.ts",
+          "target": "~/src/agents/product-podcast.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/shared/lib/podcast.ts",
+          "target": "~/src/lib/agents/product-podcast/podcast.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/product-podcast/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/targets/flue/tools/podcast.ts",
+          "target": "~/src/tools/product-podcast/podcast.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/product-podcast/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/product-podcast-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/reddit-radar",
+      "type": "registry:block",
+      "title": "Reddit Radar Agent (eve)",
+      "description": "Monitors target subreddits and keywords, ranks relevant threads by fit and reach, and drafts non-spammy replies for operator approval.",
+      "files": [
+        {
+          "path": "registry/reddit-radar/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/shared/lib/reddit.ts",
+          "target": "~/agent/lib/reddit.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/targets/eve/tools/find_threads.ts",
+          "target": "~/agent/tools/find_threads.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/evals/eve/reddit-radar/smoke.eval.ts",
+          "target": "~/evals/reddit-radar/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/evals/eve/shared/reddit-radar-smoke.ts",
+          "target": "~/evals/shared/reddit-radar-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/reddit-radar",
+      "type": "registry:block",
+      "title": "Reddit Radar Agent (flue)",
+      "description": "Monitors target subreddits and keywords, ranks relevant threads by fit and reach, and drafts non-spammy replies for operator approval.",
+      "files": [
+        {
+          "path": "registry/reddit-radar/targets/flue/agent.ts",
+          "target": "~/src/agents/reddit-radar.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/reddit-radar/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/shared/lib/reddit.ts",
+          "target": "~/src/lib/agents/reddit-radar/reddit.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/targets/flue/tools/reddit.ts",
+          "target": "~/src/tools/reddit-radar/reddit.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reddit-radar/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/reddit-radar-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/reviews-harvester",
+      "type": "registry:block",
+      "title": "Reviews Harvester Agent (eve)",
+      "description": "Watches new product reviews from the source the operator configures, drafts on-brand responses, and flags detractors for operator approval.",
+      "files": [
+        {
+          "path": "registry/reviews-harvester/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/shared/lib/reviews.ts",
+          "target": "~/agent/lib/reviews.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/targets/eve/tools/draft_responses.ts",
+          "target": "~/agent/tools/draft_responses.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/evals/eve/reviews-harvester/smoke.eval.ts",
+          "target": "~/evals/reviews-harvester/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/evals/eve/shared/reviews-harvester-smoke.ts",
+          "target": "~/evals/shared/reviews-harvester-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/reviews-harvester",
+      "type": "registry:block",
+      "title": "Reviews Harvester Agent (flue)",
+      "description": "Watches new product reviews from the source the operator configures, drafts on-brand responses, and flags detractors for operator approval.",
+      "files": [
+        {
+          "path": "registry/reviews-harvester/targets/flue/agent.ts",
+          "target": "~/src/agents/reviews-harvester.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/reviews-harvester/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/shared/lib/reviews.ts",
+          "target": "~/src/lib/agents/reviews-harvester/reviews.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/targets/flue/tools/reviews.ts",
+          "target": "~/src/tools/reviews-harvester/reviews.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/reviews-harvester/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/reviews-harvester-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent (eve)",
@@ -573,6 +1676,330 @@
         {
           "path": "registry/seo-audit/targets/flue/workflows/weekly.ts",
           "target": "~/src/workflows/seo-audit-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/short-video",
+      "type": "registry:block",
+      "title": "Short Video Agent (eve)",
+      "description": "Turns a long transcript or topic into a draft plan of short vertical clips with hooks, captions, and rationale for operator approval.",
+      "files": [
+        {
+          "path": "registry/short-video/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/shared/lib/fal.ts",
+          "target": "~/agent/lib/fal.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/targets/eve/tools/plan_clips.ts",
+          "target": "~/agent/tools/plan_clips.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/evals/eve/shared/short-video-smoke.ts",
+          "target": "~/evals/shared/short-video-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/evals/eve/short-video/smoke.eval.ts",
+          "target": "~/evals/short-video/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/short-video",
+      "type": "registry:block",
+      "title": "Short Video Agent (flue)",
+      "description": "Turns a long transcript or topic into a draft plan of short vertical clips with hooks, captions, and rationale for operator approval.",
+      "files": [
+        {
+          "path": "registry/short-video/targets/flue/agent.ts",
+          "target": "~/src/agents/short-video.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/shared/lib/fal.ts",
+          "target": "~/src/lib/agents/short-video/fal.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/short-video/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/short-video/targets/flue/tools/fal.ts",
+          "target": "~/src/tools/short-video/fal.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/social-scheduler",
+      "type": "registry:block",
+      "title": "Social Scheduler Agent (eve)",
+      "description": "Turns approved content briefs into a draft schedule of posts across X and LinkedIn via Ayrshare, returning the queued-post plan for operator approval.",
+      "files": [
+        {
+          "path": "registry/social-scheduler/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/shared/lib/ayrshare.ts",
+          "target": "~/agent/lib/ayrshare.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/targets/eve/tools/review_queue.ts",
+          "target": "~/agent/tools/review_queue.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/evals/eve/shared/social-scheduler-smoke.ts",
+          "target": "~/evals/shared/social-scheduler-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/evals/eve/social-scheduler/smoke.eval.ts",
+          "target": "~/evals/social-scheduler/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/social-scheduler",
+      "type": "registry:block",
+      "title": "Social Scheduler Agent (flue)",
+      "description": "Turns approved content briefs into a draft schedule of posts across X and LinkedIn via Ayrshare, returning the queued-post plan for operator approval.",
+      "files": [
+        {
+          "path": "registry/social-scheduler/targets/flue/agent.ts",
+          "target": "~/src/agents/social-scheduler.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/shared/lib/ayrshare.ts",
+          "target": "~/src/lib/agents/social-scheduler/ayrshare.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/social-scheduler/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/targets/flue/tools/ayrshare.ts",
+          "target": "~/src/tools/social-scheduler/ayrshare.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/social-scheduler/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/social-scheduler-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/thumbnail-studio",
+      "type": "registry:block",
+      "title": "Thumbnail Studio Agent (eve)",
+      "description": "Iterates YouTube and social thumbnail concepts with fal.ai and self-scores each against a clarity and no-clickbait bar for operator approval.",
+      "files": [
+        {
+          "path": "registry/thumbnail-studio/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/shared/lib/fal.ts",
+          "target": "~/agent/lib/fal.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/targets/eve/tools/generate_thumbnails.ts",
+          "target": "~/agent/tools/generate_thumbnails.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/evals/eve/shared/thumbnail-studio-smoke.ts",
+          "target": "~/evals/shared/thumbnail-studio-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/evals/eve/thumbnail-studio/smoke.eval.ts",
+          "target": "~/evals/thumbnail-studio/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/thumbnail-studio",
+      "type": "registry:block",
+      "title": "Thumbnail Studio Agent (flue)",
+      "description": "Iterates YouTube and social thumbnail concepts with fal.ai and self-scores each against a clarity and no-clickbait bar for operator approval.",
+      "files": [
+        {
+          "path": "registry/thumbnail-studio/targets/flue/agent.ts",
+          "target": "~/src/agents/thumbnail-studio.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/shared/lib/fal.ts",
+          "target": "~/src/lib/agents/thumbnail-studio/fal.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/thumbnail-studio/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/thumbnail-studio/targets/flue/tools/fal.ts",
+          "target": "~/src/tools/thumbnail-studio/fal.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/x-growth",
+      "type": "registry:block",
+      "title": "X Growth Agent (eve)",
+      "description": "Monitors brand and keyword mentions on X and drafts engagement replies and original post ideas for operator approval.",
+      "files": [
+        {
+          "path": "registry/x-growth/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/shared/lib/x.ts",
+          "target": "~/agent/lib/x.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/targets/eve/tools/search_mentions.ts",
+          "target": "~/agent/tools/search_mentions.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/evals/eve/shared/x-growth-smoke.ts",
+          "target": "~/evals/shared/x-growth-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/evals/eve/x-growth/smoke.eval.ts",
+          "target": "~/evals/x-growth/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/x-growth",
+      "type": "registry:block",
+      "title": "X Growth Agent (flue)",
+      "description": "Monitors brand and keyword mentions on X and drafts engagement replies and original post ideas for operator approval.",
+      "files": [
+        {
+          "path": "registry/x-growth/targets/flue/agent.ts",
+          "target": "~/src/agents/x-growth.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/x-growth/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/shared/lib/x.ts",
+          "target": "~/src/lib/agents/x-growth/x.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/targets/flue/tools/x.ts",
+          "target": "~/src/tools/x-growth/x.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/x-growth/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/x-growth-daily.ts",
           "type": "registry:file"
         }
       ]

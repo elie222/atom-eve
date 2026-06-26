@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "product-podcast",
+  "title": "Product Podcast Agent",
+  "description": "Turns recent product updates into a short, source-grounded podcast script and ElevenLabs audio plan for operator approval.",
+  "category": "video",
+  "family": "growth",
+  "targets": ["eve", "flue"],
+  "integrations": ["elevenlabs"],
+  "connections": [
+    {
+      "name": "elevenlabs",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["ELEVENLABS_API_KEY"]
+}
