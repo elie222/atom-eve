@@ -1,6 +1,8 @@
 /* Presentation helpers shared across server + client components. */
 
 export const REPO = "https://github.com/elie222/atom-eve";
+export const DISCORD = "https://discord.gg/RWwKa2Sn7h";
+export const X_PROFILE = "https://x.com/elie2222";
 
 /* family -> accent colour (arcade palette) */
 export const FAM: Record<string, string> = {
