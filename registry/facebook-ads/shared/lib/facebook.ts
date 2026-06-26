@@ -126,8 +126,10 @@ async function fetchCampaignInsightsForRange(range: DateRange, fetchImpl: typeof
   }
 
   const fields = "campaign_id,campaign_name,spend,actions";
-  const url = new URL(`https://graph.facebook.com/v21.0/${accountId}/insights`);
+  const account = accountId.startsWith("act_") ? accountId : `act_${accountId}`;
+  const url = new URL(`https://graph.facebook.com/v21.0/${account}/insights`);
   url.searchParams.set("fields", fields);
+  url.searchParams.set("level", "campaign");
   url.searchParams.set("time_range", JSON.stringify(range));
   url.searchParams.set("access_token", token);
 

@@ -234,7 +234,7 @@ async function fetchRecentIssues(
 }
 
 async function fetchLatestEvent(config: SentryConfig, issueId: string, fetchImpl: typeof fetch): Promise<SentryEvent | null> {
-  const url = new URL(`${config.baseUrl}/issues/${issueId}/events/latest/`);
+  const url = new URL(`${config.baseUrl}/organizations/${config.org}/issues/${issueId}/events/latest/`);
   return sentryGet<SentryEvent>(url, config, fetchImpl);
 }
 

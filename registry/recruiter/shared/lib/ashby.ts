@@ -108,12 +108,15 @@ function normalizeApplicant(row: Record<string, unknown>): AshbyApplicant {
       ? null
       : String((row.primaryEmailAddress as { value?: unknown })?.value ?? "") || null;
 
+  // Ashby returns location as a nested object: { id, locationSummary, locationComponents }.
+  const locationSummary = (row.location as { locationSummary?: unknown } | null | undefined)?.locationSummary;
+
   return {
     id: String(row.id ?? ""),
     name: String(row.name ?? "Unnamed candidate"),
     primaryEmail,
     position: row.position == null ? null : String(row.position),
-    location: row.locationSummary == null ? null : String(row.locationSummary),
+    location: locationSummary == null ? null : String(locationSummary) || null,
     source: row.source == null ? null : String((row.source as { title?: unknown })?.title ?? row.source),
     createdAt: row.createdAt == null ? null : String(row.createdAt)
   };
