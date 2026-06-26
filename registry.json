@@ -4655,6 +4655,9 @@
       "type": "registry:block",
       "title": "SEO Audit Agent (eve)",
       "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior file or blob-backed history, and writes concise Markdown reports.",
+      "dependencies": [
+        "@vercel/blob@^2.5.0"
+      ],
       "files": [
         {
           "path": "registry/seo-audit/shared/instructions.md",
@@ -4677,8 +4680,28 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/seo-audit/targets/eve/lib/vercel-blob-memory.ts",
+          "target": "~/agent/lib/vercel-blob-memory.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/seo-audit/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/tools/list_seo_memory.ts",
+          "target": "~/agent/tools/list_seo_memory.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/tools/read_seo_memory.ts",
+          "target": "~/agent/tools/read_seo_memory.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/tools/write_seo_memory.ts",
+          "target": "~/agent/tools/write_seo_memory.ts",
           "type": "registry:file"
         },
         {

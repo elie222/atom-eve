@@ -14,13 +14,13 @@ The package checks:
 - Internal links and obvious broken-link risks.
 - Previous-vs-current deltas from the configured memory backend.
 
-History is intentionally file-backed by default. The agent writes snapshots and reports under `reports/seo-audit/history/...` in the sandbox or repo. For durable memory across ephemeral sandboxes, wire the shared blob-memory helpers to Vercel Blob, Cloudflare R2, S3-compatible storage, or another object store. This package does not require SQL tables or migrations.
+Eve installs default to Vercel Blob memory through the included SEO memory tools. Other targets can use a configured object store or local filesystem history when available. The package does not require SQL tables or migrations.
 
 The package includes:
 
 - Shared SEO audit instructions.
 - Shared memory helpers under `shared/lib/memory.ts` and SEO memory paths under `shared/lib/seo-memory.ts`.
-- An Eve root agent, weekly schedule, and sandbox bootstrap for report/history directories.
+- An Eve root agent, weekly schedule, Vercel Blob-backed SEO memory tools, and sandbox bootstrap for report/history directories.
 - A Flue agent and weekly workflow trigger.
 
 It does not add paid APIs or custom browser wrapper tools. The agent should use the target framework's native sandbox command, browser, and fetch capabilities where available.
@@ -60,11 +60,11 @@ For Flue:
 src/workflows/seo-audit-weekly.ts
 ```
 
-Make sure the runtime sandbox can make outbound HTTP requests and write local files under `reports/seo-audit/history`, or configure a blob-backed memory adapter in your app. If browser inspection is available in your framework, use it for visible copy, layout, and CTA checks. If browser inspection is unavailable, continue with fetch-based checks and note the limitation in the report.
+Make sure the runtime sandbox can make outbound HTTP requests. Eve installs use Vercel Blob memory by default through the installed SEO memory tools. For Flue or custom hosts, configure a blob-backed memory adapter or allow local file writes under `reports/seo-audit/history`. If browser inspection is available in your framework, use it for visible copy, layout, and CTA checks. If browser inspection is unavailable, continue with fetch-based checks and note the limitation in the report.
 
 ## Memory
 
-The default memory backend is the local filesystem:
+Eve uses Vercel Blob as the default durable memory backend. If Blob is unavailable or the installed tools are removed, the agent can use the local filesystem when it is available:
 
 ```text
 reports/seo-audit/latest.md
@@ -72,10 +72,10 @@ reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.md
 reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.json
 ```
 
-Blob-backed memory uses the same small-file mental model, but stores it in object storage:
+Blob-backed memory uses the same small-file mental model, but stores it in object storage under a project-local prefix:
 
 ```text
-atom-eve/seo-audit/sites/<site>/
+seo-audit/<site>/
   latest.json
   latest.md
   index.json
@@ -90,7 +90,7 @@ Listing by prefix is expected. This agent saves a few reports for itself, so it 
 
 ### Vercel Blob
 
-For Eve on Vercel, install and connect Vercel Blob in the host app:
+For Eve on Vercel, the installed agent includes Blob-backed memory tools and declares `@vercel/blob` as a registry dependency. Connect a Blob store in the host app:
 
 ```bash
 pnpm add @vercel/blob
@@ -98,33 +98,19 @@ vercel blob create-store seo-audit-memory --access private
 vercel env pull
 ```
 
-Then wire the installed helper to the Blob SDK from your app code if you want a programmatic memory tool or workflow helper:
+Once Blob credentials are available to the runtime, the agent can list, read, and write SEO memory files directly through those tools. If a user wants local-only memory, they can remove the tools and dependency from their installed copy.
+
+If you want to use the same helper from custom app code, import it from the installed agent:
 
 ```ts
-import { del, get, list, put } from "@vercel/blob";
-import { createVercelBlobClient } from "./agent/lib/memory.js";
-import { createSeoAuditMemoryStore } from "./agent/lib/seo-memory.js";
+import { createVercelSeoAuditMemoryStore } from "./agent/lib/vercel-blob-memory.js";
 
-const blobClient = createVercelBlobClient({
-  async getText(pathname) {
-    const result = await get(pathname, { access: "private" });
-    if (!result || result.statusCode === 304 || !result.stream) return null;
-    return new Response(result.stream).text();
-  },
-  put,
-  list,
-  del
-});
-
-export const seoMemory = createSeoAuditMemoryStore({
-  client: blobClient,
-  siteUrl: "https://your-site.com"
-});
+export const seoMemory = createVercelSeoAuditMemoryStore("https://your-site.com");
 ```
 
 ### Cloudflare R2
 
-For Flue on Cloudflare, bind an R2 bucket in the host app and pass the binding to the shared adapter:
+For Flue on Cloudflare, bind an R2 bucket in the host app and pass the binding to the shared adapter. The Flue install does not assume Vercel Blob or Eve memory tools:
 
 ```jsonc
 {
@@ -149,7 +135,7 @@ export function createSeoMemory(env: { SEO_AUDIT_MEMORY: R2LikeBucket }) {
 }
 ```
 
-Installed agents still work without these snippets. Blob memory is an opt-in durability upgrade for hosts with ephemeral sandboxes.
+Installed agents still work without these snippets. Blob memory is an opt-in durability upgrade for hosts with ephemeral sandboxes; local history is used only when the runtime can read and write files.
 
 ## Usage
 
@@ -169,7 +155,7 @@ Audit https://your-site.com/pricing.
 Check metadata, headings, canonical and robots signals, internal links, CTA clarity, visible copy quality, and content gaps. Compare with the previous run if history exists.
 ```
 
-The agent should return a concise Markdown report and, when filesystem access is available, write:
+The agent should return a concise Markdown report. When filesystem access is available, write:
 
 ```text
 reports/seo-audit/latest.md
@@ -177,7 +163,7 @@ reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.md
 reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.json
 ```
 
-The JSON file should contain the lightweight observations needed for the next delta comparison, not raw page dumps. When using blob memory, write the equivalent compact JSON and Markdown files under the `atom-eve/seo-audit/sites/<site>/` prefix.
+The JSON file should contain the lightweight observations needed for the next delta comparison, not raw page dumps. When using blob memory, write the equivalent compact JSON and Markdown files under the object layout described in [Memory](#memory).
 
 ## Local Smoke Test
 
@@ -209,7 +195,7 @@ Treat installed files like shadcn components: keep local URL, schedule, retentio
 
 ## Connections and auth
 
-This package has no required connections and no required environment variables.
+This package has no required connections and no required environment variables for local file-backed history.
 
 Optional durable memory may require host-specific configuration:
 

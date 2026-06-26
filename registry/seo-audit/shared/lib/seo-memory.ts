@@ -8,7 +8,7 @@ import {
   type AgentMemoryStore
 } from "./memory.js";
 
-export const seoAuditMemoryRoot = "atom-eve/seo-audit";
+export const seoAuditMemoryRoot = "seo-audit";
 
 export interface SeoAuditIssueMemory {
   id: string;
@@ -68,7 +68,7 @@ export function createSeoAuditMemoryStore(options: {
 }
 
 export function seoAuditSitePrefix(siteUrl: string, basePrefix = seoAuditMemoryRoot): string {
-  return joinMemoryPath(normalizePrefix(basePrefix), "sites", normalizeMemorySegment(siteUrl, "configured-site"));
+  return joinMemoryPath(normalizePrefix(basePrefix), normalizeMemorySegment(siteUrl, "configured-site"));
 }
 
 export function seoAuditRunId(date = new Date()): string {

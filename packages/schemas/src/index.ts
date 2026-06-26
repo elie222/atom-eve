@@ -40,6 +40,14 @@ export const atomSchema = z.object({
   integrations: z.array(z.string()).default([]),
   connections: z.array(connectionSchema).default([]),
   requiredEnv: z.array(z.string().regex(/^[A-Z][A-Z0-9_]*$/)).default([]),
+  dependencies: z.array(z.string().min(1)).default([]),
+  targetDependencies: z
+    .object({
+      eve: z.array(z.string().min(1)).optional(),
+      flue: z.array(z.string().min(1)).optional()
+    })
+    .strict()
+    .default({}),
   // Owned skills live as files under shared/skills/ and are copied on install.
   // This array declares remote skills pulled from skills.sh at install time instead.
   skills: z.array(remoteSkillSchema).default([])

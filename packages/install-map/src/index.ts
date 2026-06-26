@@ -67,6 +67,7 @@ export async function createInstallFileSpecs(
     for (const lib of await sourceReader.discoverFiles("shared/lib")) {
       add(lib, `${base}/lib/${path.posix.basename(lib)}`);
     }
+    await addTree("targets/eve/lib", `${base}/lib`);
     add(await requiredFile("targets/eve/agent.ts"), `${base}/agent.ts`);
     await addTree("targets/eve/tools", `${base}/tools`);
     await addTree("targets/eve/connections", `${base}/connections`);
@@ -85,6 +86,7 @@ export async function createInstallFileSpecs(
   for (const lib of await sourceReader.discoverFiles("shared/lib")) {
     add(lib, `~/${sourceRoot}/lib/agents/${manifest.name}/${path.posix.basename(lib)}`);
   }
+  await addTree("targets/flue/lib", `~/${sourceRoot}/lib/agents/${manifest.name}`);
   await addTree("targets/flue/tools", `~/${sourceRoot}/tools/${manifest.name}`);
   await addTree("targets/flue/workflows", `~/${sourceRoot}/workflows`, (source, destination) => {
     const ext = path.posix.extname(destination);
