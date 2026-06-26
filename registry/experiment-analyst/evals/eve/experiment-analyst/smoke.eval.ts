@@ -14,7 +14,7 @@ export default defineEval({
   async test(t) {
     await t.send(experimentAnalystSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.calledTool("bash", { input: { command: posthogCliCommandPattern } });
     t.check(t.reply, includes("experiment"));
     t.messageIncludes(expectedReplyToken);

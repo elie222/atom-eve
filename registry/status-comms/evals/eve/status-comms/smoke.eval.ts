@@ -9,7 +9,7 @@ export default defineEval({
   async test(t) {
     await t.send(statusCommsSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("draft_incident_update");
     t.check(t.reply, includes("draft"));

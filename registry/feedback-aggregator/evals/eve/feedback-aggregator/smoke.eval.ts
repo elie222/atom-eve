@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(feedbackAggregatorSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("aggregate_feedback");
     t.check(t.reply, includes("theme"));

@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(errorTriageSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_errors");
     t.check(t.reply, includes("error"));

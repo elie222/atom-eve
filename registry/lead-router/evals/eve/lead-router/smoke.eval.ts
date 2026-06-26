@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(leadRouterSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_leads");
     t.check(t.reply, includes("HubSpot"));

@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(thumbnailStudioSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool(thumbnailToolName);
     t.check(t.reply, includes("sourdough"));

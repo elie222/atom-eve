@@ -14,7 +14,7 @@ export default defineEval({
   async test(t) {
     await t.send(onboardingTesterSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("bash", { input: { command: cleanSetupCommandPattern } });
     t.check(t.reply, includes("README"));

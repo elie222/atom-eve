@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(ticketToPrSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_ticket");
     t.check(t.reply, includes("plan"));

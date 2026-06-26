@@ -12,7 +12,7 @@ export default defineEval({
   async test(t) {
     await t.send(linkBuilderSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool(linkBuilderToolName);
     t.messageIncludes(expectedReplyPattern);

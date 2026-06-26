@@ -9,7 +9,7 @@ export default defineEval({
   async test(t) {
     await t.send(valuePropagationSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("plan_propagation");
     t.check(t.reply, includes("plan"));

@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(standupBotSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_updates");
     t.check(t.reply, includes("standup"));

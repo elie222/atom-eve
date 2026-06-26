@@ -106,6 +106,10 @@ Deploy the app folder as a Vercel project (its **Root Directory** = the app fold
 and project env vars are injected automatically in production. Follow <https://eve.dev/docs> for
 current deploy details.
 
+The generated Eve HTTP channel is intentionally conservative in production. If you plan to call the
+raw session API directly from a browser, script, or external service, replace the placeholder auth in
+`agent/channels/eve.ts` with the auth policy you want before relying on that endpoint.
+
 ---
 
 ## Path B — Many Eve agents (monorepo)
@@ -208,10 +212,10 @@ npx atom-eve init [--target eve|flue] [--runtime node|cloudflare|vercel]
 npx atom-eve list
 ```
 
-`atom-eve add` resolves the target and delegates to shadcn under the hood, so the manual fallback
-also works:
+`atom-eve add` resolves the target and copies registry source files into the framework-native
+project layout. It expects `atom-eve.json`'s `registry` value to be a GitHub `owner/repo` for public
+registry installs. Local checkout installs also work:
 
 ```bash
-npx shadcn@latest add elie222/atom-eve/eve/website-qa
-npx shadcn@latest add elie222/atom-eve/flue/website-qa
+npx atom-eve add /path/to/atom-eve/registry/website-qa --target eve
 ```

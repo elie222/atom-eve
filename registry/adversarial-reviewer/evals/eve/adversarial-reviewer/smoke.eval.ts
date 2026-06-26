@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(adversarialReviewerSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_pull_request");
     t.check(t.reply, includes("review"));

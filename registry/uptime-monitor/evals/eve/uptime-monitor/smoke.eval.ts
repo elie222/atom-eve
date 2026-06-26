@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(uptimeMonitorSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("check_endpoints");
     t.check(t.reply, includes("example.com"));

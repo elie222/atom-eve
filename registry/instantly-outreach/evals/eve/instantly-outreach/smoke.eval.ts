@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(instantlyOutreachSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_outreach");
     t.check(t.reply, includes("Instantly"));

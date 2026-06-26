@@ -12,7 +12,7 @@ export default defineEval({
   async test(t) {
     await t.send(keywordResearcherSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool(keywordResearcherToolName);
     t.messageIncludes(expectedReplyPattern);
