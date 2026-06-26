@@ -70,7 +70,10 @@ async function main() {
 
   if (command === "add") {
     const agent = args._[1];
-    if (!agent) throw new Error("Usage: atom-eve add <agent>");
+    if (!agent || isHelpFlag(agent)) {
+      printAddHelp();
+      return;
+    }
     await add(agent, args);
     return;
   }
@@ -443,6 +446,10 @@ function parseRuntime(value: unknown): Runtime {
   throw new Error(`Invalid runtime: ${String(value)}. Expected vercel, node, or cloudflare.`);
 }
 
+function isHelpFlag(value: unknown): boolean {
+  return value === "help" || value === "--help" || value === "-h";
+}
+
 function validateConfig(value: unknown): AtomEveConfig {
   if (!value || typeof value !== "object") throw new Error("Invalid atom-eve.json");
   const record = value as Record<string, unknown>;
@@ -643,5 +650,18 @@ Commands:
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
 VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_SECRET_KEY)
 are set as Vercel project env vars. For Flue, set env vars per its docs.
+`);
+}
+
+function printAddHelp() {
+  console.log(`atom-eve add
+
+Usage:
+  atom-eve add <agent> [--target eve|flue] [--runtime node|cloudflare|vercel]
+  atom-eve add ./registry/<agent> --target eve|flue
+
+Examples:
+  atom-eve add website-qa --target eve
+  atom-eve add facebook-ads --target flue
 `);
 }

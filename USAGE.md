@@ -34,6 +34,8 @@ There are two different things people lump together as "env vars":
    `VERCEL_OIDC_TOKEN`. On a deployed Vercel project that token is injected automatically; locally
    you get it by linking the project (`vercel link`) and running `vercel env pull`. (An
    `AI_GATEWAY_API_KEY` or `ANTHROPIC_API_KEY` is only an escape hatch for running outside Vercel.)
+   The Vercel account or team still needs AI Gateway access enabled, including any current account
+   verification or billing requirement Vercel applies before serving model calls.
    On **Flue/Cloudflare** the runtime has built-in model access; on **Flue/Node** set a provider key.
 2. **Per-agent integration secrets** — e.g. `STRIPE_SECRET_KEY`, `GITHUB_TOKEN`, `POSTHOG_API_KEY`.
    These are real third-party secrets. On Eve they are **Vercel project environment variables** (set
@@ -109,6 +111,10 @@ current deploy details.
 The generated Eve HTTP channel is intentionally conservative in production. If you plan to call the
 raw session API directly from a browser, script, or external service, replace the placeholder auth in
 `agent/channels/eve.ts` with the auth policy you want before relying on that endpoint.
+
+If Vercel Deployment Protection or team SSO is enabled for the project, direct checks such as
+`curl https://<deployment>/eve/v1/health` may redirect to Vercel login until the deployment or
+endpoint is made accessible to the caller.
 
 ---
 
