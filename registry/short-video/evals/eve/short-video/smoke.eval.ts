@@ -11,7 +11,7 @@ export default defineEval({
   async test(t) {
     await t.send(shortVideoSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("plan_clips");
     t.messageIncludes(expectedReplyPattern);

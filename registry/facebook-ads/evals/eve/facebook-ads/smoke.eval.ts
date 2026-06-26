@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(facebookAdsSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_campaigns");
     t.check(t.reply, includes("Facebook"));

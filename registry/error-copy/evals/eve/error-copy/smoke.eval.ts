@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(errorCopySmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.usedNoTools();
     t.check(t.reply, includes("example.com"));

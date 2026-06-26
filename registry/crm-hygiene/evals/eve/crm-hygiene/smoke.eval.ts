@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(crmHygieneSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_contacts");
     t.check(t.reply, includes("HubSpot"));

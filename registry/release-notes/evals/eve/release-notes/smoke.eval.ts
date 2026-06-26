@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(releaseNotesSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_merged");
     t.check(t.reply, includes("release notes"));

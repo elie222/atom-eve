@@ -17,7 +17,7 @@ npx atom-eve add facebook-ads --target flue --runtime cloudflare
 npx atom-eve init --target eve
 ```
 
-The CLI resolves the target and delegates registry installs to shadcn where possible. Eve installs write a root agent under `agent/`.
+The CLI resolves the target and copies registry source files into the framework-native project layout. Eve installs write a root agent under `agent/`.
 
 Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VERCEL_OIDC_TOKEN` — no model API key needed. Per-agent integration secrets (e.g. `STRIPE_SECRET_KEY`) are set as Vercel project env vars. For Flue, set env vars per its docs.
 

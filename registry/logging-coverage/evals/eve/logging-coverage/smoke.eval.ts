@@ -9,7 +9,7 @@ export default defineEval({
   async test(t) {
     await t.send(loggingCoverageSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("plan_logging");
     t.check(t.reply, includes("draft"));

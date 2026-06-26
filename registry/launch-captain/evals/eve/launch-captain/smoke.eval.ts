@@ -12,7 +12,7 @@ export default defineEval({
   async test(t) {
     await t.send(launchCaptainSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool(planLaunchToolName);
 

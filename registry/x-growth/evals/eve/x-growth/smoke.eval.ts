@@ -9,7 +9,7 @@ export default defineEval({
   async test(t) {
     await t.send(xGrowthSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("search_mentions");
     t.check(t.reply, includes("draft"));

@@ -14,7 +14,7 @@ export default defineEval({
   async test(t) {
     await t.send(competitorAnalysisSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("bash", { input: { command: sandboxCommandPattern } });
     t.check(t.reply, includes(expectedUrlToken));

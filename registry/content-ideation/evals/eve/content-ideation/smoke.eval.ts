@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(contentIdeationSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.messageIncludes(expectedTokenPattern);
     t.check(t.reply, includes("YouTube"));

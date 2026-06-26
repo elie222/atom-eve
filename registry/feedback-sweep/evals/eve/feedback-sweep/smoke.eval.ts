@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(feedbackSweepSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_issues");
     t.check(t.reply, includes("GitHub"));

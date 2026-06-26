@@ -9,7 +9,7 @@ export default defineEval({
   async test(t) {
     await t.send(emailUserlistSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("plan_campaign");
     t.check(t.reply, includes("draft"));

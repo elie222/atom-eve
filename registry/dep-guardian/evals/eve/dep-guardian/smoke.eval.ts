@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(depGuardianSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_dependencies");
     t.check(t.reply, includes("dependenc"));

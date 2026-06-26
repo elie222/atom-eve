@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(emailLoopsSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_audience");
     t.check(t.reply, includes("Loops"));

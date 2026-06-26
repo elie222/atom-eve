@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(docsSyncSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_changes");
     t.check(t.reply, includes("doc"));

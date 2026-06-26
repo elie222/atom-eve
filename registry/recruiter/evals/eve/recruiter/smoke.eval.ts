@@ -13,7 +13,7 @@ export default defineEval({
   async test(t) {
     await t.send(recruiterSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("review_applicants");
     t.check(t.reply, includes("Ashby"));

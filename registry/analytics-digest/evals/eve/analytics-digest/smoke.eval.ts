@@ -12,7 +12,7 @@ export default defineEval({
   async test(t) {
     await t.send(analyticsDigestSmokePrompt);
 
-    t.completed();
+    t.succeeded();
     t.noFailedActions();
     t.calledTool("bash", { input: { command: posthogCliCommandPattern } });
     t.messageIncludes(expectedReplyToken);
