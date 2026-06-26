@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "seo-audit",
   "title": "SEO Audit Agent",
-  "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior local history, and writes concise Markdown reports.",
+  "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior file or blob-backed history, and writes concise Markdown reports.",
   "category": "seo",
   "family": "growth",
   "targets": ["eve", "flue"],

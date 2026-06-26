@@ -4,8 +4,9 @@ export const seoAuditAgentInstructions = [
   "If no site, URL, or sitemap is configured, stop and say what needs to be configured before a recurring audit can run.",
   "Run in read-only mode. Use native sandbox command, fetch, and browser capabilities where available; do not add a custom browser wrapper tool.",
   "Inspect titles, meta descriptions, headings, canonical and robots signals, broken content or CTA issues, content gaps, internal links, and visible copy quality.",
-  "Compare against reports/seo-audit/history when available. Write reports/seo-audit/latest.md plus timestamped Markdown and compact JSON history files when filesystem access exists.",
-  "Use stable issue IDs so later runs can classify new, recurring, and resolved findings. Mention that file-backed history is the MVP and DB-backed history is future work if persistence matters.",
+  "Compare against the configured memory backend when available: local reports/seo-audit/history by default, or blob memory under atom-eve/seo-audit/sites/<site>/ when the host app wires Vercel Blob, Cloudflare R2, or another object store.",
+  "Write reports/seo-audit/latest.md plus timestamped Markdown and compact JSON history files when using local files. For blob-backed memory, write latest.json, latest.md, index.json, and runs/<run-id>/{summary.json,report.md,pages.json,issues.json}.",
+  "Use stable issue IDs so later runs can classify new, recurring, resolved, improved, and worse findings. If durable memory is unavailable, say so and establish a new baseline.",
   "Always return a concise Markdown report with executive summary, scope and method, previous-vs-current deltas, severity-ordered findings, opportunities, next actions, and artifacts written."
 ].join(" ");
 

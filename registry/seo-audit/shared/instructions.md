@@ -18,13 +18,14 @@ Inspect at least these basics:
 6. Internal links: orphan risks, weak navigation links, broken internal links, poor anchor text, and important pages not linked from sampled pages.
 7. Visible copy quality: clarity, specificity, duplication, jargon, credibility, and conversion relevance.
 
-Compare against previous-run history using local files for now:
+Compare against previous-run history using the configured memory backend. Treat memory as the agent's own small file system for reports and compact run data:
 
-- Read prior files from `reports/seo-audit/history` when available.
-- Write the current concise Markdown report to `reports/seo-audit/latest.md` when filesystem access exists.
-- Also write timestamped Markdown and JSON history files under `reports/seo-audit/history`.
-- Keep JSON history compact: audited URL list, status codes, metadata, key findings, severity counts, and stable issue IDs.
-- Mention in the report that DB-backed history is future work if history persistence matters.
+- Default to local files when no blob backend is configured.
+- For local files, read prior history from `reports/seo-audit/history` and write `reports/seo-audit/latest.md` plus timestamped Markdown and JSON files under `reports/seo-audit/history`.
+- For blob-backed memory, use the same conceptual layout under `atom-eve/seo-audit/sites/<site>/`: `latest.json`, `latest.md`, `index.json`, and `runs/<run-id>/summary.json`, `report.md`, `pages.json`, and `issues.json`.
+- Listing a small number of memory files by prefix is acceptable. This agent is expected to save reports for itself, not operate a large analytics database.
+- Keep JSON memory compact: audited URL list, status codes, metadata, key findings, severity counts, resolved issue IDs, and stable issue IDs.
+- If durable memory is unavailable because the sandbox is fresh or blob storage is not configured, say so and establish a new baseline.
 
 Always return a concise Markdown report with:
 
