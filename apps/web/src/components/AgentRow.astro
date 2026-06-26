@@ -15,7 +15,6 @@ const c = agent.color;
   style={`--fam:${c}`}
   data-family={agent.family}
 >
-  <div class="w-[4px] flex-none" style={`background:${c}`}></div>
   <div class="flex min-w-0 flex-1 items-center gap-[14px] px-4 py-[13px]">
     <div
       class="flex h-[34px] w-[34px] flex-none items-center justify-center"
@@ -24,14 +23,7 @@ const c = agent.color;
       <Glyph glyph={agent.glyph} color={c} scale={4} />
     </div>
 
-    <span
-      class="w-[96px] flex-none truncate font-pixel text-[8.5px] tracking-[0.01em]"
-      style={`color:${c}`}
-    >
-      {agent.categoryLabel.toUpperCase()}
-    </span>
-
-    <span class="flex-none truncate text-[14px] font-semibold text-ink transition-colors group-hover:text-cyan max-md:max-w-[150px]">
+    <span class="flex-none truncate text-[14px] font-semibold text-ink transition-colors group-hover:text-cyan max-md:max-w-[180px]">
       {agent.title}
     </span>
 
@@ -39,13 +31,7 @@ const c = agent.color;
       {agent.description}
     </span>
 
-    <span
-      class="w-[200px] flex-none truncate text-right font-mono text-[10.5px] text-muted2 max-lg:hidden"
-    >
-      {agent.integrations}
-    </span>
-
-    <span class="flex-none font-pixel text-[8px] tracking-[0.04em]" style={`color:${c}`}>
+    <span class="flex-none font-pixel text-[8px] tracking-[0.04em] text-muted2 transition-colors group-hover:text-ink">
       VIEW →
     </span>
   </div>
