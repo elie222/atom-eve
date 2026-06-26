@@ -1,33 +1,42 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ *
- * Atom Eve design tokens (retro-pixel dark theme)
+ * Atom Eve design tokens (arcade dark theme)
  * Exposed as Tailwind v4 theme variables -> utilities like
- * bg-panel, text-ink, border-edge, text-eve, font-pixel, font-mono.
+ * bg-panel, text-ink, border-edge, text-cyan, font-pixel, font-mono.
  * ------------------------------------------------------------------ */
 @theme {
-  --color-bg: #0c0f1f;
-  --color-bg2: #0e1226;
-  --color-panel: #13172b;
-  --color-panel2: #161b33;
-  --color-code: #0a0d1a;
-  --color-edge: #262c47;
-  --color-edgedim: #1c2138;
-  --color-edge2: #2a3052;
+  --color-bg: #0b0820;
+  --color-bg2: #120c28;
+  --color-panel: #150d30;
+  --color-panel2: #1a1138;
+  --color-code: #080515;
 
-  --color-ink: #eef0ff;
-  --color-ink2: #c2c6e0;
-  --color-ink3: #9aa0c8;
-  --color-muted: #8b91c0;
-  --color-muted2: #7177a3;
-  --color-dim: #5a608a;
-  --color-dim2: #3a4166;
+  --color-edge: #2a1a4a;
+  --color-edgedim: #1c1330;
+  --color-edge2: #3a2566;
 
-  --color-eve: #9bff5c;
-  --color-eng: #4d9fff;
-  --color-rev: #ffb84d;
-  --color-sup: #ff5cce;
-  --color-ops2: #4dffd0;
+  --color-ink: #efe9ff;
+  --color-ink2: #c2bbe0;
+  --color-ink3: #a79fc8;
+  --color-muted: #9587bd;
+  --color-muted2: #7c70a8;
+  --color-dim: #6b5f93;
+  --color-dim2: #3a2566;
+
+  /* arcade accents */
+  --color-pink: #ff45c2;
+  --color-cyan: #37d6ff;
+  --color-green: #54f0a8;
+  --color-amber: #ffb454;
+  --color-purple: #a974ff;
+
+  /* family aliases (mirror famColor() in format.ts) */
+  --color-eng: #37d6ff;
+  --color-gro: #54f0a8;
+  --color-rev: #ffb454;
+  --color-sup: #ff45c2;
+  --color-ops2: #a974ff;
   --color-data: #c08bff;
 
   --font-pixel: "Press Start 2P", monospace;
@@ -45,12 +54,27 @@
     font-family: var(--font-sans);
   }
   ::selection {
-    background: var(--color-eve);
-    color: #0a0a0c;
+    background: var(--color-pink);
+    color: #0b0820;
   }
   input::placeholder {
     color: var(--color-muted);
   }
+}
+
+/* ---- CRT scanline overlay (whole page) ---- */
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.6;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(0, 0, 0, 0.22) 3px
+  );
 }
 
 /* ---- animations ---- */
@@ -64,32 +88,42 @@
     opacity: 0;
   }
 }
-@keyframes herobob {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
-}
 .animate-blink {
   animation: atomblink 1.1s steps(1) infinite;
 }
-.animate-bob {
-  animation: herobob 4s ease-in-out infinite;
+
+/* ---- arcade press buttons (hard offset shadow, moves toward shadow) ---- */
+.arcade-btn {
+  cursor: pointer;
+  border: none;
+  transition: transform 0.08s;
+}
+.arcade-btn:hover {
+  transform: translate(2px, 2px);
+}
+.arcade-btn:active {
+  transform: translate(3px, 3px);
 }
 
-/* ---- agent card hover (family colour injected via --fam* vars) ---- */
+/* ---- agent card / row hover (family colour injected via --fam) ---- */
 .agent-card {
   transition:
-    transform 0.12s,
-    border-color 0.12s;
+    transform 0.1s,
+    border-color 0.1s,
+    box-shadow 0.1s;
 }
 .agent-card:hover {
   transform: translateY(-2px);
-  border-color: var(--famh, var(--color-dim2));
+  border-color: var(--fam, var(--color-edge2));
+  box-shadow: 5px 7px 0 rgba(0, 0, 0, 0.28);
 }
+.agent-row {
+  transition: border-color 0.1s;
+}
+.agent-row:hover {
+  border-color: var(--fam, var(--color-edge2));
+}
+
 /* ---- grid / list view switching + filtering ---- */
 #registry-views[data-view="grid"] #agent-list {
   display: none;
@@ -109,18 +143,20 @@
 .view-btn {
   cursor: pointer;
   transition:
-    background 0.12s,
-    color 0.12s;
+    background 0.1s,
+    color 0.1s,
+    border-color 0.1s;
 }
 .view-btn:hover {
   color: var(--color-ink);
 }
 .view-btn.active {
-  background: #9bff5c14;
-  color: var(--color-eve);
+  color: #0b0820;
+  background: var(--color-cyan);
+  border-color: var(--color-cyan);
 }
 
-/* ---- category toolbar pills ---- */
+/* ---- category toolbar tabs ---- */
 .cat-bar {
   scrollbar-width: none;
 }
@@ -130,34 +166,43 @@
 .cat-pill {
   cursor: pointer;
   transition:
-    background 0.12s,
-    border-color 0.12s,
-    color 0.12s;
+    background 0.1s,
+    border-color 0.1s,
+    color 0.1s;
 }
 .cat-pill:hover {
-  background: var(--color-panel2);
-  border-color: var(--color-edge2);
-}
-.cat-pill.active {
-  background: #9bff5c14;
-  border-color: #9bff5c4d;
+  border-color: var(--fam);
   color: var(--color-ink);
 }
+.cat-pill.active {
+  color: #0b0820;
+  background: var(--fam);
+  border-color: var(--fam);
+}
 .cat-pill.active .cat-count {
-  color: var(--color-eve);
+  color: #0b0820;
+  opacity: 0.55;
+}
+
+/* ---- get started modal ---- */
+.modal-overlay {
+  display: none;
+}
+.modal-overlay.is-open {
+  display: flex;
 }
 
 /* ---- rendered README markdown ---- */
 .md {
   color: var(--color-ink3);
-  font-size: 15.5px;
-  line-height: 1.75;
+  font-size: 14.5px;
+  line-height: 1.7;
 }
 .md > :first-child {
   margin-top: 0;
 }
 .md h1 {
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 700;
   color: var(--color-ink);
   letter-spacing: -0.01em;
@@ -167,23 +212,23 @@
   font-size: 18px;
   font-weight: 700;
   color: var(--color-ink);
-  margin: 30px 0 0;
+  margin: 28px 0 0;
 }
 .md h3 {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-ink);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--color-green);
   margin: 30px 0 0;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  font-family: var(--font-pixel);
 }
 .md p {
   margin: 14px 0 0;
 }
 .md ul,
 .md ol {
-  margin: 12px 0 0;
+  margin: 14px 0 0;
   padding-left: 20px;
   display: flex;
   flex-direction: column;
@@ -196,7 +241,7 @@
   list-style: decimal;
 }
 .md a {
-  color: var(--color-eve);
+  color: var(--color-cyan);
 }
 .md strong {
   color: var(--color-ink);
@@ -204,20 +249,18 @@
 .md code {
   font-family: var(--font-mono);
   font-size: 0.88em;
-  color: var(--color-eve);
-  background: var(--color-bg2);
+  color: var(--color-green);
+  background: var(--color-code);
   border: 1px solid var(--color-edge);
-  border-radius: 4px;
   padding: 1px 5px;
 }
 .md pre {
-  margin: 14px 0 0;
+  margin: 16px 0 0;
   padding: 16px 18px;
   background: var(--color-code);
-  border: 1px solid var(--color-edge);
-  border-radius: 8px;
+  border: 2px solid var(--color-edge);
   font-family: var(--font-mono);
-  font-size: 13.5px;
+  font-size: 13px;
   line-height: 1.7;
   color: var(--color-ink2);
   overflow-x: auto;

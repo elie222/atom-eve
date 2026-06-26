@@ -6,7 +6,9 @@ interface Props {
   targets: string[];
 }
 
-/* "install with <framework>" tabs + copyable command. */
+const ACC = "#54f0a8";
+
+/* "install with <framework>" tabs + copyable command (arcade terminal). */
 export default function InstallBox({ name, targets }: Props) {
   const frameworks = targets.length ? targets : ["npm"];
   const cmds = useMemo(() => {
@@ -27,9 +29,13 @@ export default function InstallBox({ name, targets }: Props) {
   const label = (t: string) => (t === "npm" ? "npm" : targetLabel(t));
 
   return (
-    <div id="install" className="mt-[26px] overflow-hidden rounded-[10px] border border-edge bg-code">
-      <div className="flex items-center gap-[9px] border-b border-edgedim px-4 py-[11px]">
-        <span className="mr-[2px] font-mono text-[11px] text-dim">install with</span>
+    <div
+      id="install"
+      className="mt-[26px] border-2 border-edge bg-code"
+      style={{ boxShadow: "5px 5px 0 rgba(0,0,0,0.4)" }}
+    >
+      <div className="flex flex-wrap items-center gap-[9px] border-b-2 border-edgedim px-4 py-[11px]">
+        <span className="mr-1 font-pixel text-[8px] tracking-[0.06em] text-dim">INSTALL WITH</span>
         {frameworks.map((t) => {
           const on = t === active;
           return (
@@ -39,11 +45,11 @@ export default function InstallBox({ name, targets }: Props) {
                 setActive(t);
                 setCopied(false);
               }}
-              className="cursor-pointer rounded-[5px] px-[11px] py-1 font-mono text-[12px] transition-colors"
+              className="cursor-pointer px-[11px] py-[5px] font-mono text-[12px] font-semibold transition-colors"
               style={{
-                color: on ? "#0a0a0c" : "#8b91c0",
-                background: on ? "#9bff5c" : "transparent",
-                border: `1px solid ${on ? "#9bff5c" : "#262c47"}`,
+                color: on ? "#0b0820" : "#9587bd",
+                background: on ? ACC : "transparent",
+                border: `2px solid ${on ? ACC : "#2a1a4a"}`,
               }}
             >
               {label(t)}
@@ -51,16 +57,17 @@ export default function InstallBox({ name, targets }: Props) {
           );
         })}
       </div>
-      <div className="flex items-center gap-[14px] px-[18px] py-[17px]">
-        <span className="font-mono text-[15px] text-eve">$</span>
-        <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[14.5px] text-ink">
+      <div className="flex items-center gap-[14px] px-[18px] py-4">
+        <span className="font-mono text-[15px] text-green">$</span>
+        <span className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[14px] text-ink">
           {cmds[active]}
         </span>
         <button
           onClick={copy}
-          className="cursor-pointer whitespace-nowrap rounded-md border-none bg-eve px-4 py-2 text-[13px] font-semibold text-[#0a0a0c]"
+          className="arcade-btn flex-none cursor-pointer whitespace-nowrap px-[13px] py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
+          style={{ background: ACC, boxShadow: "3px 3px 0 rgba(0,0,0,0.4)" }}
         >
-          {copied ? "✓ Copied" : "Copy"}
+          {copied ? "COPIED ✓" : "COPY"}
         </button>
       </div>
     </div>

@@ -11,31 +11,40 @@ const c = agent.color;
 
 <a
   href={`/agents/${agent.name}/`}
-  class="agent-row agent-item group flex items-center gap-[14px] border-b border-edge px-[15px] py-[13px] transition-colors last:border-b-0 hover:bg-panel2"
-  style={`--famh:${c}66`}
+  class="agent-row agent-item group flex items-stretch border-2 border-edge bg-panel shadow-[4px_4px_0_rgba(0,0,0,0.22)]"
+  style={`--fam:${c}`}
   data-family={agent.family}
 >
-  <div
-    class="flex h-8 w-8 flex-none items-center justify-center rounded-[7px]"
-    style={`background:${c}14;border:1px solid ${c}33`}
-  >
-    <Glyph glyph={agent.glyph} color={c} scale={4} />
-  </div>
-
-  <div class="flex min-w-0 flex-1 items-baseline gap-[10px]">
-    <span
-      class="flex-none text-[14.5px] font-semibold text-ink transition-colors group-hover:text-eve"
+  <div class="w-[4px] flex-none" style={`background:${c}`}></div>
+  <div class="flex min-w-0 flex-1 items-center gap-[18px] px-4 py-[13px]">
+    <div
+      class="flex h-[34px] w-[34px] flex-none items-center justify-center"
+      style={`background:${c}18;border:2px solid ${c}40`}
     >
-      {agent.title}
-    </span>
-    <span class="flex-none font-pixel text-[8px] tracking-[0.01em]" style={`color:${c}`}>
-      {agent.categoryLabel.toUpperCase()}
-    </span>
-    <span class="min-w-0 flex-1 truncate text-[13px] text-muted">{agent.description}</span>
-  </div>
+      <Glyph glyph={agent.glyph} color={c} scale={4} />
+    </div>
 
-  <span
-    class="flex-none font-mono text-[13px] text-dim opacity-0 transition-opacity group-hover:opacity-100"
-    aria-hidden="true">→</span
-  >
+    <div class="w-[200px] flex-none max-md:w-auto">
+      <div class="font-pixel text-[8.5px] leading-[1.5] tracking-[0.01em]" style={`color:${c}`}>
+        {agent.categoryLabel.toUpperCase()}
+      </div>
+      <div class="mt-[5px] text-[13.5px] font-semibold leading-[1.25] text-ink transition-colors group-hover:text-cyan">
+        {agent.title}
+      </div>
+    </div>
+
+    <div class="min-w-0 flex-1 text-[13.5px] leading-[1.4] text-ink2 max-md:hidden">
+      {agent.description}
+    </div>
+
+    <div
+      class="w-[210px] flex-none truncate text-right font-mono text-[10.5px] leading-[1.4] text-muted2 max-lg:hidden"
+    >
+      {agent.integrations}
+    </div>
+
+    <span class="flex-none font-pixel text-[8px] tracking-[0.04em]" style={`color:${c}`}>
+      VIEW →
+    </span>
+  </div>
 </a>
