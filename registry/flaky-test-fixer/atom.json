@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "flaky-test-fixer",
+  "title": "Flaky Test Fixer Agent",
+  "description": "Reviews recent GitHub Actions CI runs to surface repeatedly-failing or retried tests and diagnose likely flakes (read-only).",
+  "category": "code",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["github"],
+  "connections": [
+    {
+      "name": "github",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["GITHUB_TOKEN", "GITHUB_REPO"]
+}

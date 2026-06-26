@@ -141,6 +141,158 @@
       ]
     },
     {
+      "name": "eve/a11y-auditor",
+      "type": "registry:block",
+      "title": "Accessibility Auditor Agent (eve)",
+      "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
+      "files": [
+        {
+          "path": "registry/a11y-auditor/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/evals/eve/a11y-auditor/smoke.eval.ts",
+          "target": "~/evals/a11y-auditor/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/evals/eve/shared/a11y-auditor-smoke.ts",
+          "target": "~/evals/shared/a11y-auditor-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/a11y-auditor",
+      "type": "registry:block",
+      "title": "Accessibility Auditor Agent (flue)",
+      "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
+      "files": [
+        {
+          "path": "registry/a11y-auditor/targets/flue/agent.ts",
+          "target": "~/src/agents/a11y-auditor.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/a11y-auditor/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/a11y-auditor-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/adversarial-reviewer",
+      "type": "registry:block",
+      "title": "Adversarial Reviewer Agent (eve)",
+      "description": "Reads a GitHub pull request and its diff and returns an independent, skeptical second-opinion review.",
+      "files": [
+        {
+          "path": "registry/adversarial-reviewer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/targets/eve/tools/review_pull_request.ts",
+          "target": "~/agent/tools/review_pull_request.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/evals/eve/adversarial-reviewer/smoke.eval.ts",
+          "target": "~/evals/adversarial-reviewer/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/evals/eve/shared/adversarial-reviewer-smoke.ts",
+          "target": "~/evals/shared/adversarial-reviewer-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/adversarial-reviewer",
+      "type": "registry:block",
+      "title": "Adversarial Reviewer Agent (flue)",
+      "description": "Reads a GitHub pull request and its diff and returns an independent, skeptical second-opinion review.",
+      "files": [
+        {
+          "path": "registry/adversarial-reviewer/targets/flue/agent.ts",
+          "target": "~/src/agents/adversarial-reviewer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/shared/lib/github.ts",
+          "target": "~/src/lib/agents/adversarial-reviewer/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/adversarial-reviewer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/targets/flue/tools/github.ts",
+          "target": "~/src/tools/adversarial-reviewer/github.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/analytics-digest",
       "type": "registry:block",
       "title": "Analytics Digest Agent (eve)",
@@ -222,6 +374,92 @@
         {
           "path": "registry/analytics-digest/targets/flue/workflows/weekly.ts",
           "target": "~/src/workflows/analytics-digest-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/backup-verifier",
+      "type": "registry:block",
+      "title": "Backup Verifier Agent (eve)",
+      "description": "Drafts clean-room restore-and-verify plans for required recovery scenarios and reports backup coverage gaps for operator review (read-only).",
+      "files": [
+        {
+          "path": "registry/backup-verifier/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/shared/lib/backup.ts",
+          "target": "~/agent/lib/backup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/targets/eve/tools/plan_restore_check.ts",
+          "target": "~/agent/tools/plan_restore_check.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/evals/eve/backup-verifier/smoke.eval.ts",
+          "target": "~/evals/backup-verifier/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/evals/eve/shared/backup-verifier-smoke.ts",
+          "target": "~/evals/shared/backup-verifier-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/backup-verifier",
+      "type": "registry:block",
+      "title": "Backup Verifier Agent (flue)",
+      "description": "Drafts clean-room restore-and-verify plans for required recovery scenarios and reports backup coverage gaps for operator review (read-only).",
+      "files": [
+        {
+          "path": "registry/backup-verifier/targets/flue/agent.ts",
+          "target": "~/src/agents/backup-verifier.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/shared/lib/backup.ts",
+          "target": "~/src/lib/agents/backup-verifier/backup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/backup-verifier/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/targets/flue/tools/backup.ts",
+          "target": "~/src/tools/backup-verifier/backup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backup-verifier/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/backup-verifier-weekly.ts",
           "type": "registry:file"
         }
       ]
@@ -450,6 +688,92 @@
         {
           "path": "registry/claim-checker/targets/flue/workflows/weekly.ts",
           "target": "~/src/workflows/claim-checker-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/code-reviewer",
+      "type": "registry:block",
+      "title": "Code Reviewer Agent (eve)",
+      "description": "Reviews open GitHub pull requests and drafts read-only review notes flagging correctness and simplification issues.",
+      "files": [
+        {
+          "path": "registry/code-reviewer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/targets/eve/tools/review_pull_requests.ts",
+          "target": "~/agent/tools/review_pull_requests.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/evals/eve/code-reviewer/smoke.eval.ts",
+          "target": "~/evals/code-reviewer/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/evals/eve/shared/code-reviewer-smoke.ts",
+          "target": "~/evals/shared/code-reviewer-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/code-reviewer",
+      "type": "registry:block",
+      "title": "Code Reviewer Agent (flue)",
+      "description": "Reviews open GitHub pull requests and drafts read-only review notes flagging correctness and simplification issues.",
+      "files": [
+        {
+          "path": "registry/code-reviewer/targets/flue/agent.ts",
+          "target": "~/src/agents/code-reviewer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/shared/lib/github.ts",
+          "target": "~/src/lib/agents/code-reviewer/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/code-reviewer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/targets/flue/tools/github.ts",
+          "target": "~/src/tools/code-reviewer/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/code-reviewer/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/code-reviewer-daily.ts",
           "type": "registry:file"
         }
       ]
@@ -886,6 +1210,92 @@
       ]
     },
     {
+      "name": "eve/data-compliance",
+      "type": "registry:block",
+      "title": "Data Compliance Agent (eve)",
+      "description": "Plans a read-only scan for disallowed and PII data in production stores and drafts the guards to prevent recurrence for operator approval.",
+      "files": [
+        {
+          "path": "registry/data-compliance/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/shared/lib/compliance.ts",
+          "target": "~/agent/lib/compliance.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/targets/eve/tools/plan_compliance_scan.ts",
+          "target": "~/agent/tools/plan_compliance_scan.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/evals/eve/data-compliance/smoke.eval.ts",
+          "target": "~/evals/data-compliance/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/evals/eve/shared/data-compliance-smoke.ts",
+          "target": "~/evals/shared/data-compliance-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/data-compliance",
+      "type": "registry:block",
+      "title": "Data Compliance Agent (flue)",
+      "description": "Plans a read-only scan for disallowed and PII data in production stores and drafts the guards to prevent recurrence for operator approval.",
+      "files": [
+        {
+          "path": "registry/data-compliance/targets/flue/agent.ts",
+          "target": "~/src/agents/data-compliance.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/shared/lib/compliance.ts",
+          "target": "~/src/lib/agents/data-compliance/compliance.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/data-compliance/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/targets/flue/tools/compliance.ts",
+          "target": "~/src/tools/data-compliance/compliance.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/data-compliance/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/data-compliance-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/deal-followup",
       "type": "registry:block",
       "title": "Deal Follow-up Agent (eve)",
@@ -957,6 +1367,178 @@
         {
           "path": "registry/deal-followup/targets/flue/tools/followup.ts",
           "target": "~/src/tools/deal-followup/followup.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/dep-guardian",
+      "type": "registry:block",
+      "title": "Dependency Guardian Agent (eve)",
+      "description": "Reviews a repository's package.json dependencies from GitHub and flags outdated or risky packages in risk order.",
+      "files": [
+        {
+          "path": "registry/dep-guardian/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/targets/eve/tools/review_dependencies.ts",
+          "target": "~/agent/tools/review_dependencies.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/evals/eve/dep-guardian/smoke.eval.ts",
+          "target": "~/evals/dep-guardian/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/evals/eve/shared/dep-guardian-smoke.ts",
+          "target": "~/evals/shared/dep-guardian-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/dep-guardian",
+      "type": "registry:block",
+      "title": "Dependency Guardian Agent (flue)",
+      "description": "Reviews a repository's package.json dependencies from GitHub and flags outdated or risky packages in risk order.",
+      "files": [
+        {
+          "path": "registry/dep-guardian/targets/flue/agent.ts",
+          "target": "~/src/agents/dep-guardian.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/shared/lib/github.ts",
+          "target": "~/src/lib/agents/dep-guardian/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/dep-guardian/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/targets/flue/tools/github.ts",
+          "target": "~/src/tools/dep-guardian/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/dep-guardian-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/docs-sync",
+      "type": "registry:block",
+      "title": "Docs Sync Agent (eve)",
+      "description": "Reviews recent commits and merged pull requests, flags documentation that has likely drifted from the code, and proposes a reviewable doc update.",
+      "files": [
+        {
+          "path": "registry/docs-sync/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/targets/eve/tools/review_changes.ts",
+          "target": "~/agent/tools/review_changes.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/evals/eve/docs-sync/smoke.eval.ts",
+          "target": "~/evals/docs-sync/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/evals/eve/shared/docs-sync-smoke.ts",
+          "target": "~/evals/shared/docs-sync-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/docs-sync",
+      "type": "registry:block",
+      "title": "Docs Sync Agent (flue)",
+      "description": "Reviews recent commits and merged pull requests, flags documentation that has likely drifted from the code, and proposes a reviewable doc update.",
+      "files": [
+        {
+          "path": "registry/docs-sync/targets/flue/agent.ts",
+          "target": "~/src/agents/docs-sync.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/shared/lib/github.ts",
+          "target": "~/src/lib/agents/docs-sync/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/docs-sync/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/targets/flue/tools/github.ts",
+          "target": "~/src/tools/docs-sync/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/docs-sync-daily.ts",
           "type": "registry:file"
         }
       ]
@@ -1696,6 +2278,92 @@
         {
           "path": "registry/feedback-sweep/targets/flue/workflows/weekly.ts",
           "target": "~/src/workflows/feedback-sweep-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/flaky-test-fixer",
+      "type": "registry:block",
+      "title": "Flaky Test Fixer Agent (eve)",
+      "description": "Reviews recent GitHub Actions CI runs to surface repeatedly-failing or retried tests and diagnose likely flakes (read-only).",
+      "files": [
+        {
+          "path": "registry/flaky-test-fixer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/targets/eve/tools/review_ci_runs.ts",
+          "target": "~/agent/tools/review_ci_runs.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/evals/eve/flaky-test-fixer/smoke.eval.ts",
+          "target": "~/evals/flaky-test-fixer/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/evals/eve/shared/flaky-test-fixer-smoke.ts",
+          "target": "~/evals/shared/flaky-test-fixer-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/flaky-test-fixer",
+      "type": "registry:block",
+      "title": "Flaky Test Fixer Agent (flue)",
+      "description": "Reviews recent GitHub Actions CI runs to surface repeatedly-failing or retried tests and diagnose likely flakes (read-only).",
+      "files": [
+        {
+          "path": "registry/flaky-test-fixer/targets/flue/agent.ts",
+          "target": "~/src/agents/flaky-test-fixer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/shared/lib/github.ts",
+          "target": "~/src/lib/agents/flaky-test-fixer/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/flaky-test-fixer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/targets/flue/tools/github.ts",
+          "target": "~/src/tools/flaky-test-fixer/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/flaky-test-fixer/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/flaky-test-fixer-weekly.ts",
           "type": "registry:file"
         }
       ]
@@ -2657,6 +3325,82 @@
       ]
     },
     {
+      "name": "eve/logging-coverage",
+      "type": "registry:block",
+      "title": "Logging Coverage Agent (eve)",
+      "description": "Finds logging gaps on important code paths and drafts structured log statements to add, read-only.",
+      "files": [
+        {
+          "path": "registry/logging-coverage/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/shared/lib/logging.ts",
+          "target": "~/agent/lib/logging.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/targets/eve/tools/plan_logging.ts",
+          "target": "~/agent/tools/plan_logging.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/evals/eve/logging-coverage/smoke.eval.ts",
+          "target": "~/evals/logging-coverage/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/evals/eve/shared/logging-coverage-smoke.ts",
+          "target": "~/evals/shared/logging-coverage-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/logging-coverage",
+      "type": "registry:block",
+      "title": "Logging Coverage Agent (flue)",
+      "description": "Finds logging gaps on important code paths and drafts structured log statements to add, read-only.",
+      "files": [
+        {
+          "path": "registry/logging-coverage/targets/flue/agent.ts",
+          "target": "~/src/agents/logging-coverage.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/shared/lib/logging.ts",
+          "target": "~/src/lib/agents/logging-coverage/logging.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/logging-coverage/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/logging-coverage/targets/flue/tools/logging.ts",
+          "target": "~/src/tools/logging-coverage/logging.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/meeting-notes",
       "type": "registry:block",
       "title": "Meeting Notes Agent (eve)",
@@ -2728,6 +3472,82 @@
         {
           "path": "registry/meeting-notes/targets/flue/tools/fireflies.ts",
           "target": "~/src/tools/meeting-notes/fireflies.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/microcopy",
+      "type": "registry:block",
+      "title": "Microcopy Agent (eve)",
+      "description": "Rewrites in-product copy, empty states, errors, tooltips, and labels for clarity and a consistent brand voice, presenting every rewrite as a draft for operator approval.",
+      "files": [
+        {
+          "path": "registry/microcopy/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/shared/lib/microcopy.ts",
+          "target": "~/agent/lib/microcopy.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/targets/eve/tools/improve_copy.ts",
+          "target": "~/agent/tools/improve_copy.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/evals/eve/microcopy/smoke.eval.ts",
+          "target": "~/evals/microcopy/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/evals/eve/shared/microcopy-smoke.ts",
+          "target": "~/evals/shared/microcopy-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/microcopy",
+      "type": "registry:block",
+      "title": "Microcopy Agent (flue)",
+      "description": "Rewrites in-product copy, empty states, errors, tooltips, and labels for clarity and a consistent brand voice, presenting every rewrite as a draft for operator approval.",
+      "files": [
+        {
+          "path": "registry/microcopy/targets/flue/agent.ts",
+          "target": "~/src/agents/microcopy.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/shared/lib/microcopy.ts",
+          "target": "~/src/lib/agents/microcopy/microcopy.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/microcopy/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/microcopy/targets/flue/tools/microcopy.ts",
+          "target": "~/src/tools/microcopy/microcopy.ts",
           "type": "registry:file"
         }
       ]
@@ -2814,6 +3634,158 @@
         {
           "path": "registry/onboarding-coach/targets/flue/workflows/daily.ts",
           "target": "~/src/workflows/onboarding-coach-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/onboarding-tester",
+      "type": "registry:block",
+      "title": "Onboarding Tester Agent (eve)",
+      "description": "Acts like a first-time developer: follows the project's README and clean setup from scratch, stops at the first blocker, and reports the exact doc or script fix needed without changing anything.",
+      "files": [
+        {
+          "path": "registry/onboarding-tester/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/evals/eve/onboarding-tester/smoke.eval.ts",
+          "target": "~/evals/onboarding-tester/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/evals/eve/shared/onboarding-tester-smoke.ts",
+          "target": "~/evals/shared/onboarding-tester-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/onboarding-tester",
+      "type": "registry:block",
+      "title": "Onboarding Tester Agent (flue)",
+      "description": "Acts like a first-time developer: follows the project's README and clean setup from scratch, stops at the first blocker, and reports the exact doc or script fix needed without changing anything.",
+      "files": [
+        {
+          "path": "registry/onboarding-tester/targets/flue/agent.ts",
+          "target": "~/src/agents/onboarding-tester.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/onboarding-tester/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-tester/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/onboarding-tester-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/perf-auditor",
+      "type": "registry:block",
+      "title": "Performance Auditor Agent (eve)",
+      "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
+      "files": [
+        {
+          "path": "registry/perf-auditor/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/evals/eve/perf-auditor/smoke.eval.ts",
+          "target": "~/evals/perf-auditor/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/evals/eve/shared/perf-auditor-smoke.ts",
+          "target": "~/evals/shared/perf-auditor-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/perf-auditor",
+      "type": "registry:block",
+      "title": "Performance Auditor Agent (flue)",
+      "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
+      "files": [
+        {
+          "path": "registry/perf-auditor/targets/flue/agent.ts",
+          "target": "~/src/agents/perf-auditor.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/perf-auditor/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/perf-auditor-weekly.ts",
           "type": "registry:file"
         }
       ]
@@ -3244,6 +4216,178 @@
         {
           "path": "registry/refund-chaser/targets/flue/workflows/daily.ts",
           "target": "~/src/workflows/refund-chaser-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/release-notes",
+      "type": "registry:block",
+      "title": "Release Notes Agent (eve)",
+      "description": "Reviews pull requests merged since the latest release and drafts user-facing release notes grouped by change type for operator approval.",
+      "files": [
+        {
+          "path": "registry/release-notes/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/targets/eve/tools/review_merged.ts",
+          "target": "~/agent/tools/review_merged.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/evals/eve/release-notes/smoke.eval.ts",
+          "target": "~/evals/release-notes/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/evals/eve/shared/release-notes-smoke.ts",
+          "target": "~/evals/shared/release-notes-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/release-notes",
+      "type": "registry:block",
+      "title": "Release Notes Agent (flue)",
+      "description": "Reviews pull requests merged since the latest release and drafts user-facing release notes grouped by change type for operator approval.",
+      "files": [
+        {
+          "path": "registry/release-notes/targets/flue/agent.ts",
+          "target": "~/src/agents/release-notes.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/shared/lib/github.ts",
+          "target": "~/src/lib/agents/release-notes/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/release-notes/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/targets/flue/tools/github.ts",
+          "target": "~/src/tools/release-notes/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/release-notes-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/repo-janitor",
+      "type": "registry:block",
+      "title": "Repo Janitor Agent (eve)",
+      "description": "Plans proven low-risk repository cleanups one at a time (stale files, dead code, lint debt) and leaves uncertain work alone. Read-only and draft-first.",
+      "files": [
+        {
+          "path": "registry/repo-janitor/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/shared/lib/janitor.ts",
+          "target": "~/agent/lib/janitor.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/targets/eve/tools/plan_cleanup.ts",
+          "target": "~/agent/tools/plan_cleanup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/evals/eve/repo-janitor/smoke.eval.ts",
+          "target": "~/evals/repo-janitor/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/evals/eve/shared/repo-janitor-smoke.ts",
+          "target": "~/evals/shared/repo-janitor-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/repo-janitor",
+      "type": "registry:block",
+      "title": "Repo Janitor Agent (flue)",
+      "description": "Plans proven low-risk repository cleanups one at a time (stale files, dead code, lint debt) and leaves uncertain work alone. Read-only and draft-first.",
+      "files": [
+        {
+          "path": "registry/repo-janitor/targets/flue/agent.ts",
+          "target": "~/src/agents/repo-janitor.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/shared/lib/janitor.ts",
+          "target": "~/src/lib/agents/repo-janitor/janitor.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/repo-janitor/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/targets/flue/tools/janitor.ts",
+          "target": "~/src/tools/repo-janitor/janitor.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/repo-janitor/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/repo-janitor-weekly.ts",
           "type": "registry:file"
         }
       ]
@@ -3867,6 +5011,82 @@
       ]
     },
     {
+      "name": "eve/status-comms",
+      "type": "registry:block",
+      "title": "Status Comms Agent (eve)",
+      "description": "Drafts a customer-facing incident status update and a post-mortem outline from the incident details you provide, for operator approval. Read-only: it never posts to a status page or sends to customers.",
+      "files": [
+        {
+          "path": "registry/status-comms/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/shared/lib/statuscomms.ts",
+          "target": "~/agent/lib/statuscomms.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/targets/eve/tools/draft_incident_update.ts",
+          "target": "~/agent/tools/draft_incident_update.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/evals/eve/shared/status-comms-smoke.ts",
+          "target": "~/evals/shared/status-comms-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/evals/eve/status-comms/smoke.eval.ts",
+          "target": "~/evals/status-comms/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/status-comms",
+      "type": "registry:block",
+      "title": "Status Comms Agent (flue)",
+      "description": "Drafts a customer-facing incident status update and a post-mortem outline from the incident details you provide, for operator approval. Read-only: it never posts to a status page or sends to customers.",
+      "files": [
+        {
+          "path": "registry/status-comms/targets/flue/agent.ts",
+          "target": "~/src/agents/status-comms.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/status-comms/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/shared/lib/statuscomms.ts",
+          "target": "~/src/lib/agents/status-comms/statuscomms.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/status-comms/targets/flue/tools/statuscomms.ts",
+          "target": "~/src/tools/status-comms/statuscomms.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/support-replies",
       "type": "registry:block",
       "title": "Support Replies Agent (eve)",
@@ -3953,6 +5173,82 @@
       ]
     },
     {
+      "name": "eve/test-writer",
+      "type": "registry:block",
+      "title": "Test Writer Agent (eve)",
+      "description": "Analyzes provided code or a module description, identifies untested paths, and drafts meaningful test cases and assertions for operator approval.",
+      "files": [
+        {
+          "path": "registry/test-writer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/shared/lib/planner.ts",
+          "target": "~/agent/lib/planner.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/targets/eve/tools/plan_tests.ts",
+          "target": "~/agent/tools/plan_tests.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/evals/eve/shared/test-writer-smoke.ts",
+          "target": "~/evals/shared/test-writer-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/evals/eve/test-writer/smoke.eval.ts",
+          "target": "~/evals/test-writer/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/test-writer",
+      "type": "registry:block",
+      "title": "Test Writer Agent (flue)",
+      "description": "Analyzes provided code or a module description, identifies untested paths, and drafts meaningful test cases and assertions for operator approval.",
+      "files": [
+        {
+          "path": "registry/test-writer/targets/flue/agent.ts",
+          "target": "~/src/agents/test-writer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/shared/lib/planner.ts",
+          "target": "~/src/lib/agents/test-writer/planner.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/test-writer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/test-writer/targets/flue/tools/planner.ts",
+          "target": "~/src/tools/test-writer/planner.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/thumbnail-studio",
       "type": "registry:block",
       "title": "Thumbnail Studio Agent (eve)",
@@ -4024,6 +5320,396 @@
         {
           "path": "registry/thumbnail-studio/targets/flue/tools/fal.ts",
           "target": "~/src/tools/thumbnail-studio/fal.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/ticket-to-pr",
+      "type": "registry:block",
+      "title": "Ticket to PR Agent (eve)",
+      "description": "Reads a Linear ticket and drafts a reviewer-ready reproduction, implementation plan, and test plan for a PR.",
+      "files": [
+        {
+          "path": "registry/ticket-to-pr/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/shared/lib/linear.ts",
+          "target": "~/agent/lib/linear.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/targets/eve/tools/review_ticket.ts",
+          "target": "~/agent/tools/review_ticket.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/evals/eve/shared/ticket-to-pr-smoke.ts",
+          "target": "~/evals/shared/ticket-to-pr-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/evals/eve/ticket-to-pr/smoke.eval.ts",
+          "target": "~/evals/ticket-to-pr/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/ticket-to-pr",
+      "type": "registry:block",
+      "title": "Ticket to PR Agent (flue)",
+      "description": "Reads a Linear ticket and drafts a reviewer-ready reproduction, implementation plan, and test plan for a PR.",
+      "files": [
+        {
+          "path": "registry/ticket-to-pr/targets/flue/agent.ts",
+          "target": "~/src/agents/ticket-to-pr.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/shared/lib/linear.ts",
+          "target": "~/src/lib/agents/ticket-to-pr/linear.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/ticket-to-pr/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ticket-to-pr/targets/flue/tools/linear.ts",
+          "target": "~/src/tools/ticket-to-pr/linear.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/uptime-monitor",
+      "type": "registry:block",
+      "title": "Uptime Monitor Agent (eve)",
+      "description": "Checks operator-supplied endpoints for status, latency, and expected content, then returns a read-only health report.",
+      "files": [
+        {
+          "path": "registry/uptime-monitor/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/shared/lib/uptime.ts",
+          "target": "~/agent/lib/uptime.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/targets/eve/tools/check_endpoints.ts",
+          "target": "~/agent/tools/check_endpoints.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/targets/eve/schedules/frequent.ts",
+          "target": "~/agent/schedules/frequent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/evals/eve/shared/uptime-monitor-smoke.ts",
+          "target": "~/evals/shared/uptime-monitor-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/evals/eve/uptime-monitor/smoke.eval.ts",
+          "target": "~/evals/uptime-monitor/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/uptime-monitor",
+      "type": "registry:block",
+      "title": "Uptime Monitor Agent (flue)",
+      "description": "Checks operator-supplied endpoints for status, latency, and expected content, then returns a read-only health report.",
+      "files": [
+        {
+          "path": "registry/uptime-monitor/targets/flue/agent.ts",
+          "target": "~/src/agents/uptime-monitor.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/uptime-monitor/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/shared/lib/uptime.ts",
+          "target": "~/src/lib/agents/uptime-monitor/uptime.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/targets/flue/tools/uptime.ts",
+          "target": "~/src/tools/uptime-monitor/uptime.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/uptime-monitor/targets/flue/workflows/frequent.ts",
+          "target": "~/src/workflows/uptime-monitor-frequent.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/ux-reviewer",
+      "type": "registry:block",
+      "title": "UX Reviewer Agent (eve)",
+      "description": "Walks a real user task in the browser, scores each screen on usability, and recommends improvements to the weakest spots. Read-only.",
+      "files": [
+        {
+          "path": "registry/ux-reviewer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/evals/eve/shared/ux-reviewer-smoke.ts",
+          "target": "~/evals/shared/ux-reviewer-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/evals/eve/ux-reviewer/smoke.eval.ts",
+          "target": "~/evals/ux-reviewer/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/ux-reviewer",
+      "type": "registry:block",
+      "title": "UX Reviewer Agent (flue)",
+      "description": "Walks a real user task in the browser, scores each screen on usability, and recommends improvements to the weakest spots. Read-only.",
+      "files": [
+        {
+          "path": "registry/ux-reviewer/targets/flue/agent.ts",
+          "target": "~/src/agents/ux-reviewer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/ux-reviewer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ux-reviewer/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/ux-reviewer-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/value-propagation",
+      "type": "registry:block",
+      "title": "Value Propagation Agent (eve)",
+      "description": "Plans a read-only audit to find every stale copy of a changed value across code, docs, and config, then proposes a per-file fix diff for operator approval.",
+      "files": [
+        {
+          "path": "registry/value-propagation/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/shared/lib/propagation.ts",
+          "target": "~/agent/lib/propagation.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/targets/eve/tools/plan_propagation.ts",
+          "target": "~/agent/tools/plan_propagation.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/evals/eve/shared/value-propagation-smoke.ts",
+          "target": "~/evals/shared/value-propagation-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/evals/eve/value-propagation/smoke.eval.ts",
+          "target": "~/evals/value-propagation/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/value-propagation",
+      "type": "registry:block",
+      "title": "Value Propagation Agent (flue)",
+      "description": "Plans a read-only audit to find every stale copy of a changed value across code, docs, and config, then proposes a per-file fix diff for operator approval.",
+      "files": [
+        {
+          "path": "registry/value-propagation/targets/flue/agent.ts",
+          "target": "~/src/agents/value-propagation.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/value-propagation/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/shared/lib/propagation.ts",
+          "target": "~/src/lib/agents/value-propagation/propagation.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/value-propagation/targets/flue/tools/propagation.ts",
+          "target": "~/src/tools/value-propagation/propagation.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/visual-regression",
+      "type": "registry:block",
+      "title": "Visual Regression Agent (eve)",
+      "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
+      "files": [
+        {
+          "path": "registry/visual-regression/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/evals/eve/shared/visual-regression-smoke.ts",
+          "target": "~/evals/shared/visual-regression-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/evals/eve/visual-regression/smoke.eval.ts",
+          "target": "~/evals/visual-regression/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/visual-regression",
+      "type": "registry:block",
+      "title": "Visual Regression Agent (flue)",
+      "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
+      "files": [
+        {
+          "path": "registry/visual-regression/targets/flue/agent.ts",
+          "target": "~/src/agents/visual-regression.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/visual-regression/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/visual-regression-weekly.ts",
           "type": "registry:file"
         }
       ]

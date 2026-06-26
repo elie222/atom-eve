@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "ticket-to-pr",
+  "title": "Ticket to PR Agent",
+  "description": "Reads a Linear ticket and drafts a reviewer-ready reproduction, implementation plan, and test plan for a PR.",
+  "category": "code",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["linear"],
+  "connections": [
+    {
+      "name": "linear",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["LINEAR_API_KEY"]
+}

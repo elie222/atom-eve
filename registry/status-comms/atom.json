@@ -1,0 +1,12 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "status-comms",
+  "title": "Status Comms Agent",
+  "description": "Drafts a customer-facing incident status update and a post-mortem outline from the incident details you provide, for operator approval. Read-only: it never posts to a status page or sends to customers.",
+  "category": "monitoring",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["fetch"],
+  "connections": [],
+  "requiredEnv": []
+}

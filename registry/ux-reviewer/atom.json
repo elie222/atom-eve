@@ -1,0 +1,12 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "ux-reviewer",
+  "title": "UX Reviewer Agent",
+  "description": "Walks a real user task in the browser, scores each screen on usability, and recommends improvements to the weakest spots. Read-only.",
+  "category": "ux",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["browser"],
+  "connections": [],
+  "requiredEnv": []
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "value-propagation",
+  "title": "Value Propagation Agent",
+  "description": "Plans a read-only audit to find every stale copy of a changed value across code, docs, and config, then proposes a per-file fix diff for operator approval.",
+  "category": "code",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["fetch"],
+  "connections": [],
+  "requiredEnv": []
+}

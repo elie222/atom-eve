@@ -1,0 +1,12 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "test-writer",
+  "title": "Test Writer Agent",
+  "description": "Analyzes provided code or a module description, identifies untested paths, and drafts meaningful test cases and assertions for operator approval.",
+  "category": "code",
+  "family": "engineering",
+  "targets": ["eve", "flue"],
+  "integrations": ["fetch"],
+  "connections": [],
+  "requiredEnv": []
+}
