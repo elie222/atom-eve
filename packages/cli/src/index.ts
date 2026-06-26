@@ -34,6 +34,8 @@ interface Args {
   target?: Target;
   runtime?: Runtime;
   sourceRoot?: string;
+  workspace?: boolean;
+  agent?: string;
 }
 
 const cwd = process.cwd();
@@ -53,7 +55,16 @@ async function main() {
   }
 
   if (command === "init") {
-    await init(args);
+    if (args.workspace) {
+      await initWorkspace(args);
+    } else {
+      await init(args);
+    }
+    return;
+  }
+
+  if (command === "create" || command === "new") {
+    await create(args);
     return;
   }
 
@@ -72,20 +83,117 @@ async function main() {
   throw new Error(`Unknown command: ${command}`);
 }
 
-async function init(args: Args) {
-  const target = await resolveTarget(args);
-  const config: AtomEveConfig = {
+function buildConfig(target: Target, args: Args): AtomEveConfig {
+  return {
     $schema: "https://atomeve.dev/schema/atom-eve.json",
     target,
     runtime: args.runtime,
     sourceRoot: args.sourceRoot ?? "src",
     registry: "elie222/atom-eve"
   };
+}
+
+async function writeConfig(dir: string, config: AtomEveConfig) {
   validateConfig(config);
-  const outPath = path.join(cwd, "atom-eve.json");
+  const outPath = path.join(dir, "atom-eve.json");
   await fs.writeFile(outPath, `${JSON.stringify(config, null, 2)}\n`);
-  console.log(`Created ${outPath}`);
+  console.log(`Created ${path.relative(cwd, outPath) || "atom-eve.json"}`);
+}
+
+async function init(args: Args) {
+  const target = await resolveTarget(args);
+  await writeConfig(cwd, buildConfig(target, args));
   await scaffoldProject(target);
+}
+
+// Scaffolds the monorepo root for running many agents side by side: one app
+// folder per agent under agents/, each its own deploy target. The frameworks
+// scaffold the individual apps; this only lays down the workspace shell.
+async function initWorkspace(args: Args) {
+  const name = args._[1];
+  const baseDir = name ? path.join(cwd, name) : cwd;
+  await fs.mkdir(path.join(baseDir, "agents"), { recursive: true });
+
+  await writeIfMissingAt(
+    path.join(baseDir, "package.json"),
+    `${JSON.stringify(
+      {
+        name: path.basename(baseDir),
+        private: true,
+        packageManager: "pnpm@10.26.2"
+      },
+      null,
+      2
+    )}\n`
+  );
+
+  await writeIfMissingAt(path.join(baseDir, "pnpm-workspace.yaml"), 'packages:\n  - "agents/*"\n');
+
+  const where = name ? `cd ${name} && ` : "";
+  console.log("Workspace ready. Add an agent app under agents/:");
+  console.log(`  ${where}npx atom-eve create my-agent --target eve --agent website-qa`);
+  console.log("Each agents/<name> folder is a standalone app and maps to its own deploy (e.g. one Vercel project).");
+}
+
+// Scaffolds a full agent app by delegating to the framework's own CLI (the
+// source of truth for project shape and deps), then drops in atom-eve.json and,
+// optionally, an installed agent. For Eve this means the project is Vercel-native:
+// link it with `vercel link` and the AI Gateway authenticates via VERCEL_OIDC_TOKEN
+// — no model API key required.
+async function create(args: Args) {
+  const name = args._[1];
+  if (!name) throw new Error("Usage: atom-eve create <name> [--target eve|flue] [--agent <agent>]");
+  // create scaffolds a brand-new directory, so there is nothing to detect or prompt for —
+  // default to eve (the Vercel-native happy path) instead of routing through resolveTarget.
+  const target = args.target ?? "eve";
+  const appDir = path.join(cwd, name);
+
+  if (target === "eve") {
+    // eve init creates the <name> directory itself, so scaffold from cwd.
+    runOrThrow("npx", ["eve@latest", "init", name], cwd, `Scaffolding Eve app with eve init: ${name}`);
+  } else {
+    // flue init writes into the current directory, so create the app dir first.
+    await fs.mkdir(appDir, { recursive: true });
+    runOrThrow("npx", ["flue", "init", "--target", args.runtime ?? "node"], appDir, `Scaffolding Flue app with flue init: ${name}`);
+  }
+
+  await writeConfig(appDir, buildConfig(target, args));
+
+  if (args.agent) {
+    // Re-invoke this CLI inside the new app so the agent installs against its config
+    // (add() operates on the module-global cwd, which is fixed at process load).
+    const addArgs = [process.argv[1]!, "add", args.agent, "--target", target];
+    runOrThrow(process.execPath, addArgs, appDir, `Installing agent: ${args.agent}`);
+  }
+
+  console.log("\nNext steps:");
+  console.log(`  cd ${name}`);
+  if (!args.agent) console.log("  npx atom-eve add <agent>      # browse https://atomeve.dev");
+  if (target === "eve") {
+    console.log("  vercel link                   # connect to a Vercel project");
+    console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
+    console.log("  npx eve dev");
+  } else {
+    console.log("  npx flue run <agent> --input '{ ... }'");
+  }
+}
+
+function runOrThrow(command: string, args: string[], cwdDir: string, label: string) {
+  console.log(label);
+  const result = spawnSync(command, args, { cwd: cwdDir, stdio: "inherit", shell: false });
+  if (result.status !== 0) {
+    throw new Error(`${command} ${args.join(" ")} failed with exit code ${result.status ?? "unknown"}`);
+  }
+}
+
+async function writeIfMissingAt(filePath: string, content: string) {
+  if (fsSync.existsSync(filePath)) {
+    console.log(`Skipped existing ${path.relative(cwd, filePath) || filePath}`);
+    return;
+  }
+  await fs.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.writeFile(filePath, content);
+  console.log(`Created ${path.relative(cwd, filePath) || filePath}`);
 }
 
 async function add(agent: string, args: Args) {
@@ -168,16 +276,8 @@ async function readOrCreateConfig(args: Args): Promise<AtomEveConfig> {
   }
 
   const target = await resolveTarget(args);
-  const config: AtomEveConfig = {
-    $schema: "https://atomeve.dev/schema/atom-eve.json",
-    target,
-    runtime: args.runtime,
-    sourceRoot: args.sourceRoot ?? "src",
-    registry: "elie222/atom-eve"
-  };
-  validateConfig(config);
-  await fs.writeFile(configPath, `${JSON.stringify(config, null, 2)}\n`);
-  console.log(`Created ${configPath}`);
+  const config = buildConfig(target, args);
+  await writeConfig(cwd, config);
   return config;
 }
 
@@ -238,11 +338,7 @@ async function scaffoldProject(target: Target) {
 }
 
 async function writeIfMissing(relativePath: string, content: string) {
-  const filePath = path.join(cwd, relativePath);
-  if (fsSync.existsSync(filePath)) return;
-  await fs.mkdir(path.dirname(filePath), { recursive: true });
-  await fs.writeFile(filePath, content);
-  console.log(`Created ${filePath}`);
+  await writeIfMissingAt(path.join(cwd, relativePath), content);
 }
 
 function parseArgs(argv: string[]): Args {
@@ -255,6 +351,10 @@ function parseArgs(argv: string[]): Args {
       args.runtime = parseRuntime(argv[++i]);
     } else if (value === "--source-root") {
       args.sourceRoot = argv[++i];
+    } else if (value === "--workspace") {
+      args.workspace = true;
+    } else if (value === "--agent") {
+      args.agent = argv[++i];
     } else {
       args._.push(value);
     }
@@ -463,9 +563,19 @@ function printHelp() {
   console.log(`atom-eve
 
 Commands:
+  atom-eve create <name> [--target eve|flue] [--agent <agent>]
+                                  Scaffold a full app via the framework CLI (eve/flue),
+                                  then optionally install an agent. Recommended.
+  atom-eve init --workspace [name]
+                                  Scaffold a monorepo root (agents/*) for running many agents.
   atom-eve init [--target eve|flue] [--runtime node|cloudflare|vercel]
+                                  Write atom-eve.json (+ minimal fallback scaffold) in an existing project.
   atom-eve add <agent> [--target eve|flue] [--runtime node|cloudflare|vercel]
   atom-eve add ./registry/<agent> --target eve|flue
   atom-eve list
+
+Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
+VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_SECRET_KEY)
+are set as Vercel project env vars. For Flue, set env vars per its docs.
 `);
 }
