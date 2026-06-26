@@ -43,7 +43,7 @@ export function prettify(slug: string): string {
     .join(" ");
 }
 
-export const targetLabel = (t: string): string => (t === "eve" ? "eve.dev" : t);
+export const targetLabel = (t: string): string => t;
 
 export function installCommand(name: string, target?: string): string {
   return target ? `npx atom-eve add ${name} --target ${target}` : `npx atom-eve add ${name}`;
