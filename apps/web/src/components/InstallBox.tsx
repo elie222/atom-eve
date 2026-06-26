@@ -8,7 +8,7 @@ interface Props {
 
 const ACC = "#54f0a8";
 
-/* "install with <framework>" tabs + copyable command (arcade terminal). */
+/* Install target tabs + copyable command (arcade terminal). */
 export default function InstallBox({ name, targets }: Props) {
   const frameworks = targets.length ? targets : ["npm"];
   const cmds = useMemo(() => {
@@ -34,28 +34,32 @@ export default function InstallBox({ name, targets }: Props) {
       className="mt-[26px] border-2 border-edge bg-code"
       style={{ boxShadow: "5px 5px 0 rgba(0,0,0,0.4)" }}
     >
-      <div className="flex flex-wrap items-center gap-[9px] border-b-2 border-edgedim px-4 py-[11px]">
-        <span className="mr-1 font-pixel text-[8px] tracking-[0.06em] text-dim">INSTALL WITH</span>
-        {frameworks.map((t) => {
-          const on = t === active;
-          return (
-            <button
-              key={t}
-              onClick={() => {
-                setActive(t);
-                setCopied(false);
-              }}
-              className="cursor-pointer px-[11px] py-[5px] font-mono text-[12px] font-semibold transition-colors"
-              style={{
-                color: on ? "#0b0820" : "#9587bd",
-                background: on ? ACC : "transparent",
-                border: `2px solid ${on ? ACC : "#2a1a4a"}`,
-              }}
-            >
-              {label(t)}
-            </button>
-          );
-        })}
+      <div className="flex flex-wrap items-center gap-[10px] border-b-2 border-edgedim px-4 py-[11px]">
+        <span className="mr-1 font-pixel text-[8px] tracking-[0.06em] text-dim">INSTALL TARGET</span>
+        <div className="flex border-2 border-edge bg-bg" role="tablist" aria-label="Install target">
+          {frameworks.map((t) => {
+            const on = t === active;
+            return (
+              <button
+                key={t}
+                type="button"
+                role="tab"
+                aria-selected={on}
+                onClick={() => {
+                  setActive(t);
+                  setCopied(false);
+                }}
+                className="cursor-pointer border-r-2 border-edge px-[12px] py-[6px] font-mono text-[12px] font-semibold transition-colors last:border-r-0"
+                style={{
+                  color: on ? "#0b0820" : "#9587bd",
+                  background: on ? ACC : "transparent",
+                }}
+              >
+                {label(t)}
+              </button>
+            );
+          })}
+        </div>
       </div>
       <div className="flex items-center gap-[14px] px-[18px] py-4">
         <span className="font-mono text-[15px] text-green">$</span>

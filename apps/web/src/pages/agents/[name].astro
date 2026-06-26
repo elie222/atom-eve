@@ -38,29 +38,29 @@ const integrations = item.integrations ?? [];
 const requiredEnv = item.requiredEnv ?? [];
 
 // "Paste into your agent" prompt for this specific agent.
-const pastePrompt = `Read atomeve.dev/start.md and add the ${item.title} agent to my project.`;
+const promptName = item.title.toLowerCase().endsWith("agent") ? item.title : `${item.title} agent`;
+const pastePrompt = `Read atomeve.dev/start.md and add ${promptName} to my project.`;
 
 const about: { k: string; v: string; accent?: boolean }[] = [
   { k: "Category", v: `${prettify(item.family)} / ${prettify(item.category)}` },
-  { k: "Version", v: item.version },
-  { k: "License", v: "MIT" },
-  { k: "Memory", v: item.memory ? "Yes" : "No", accent: item.memory },
   { k: "Frameworks", v: frameworks.join(" · ") },
+  { k: "Version", v: `v${item.version}` },
+  { k: "State", v: item.memory ? "Memory" : "Stateless", accent: item.memory },
   { k: "Scheduled", v: item.scheduled ? "Yes" : "No" },
+  { k: "License", v: "MIT" },
 ];
+const sourceUrl = `${REPO}/tree/main/${item.repoPath}`;
 ---
 
 <Base title={`${item.title} — Atom Eve`} description={item.description}>
   <Nav variant="detail" />
 
-  <div class="relative z-[2] mx-auto max-w-[1120px] px-8 pb-20 pt-[30px]">
+  <div class="relative z-[2] mx-auto max-w-[1200px] px-[30px] pb-20 pt-[30px] max-sm:px-4">
     <!-- breadcrumb -->
     <div class="font-mono text-[12px] text-dim">
       <a href="/" class="text-muted transition-colors hover:text-ink">Browse</a>
       <span class="text-dim2">/</span>
-      <span style={`color:${color}`}>{prettify(item.family)}</span>
-      <span class="text-dim2">/</span>
-      <span class="text-ink2">{item.title}</span>
+      <span style={`color:${color}`}>{prettify(item.category)}</span>
     </div>
 
     <!-- header -->
@@ -72,37 +72,10 @@ const about: { k: string; v: string; accent?: boolean }[] = [
         <Glyph glyph={glyph} color={color} scale={5} />
       </div>
       <div class="min-w-[280px] flex-1">
-        <div class="flex flex-wrap items-center gap-3">
-          <h1 class="m-0 text-[32px] font-bold tracking-[-0.02em]">{item.title}</h1>
-          <span
-            class="font-pixel text-[8px] tracking-[0.04em] text-[#0b0820]"
-            style={`background:${color};padding:5px 8px`}>{prettify(item.family).toUpperCase()}</span
-          >
-          <span class="border-2 border-edge px-[8px] py-[3px] font-mono text-[11px] text-ink2"
-            >v{item.version}</span
-          >
-          {
-            item.memory ? (
-              <span
-                class="whitespace-nowrap border-2 px-[8px] py-[3px] font-mono text-[11px] text-green"
-                style="border-color:rgba(84,240,168,0.4)"
-              >
-                ● MEMORY
-              </span>
-            ) : (
-              <span class="whitespace-nowrap border-2 border-edge px-[8px] py-[3px] font-mono text-[11px] text-muted">
-                STATELESS
-              </span>
-            )
-          }
-        </div>
+        <h1 class="m-0 text-[34px] font-bold leading-[1.08]">{item.title}</h1>
         <div class="mt-[10px] text-[16.5px] text-ink2">{item.description}</div>
-        <div class="mt-3 flex flex-wrap items-center gap-3 font-mono text-[12.5px] text-muted">
-          <span>{prettify(item.family)} / {prettify(item.category)}</span>
-          <span class="text-dim2">◆</span>
-          <span>{frameworks.join(" · ")}</span>
-          <span class="text-dim2">◆</span>
-          <span>MIT</span>
+        <div class="mt-3 flex flex-wrap items-center gap-2 font-mono text-[12.5px] text-muted">
+          {frameworks.map((framework) => <span class="border-2 border-edge bg-bg px-[9px] py-[4px]">{framework}</span>)}
         </div>
       </div>
     </div>
@@ -144,14 +117,13 @@ const about: { k: string; v: string; accent?: boolean }[] = [
       <div class="md min-w-0" set:html={readmeHtml} />
 
       <aside class="flex flex-col gap-4">
-        <a
-          href={REPO}
-          class="border-2 border-edge px-4 py-[12px] text-center font-pixel text-[10px] leading-[1.5] tracking-[0.02em] text-ink2 transition-colors hover:border-green hover:text-green"
-          >VIEW ON GITHUB ↗</a
-        >
-
         <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
-          <div class="mb-[14px] font-pixel text-[8px] tracking-[0.06em] text-dim">ABOUT</div>
+          <div class="mb-[14px] flex items-center justify-between gap-3">
+            <div class="font-pixel text-[8px] tracking-[0.06em] text-dim">ABOUT</div>
+            <a href={sourceUrl} class="font-mono text-[11px] text-muted transition-colors hover:text-green">
+              Source ↗
+            </a>
+          </div>
           <div class="flex flex-col gap-[11px] text-[13px]">
             {
               about.map((row) => (
