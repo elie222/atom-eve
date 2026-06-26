@@ -68,10 +68,16 @@ async function fetchPosts(view: AyrshareQueueView, fetchImpl: typeof fetch): Pro
   const apiKey = process.env.AYRSHARE_API_KEY;
   if (!apiKey) throw new Error("AYRSHARE_API_KEY is required");
 
-  const path = view === "analytics" ? "analytics/post" : "post";
-  const response = await fetchImpl(`https://app.ayrshare.com/api/${path}`, {
-    headers: { Authorization: `Bearer ${apiKey}` }
-  });
+  const baseUrl = "https://api.ayrshare.com/api";
+  const authHeader = { Authorization: `Bearer ${apiKey}` };
+  const response =
+    view === "analytics"
+      ? await fetchImpl(`${baseUrl}/analytics/social`, {
+          method: "POST",
+          headers: { ...authHeader, "Content-Type": "application/json" },
+          body: JSON.stringify({ platforms: ["twitter", "linkedin"] })
+        })
+      : await fetchImpl(`${baseUrl}/history`, { headers: authHeader });
   if (!response.ok) {
     const body = await response.text().catch(() => "");
     throw new Error(`Ayrshare API failed: ${response.status} ${response.statusText}${body ? ` - ${body}` : ""}`);
@@ -91,8 +97,9 @@ async function fetchPosts(view: AyrshareQueueView, fetchImpl: typeof fetch): Pro
 function extractRows(payload: unknown): Array<Record<string, unknown>> {
   if (Array.isArray(payload)) return payload as Array<Record<string, unknown>>;
   if (payload && typeof payload === "object") {
-    const posts = (payload as { posts?: unknown }).posts;
-    if (Array.isArray(posts)) return posts as Array<Record<string, unknown>>;
+    const wrapper = payload as { posts?: unknown; history?: unknown };
+    if (Array.isArray(wrapper.history)) return wrapper.history as Array<Record<string, unknown>>;
+    if (Array.isArray(wrapper.posts)) return wrapper.posts as Array<Record<string, unknown>>;
   }
   return [];
 }

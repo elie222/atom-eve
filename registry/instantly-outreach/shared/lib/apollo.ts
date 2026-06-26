@@ -16,7 +16,7 @@ export interface ApolloLead {
 }
 
 // Pull ICP leads from Apollo's people search. Read-only: this only searches, it never enriches,
-// saves, or contacts anyone. https://api.apollo.io/v1 with an X-Api-Key header.
+// saves, or contacts anyone. https://api.apollo.io/api/v1 with an X-Api-Key header.
 export async function searchLeads(icp: IcpFilters, fetchImpl: typeof fetch = fetch): Promise<ApolloLead[]> {
   const apiKey = process.env.APOLLO_API_KEY;
   if (!apiKey) throw new Error("APOLLO_API_KEY is required");
@@ -30,7 +30,7 @@ export async function searchLeads(icp: IcpFilters, fetchImpl: typeof fetch = fet
   if (icp.employeeRanges.length > 0) body.organization_num_employees_ranges = icp.employeeRanges;
   if (icp.keywords) body.q_keywords = icp.keywords;
 
-  const response = await fetchImpl("https://api.apollo.io/v1/mixed_people/search", {
+  const response = await fetchImpl("https://api.apollo.io/api/v1/mixed_people/search", {
     method: "POST",
     headers: {
       "X-Api-Key": apiKey,

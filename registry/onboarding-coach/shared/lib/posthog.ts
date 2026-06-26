@@ -117,7 +117,7 @@ export async function fetchStepCounts(
     `WHERE event IN (${eventList}) AND timestamp >= now() - INTERVAL ${lookbackDays} DAY ` +
     `GROUP BY event`;
 
-  const response = await fetchImpl(`https://us.posthog.com/api/projects/${projectId}/query`, {
+  const response = await fetchImpl(`https://us.posthog.com/api/projects/${projectId}/query/`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${apiKey}`,

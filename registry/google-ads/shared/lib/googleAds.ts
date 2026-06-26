@@ -172,7 +172,7 @@ async function fetchCampaignInsightsForRange(
     "SELECT campaign.id, campaign.name, metrics.cost_micros, metrics.conversions " +
     `FROM campaign WHERE segments.date BETWEEN '${range.since}' AND '${range.until}'`;
 
-  const response = await fetchImpl(`https://googleads.googleapis.com/v18/customers/${id}/googleAds:search`, {
+  const response = await fetchImpl(`https://googleads.googleapis.com/v22/customers/${id}/googleAds:search`, {
     method: "POST",
     headers: {
       authorization: `Bearer ${accessToken}`,
