@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "lead-router",
+  "title": "Lead Router Agent",
+  "description": "Reads recent inbound HubSpot contacts, scores them by ICP fit and intent, and drafts owner assignment and first-touch outreach for operator approval.",
+  "category": "crm",
+  "family": "revenue",
+  "targets": ["eve", "flue"],
+  "integrations": ["hubspot"],
+  "connections": [
+    {
+      "name": "hubspot",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["HUBSPOT_ACCESS_TOKEN"]
+}

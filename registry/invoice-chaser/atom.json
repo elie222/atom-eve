@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "invoice-chaser",
+  "title": "Invoice Chaser Agent",
+  "description": "Finds overdue Stripe invoices and drafts escalating payment reminders plus an aging summary for operator approval.",
+  "category": "finance",
+  "family": "revenue",
+  "targets": ["eve", "flue"],
+  "integrations": ["stripe"],
+  "connections": [
+    {
+      "name": "stripe",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["STRIPE_SECRET_KEY"]
+}

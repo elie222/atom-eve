@@ -141,6 +141,92 @@
       ]
     },
     {
+      "name": "eve/analytics-digest",
+      "type": "registry:block",
+      "title": "Analytics Digest Agent (eve)",
+      "description": "Pulls key event trends from PostHog and writes a plain-language weekly digest for operators.",
+      "files": [
+        {
+          "path": "registry/analytics-digest/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/shared/lib/posthog.ts",
+          "target": "~/agent/lib/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/targets/eve/tools/review_trends.ts",
+          "target": "~/agent/tools/review_trends.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/evals/eve/analytics-digest/smoke.eval.ts",
+          "target": "~/evals/analytics-digest/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/evals/eve/shared/analytics-digest-smoke.ts",
+          "target": "~/evals/shared/analytics-digest-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/analytics-digest",
+      "type": "registry:block",
+      "title": "Analytics Digest Agent (flue)",
+      "description": "Pulls key event trends from PostHog and writes a plain-language weekly digest for operators.",
+      "files": [
+        {
+          "path": "registry/analytics-digest/targets/flue/agent.ts",
+          "target": "~/src/agents/analytics-digest.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/shared/lib/posthog.ts",
+          "target": "~/src/lib/agents/analytics-digest/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/analytics-digest/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/targets/flue/tools/posthog.ts",
+          "target": "~/src/tools/analytics-digest/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/analytics-digest/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/analytics-digest-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/blog-writer",
       "type": "registry:block",
       "title": "Blog Writer Agent (eve)",
@@ -369,6 +455,92 @@
       ]
     },
     {
+      "name": "eve/community-support",
+      "type": "registry:block",
+      "title": "Community Support Agent (eve)",
+      "description": "Reads recent Discord channel messages and drafts doc-grounded answers for operator approval, escalating hard ones.",
+      "files": [
+        {
+          "path": "registry/community-support/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/shared/lib/discord.ts",
+          "target": "~/agent/lib/discord.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/targets/eve/tools/review_messages.ts",
+          "target": "~/agent/tools/review_messages.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/evals/eve/community-support/smoke.eval.ts",
+          "target": "~/evals/community-support/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/evals/eve/shared/community-support-smoke.ts",
+          "target": "~/evals/shared/community-support-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/community-support",
+      "type": "registry:block",
+      "title": "Community Support Agent (flue)",
+      "description": "Reads recent Discord channel messages and drafts doc-grounded answers for operator approval, escalating hard ones.",
+      "files": [
+        {
+          "path": "registry/community-support/targets/flue/agent.ts",
+          "target": "~/src/agents/community-support.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/shared/lib/discord.ts",
+          "target": "~/src/lib/agents/community-support/discord.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/community-support/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/targets/flue/tools/discord.ts",
+          "target": "~/src/tools/community-support/discord.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/community-support-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/competitor-analysis",
       "type": "registry:block",
       "title": "Competitor Analysis Agent (eve)",
@@ -552,6 +724,92 @@
       ]
     },
     {
+      "name": "eve/crm-hygiene",
+      "type": "registry:block",
+      "title": "CRM Hygiene Agent (eve)",
+      "description": "Scans HubSpot contacts for duplicates, missing fields, and stale records and returns a cleanup report for approval.",
+      "files": [
+        {
+          "path": "registry/crm-hygiene/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/shared/lib/hubspot.ts",
+          "target": "~/agent/lib/hubspot.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/targets/eve/tools/review_contacts.ts",
+          "target": "~/agent/tools/review_contacts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/evals/eve/crm-hygiene/smoke.eval.ts",
+          "target": "~/evals/crm-hygiene/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/evals/eve/shared/crm-hygiene-smoke.ts",
+          "target": "~/evals/shared/crm-hygiene-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/crm-hygiene",
+      "type": "registry:block",
+      "title": "CRM Hygiene Agent (flue)",
+      "description": "Scans HubSpot contacts for duplicates, missing fields, and stale records and returns a cleanup report for approval.",
+      "files": [
+        {
+          "path": "registry/crm-hygiene/targets/flue/agent.ts",
+          "target": "~/src/agents/crm-hygiene.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/shared/lib/hubspot.ts",
+          "target": "~/src/lib/agents/crm-hygiene/hubspot.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/crm-hygiene/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/targets/flue/tools/hubspot.ts",
+          "target": "~/src/tools/crm-hygiene/hubspot.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/crm-hygiene/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/crm-hygiene-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/cro-optimizer",
       "type": "registry:block",
       "title": "CRO Optimizer Agent (eve)",
@@ -623,6 +881,168 @@
         {
           "path": "registry/cro-optimizer/targets/flue/workflows/weekly.ts",
           "target": "~/src/workflows/cro-optimizer-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/deal-followup",
+      "type": "registry:block",
+      "title": "Deal Follow-up Agent (eve)",
+      "description": "Turns a sales-call transcript into a recap email, extracted next steps, and draft CRM field updates for operator approval.",
+      "files": [
+        {
+          "path": "registry/deal-followup/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/shared/lib/followup.ts",
+          "target": "~/agent/lib/followup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/targets/eve/tools/plan_followup.ts",
+          "target": "~/agent/tools/plan_followup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/evals/eve/deal-followup/smoke.eval.ts",
+          "target": "~/evals/deal-followup/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/evals/eve/shared/deal-followup-smoke.ts",
+          "target": "~/evals/shared/deal-followup-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/deal-followup",
+      "type": "registry:block",
+      "title": "Deal Follow-up Agent (flue)",
+      "description": "Turns a sales-call transcript into a recap email, extracted next steps, and draft CRM field updates for operator approval.",
+      "files": [
+        {
+          "path": "registry/deal-followup/targets/flue/agent.ts",
+          "target": "~/src/agents/deal-followup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/shared/lib/followup.ts",
+          "target": "~/src/lib/agents/deal-followup/followup.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/deal-followup/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/deal-followup/targets/flue/tools/followup.ts",
+          "target": "~/src/tools/deal-followup/followup.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/dunning",
+      "type": "registry:block",
+      "title": "Dunning Agent (eve)",
+      "description": "Finds failed charges and expiring cards in Stripe and drafts a staged recovery email sequence for operator approval.",
+      "files": [
+        {
+          "path": "registry/dunning/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/shared/lib/stripe.ts",
+          "target": "~/agent/lib/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/targets/eve/tools/review_failed_payments.ts",
+          "target": "~/agent/tools/review_failed_payments.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/evals/eve/dunning/smoke.eval.ts",
+          "target": "~/evals/dunning/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/evals/eve/shared/dunning-smoke.ts",
+          "target": "~/evals/shared/dunning-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/dunning",
+      "type": "registry:block",
+      "title": "Dunning Agent (flue)",
+      "description": "Finds failed charges and expiring cards in Stripe and drafts a staged recovery email sequence for operator approval.",
+      "files": [
+        {
+          "path": "registry/dunning/targets/flue/agent.ts",
+          "target": "~/src/agents/dunning.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/dunning/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/shared/lib/stripe.ts",
+          "target": "~/src/lib/agents/dunning/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/targets/flue/tools/stripe.ts",
+          "target": "~/src/tools/dunning/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/dunning-daily.ts",
           "type": "registry:file"
         }
       ]
@@ -886,6 +1306,82 @@
       ]
     },
     {
+      "name": "eve/error-copy",
+      "type": "registry:block",
+      "title": "Error Copy Agent (eve)",
+      "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
+      "files": [
+        {
+          "path": "registry/error-copy/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/targets/eve/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/targets/eve/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/evals/eve/error-copy/smoke.eval.ts",
+          "target": "~/evals/error-copy/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/evals/eve/shared/error-copy-smoke.ts",
+          "target": "~/evals/shared/error-copy-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/error-copy",
+      "type": "registry:block",
+      "title": "Error Copy Agent (flue)",
+      "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
+      "files": [
+        {
+          "path": "registry/error-copy/targets/flue/agent.ts",
+          "target": "~/src/agents/error-copy.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/error-copy/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-copy/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/error-copy-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/error-triage",
       "type": "registry:block",
       "title": "Error Triage Agent (eve)",
@@ -942,6 +1438,350 @@
         {
           "path": "registry/error-triage/targets/flue/workflows/daily.ts",
           "target": "~/src/workflows/error-triage-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/experiment-analyst",
+      "type": "registry:block",
+      "title": "Experiment Analyst Agent (eve)",
+      "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
+      "files": [
+        {
+          "path": "registry/experiment-analyst/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/shared/lib/posthog.ts",
+          "target": "~/agent/lib/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/targets/eve/tools/review_experiments.ts",
+          "target": "~/agent/tools/review_experiments.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/evals/eve/experiment-analyst/smoke.eval.ts",
+          "target": "~/evals/experiment-analyst/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/evals/eve/shared/experiment-analyst-smoke.ts",
+          "target": "~/evals/shared/experiment-analyst-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/experiment-analyst",
+      "type": "registry:block",
+      "title": "Experiment Analyst Agent (flue)",
+      "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
+      "files": [
+        {
+          "path": "registry/experiment-analyst/targets/flue/agent.ts",
+          "target": "~/src/agents/experiment-analyst.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/shared/lib/posthog.ts",
+          "target": "~/src/lib/agents/experiment-analyst/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/experiment-analyst/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/targets/flue/tools/posthog.ts",
+          "target": "~/src/tools/experiment-analyst/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/experiment-analyst/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/experiment-analyst-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/feedback-aggregator",
+      "type": "registry:block",
+      "title": "Feedback Aggregator Agent (eve)",
+      "description": "Dedupes feedback from tickets, reviews, and community into themes and ranks them by frequency x value for operator review.",
+      "files": [
+        {
+          "path": "registry/feedback-aggregator/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/shared/lib/feedback.ts",
+          "target": "~/agent/lib/feedback.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/targets/eve/tools/aggregate_feedback.ts",
+          "target": "~/agent/tools/aggregate_feedback.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/evals/eve/feedback-aggregator/smoke.eval.ts",
+          "target": "~/evals/feedback-aggregator/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/evals/eve/shared/feedback-aggregator-smoke.ts",
+          "target": "~/evals/shared/feedback-aggregator-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/feedback-aggregator",
+      "type": "registry:block",
+      "title": "Feedback Aggregator Agent (flue)",
+      "description": "Dedupes feedback from tickets, reviews, and community into themes and ranks them by frequency x value for operator review.",
+      "files": [
+        {
+          "path": "registry/feedback-aggregator/targets/flue/agent.ts",
+          "target": "~/src/agents/feedback-aggregator.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/shared/lib/feedback.ts",
+          "target": "~/src/lib/agents/feedback-aggregator/feedback.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/feedback-aggregator/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/targets/flue/tools/feedback.ts",
+          "target": "~/src/tools/feedback-aggregator/feedback.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-aggregator/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/feedback-aggregator-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/feedback-sweep",
+      "type": "registry:block",
+      "title": "Feedback Sweep Agent (eve)",
+      "description": "Reviews recent GitHub issues as user corrections and audits the project for related spots to fix.",
+      "files": [
+        {
+          "path": "registry/feedback-sweep/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/targets/eve/tools/review_issues.ts",
+          "target": "~/agent/tools/review_issues.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/evals/eve/feedback-sweep/smoke.eval.ts",
+          "target": "~/evals/feedback-sweep/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/evals/eve/shared/feedback-sweep-smoke.ts",
+          "target": "~/evals/shared/feedback-sweep-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/feedback-sweep",
+      "type": "registry:block",
+      "title": "Feedback Sweep Agent (flue)",
+      "description": "Reviews recent GitHub issues as user corrections and audits the project for related spots to fix.",
+      "files": [
+        {
+          "path": "registry/feedback-sweep/targets/flue/agent.ts",
+          "target": "~/src/agents/feedback-sweep.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/shared/lib/github.ts",
+          "target": "~/src/lib/agents/feedback-sweep/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/feedback-sweep/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/targets/flue/tools/github.ts",
+          "target": "~/src/tools/feedback-sweep/github.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/feedback-sweep/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/feedback-sweep-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/funnel-analyst",
+      "type": "registry:block",
+      "title": "Funnel Analyst Agent (eve)",
+      "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
+      "files": [
+        {
+          "path": "registry/funnel-analyst/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/shared/lib/posthog.ts",
+          "target": "~/agent/lib/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/targets/eve/tools/review_funnels.ts",
+          "target": "~/agent/tools/review_funnels.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/evals/eve/funnel-analyst/smoke.eval.ts",
+          "target": "~/evals/funnel-analyst/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/evals/eve/shared/funnel-analyst-smoke.ts",
+          "target": "~/evals/shared/funnel-analyst-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/funnel-analyst",
+      "type": "registry:block",
+      "title": "Funnel Analyst Agent (flue)",
+      "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
+      "files": [
+        {
+          "path": "registry/funnel-analyst/targets/flue/agent.ts",
+          "target": "~/src/agents/funnel-analyst.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/shared/lib/posthog.ts",
+          "target": "~/src/lib/agents/funnel-analyst/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/funnel-analyst/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/targets/flue/tools/posthog.ts",
+          "target": "~/src/tools/funnel-analyst/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/funnel-analyst/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/funnel-analyst-weekly.ts",
           "type": "registry:file"
         }
       ]
@@ -1033,6 +1873,370 @@
       ]
     },
     {
+      "name": "eve/inbox-triage",
+      "type": "registry:block",
+      "title": "Inbox Triage Agent (eve)",
+      "description": "Classifies the Gmail inbox, flags noise to label or archive, and drafts replies for everything that needs one. Read-only and draft-first.",
+      "files": [
+        {
+          "path": "registry/inbox-triage/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/shared/lib/gmail.ts",
+          "target": "~/agent/lib/gmail.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/targets/eve/tools/review_inbox.ts",
+          "target": "~/agent/tools/review_inbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/evals/eve/inbox-triage/smoke.eval.ts",
+          "target": "~/evals/inbox-triage/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/evals/eve/shared/inbox-triage-smoke.ts",
+          "target": "~/evals/shared/inbox-triage-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/inbox-triage",
+      "type": "registry:block",
+      "title": "Inbox Triage Agent (flue)",
+      "description": "Classifies the Gmail inbox, flags noise to label or archive, and drafts replies for everything that needs one. Read-only and draft-first.",
+      "files": [
+        {
+          "path": "registry/inbox-triage/targets/flue/agent.ts",
+          "target": "~/src/agents/inbox-triage.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/shared/lib/gmail.ts",
+          "target": "~/src/lib/agents/inbox-triage/gmail.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/inbox-triage/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/targets/flue/tools/gmail.ts",
+          "target": "~/src/tools/inbox-triage/gmail.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/inbox-triage/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/inbox-triage-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/instantly-outreach",
+      "type": "registry:block",
+      "title": "Instantly Outreach Agent (eve)",
+      "description": "Pulls fresh ICP leads from Apollo, reviews Instantly campaign performance, and drafts cold-email campaigns with follow-up sequences for operator approval.",
+      "files": [
+        {
+          "path": "registry/instantly-outreach/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/apollo.ts",
+          "target": "~/agent/lib/apollo.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/instantly.ts",
+          "target": "~/agent/lib/instantly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/outreach.ts",
+          "target": "~/agent/lib/outreach.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/targets/eve/tools/review_outreach.ts",
+          "target": "~/agent/tools/review_outreach.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/targets/eve/schedules/loop.ts",
+          "target": "~/agent/schedules/loop.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/evals/eve/instantly-outreach/smoke.eval.ts",
+          "target": "~/evals/instantly-outreach/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/evals/eve/shared/instantly-outreach-smoke.ts",
+          "target": "~/evals/shared/instantly-outreach-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/instantly-outreach",
+      "type": "registry:block",
+      "title": "Instantly Outreach Agent (flue)",
+      "description": "Pulls fresh ICP leads from Apollo, reviews Instantly campaign performance, and drafts cold-email campaigns with follow-up sequences for operator approval.",
+      "files": [
+        {
+          "path": "registry/instantly-outreach/targets/flue/agent.ts",
+          "target": "~/src/agents/instantly-outreach.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/apollo.ts",
+          "target": "~/src/lib/agents/instantly-outreach/apollo.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/instantly.ts",
+          "target": "~/src/lib/agents/instantly-outreach/instantly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/outreach.ts",
+          "target": "~/src/lib/agents/instantly-outreach/outreach.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/instantly-outreach/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/targets/flue/tools/outreach.ts",
+          "target": "~/src/tools/instantly-outreach/outreach.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/instantly-outreach/targets/flue/workflows/loop.ts",
+          "target": "~/src/workflows/instantly-outreach-loop.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/invoice-chaser",
+      "type": "registry:block",
+      "title": "Invoice Chaser Agent (eve)",
+      "description": "Finds overdue Stripe invoices and drafts escalating payment reminders plus an aging summary for operator approval.",
+      "files": [
+        {
+          "path": "registry/invoice-chaser/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/shared/lib/stripe.ts",
+          "target": "~/agent/lib/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/targets/eve/tools/review_invoices.ts",
+          "target": "~/agent/tools/review_invoices.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/evals/eve/invoice-chaser/smoke.eval.ts",
+          "target": "~/evals/invoice-chaser/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/evals/eve/shared/invoice-chaser-smoke.ts",
+          "target": "~/evals/shared/invoice-chaser-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/invoice-chaser",
+      "type": "registry:block",
+      "title": "Invoice Chaser Agent (flue)",
+      "description": "Finds overdue Stripe invoices and drafts escalating payment reminders plus an aging summary for operator approval.",
+      "files": [
+        {
+          "path": "registry/invoice-chaser/targets/flue/agent.ts",
+          "target": "~/src/agents/invoice-chaser.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/invoice-chaser/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/shared/lib/stripe.ts",
+          "target": "~/src/lib/agents/invoice-chaser/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/targets/flue/tools/stripe.ts",
+          "target": "~/src/tools/invoice-chaser/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/invoice-chaser/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/invoice-chaser-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/kb-writer",
+      "type": "registry:block",
+      "title": "Knowledge Base Writer Agent (eve)",
+      "description": "Clusters recurring Intercom questions and drafts knowledge base articles and updates while flagging documentation gaps for operator approval.",
+      "files": [
+        {
+          "path": "registry/kb-writer/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/shared/lib/intercom.ts",
+          "target": "~/agent/lib/intercom.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/targets/eve/tools/review_tickets.ts",
+          "target": "~/agent/tools/review_tickets.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/evals/eve/kb-writer/smoke.eval.ts",
+          "target": "~/evals/kb-writer/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/evals/eve/shared/kb-writer-smoke.ts",
+          "target": "~/evals/shared/kb-writer-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/kb-writer",
+      "type": "registry:block",
+      "title": "Knowledge Base Writer Agent (flue)",
+      "description": "Clusters recurring Intercom questions and drafts knowledge base articles and updates while flagging documentation gaps for operator approval.",
+      "files": [
+        {
+          "path": "registry/kb-writer/targets/flue/agent.ts",
+          "target": "~/src/agents/kb-writer.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/shared/lib/intercom.ts",
+          "target": "~/src/lib/agents/kb-writer/intercom.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/kb-writer/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/targets/flue/tools/intercom.ts",
+          "target": "~/src/tools/kb-writer/intercom.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kb-writer/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/kb-writer-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/keyword-researcher",
       "type": "registry:block",
       "title": "Keyword Researcher Agent (eve)",
@@ -1119,6 +2323,92 @@
       ]
     },
     {
+      "name": "eve/kpi-digest",
+      "type": "registry:block",
+      "title": "KPI Digest Agent (eve)",
+      "description": "Assembles revenue KPIs from Stripe and product KPIs from PostHog into one weekly read-only digest.",
+      "files": [
+        {
+          "path": "registry/kpi-digest/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/shared/lib/kpi.ts",
+          "target": "~/agent/lib/kpi.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/eve/tools/review_kpis.ts",
+          "target": "~/agent/tools/review_kpis.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/evals/eve/kpi-digest/smoke.eval.ts",
+          "target": "~/evals/kpi-digest/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/evals/eve/shared/kpi-digest-smoke.ts",
+          "target": "~/evals/shared/kpi-digest-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/kpi-digest",
+      "type": "registry:block",
+      "title": "KPI Digest Agent (flue)",
+      "description": "Assembles revenue KPIs from Stripe and product KPIs from PostHog into one weekly read-only digest.",
+      "files": [
+        {
+          "path": "registry/kpi-digest/targets/flue/agent.ts",
+          "target": "~/src/agents/kpi-digest.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/shared/lib/kpi.ts",
+          "target": "~/src/lib/agents/kpi-digest/kpi.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/kpi-digest/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/flue/tools/kpi.ts",
+          "target": "~/src/tools/kpi-digest/kpi.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/kpi-digest/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/kpi-digest-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/launch-captain",
       "type": "registry:block",
       "title": "Launch Captain Agent (eve)",
@@ -1190,6 +2480,92 @@
         {
           "path": "registry/launch-captain/targets/flue/tools/launch.ts",
           "target": "~/src/tools/launch-captain/launch.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/lead-router",
+      "type": "registry:block",
+      "title": "Lead Router Agent (eve)",
+      "description": "Reads recent inbound HubSpot contacts, scores them by ICP fit and intent, and drafts owner assignment and first-touch outreach for operator approval.",
+      "files": [
+        {
+          "path": "registry/lead-router/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/shared/lib/hubspot.ts",
+          "target": "~/agent/lib/hubspot.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/targets/eve/tools/review_leads.ts",
+          "target": "~/agent/tools/review_leads.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/evals/eve/lead-router/smoke.eval.ts",
+          "target": "~/evals/lead-router/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/evals/eve/shared/lead-router-smoke.ts",
+          "target": "~/evals/shared/lead-router-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/lead-router",
+      "type": "registry:block",
+      "title": "Lead Router Agent (flue)",
+      "description": "Reads recent inbound HubSpot contacts, scores them by ICP fit and intent, and drafts owner assignment and first-touch outreach for operator approval.",
+      "files": [
+        {
+          "path": "registry/lead-router/targets/flue/agent.ts",
+          "target": "~/src/agents/lead-router.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/shared/lib/hubspot.ts",
+          "target": "~/src/lib/agents/lead-router/hubspot.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/lead-router/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/targets/flue/tools/hubspot.ts",
+          "target": "~/src/tools/lead-router/hubspot.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/lead-router/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/lead-router-daily.ts",
           "type": "registry:file"
         }
       ]
@@ -1276,6 +2652,168 @@
         {
           "path": "registry/link-builder/targets/flue/workflows/weekly.ts",
           "target": "~/src/workflows/link-builder-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/meeting-notes",
+      "type": "registry:block",
+      "title": "Meeting Notes Agent (eve)",
+      "description": "Summarizes a Fireflies meeting transcript into notes, decisions, and action items, then drafts follow-ups for operator approval.",
+      "files": [
+        {
+          "path": "registry/meeting-notes/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/shared/lib/fireflies.ts",
+          "target": "~/agent/lib/fireflies.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/targets/eve/tools/review_transcript.ts",
+          "target": "~/agent/tools/review_transcript.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/evals/eve/meeting-notes/smoke.eval.ts",
+          "target": "~/evals/meeting-notes/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/evals/eve/shared/meeting-notes-smoke.ts",
+          "target": "~/evals/shared/meeting-notes-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/meeting-notes",
+      "type": "registry:block",
+      "title": "Meeting Notes Agent (flue)",
+      "description": "Summarizes a Fireflies meeting transcript into notes, decisions, and action items, then drafts follow-ups for operator approval.",
+      "files": [
+        {
+          "path": "registry/meeting-notes/targets/flue/agent.ts",
+          "target": "~/src/agents/meeting-notes.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/shared/lib/fireflies.ts",
+          "target": "~/src/lib/agents/meeting-notes/fireflies.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/meeting-notes/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/targets/flue/tools/fireflies.ts",
+          "target": "~/src/tools/meeting-notes/fireflies.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/onboarding-coach",
+      "type": "registry:block",
+      "title": "Onboarding Coach Agent (eve)",
+      "description": "Finds users stuck before activation in PostHog and drafts the right nudge for each onboarding step.",
+      "files": [
+        {
+          "path": "registry/onboarding-coach/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/shared/lib/posthog.ts",
+          "target": "~/agent/lib/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/targets/eve/tools/review_activation.ts",
+          "target": "~/agent/tools/review_activation.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/evals/eve/onboarding-coach/smoke.eval.ts",
+          "target": "~/evals/onboarding-coach/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/evals/eve/shared/onboarding-coach-smoke.ts",
+          "target": "~/evals/shared/onboarding-coach-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/onboarding-coach",
+      "type": "registry:block",
+      "title": "Onboarding Coach Agent (flue)",
+      "description": "Finds users stuck before activation in PostHog and drafts the right nudge for each onboarding step.",
+      "files": [
+        {
+          "path": "registry/onboarding-coach/targets/flue/agent.ts",
+          "target": "~/src/agents/onboarding-coach.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/shared/lib/posthog.ts",
+          "target": "~/src/lib/agents/onboarding-coach/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/onboarding-coach/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/targets/flue/tools/posthog.ts",
+          "target": "~/src/tools/onboarding-coach/posthog.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/onboarding-coach/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/onboarding-coach-daily.ts",
           "type": "registry:file"
         }
       ]
@@ -1453,6 +2991,92 @@
       ]
     },
     {
+      "name": "eve/recruiter",
+      "type": "registry:block",
+      "title": "Recruiter Agent (eve)",
+      "description": "Reviews new Ashby applicants, scores them against a role, shortlists the strongest, and drafts outreach for operator approval.",
+      "files": [
+        {
+          "path": "registry/recruiter/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/shared/lib/ashby.ts",
+          "target": "~/agent/lib/ashby.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/targets/eve/tools/review_applicants.ts",
+          "target": "~/agent/tools/review_applicants.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/evals/eve/recruiter/smoke.eval.ts",
+          "target": "~/evals/recruiter/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/evals/eve/shared/recruiter-smoke.ts",
+          "target": "~/evals/shared/recruiter-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/recruiter",
+      "type": "registry:block",
+      "title": "Recruiter Agent (flue)",
+      "description": "Reviews new Ashby applicants, scores them against a role, shortlists the strongest, and drafts outreach for operator approval.",
+      "files": [
+        {
+          "path": "registry/recruiter/targets/flue/agent.ts",
+          "target": "~/src/agents/recruiter.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/shared/lib/ashby.ts",
+          "target": "~/src/lib/agents/recruiter/ashby.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/recruiter/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/targets/flue/tools/ashby.ts",
+          "target": "~/src/tools/recruiter/ashby.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/recruiter/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/recruiter-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/reddit-radar",
       "type": "registry:block",
       "title": "Reddit Radar Agent (eve)",
@@ -1534,6 +3158,234 @@
         {
           "path": "registry/reddit-radar/targets/flue/workflows/daily.ts",
           "target": "~/src/workflows/reddit-radar-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/refund-chaser",
+      "type": "registry:block",
+      "title": "Refund Chaser Agent (eve)",
+      "description": "Tracks open Stripe refunds and disputes and drafts the next follow-up until each one is resolved.",
+      "files": [
+        {
+          "path": "registry/refund-chaser/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/shared/lib/stripe.ts",
+          "target": "~/agent/lib/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/targets/eve/tools/review_refunds.ts",
+          "target": "~/agent/tools/review_refunds.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/evals/eve/refund-chaser/smoke.eval.ts",
+          "target": "~/evals/refund-chaser/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/evals/eve/shared/refund-chaser-smoke.ts",
+          "target": "~/evals/shared/refund-chaser-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/refund-chaser",
+      "type": "registry:block",
+      "title": "Refund Chaser Agent (flue)",
+      "description": "Tracks open Stripe refunds and disputes and drafts the next follow-up until each one is resolved.",
+      "files": [
+        {
+          "path": "registry/refund-chaser/targets/flue/agent.ts",
+          "target": "~/src/agents/refund-chaser.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/refund-chaser/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/shared/lib/stripe.ts",
+          "target": "~/src/lib/agents/refund-chaser/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/targets/flue/tools/stripe.ts",
+          "target": "~/src/tools/refund-chaser/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/refund-chaser/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/refund-chaser-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/research-assistant",
+      "type": "registry:block",
+      "title": "Research Assistant Agent (eve)",
+      "description": "Turns a focused question into a sourced, cited brief for a real decision using the framework's native web and fetch capability, with adversarial source verification and no paid search APIs.",
+      "files": [
+        {
+          "path": "registry/research-assistant/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/research-assistant/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/research-assistant/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/research-assistant/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/research-assistant/evals/eve/research-assistant/smoke.eval.ts",
+          "target": "~/evals/research-assistant/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/research-assistant/evals/eve/shared/research-assistant-smoke.ts",
+          "target": "~/evals/shared/research-assistant-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/research-assistant",
+      "type": "registry:block",
+      "title": "Research Assistant Agent (flue)",
+      "description": "Turns a focused question into a sourced, cited brief for a real decision using the framework's native web and fetch capability, with adversarial source verification and no paid search APIs.",
+      "files": [
+        {
+          "path": "registry/research-assistant/targets/flue/agent.ts",
+          "target": "~/src/agents/research-assistant.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/research-assistant/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/research-assistant/prompts.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/revenue-digest",
+      "type": "registry:block",
+      "title": "Revenue Digest Agent (eve)",
+      "description": "Summarizes MRR, new/expansion/churn, and top accounts from Stripe into a weekly read-only digest.",
+      "files": [
+        {
+          "path": "registry/revenue-digest/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/shared/lib/stripe.ts",
+          "target": "~/agent/lib/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/targets/eve/tools/review_revenue.ts",
+          "target": "~/agent/tools/review_revenue.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/evals/eve/revenue-digest/smoke.eval.ts",
+          "target": "~/evals/revenue-digest/smoke.eval.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/evals/eve/shared/revenue-digest-smoke.ts",
+          "target": "~/evals/shared/revenue-digest-smoke.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/revenue-digest",
+      "type": "registry:block",
+      "title": "Revenue Digest Agent (flue)",
+      "description": "Summarizes MRR, new/expansion/churn, and top accounts from Stripe into a weekly read-only digest.",
+      "files": [
+        {
+          "path": "registry/revenue-digest/targets/flue/agent.ts",
+          "target": "~/src/agents/revenue-digest.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/revenue-digest/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/shared/lib/stripe.ts",
+          "target": "~/src/lib/agents/revenue-digest/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/targets/flue/tools/stripe.ts",
+          "target": "~/src/tools/revenue-digest/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/revenue-digest/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/revenue-digest-weekly.ts",
           "type": "registry:file"
         }
       ]
@@ -1843,6 +3695,264 @@
       ]
     },
     {
+      "name": "eve/spend-tracker",
+      "type": "registry:block",
+      "title": "Spend Tracker Agent (eve)",
+      "description": "Categorizes recent Stripe charges, flags duplicate or unused SaaS and anomalies, and reports for operator review.",
+      "files": [
+        {
+          "path": "registry/spend-tracker/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/shared/lib/stripe.ts",
+          "target": "~/agent/lib/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/targets/eve/tools/review_spend.ts",
+          "target": "~/agent/tools/review_spend.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/evals/eve/shared/spend-tracker-smoke.ts",
+          "target": "~/evals/shared/spend-tracker-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/evals/eve/spend-tracker/smoke.eval.ts",
+          "target": "~/evals/spend-tracker/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/spend-tracker",
+      "type": "registry:block",
+      "title": "Spend Tracker Agent (flue)",
+      "description": "Categorizes recent Stripe charges, flags duplicate or unused SaaS and anomalies, and reports for operator review.",
+      "files": [
+        {
+          "path": "registry/spend-tracker/targets/flue/agent.ts",
+          "target": "~/src/agents/spend-tracker.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/spend-tracker/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/shared/lib/stripe.ts",
+          "target": "~/src/lib/agents/spend-tracker/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/targets/flue/tools/stripe.ts",
+          "target": "~/src/tools/spend-tracker/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/spend-tracker/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/spend-tracker-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/standup-bot",
+      "type": "registry:block",
+      "title": "Standup Bot Agent (eve)",
+      "description": "Reads recent Slack channel updates and drafts a daily standup digest of priorities, threads, and wins for operator approval.",
+      "files": [
+        {
+          "path": "registry/standup-bot/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/shared/lib/slack.ts",
+          "target": "~/agent/lib/slack.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/targets/eve/tools/review_updates.ts",
+          "target": "~/agent/tools/review_updates.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/evals/eve/shared/standup-bot-smoke.ts",
+          "target": "~/evals/shared/standup-bot-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/evals/eve/standup-bot/smoke.eval.ts",
+          "target": "~/evals/standup-bot/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/standup-bot",
+      "type": "registry:block",
+      "title": "Standup Bot Agent (flue)",
+      "description": "Reads recent Slack channel updates and drafts a daily standup digest of priorities, threads, and wins for operator approval.",
+      "files": [
+        {
+          "path": "registry/standup-bot/targets/flue/agent.ts",
+          "target": "~/src/agents/standup-bot.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/standup-bot/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/shared/lib/slack.ts",
+          "target": "~/src/lib/agents/standup-bot/slack.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/targets/flue/tools/slack.ts",
+          "target": "~/src/tools/standup-bot/slack.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/standup-bot-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/support-replies",
+      "type": "registry:block",
+      "title": "Support Replies Agent (eve)",
+      "description": "Reads open Intercom conversations and drafts grounded replies for operator approval, escalating hard cases.",
+      "files": [
+        {
+          "path": "registry/support-replies/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/shared/lib/intercom.ts",
+          "target": "~/agent/lib/intercom.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/targets/eve/tools/review_conversations.ts",
+          "target": "~/agent/tools/review_conversations.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/targets/eve/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/evals/eve/shared/support-replies-smoke.ts",
+          "target": "~/evals/shared/support-replies-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/evals/eve/support-replies/smoke.eval.ts",
+          "target": "~/evals/support-replies/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/support-replies",
+      "type": "registry:block",
+      "title": "Support Replies Agent (flue)",
+      "description": "Reads open Intercom conversations and drafts grounded replies for operator approval, escalating hard cases.",
+      "files": [
+        {
+          "path": "registry/support-replies/targets/flue/agent.ts",
+          "target": "~/src/agents/support-replies.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/shared/lib/intercom.ts",
+          "target": "~/src/lib/agents/support-replies/intercom.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/support-replies/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/targets/flue/tools/intercom.ts",
+          "target": "~/src/tools/support-replies/intercom.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/targets/flue/workflows/daily.ts",
+          "target": "~/src/workflows/support-replies-daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/thumbnail-studio",
       "type": "registry:block",
       "title": "Thumbnail Studio Agent (eve)",
@@ -1914,6 +4024,92 @@
         {
           "path": "registry/thumbnail-studio/targets/flue/tools/fal.ts",
           "target": "~/src/tools/thumbnail-studio/fal.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/winback",
+      "type": "registry:block",
+      "title": "Winback Agent (eve)",
+      "description": "Reviews recent Stripe cancellations and at-risk subscriptions, segments them by reason, and drafts win-back offers for operator approval.",
+      "files": [
+        {
+          "path": "registry/winback/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/shared/lib/stripe.ts",
+          "target": "~/agent/lib/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/targets/eve/tools/review_churn.ts",
+          "target": "~/agent/tools/review_churn.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/evals/eve/evals.config.ts",
+          "target": "~/evals/evals.config.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/evals/eve/shared/winback-smoke.ts",
+          "target": "~/evals/shared/winback-smoke.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/evals/eve/winback/smoke.eval.ts",
+          "target": "~/evals/winback/smoke.eval.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/winback",
+      "type": "registry:block",
+      "title": "Winback Agent (flue)",
+      "description": "Reviews recent Stripe cancellations and at-risk subscriptions, segments them by reason, and drafts win-back offers for operator approval.",
+      "files": [
+        {
+          "path": "registry/winback/targets/flue/agent.ts",
+          "target": "~/src/agents/winback.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/winback/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/shared/lib/stripe.ts",
+          "target": "~/src/lib/agents/winback/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/targets/flue/tools/stripe.ts",
+          "target": "~/src/tools/winback/stripe.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/winback/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/winback-weekly.ts",
           "type": "registry:file"
         }
       ]

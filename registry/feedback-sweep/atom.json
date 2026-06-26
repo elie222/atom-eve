@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "feedback-sweep",
+  "title": "Feedback Sweep Agent",
+  "description": "Reviews recent GitHub issues as user corrections and audits the project for related spots to fix.",
+  "category": "support",
+  "family": "support",
+  "targets": ["eve", "flue"],
+  "integrations": ["github"],
+  "connections": [
+    {
+      "name": "github",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["GITHUB_TOKEN", "GITHUB_REPO"]
+}
