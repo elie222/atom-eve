@@ -187,6 +187,57 @@
       ]
     },
     {
+      "name": "eve/content-ideation",
+      "type": "registry:block",
+      "title": "Content Ideation Agent (eve)",
+      "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
+      "files": [
+        {
+          "path": "registry/content-ideation/shared/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/shared/lib/prompts.ts",
+          "target": "~/agent/lib/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/targets/eve/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/targets/eve/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "flue/content-ideation",
+      "type": "registry:block",
+      "title": "Content Ideation Agent (flue)",
+      "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
+      "files": [
+        {
+          "path": "registry/content-ideation/targets/flue/agent.ts",
+          "target": "~/src/agents/content-ideation.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/shared/lib/prompts.ts",
+          "target": "~/src/lib/agents/content-ideation/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/targets/flue/workflows/weekly.ts",
+          "target": "~/src/workflows/content-ideation-weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent (eve)",
