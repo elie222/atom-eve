@@ -26,7 +26,7 @@ const { title, description } = Astro.props;
     <slot />
 
     <script>
-      // Progressive enhancement for static cards: copy-to-clipboard.
+      // Progressive enhancement: copy-to-clipboard for any [data-cmd] button.
       document.addEventListener("click", (e) => {
         const btn = (e.target as HTMLElement)?.closest<HTMLButtonElement>(".copy-btn");
         if (!btn) return;

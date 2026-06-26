@@ -7,11 +7,11 @@ interface Props {
 }
 const { agent } = Astro.props;
 const c = agent.color;
-const tags = agent.integrations ? agent.integrations.split(" · ") : [];
 ---
 
-<div
-  class="agent-row agent-item flex items-center gap-[14px] border-b border-edge px-[15px] py-[12px] transition-colors last:border-b-0 hover:bg-panel2"
+<a
+  href={`/agents/${agent.name}/`}
+  class="agent-row agent-item group flex items-center gap-[14px] border-b border-edge px-[15px] py-[13px] transition-colors last:border-b-0 hover:bg-panel2"
   style={`--famh:${c}66`}
   data-family={agent.family}
 >
@@ -22,45 +22,20 @@ const tags = agent.integrations ? agent.integrations.split(" · ") : [];
     <Glyph glyph={agent.glyph} color={c} scale={4} />
   </div>
 
-  <div class="min-w-0 flex-1">
-    <div class="flex items-center gap-[10px]">
-      <a
-        href={`/agents/${agent.name}/`}
-        class="truncate text-[14.5px] font-semibold text-ink transition-colors hover:text-eve"
-      >
-        {agent.title}
-      </a>
-      <span class="flex-none font-pixel text-[8px] tracking-[0.01em]" style={`color:${c}`}>
-        {agent.categoryLabel.toUpperCase()}
-      </span>
-    </div>
-    <div class="truncate text-[13px] leading-[1.5] text-muted">{agent.description}</div>
+  <div class="flex min-w-0 flex-1 items-baseline gap-[10px]">
+    <span
+      class="flex-none text-[14.5px] font-semibold text-ink transition-colors group-hover:text-eve"
+    >
+      {agent.title}
+    </span>
+    <span class="flex-none font-pixel text-[8px] tracking-[0.01em]" style={`color:${c}`}>
+      {agent.categoryLabel.toUpperCase()}
+    </span>
+    <span class="min-w-0 flex-1 truncate text-[13px] text-muted">{agent.description}</span>
   </div>
 
-  {
-    tags.length > 0 && (
-      <div class="hidden flex-none gap-[5px] lg:flex">
-        {tags.map((t) => (
-          <span class="rounded border border-edge px-[7px] py-[2px] font-mono text-[10.5px] text-muted2">
-            {t}
-          </span>
-        ))}
-      </div>
-    )
-  }
-
-  <div class="flex flex-none gap-[7px]">
-    <button
-      class="copy-btn cursor-pointer rounded-[5px] border-none px-[12px] py-[6px] text-[12.5px] font-semibold text-[#0a0a0c]"
-      style={`background:${c}`}
-      data-cmd={agent.installCmd}
-    >
-      Copy install
-    </button>
-    <a
-      href={`/agents/${agent.name}/`}
-      class="rounded-[5px] border border-edge px-[10px] py-[6px] text-[12.5px] font-medium text-ink transition-colors hover:border-dim2 hover:bg-panel2"
-      >Details</a
-    >
-  </div>
-</div>
+  <span
+    class="flex-none font-mono text-[13px] text-dim opacity-0 transition-opacity group-hover:opacity-100"
+    aria-hidden="true">→</span
+  >
+</a>
