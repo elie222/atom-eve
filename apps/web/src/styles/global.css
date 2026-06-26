@@ -90,6 +90,36 @@
   transform: translateY(-2px);
   border-color: var(--famh, var(--color-dim2));
 }
+/* ---- grid / list view switching + filtering ---- */
+#registry-views[data-view="grid"] #agent-list {
+  display: none;
+}
+#registry-views[data-view="list"] #agent-grid {
+  display: none;
+}
+#registry-views.no-matches #agent-grid,
+#registry-views.no-matches #agent-list {
+  display: none;
+}
+.agent-item.is-hidden {
+  display: none !important;
+}
+
+/* ---- grid / list view toggle ---- */
+.view-btn {
+  cursor: pointer;
+  transition:
+    background 0.12s,
+    color 0.12s;
+}
+.view-btn:hover {
+  color: var(--color-ink);
+}
+.view-btn.active {
+  background: #9bff5c14;
+  color: var(--color-eve);
+}
+
 /* ---- category toolbar pills ---- */
 .cat-bar {
   scrollbar-width: none;

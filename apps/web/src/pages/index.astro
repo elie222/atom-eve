@@ -3,6 +3,7 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import AgentCard from "../components/AgentCard.astro";
+import AgentRow from "../components/AgentRow.astro";
 import HeroFigure from "../components/HeroFigure.astro";
 import { getItems, getTaxonomy, toCard, familyCounts, getManifest } from "../lib/data";
 import { FAM, famColor, highlightJson, prettify, REPO } from "../lib/format";
@@ -81,14 +82,43 @@ const publishSteps = [
 
   <!-- the registry -->
   <section id="registry" class="mx-auto max-w-[1180px] px-8 pt-[40px]">
-    <div class="flex flex-wrap items-end justify-between gap-x-5 gap-y-2">
+    <div class="flex flex-wrap items-end justify-between gap-x-5 gap-y-3">
       <div>
         <div class="font-mono text-[11px] tracking-[0.08em] text-eve">// the registry</div>
         <div class="mt-3 font-pixel text-[17px]">PICK AN AGENT</div>
       </div>
-      <div class="max-w-[420px] text-[14px] leading-[1.55] text-muted">
-        Every agent is a folder + an <span class="font-mono text-[13px] text-eve">atom.json</span>
-        manifest. Copy, configure, ship.
+      <div
+        class="view-toggle flex flex-none items-center gap-[2px] rounded-[9px] border border-edge bg-panel p-[3px]"
+        role="group"
+        aria-label="View"
+      >
+        <button
+          type="button"
+          data-view-btn="grid"
+          aria-pressed="true"
+          class="view-btn active inline-flex items-center gap-[6px] rounded-[6px] px-[11px] py-[6px] text-[12.5px] font-medium text-ink2"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="1" y="1" width="6" height="6" rx="1.2" fill="currentColor"></rect>
+            <rect x="9" y="1" width="6" height="6" rx="1.2" fill="currentColor"></rect>
+            <rect x="1" y="9" width="6" height="6" rx="1.2" fill="currentColor"></rect>
+            <rect x="9" y="9" width="6" height="6" rx="1.2" fill="currentColor"></rect>
+          </svg>
+          Grid
+        </button>
+        <button
+          type="button"
+          data-view-btn="list"
+          aria-pressed="false"
+          class="view-btn inline-flex items-center gap-[6px] rounded-[6px] px-[11px] py-[6px] text-[12.5px] font-medium text-ink2"
+        >
+          <svg width="13" height="13" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="1" y="2" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+            <rect x="1" y="6.8" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+            <rect x="1" y="11.6" width="14" height="2.4" rx="1.2" fill="currentColor"></rect>
+          </svg>
+          List
+        </button>
       </div>
     </div>
 
@@ -136,12 +166,15 @@ const publishSteps = [
       }
     </div>
 
-    <div class="mt-[22px]">
+    <div id="registry-views" data-view="grid" class="mt-[22px]">
       <div
         id="agent-grid"
         class="grid gap-[14px] [grid-template-columns:repeat(auto-fill,minmax(230px,1fr))]"
       >
         {cards.map((agent) => <AgentCard agent={agent} />)}
+      </div>
+      <div id="agent-list" class="overflow-hidden rounded-lg border border-edge bg-panel">
+        {cards.map((agent) => <AgentRow agent={agent} />)}
       </div>
       <p id="no-results" class="hidden py-10 text-center font-mono text-[13px] text-muted">
         No agents match that search.
@@ -245,27 +278,29 @@ const publishSteps = [
   <Footer />
 
   <script>
+    const wrap = document.getElementById("registry-views");
     const search = document.getElementById("agent-search") as HTMLInputElement | null;
-    const grid = document.getElementById("agent-grid");
     const empty = document.getElementById("no-results");
-    const catButtons = Array.from(
-      document.querySelectorAll<HTMLButtonElement>(".cat-pill"),
-    );
+    const catButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".cat-pill"));
+    const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-view-btn]"));
 
-    if (grid) {
-      const cards = Array.from(grid.querySelectorAll<HTMLElement>(".agent-card"));
+    if (wrap) {
+      // Each agent renders twice — once as a grid card, once as a list row.
+      // Filtering toggles both copies; only one view is visible at a time.
+      const items = Array.from(wrap.querySelectorAll<HTMLElement>(".agent-item"));
       let activeFamily = "all";
 
       const apply = () => {
         const q = (search?.value ?? "").trim().toLowerCase();
         let shown = 0;
-        for (const card of cards) {
-          const matchSearch = !q || (card.textContent ?? "").toLowerCase().includes(q);
-          const matchFamily = activeFamily === "all" || card.dataset.family === activeFamily;
+        for (const el of items) {
+          const matchSearch = !q || (el.textContent ?? "").toLowerCase().includes(q);
+          const matchFamily = activeFamily === "all" || el.dataset.family === activeFamily;
           const visible = matchSearch && matchFamily;
-          card.style.display = visible ? "flex" : "none";
-          if (visible) shown++;
+          el.classList.toggle("is-hidden", !visible);
+          if (visible && el.classList.contains("agent-card")) shown++;
         }
+        wrap.classList.toggle("no-matches", shown === 0);
         if (empty) empty.classList.toggle("hidden", shown !== 0);
       };
 
@@ -280,6 +315,17 @@ const publishSteps = [
             b.setAttribute("aria-pressed", String(on));
           }
           apply();
+        });
+      }
+
+      for (const btn of viewButtons) {
+        btn.addEventListener("click", () => {
+          wrap.dataset.view = btn.dataset.viewBtn ?? "grid";
+          for (const b of viewButtons) {
+            const on = b === btn;
+            b.classList.toggle("active", on);
+            b.setAttribute("aria-pressed", String(on));
+          }
         });
       }
     }
