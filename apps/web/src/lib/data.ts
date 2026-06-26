@@ -69,6 +69,26 @@ export function getTaxonomy(): Taxonomy {
   return JSON.parse(readFileSync(path.join(ROOT, "taxonomy.json"), "utf8")) as Taxonomy;
 }
 
+export interface RegistryPayload {
+  /** Registry item name, e.g. "eve/website-qa". */
+  name: string;
+  /** The resolved shadcn registry-item JSON (with inline file content). */
+  json: string;
+}
+
+/* The generated, content-resolved shadcn payloads (public/r/<name>.json), keyed
+ * by registry item name. Served at /r/<name>.json so the registry works as a
+ * hosted shadcn namespace (`npx shadcn add @atom-eve/<name>`). */
+export function getRegistryPayloads(): RegistryPayload[] {
+  const registry = JSON.parse(readFileSync(path.join(ROOT, "registry.json"), "utf8")) as {
+    items?: { name: string }[];
+  };
+  return (registry.items ?? []).map((item) => ({
+    name: item.name,
+    json: readFileSync(path.join(ROOT, "public", "r", `${item.name}.json`), "utf8"),
+  }));
+}
+
 export function toCard(item: RegistryItem): AgentCard {
   return {
     name: item.name,
