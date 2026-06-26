@@ -44,7 +44,7 @@ const about: { k: string; v: string; accent?: boolean }[] = [
   { k: "Category", v: `${prettify(item.family)} / ${prettify(item.category)}` },
   { k: "Version", v: item.version },
   { k: "License", v: "MIT" },
-  { k: "Memory", v: item.memory ? "Yes" : "No", accent: item.memory },
+  ...(item.memory ? [{ k: "Memory", v: "Yes", accent: true }] : []),
   { k: "Frameworks", v: frameworks.join(" · ") },
   { k: "Scheduled", v: item.scheduled ? "Yes" : "No" },
 ];
@@ -82,16 +82,12 @@ const about: { k: string; v: string; accent?: boolean }[] = [
             >v{item.version}</span
           >
           {
-            item.memory ? (
+            item.memory && (
               <span
                 class="whitespace-nowrap border-2 px-[8px] py-[3px] font-mono text-[11px] text-green"
                 style="border-color:rgba(84,240,168,0.4)"
               >
                 ● MEMORY
-              </span>
-            ) : (
-              <span class="whitespace-nowrap border-2 border-edge px-[8px] py-[3px] font-mono text-[11px] text-muted">
-                STATELESS
               </span>
             )
           }
