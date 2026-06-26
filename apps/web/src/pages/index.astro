@@ -16,6 +16,25 @@ const total = items.length;
 // Get Started modal commands (real atom-eve CLI).
 const PROMPT = "Read atomeve.dev/start.md and add agents to grow my business.";
 const INIT_CMD = "npx atom-eve init";
+
+// Deterministic starfield behind the hero (seeded so static output is stable).
+// One 2px dot whose box-shadow paints `n` stars across a centered canvas.
+function starfield(n: number, w: number, h: number, cols: string[]): string {
+  let r = 987654321;
+  const rnd = () => {
+    r = (r * 1103515245 + 12345) & 0x7fffffff;
+    return r / 0x7fffffff;
+  };
+  const stars: string[] = [];
+  for (let i = 0; i < n; i++) {
+    const x = Math.round((rnd() - 0.5) * w);
+    const y = Math.round(rnd() * h);
+    const c = cols[Math.floor(rnd() * cols.length)];
+    stars.push(`${x}px ${y}px 0 0 ${c}`);
+  }
+  return stars.join(",");
+}
+const HERO_STARS = starfield(120, 1280, 470, ["#ffffff", "#37d6ff", "#ff45c2", "#a974ff", "#cfc4ff"]);
 ---
 
 <Base
@@ -25,7 +44,14 @@ const INIT_CMD = "npx atom-eve init";
   <Nav variant="landing" />
 
   <!-- hero -->
-  <section class="relative z-[2] mx-auto max-w-[1100px] px-8 pb-7 pt-[46px] text-center">
+  <section class="relative z-[2] mx-auto max-w-[1100px] overflow-hidden px-8 pb-7 pt-[46px] text-center">
+    <div
+      class="pointer-events-none absolute left-1/2 top-[18px] z-0 h-[2px] w-[2px]"
+      style={`box-shadow:${HERO_STARS};opacity:0.8`}
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative z-[1]">
     <div class="font-pixel text-[11px] leading-[1.6] tracking-[0.16em] text-cyan">
       ▸ OPEN-SOURCE AGENT REGISTRY
     </div>
@@ -35,17 +61,20 @@ const INIT_CMD = "npx atom-eve init";
       class="relative mx-auto mt-[22px] max-w-[900px] border-2 border-edge2 bg-code p-[9px]"
       style="box-shadow:0 0 0 2px #0b0820, 0 0 56px rgba(255,69,194,0.24), 9px 9px 0 rgba(0,0,0,0.45)"
     >
-      <img
-        src="/atom-eve-og.png"
-        alt="Atom Eve"
-        class="block w-full"
-        style="image-rendering:pixelated"
-      />
-      <div
-        class="pointer-events-none absolute inset-[9px]"
-        style="background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,0.30) 3px)"
-        aria-hidden="true"
-      >
+      <div class="hero-img-wrap relative overflow-hidden">
+        <img
+          src="/atom-eve-og.png"
+          alt="Atom Eve"
+          class="block w-full"
+          style="image-rendering:pixelated"
+        />
+        <div
+          class="pointer-events-none absolute inset-0"
+          style="background:repeating-linear-gradient(0deg,rgba(0,0,0,0) 0px,rgba(0,0,0,0) 2px,rgba(0,0,0,0.30) 3px)"
+          aria-hidden="true"
+        >
+        </div>
+        <div class="hero-sweep" aria-hidden="true"></div>
       </div>
       <span class="absolute -left-[5px] -top-[5px] h-[9px] w-[9px] bg-pink"></span>
       <span class="absolute -right-[5px] -top-[5px] h-[9px] w-[9px] bg-cyan"></span>
@@ -73,6 +102,7 @@ const INIT_CMD = "npx atom-eve init";
       >
         ★ GITHUB
       </a>
+    </div>
     </div>
   </section>
 
@@ -172,8 +202,8 @@ const INIT_CMD = "npx atom-eve init";
     </div>
   </section>
 
-  <!-- bottom banner -->
-  <section class="relative z-[2] mx-auto mt-16 max-w-[1200px] px-8">
+  <!-- bottom banner — lifted above the scanline overlay (z-100) so the graphic stays legible -->
+  <section class="relative z-[110] mx-auto mt-16 max-w-[1200px] px-8">
     <div class="font-mono text-[11px] tracking-[0.08em] text-cyan">// built for every team</div>
     <div class="mt-3 font-pixel text-[16px] leading-[1.5]">ONE REGISTRY, EVERY TEAM</div>
     <div
@@ -248,7 +278,7 @@ const INIT_CMD = "npx atom-eve init";
         </button>
       </div>
       <div class="p-5">
-        <p class="m-0 text-[14.5px] leading-[1.6] text-ink2">
+        <p class="m-0 text-[15px] leading-[1.6] text-ink2">
           Atom Eve drops open-source AI agents straight into your project — like shadcn, but for
           agents. Works with <span class="text-cyan">eve.dev</span> &amp; <span class="text-pink"
             >flue</span
@@ -258,16 +288,16 @@ const INIT_CMD = "npx atom-eve init";
         <!-- step 1 -->
         <div class="mt-5 border-2 border-edge bg-code">
           <div class="flex items-center gap-2 border-b-2 border-edgedim px-[14px] py-[11px]">
-            <span class="font-pixel text-[8px] tracking-[0.04em] text-green">1 · HAVE A PROJECT?</span
+            <span class="font-pixel text-[9px] tracking-[0.04em] text-green">1 · HAVE A PROJECT?</span
             >
           </div>
           <div class="px-[14px] py-[13px]">
-            <div class="mb-[11px] text-[13px] leading-[1.5] text-muted">
+            <div class="mb-[11px] text-[14px] leading-[1.5] text-muted">
               Paste this into Claude, Cursor, or your coding agent:
             </div>
             <div class="flex items-center gap-3">
               <code
-                class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-ink2"
+                class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13.5px] text-ink2"
                 ><span class="text-green">▸</span> {PROMPT}</code
               >
               <button
@@ -284,15 +314,15 @@ const INIT_CMD = "npx atom-eve init";
         <!-- step 2 -->
         <div class="mt-[14px] border-2 border-edge bg-code">
           <div class="flex items-center gap-2 border-b-2 border-edgedim px-[14px] py-[11px]">
-            <span class="font-pixel text-[8px] tracking-[0.04em] text-cyan">2 · STARTING FRESH?</span>
+            <span class="font-pixel text-[9px] tracking-[0.04em] text-cyan">2 · STARTING FRESH?</span>
           </div>
           <div class="px-[14px] py-[13px]">
-            <div class="mb-[11px] text-[13px] leading-[1.5] text-muted">
+            <div class="mb-[11px] text-[14px] leading-[1.5] text-muted">
               No eve.dev or flue project yet? Scaffold one in the format Atom Eve expects:
             </div>
             <div class="flex items-center gap-3">
               <code
-                class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-ink2"
+                class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13.5px] text-ink2"
                 ><span class="text-cyan">$</span> {INIT_CMD}</code
               >
               <button
@@ -306,7 +336,7 @@ const INIT_CMD = "npx atom-eve init";
           </div>
         </div>
 
-        <div class="mt-[18px] font-mono text-[12px] text-muted2">
+        <div class="mt-[18px] font-mono text-[13px] text-muted2">
           New to eve.dev / flue? <a href={REPO} class="text-ink hover:text-cyan">Read the docs ↗</a>
         </div>
       </div>
@@ -365,6 +395,20 @@ const INIT_CMD = "npx atom-eve init";
           }
         });
       }
+    }
+
+    // ----- hero image: single "boot-up" scan sweep on hover -----
+    // Plays once and always finishes, even if the pointer leaves mid-sweep;
+    // re-hovering while it runs is ignored so it never restarts mid-way.
+    const heroWrap = document.querySelector<HTMLElement>(".hero-img-wrap");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (heroWrap && !reduceMotion) {
+      const sweep = heroWrap.querySelector<HTMLElement>(".hero-sweep");
+      heroWrap.addEventListener("mouseenter", () => {
+        if (heroWrap.classList.contains("sweeping")) return;
+        heroWrap.classList.add("sweeping");
+      });
+      sweep?.addEventListener("animationend", () => heroWrap.classList.remove("sweeping"));
     }
 
     // ----- get started modal -----

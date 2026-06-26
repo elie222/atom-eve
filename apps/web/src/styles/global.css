@@ -92,10 +92,44 @@
   animation: atomblink 1.1s steps(1) infinite;
 }
 
+/* ---- hero image hover sweep (single "boot-up" scan band) ---- */
+@keyframes scanroll {
+  0% {
+    transform: translateY(-130px);
+  }
+  100% {
+    transform: translateY(560px);
+  }
+}
+.hero-sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 120px;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-130px);
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    180deg,
+    rgba(55, 214, 255, 0) 0%,
+    rgba(55, 214, 255, 0.18) 42%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(55, 214, 255, 0.18) 58%,
+    rgba(55, 214, 255, 0) 100%
+  );
+}
+/* Triggered via JS (class toggle) so one sweep always runs to completion,
+ * even if the pointer leaves mid-animation. */
+.hero-img-wrap.sweeping .hero-sweep {
+  opacity: 1;
+  animation: scanroll 1.3s linear 1 forwards;
+}
+
 /* ---- arcade press buttons (hard offset shadow, moves toward shadow) ---- */
 .arcade-btn {
   cursor: pointer;
-  border: none;
   transition: transform 0.08s;
 }
 .arcade-btn:hover {

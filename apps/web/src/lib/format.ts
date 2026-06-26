@@ -46,17 +46,3 @@ export const targetLabel = (t: string): string => (t === "eve" ? "eve.dev" : t);
 export function installCommand(name: string, target?: string): string {
   return target ? `npx atom-eve add ${name} --target ${target}` : `npx atom-eve add ${name}`;
 }
-
-/* Lightweight JSON syntax highlight -> HTML string (keys green, strings amber,
- * numbers/booleans blue). Input is trusted registry data. */
-export function highlightJson(obj: unknown): string {
-  let s = JSON.stringify(obj, null, 2) ?? "";
-  s = s.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-  s = s.replace(/"([^"\\]*)"(\s*:)?/g, (_m, content: string, colon?: string) =>
-    colon
-      ? `<span style="color:#54f0a8">"${content}"</span>${colon}`
-      : `<span style="color:#ffb454">"${content}"</span>`,
-  );
-  s = s.replace(/: (true|false|-?\d+(?:\.\d+)?)/g, ': <span style="color:#37d6ff">$1</span>');
-  return s;
-}
