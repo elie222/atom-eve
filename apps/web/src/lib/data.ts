@@ -3,7 +3,38 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { marked } from "marked";
+import { createHighlighter, type Highlighter } from "shiki";
 import { catGlyph, famColor, fileGroup, fileLang, installCommand, prettify, type FileGroup } from "./format";
+
+/* ------------------------------------------------------------------ *
+ * Build-time syntax highlighting (Shiki, ships with Astro)
+ * ------------------------------------------------------------------ */
+
+const SHIKI_THEME = "tokyo-night";
+/* Map our coarse fileLang() keys to Shiki language ids. */
+const SHIKI_LANGS: Record<string, string> = {
+  ts: "typescript",
+  js: "javascript",
+  json: "json",
+  md: "markdown",
+  bash: "bash",
+  yaml: "yaml",
+  text: "text",
+};
+
+let highlighterPromise: Promise<Highlighter> | null = null;
+function getHighlighter(): Promise<Highlighter> {
+  highlighterPromise ??= createHighlighter({
+    themes: [SHIKI_THEME],
+    langs: ["typescript", "javascript", "json", "markdown", "bash", "yaml"],
+  });
+  return highlighterPromise;
+}
+
+async function highlight(code: string, lang: string): Promise<string> {
+  const hl = await getHighlighter();
+  return hl.codeToHtml(code, { lang: SHIKI_LANGS[lang] ?? "text", theme: SHIKI_THEME });
+}
 
 export interface RegistryItem {
   name: string;
@@ -183,7 +214,10 @@ export interface AgentFile {
   target: string;
   /** Final path segment, e.g. "foo.ts". */
   name: string;
+  /** Raw source (used for copy-to-clipboard). */
   content: string;
+  /** Shiki-highlighted markup of `content` (used for display). */
+  html: string;
   group: FileGroup;
   lang: string;
 }
@@ -207,20 +241,27 @@ interface ResolvedPayload {
 
 /* The installable source for an agent, one entry per supported target. Reads
  * the generated payloads; returns [] for targets whose payload is missing so a
- * partial build never breaks the page. */
-export function getAgentFiles(item: RegistryItem): AgentTargetFiles[] {
+ * partial build never breaks the page. Source is syntax-highlighted at build
+ * time with Shiki so the browser ships zero highlighting JS. */
+export async function getAgentFiles(item: RegistryItem): Promise<AgentTargetFiles[]> {
   const out: AgentTargetFiles[] = [];
   for (const target of item.targets ?? []) {
     const file = path.join(ROOT, "public", "r", target, `${item.name}.json`);
     if (!existsSync(file)) continue;
     const payload = JSON.parse(readFileSync(file, "utf8")) as ResolvedPayload;
-    const files: AgentFile[] = payload.files.map((f) => ({
-      target: f.target,
-      name: f.target.slice(f.target.lastIndexOf("/") + 1),
-      content: f.content,
-      group: fileGroup(f.target),
-      lang: fileLang(f.target),
-    }));
+    const files: AgentFile[] = await Promise.all(
+      payload.files.map(async (f) => {
+        const lang = fileLang(f.target);
+        return {
+          target: f.target,
+          name: f.target.slice(f.target.lastIndexOf("/") + 1),
+          content: f.content,
+          html: await highlight(f.content, lang),
+          group: fileGroup(f.target),
+          lang,
+        };
+      }),
+    );
     out.push({
       target,
       files,

@@ -5,6 +5,7 @@ interface AgentFile {
   target: string;
   name: string;
   content: string;
+  html: string;
   group: FileGroup;
   lang: string;
 }
@@ -51,6 +52,8 @@ export default function CodeBrowser({ targets }: Props) {
     window.setTimeout(() => setCopied(false), 1400);
   };
 
+  const [wrap, setWrap] = useState(true);
+
   const selectTarget = (target: string) => {
     setActiveTarget(target);
     const next = targets.find((t) => t.target === target);
@@ -96,6 +99,13 @@ export default function CodeBrowser({ targets }: Props) {
         </span>
       </div>
 
+      {files.length <= 1 && targets.length > 1 && (
+        <div className="border-b-2 border-edgedim px-4 py-[9px] font-mono text-[11.5px] text-muted">
+          {activeTarget} ships fewer files here — this framework inlines instructions and logic into the
+          agent file. Switch targets above to compare.
+        </div>
+      )}
+
       <div className="grid grid-cols-[230px_1fr] max-md:grid-cols-1">
         {/* file tree */}
         <div className="border-r-2 border-edgedim p-2 max-md:border-b-2 max-md:border-r-0">
@@ -136,6 +146,16 @@ export default function CodeBrowser({ targets }: Props) {
             <span className="hidden font-mono text-[10px] uppercase text-dim sm:inline">{active.lang}</span>
             <button
               type="button"
+              onClick={() => setWrap((w) => !w)}
+              aria-pressed={wrap}
+              title="Toggle line wrapping"
+              className="flex-none cursor-pointer whitespace-nowrap border-2 border-edge px-[10px] py-[6px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] transition-colors"
+              style={{ color: wrap ? "#0b0820" : "#9587bd", background: wrap ? ACC : "transparent" }}
+            >
+              WRAP
+            </button>
+            <button
+              type="button"
               onClick={copy}
               className="arcade-btn flex-none cursor-pointer whitespace-nowrap px-[11px] py-[7px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
               style={{ background: ACC, boxShadow: "3px 3px 0 rgba(0,0,0,0.4)" }}
@@ -143,11 +163,10 @@ export default function CodeBrowser({ targets }: Props) {
               {copied ? "COPIED ✓" : "COPY"}
             </button>
           </div>
-          <div className="max-h-[640px] overflow-auto">
-            <pre className="m-0 p-4 font-mono text-[12.5px] leading-[1.55] text-ink2">
-              <code>{active.content}</code>
-            </pre>
-          </div>
+          <div
+            className={`codeview max-h-[640px] overflow-auto${wrap ? " wrap" : ""}`}
+            dangerouslySetInnerHTML={{ __html: active.html }}
+          />
         </div>
       </div>
     </div>

@@ -14,7 +14,8 @@
     "astro": "^7.0.3",
     "marked": "^15.0.7",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "shiki": "^4.3.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
