@@ -4664,7 +4664,7 @@
       "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent (eve)",
-      "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior file or blob-backed history, and writes concise Markdown reports.",
+      "description": "Helps improve SEO by reviewing the configured site, finding content and metadata fixes, and tracking progress week to week.",
       "dependencies": [
         "@vercel/blob@^2.5.0"
       ],
@@ -4745,7 +4745,7 @@
       "name": "flue/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent (flue)",
-      "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior file or blob-backed history, and writes concise Markdown reports.",
+      "description": "Helps improve SEO by reviewing the configured site, finding content and metadata fixes, and tracking progress week to week.",
       "files": [
         {
           "path": "registry/seo-audit/targets/flue/agent.ts",

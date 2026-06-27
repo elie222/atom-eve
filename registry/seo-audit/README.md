@@ -2,7 +2,7 @@
 
 ## What it does
 
-The SEO Audit Agent reviews a public website, page, or sitemap for practical SEO and content issues. It fetches pages, optionally opens key pages in a browser through the framework sandbox, compares the current run with file or blob-backed history, and returns or writes a concise Markdown report.
+The SEO Audit Agent helps improve SEO by reviewing the configured site, finding content and metadata fixes, and tracking progress week to week.
 
 The package checks:
 
