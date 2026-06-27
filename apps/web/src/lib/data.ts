@@ -3,7 +3,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { marked } from "marked";
-import { catGlyph, famColor, installCommand, prettify } from "./format";
+import { catGlyph, famColor, fileGroup, fileLang, installCommand, prettify, type FileGroup } from "./format";
 
 export interface RegistryItem {
   name: string;
@@ -166,6 +166,70 @@ function normalizeHeading(value: string): string {
     .replace(/\s+/g, " ")
     .trim()
     .toLowerCase();
+}
+
+/* ------------------------------------------------------------------ *
+ * Source-code browser data
+ *
+ * The build already resolves every agent into a content-inlined shadcn
+ * payload per target at public/r/<target>/<name>.json (see
+ * packages/registry-generator). We surface those exact files on the detail
+ * page so a visitor can read the real instructions, tools, and skills before
+ * installing — the same transparency shadcn gives its components.
+ * ------------------------------------------------------------------ */
+
+export interface AgentFile {
+  /** Install destination, e.g. "~/agent/tools/foo.ts". */
+  target: string;
+  /** Final path segment, e.g. "foo.ts". */
+  name: string;
+  content: string;
+  group: FileGroup;
+  lang: string;
+}
+
+export interface AgentTargetFiles {
+  target: string;
+  files: AgentFile[];
+  skills: string[];
+  connections: { name: string; type: string; auth: string }[];
+  requiredEnv: string[];
+}
+
+interface ResolvedPayload {
+  files: { target: string; content: string }[];
+  meta?: {
+    skills?: string[];
+    connections?: { name: string; type: string; auth: string }[];
+    requiredEnv?: string[];
+  };
+}
+
+/* The installable source for an agent, one entry per supported target. Reads
+ * the generated payloads; returns [] for targets whose payload is missing so a
+ * partial build never breaks the page. */
+export function getAgentFiles(item: RegistryItem): AgentTargetFiles[] {
+  const out: AgentTargetFiles[] = [];
+  for (const target of item.targets ?? []) {
+    const file = path.join(ROOT, "public", "r", target, `${item.name}.json`);
+    if (!existsSync(file)) continue;
+    const payload = JSON.parse(readFileSync(file, "utf8")) as ResolvedPayload;
+    const files: AgentFile[] = payload.files.map((f) => ({
+      target: f.target,
+      name: f.target.slice(f.target.lastIndexOf("/") + 1),
+      content: f.content,
+      group: fileGroup(f.target),
+      lang: fileLang(f.target),
+    }));
+    out.push({
+      target,
+      files,
+      skills: payload.meta?.skills ?? [],
+      connections: payload.meta?.connections ?? [],
+      requiredEnv: payload.meta?.requiredEnv ?? [],
+    });
+  }
+  return out;
 }
 
 /* Other community builds of the same task — grouped by category. */

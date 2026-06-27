@@ -190,6 +190,19 @@
   border-color: var(--color-cyan);
 }
 
+/* ---- detail page README / Code tabs ---- */
+.detail-tab {
+  color: var(--color-muted);
+  background: transparent;
+}
+.detail-tab:hover {
+  color: var(--color-ink);
+}
+.detail-tab[aria-selected="true"] {
+  color: #0b0820;
+  background: var(--color-green);
+}
+
 /* ---- category toolbar tabs ---- */
 .cat-bar {
   scrollbar-width: none;
