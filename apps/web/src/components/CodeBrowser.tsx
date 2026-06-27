@@ -52,7 +52,6 @@ export default function CodeBrowser({ targets }: Props) {
     window.setTimeout(() => setCopied(false), 1400);
   };
 
-  const [wrap, setWrap] = useState(true);
 
   const selectTarget = (target: string) => {
     setActiveTarget(target);
@@ -146,16 +145,6 @@ export default function CodeBrowser({ targets }: Props) {
             <span className="hidden font-mono text-[10px] uppercase text-dim sm:inline">{active.lang}</span>
             <button
               type="button"
-              onClick={() => setWrap((w) => !w)}
-              aria-pressed={wrap}
-              title="Toggle line wrapping"
-              className="flex-none cursor-pointer whitespace-nowrap border-2 border-edge px-[10px] py-[6px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] transition-colors"
-              style={{ color: wrap ? "#0b0820" : "#9587bd", background: wrap ? ACC : "transparent" }}
-            >
-              WRAP
-            </button>
-            <button
-              type="button"
               onClick={copy}
               className="arcade-btn flex-none cursor-pointer whitespace-nowrap px-[11px] py-[7px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
               style={{ background: ACC, boxShadow: "3px 3px 0 rgba(0,0,0,0.4)" }}
@@ -164,7 +153,7 @@ export default function CodeBrowser({ targets }: Props) {
             </button>
           </div>
           <div
-            className={`codeview max-h-[640px] overflow-auto${wrap ? " wrap" : ""}`}
+            className="codeview max-h-[640px] overflow-auto"
             dangerouslySetInnerHTML={{ __html: active.html }}
           />
         </div>

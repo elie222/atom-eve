@@ -219,10 +219,6 @@
 }
 .codeview pre.shiki code {
   display: block;
-  white-space: pre;
-}
-/* line wrapping toggle */
-.codeview.wrap pre.shiki code {
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
