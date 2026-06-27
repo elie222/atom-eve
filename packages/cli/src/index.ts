@@ -170,6 +170,7 @@ async function create(args: Args) {
   if (target === "eve") {
     console.log("  vercel link                   # connect to a Vercel project");
     console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
+    console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
     console.log("  npx eve dev");
   } else {
     console.log("  npx flue run <agent> --input '{ ... }'");
