@@ -170,6 +170,7 @@ async function create(args: Args) {
   if (target === "eve") {
     console.log("  vercel link                   # connect to a Vercel project");
     console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
+    console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
     console.log("  npx eve dev");
   } else {
     console.log("  npx flue run <agent> --input '{ ... }'");
@@ -601,7 +602,9 @@ Commands:
 
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
 VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_SECRET_KEY)
-are set as Vercel project env vars. For Flue, set env vars per its docs.
+are set as Vercel project env vars. The Vercel account/team still needs AI Gateway access,
+including any billing or account verification Vercel requires. If a model call fails, verify that
+setup or set AGENT_MODEL to a model available to the project. For Flue, set env vars per its docs.
 `);
 }
 

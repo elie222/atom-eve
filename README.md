@@ -64,7 +64,9 @@ cd my-agent
 
 On Eve this is **Vercel-native**: run `vercel link` and the model resolves through the Vercel AI
 Gateway via `VERCEL_OIDC_TOKEN` — no model API key to set. Per-agent integration secrets (e.g.
-`STRIPE_SECRET_KEY`) are Vercel project env vars. See [`USAGE.md`](USAGE.md) for the full flow.
+`STRIPE_SECRET_KEY`) are Vercel project env vars. The Vercel account/team still needs AI Gateway
+access, including any required billing or account verification; set `AGENT_MODEL` if you want a
+different available model. See [`USAGE.md`](USAGE.md) for the full flow.
 
 Adding an agent to an existing project instead:
 
