@@ -29,6 +29,6 @@ npx atom-eve init --target eve
 
 The CLI resolves the target and copies registry source files into the framework-native project layout. Eve installs write a root agent under `agent/`.
 
-Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VERCEL_OIDC_TOKEN` — no model API key needed. The Vercel account/team still needs AI Gateway access, including any billing or account verification Vercel requires. If a model call fails, verify that setup or set `AGENT_MODEL` to a model available to the project. Per-agent integration secrets (e.g. `STRIPE_SECRET_KEY`) are set as Vercel project env vars. For Flue, set env vars per its docs.
+Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VERCEL_OIDC_TOKEN` — no model API key needed. Per-agent integration secrets (e.g. `STRIPE_SECRET_KEY`) are set as Vercel project env vars. For Flue, set env vars per its docs.
 
 See the [full usage guide](https://github.com/elie222/atom-eve/blob/main/USAGE.md) for the end-to-end flow.

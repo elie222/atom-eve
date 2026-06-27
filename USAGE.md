@@ -34,12 +34,8 @@ There are two different things people lump together as "env vars":
    `VERCEL_OIDC_TOKEN`. On a deployed Vercel project that token is injected automatically; locally
    you get it by linking the project (`vercel link`) and running `vercel env pull`. (An
    `AI_GATEWAY_API_KEY` or `ANTHROPIC_API_KEY` is only an escape hatch for running outside Vercel.)
-   The Vercel account or team still needs AI Gateway access enabled, including any current account
-   verification or billing requirement Vercel applies before serving model calls.
-   If the first model call fails with an AI Gateway/provider error such as account verification,
-   missing billing, unavailable model, or provider quota, treat that as model setup friction rather
-   than an agent install failure. Add the required Vercel billing/verification details, or choose a
-   model your project can use by setting `AGENT_MODEL` (for example in Vercel env or `.env.local`).
+   The Vercel account or team must have AI Gateway access enabled. Set `AGENT_MODEL` if you want to
+   use a different model that is available to the project.
    On **Flue/Cloudflare** the runtime has built-in model access; on **Flue/Node** set a provider key.
 2. **Per-agent integration secrets** — e.g. `STRIPE_SECRET_KEY`, `GITHUB_TOKEN`, `POSTHOG_API_KEY`.
    These are real third-party secrets. On Eve they are **Vercel project environment variables** (set
@@ -93,9 +89,6 @@ vercel env pull       # writes VERCEL_OIDC_TOKEN (+ any project env) to .env.loc
 
 That's the model credential handled — no API key to manage. See
 [Credentials, the short version](#credentials-the-short-version).
-If you see an AI Gateway or provider error on the first run, confirm the Vercel account/team has the
-required billing or verification enabled and that `AGENT_MODEL` names a model available to that
-project.
 
 ### 3. Add the agent's integration secrets (only if it needs them)
 
