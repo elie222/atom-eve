@@ -31,6 +31,8 @@ registry/<agent>/
 
 Keep `atom.json` small. It is catalog metadata, not runtime config. Put behavior in source files. Cron timing belongs in `targets/eve/schedules/*` or the matching Flue workflow, not in `atom.json`.
 
+Write `atom.json` descriptions and the opening of each agent README for users browsing the catalog: lead with the outcome the agent helps with, not implementation details such as storage backends, files written, or framework internals.
+
 ## Installed Agents Are Local Templates
 
 Users install these files into their own repo and then edit them. Write installed instructions for the user's project, not as generic marketing copy.
@@ -48,6 +50,12 @@ Avoid wording like:
 - Hard-coded `example.com` or project-specific domains in executable prompts.
 
 README examples may use generic sample domains, but runtime instructions, schedules, and workflows should refer to configured URLs/context and block cleanly if required setup is missing.
+
+Runtime instructions, prompts, schedules, workflows, and installed helper defaults should not refer
+to Atom Eve as the user's runtime environment. These files are copied into the user's own repo.
+Use project-local names such as `reports/<agent>/...`, `<agent>/...`, or configured host paths
+instead of registry-branded paths like `atom-eve/<agent>/...`. Registry branding belongs in this
+repo's catalog docs and install docs, not in installed agent behavior.
 
 ## Avoid Prompt Duplication
 

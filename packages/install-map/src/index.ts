@@ -76,6 +76,7 @@ export async function createInstallFileSpecs(
       const relInside = path.posix.relative("shared/lib", lib);
       add(lib, `${base}/lib/${relInside}`);
     }
+    await addTree("targets/eve/lib", `${base}/lib`);
     add(await requiredFile("targets/eve/agent.ts"), `${base}/agent.ts`);
     await addTree("targets/eve/tools", `${base}/tools`);
     await addTree("targets/eve/connections", `${base}/connections`);
@@ -102,6 +103,7 @@ export async function createInstallFileSpecs(
     const relInside = path.posix.relative("shared/lib", lib);
     add(lib, `~/${sourceRoot}/lib/agents/${manifest.name}/${relInside}`);
   }
+  await addTree("targets/flue/lib", `~/${sourceRoot}/lib/agents/${manifest.name}`);
   await addTree("targets/flue/tools", `~/${sourceRoot}/tools/${manifest.name}`);
   await addTree("targets/flue/workflows", `~/${sourceRoot}/workflows`, (source, destination) => {
     const ext = path.posix.extname(destination);

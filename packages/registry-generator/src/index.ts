@@ -27,10 +27,12 @@ export interface SourceRegistryItem {
   type: "registry:block";
   title: string;
   description: string;
+  dependencies?: string[];
   files: RegistryFile[];
 }
 
 export interface RegistryItem extends SourceRegistryItem {
+  dependencies: string[];
   files: ResolvedRegistryFile[];
   meta: {
     atom: string;
@@ -102,6 +104,7 @@ function toSourceRegistryItem(item: RegistryItem): SourceRegistryItem {
     type: item.type,
     title: item.title,
     description: item.description,
+    ...(item.dependencies.length > 0 ? { dependencies: item.dependencies } : {}),
     files: item.files.map(({ content: _content, ...file }) => file)
   };
 }
@@ -137,6 +140,7 @@ export async function createRegistryItem(rootDir: string, manifest: RegistryMani
     type: "registry:block",
     title: `${manifest.title} (${target})`,
     description: manifest.description,
+    dependencies: dependenciesForTarget(manifest, target),
     files,
     meta: {
       atom: manifest.name,
@@ -147,6 +151,10 @@ export async function createRegistryItem(rootDir: string, manifest: RegistryMani
       skills: manifest.skills
     }
   };
+}
+
+function dependenciesForTarget(manifest: RegistryManifest, target: Target): string[] {
+  return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies[target] ?? [])])].sort();
 }
 
 async function readTaxonomy(rootDir: string): Promise<Taxonomy> {

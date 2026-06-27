@@ -3,7 +3,7 @@ export const seoAuditSmokePrompt = [
   "",
   "Goal: smoke-test a single public URL for practical SEO issues. Keep the run read-only. Do not submit forms, bypass authentication, or mutate the target site.",
   "Use the framework's native sandbox commands such as `curl` or `node` (or runtime fetch) to retrieve the page and inspect titles, meta descriptions, headings, canonical/robots signals, and visible copy. Do not add or rely on a custom browser wrapper tool.",
-  "Compare against prior local history under reports/seo-audit/history when available, and write artifacts under reports/seo-audit when filesystem access exists.",
+  "Default to the installed SEO memory tools for Vercel Blob: read prior latest/index/run files when available, then write the report and compact JSON memory for this run. If those tools are unavailable in this smoke environment, use local history under reports/seo-audit/history only when filesystem access exists, and write artifacts under reports/seo-audit when possible.",
   "Return a concise Markdown SEO report. If a capability is unavailable, call out the limitation clearly instead of skipping the report."
 ].join("\n");
 
