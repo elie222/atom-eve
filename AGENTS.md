@@ -31,7 +31,7 @@ registry/<agent>/
 
 Keep `atom.json` small. It is catalog metadata, not runtime config. Put behavior in source files. Cron timing belongs in `targets/eve/schedules/*` or the matching Flue workflow, not in `atom.json`.
 
-Write `atom.json` descriptions for users browsing the catalog: lead with the outcome the agent helps with, not implementation details such as storage backends, files written, or framework internals.
+Write `atom.json` descriptions and the opening of each agent README for users browsing the catalog: lead with the outcome the agent helps with, not implementation details such as storage backends, files written, or framework internals.
 
 ## Installed Agents Are Local Templates
 
