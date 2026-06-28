@@ -88,15 +88,23 @@ If implementation detail is useful for maintainers, put it in source code, share
 
 Users install these files into their own repo and then edit them. Write installed instructions for the user's project, not as generic marketing copy.
 
+`instructions.md` is addressed **to the agent, in the second person**. Never refer to the agent in
+the third person — write "You are…", "Use…", "Do not…", not "This agent is…" or "The agent
+reflects…". (Third-person references to a *tool* are fine: "The X tool only reads data; it does not
+send email.")
+
 Prefer wording like:
 
-- "You are this project's SEO audit agent."
-- "Audit this project's configured site..."
-- "This file is intended to be edited after install..."
+- "You are a SEO audit agent." (state the role directly; don't prefix it with "this project's")
+- "Audit this project's configured site..." (keep "this project's" for the user's real resources —
+  site, repo, Stripe account, open PRs — where it carries meaning)
+- "This file is intended to be edited after install so you reflect the project's real..."
 
 Avoid wording like:
 
-- "You are a pragmatic agent for growth teams."
+- "You are this project's SEO audit agent." (drop "this project's" from the role; it adds nothing)
+- "You are a pragmatic agent for growth teams." (marketing tone)
+- "This agent is read-only." (third person — write "You are read-only.")
 - "Replace this placeholder with the production URL before enabling the workflow."
 - Hard-coded `example.com` or project-specific domains in executable prompts.
 
