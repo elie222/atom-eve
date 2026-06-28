@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { FILE_GROUPS, type FileGroup } from "../lib/format";
+import { displayPath, FILE_GROUPS, type FileGroup } from "../lib/format";
 
 interface AgentFile {
   target: string;
@@ -108,6 +108,7 @@ export default function CodeBrowser({ targets }: Props) {
               </div>
               {groupFiles.map((file) => {
                 const on = file.target === active.target;
+                const visiblePath = displayPath(file.target);
                 return (
                   <button
                     key={file.target}
@@ -116,7 +117,7 @@ export default function CodeBrowser({ targets }: Props) {
                       setActivePath(file.target);
                       setCopied(false);
                     }}
-                    title={file.target}
+                    title={visiblePath}
                     className="flex w-full cursor-pointer items-center gap-2 px-2 py-[6px] text-left font-mono text-[12px] transition-colors"
                     style={{
                       color: on ? "#0b0820" : "#c2bbe0",
@@ -134,7 +135,7 @@ export default function CodeBrowser({ targets }: Props) {
         {/* viewer */}
         <div className="min-w-0">
           <div className="flex items-center gap-3 border-b-2 border-edgedim px-4 py-[10px]">
-            <code className="min-w-0 flex-1 truncate font-mono text-[12px] text-ink2">{active.target}</code>
+            <code className="min-w-0 flex-1 truncate font-mono text-[12px] text-ink2">{displayPath(active.target)}</code>
             <button
               type="button"
               onClick={copy}
