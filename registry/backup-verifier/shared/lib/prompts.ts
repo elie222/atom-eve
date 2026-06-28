@@ -1,5 +1,2 @@
-// Trigger prompt for this project's backup verification schedule. Agent behavior now lives in
-// shared/instructions.md.
-
 export const weeklyRestoreCheckPrompt =
   "Draft this week's clean-room restore-and-verify plan for the project's backups: for each required recovery scenario, outline the steps to restore into an isolated clean room and the checks that prove the restore worked, then report any gaps in backup coverage. Present everything as a read-only plan for operator review; do not restore, delete, or modify anything.";

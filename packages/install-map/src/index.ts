@@ -3,21 +3,8 @@ import path from "node:path";
 
 export type Target = "eve" | "flue";
 
-/**
- * Sentinel string literal that target wrappers (currently the Flue `agent.ts`) use in place of an
- * inlined instructions prompt. At install/build time it is replaced with the agent's
- * `shared/instructions.md` content so `instructions.md` stays the single source of truth and the
- * Flue agent reaches parity with Eve without copying the prompt into TypeScript.
- */
 export const INSTRUCTIONS_PLACEHOLDER = "__ATOM_INSTRUCTIONS__";
 
-/**
- * Replace the quoted instructions sentinel inside resolved file content with the agent's
- * `shared/instructions.md` text. The source keeps a valid string literal
- * (`instructions: "__ATOM_INSTRUCTIONS__"`) so it type-checks as-is; resolution swaps the whole
- * literal for a JSON-encoded copy of the instructions. Files without the sentinel pass through
- * untouched.
- */
 export function resolveInstructionsPlaceholder(content: string, instructions: string | undefined): string {
   const pattern = /(['"])__ATOM_INSTRUCTIONS__\1/g;
   if (!pattern.test(content)) return content;
