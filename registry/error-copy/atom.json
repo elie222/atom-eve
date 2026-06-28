@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "error-copy",
+  "title": "Error Copy Agent",
+  "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
+  "category": "ux",
+  "family": "engineering",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["agent-browser"],
+  "connections": [],
+  "requiredEnv": [],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}
