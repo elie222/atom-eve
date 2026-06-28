@@ -1,9 +1,10 @@
 import { defineAgent } from "@flue/runtime";
 import { reviewSentryErrors } from "../tools/error-triage/sentry.js";
+import { errorTriageAgentInstructions } from "../lib/agents/error-triage/prompts.js";
 
 export default defineAgent(() => ({
   model: "anthropic/claude-sonnet-4-6",
   cwd: "/workspace",
-  instructions: "Review recent production Sentry errors in read-only mode and recommend severity-ranked TDD fix plans.",
+  instructions: errorTriageAgentInstructions,
   tools: [reviewSentryErrors]
 }));
