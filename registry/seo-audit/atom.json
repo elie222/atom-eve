@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "seo-audit",
+  "title": "SEO Audit Agent",
+  "description": "Audits the configured site with Agent Browser and fetch, then writes a read-only Markdown report of SEO, content, and CTA fixes ordered by severity.",
+  "category": "seo",
+  "family": "growth",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["agent-browser"],
+  "connections": [],
+  "requiredEnv": [],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "release-notes",
+  "title": "Release Notes Agent",
+  "description": "Reads merged pull requests since the latest release with the GitHub CLI and drafts user-facing release notes grouped by change type for operator approval.",
+  "category": "docs",
+  "family": "engineering",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["github"],
+  "connections": [],
+  "requiredEnv": ["GITHUB_TOKEN"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}
