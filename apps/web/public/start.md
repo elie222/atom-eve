@@ -1,6 +1,6 @@
 # Atom Eve — Quick Start
 
-Atom Eve is an open-source registry of installable AI agents for **eve.dev** and **flue** —
+Atom Eve is an open-source registry of installable AI agents for **eve.dev** —
 like shadcn, but for agents. Each agent is a folder plus an `atom.json` manifest that declares
 what it does and which environment keys it needs.
 
@@ -12,18 +12,16 @@ Browse the full catalog at **https://atomeve.dev**.
 
 If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, do this:
 
-1. **Detect or pick a target.** Atom Eve installs into an `eve.dev` or `flue` project.
+1. **Detect or scaffold the project.** Atom Eve installs into an `eve.dev` project.
    - An `eve.dev` project has an `agent/` directory.
-   - A `flue` project has a `flue.config.ts` (or `.js`).
-   - If neither exists, scaffold a complete app with `npx atom-eve create <name> --target eve --agent <agent>` (or `--target flue`).
+   - If none exists, scaffold a complete app with `npx atom-eve create <name> --target eve --agent <agent>`.
 2. **Find the right agents.** Match the user's goal to agents in the registry
    (see "Browse" below). Prefer agents whose `family`/`category` fit the job.
 3. **Install each agent.** For a new app, use `npx atom-eve create <name> --target eve --agent <agent>`.
-   For an existing Eve or Flue app, use `npx atom-eve add <agent> --target <target>`.
+   For an existing Eve app, use `npx atom-eve add <agent>`.
 4. **Wire up keys.** Check the agent page or `https://atomeve.dev/index.json` for `requiredEnv`.
    Never invent secret values — ask the user. On Eve, set integration secrets as Vercel project env vars.
 5. **Run it.** For eve.dev: link Vercel with `vercel link`, pull env with `vercel env pull`, then run `npx eve dev`.
-   For flue: follow the flue project's run script.
 
 For Eve, model calls go through the Vercel AI Gateway. The user does not need a model API key, but
 their Vercel account/team must have any required AI Gateway billing or account verification complete.
@@ -41,12 +39,8 @@ drafts for review. Keep that behavior intact when wiring them in.
 # Scaffold a new Eve app and install an agent
 npx atom-eve create my-agent --target eve --agent website-qa
 
-# Scaffold a new Flue app and install an agent
-npx atom-eve create seo-agent --target flue --agent seo-audit
-
 # Add an agent to an existing project
 npx atom-eve add website-qa --target eve
-npx atom-eve add facebook-ads --target flue
 
 # List available agents
 npx atom-eve list

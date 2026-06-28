@@ -9,13 +9,11 @@ with a running, deployable agent.
 
 ## What Atom Eve does and does not do
 
-Atom Eve is a source-first registry of installable agents for two frameworks:
+Atom Eve is a source-first registry of installable agents for Eve:
 
 - **[Eve](https://eve.dev)** — Vercel's filesystem-first framework for durable agents. You write
   capabilities under `agent/`; Eve runs the model loop, persists sessions, and serves the agent over
   HTTP and platform channels. Deploys to Vercel.
-- **[Flue](https://flueframework.com/)** — a TypeScript framework for durable agents and workflows.
-  Targets Node.js or Cloudflare Workers.
 
 Atom Eve does **not** host or run your agents, store credentials, or provide a runtime. The
 frameworks own scaffolding and deployment; Atom Eve copies real, reviewable **agent source** into a
@@ -23,7 +21,7 @@ project. So the flow is always: **scaffold the app → install an agent → conn
 deploy.** The `atom-eve create` command chains the first two for you.
 
 For framework-level questions (project shape, channels, deploy), the source of truth is the
-framework's own docs: <https://eve.dev/docs> and <https://flueframework.com/docs>.
+framework's own docs: <https://eve.dev/docs>.
 
 ## Credentials, the short version
 
@@ -36,12 +34,10 @@ There are two different things people lump together as "env vars":
    `AI_GATEWAY_API_KEY` or `ANTHROPIC_API_KEY` is only an escape hatch for running outside Vercel.)
    The Vercel account or team must have AI Gateway access enabled. Set `AGENT_MODEL` if you want to
    use a different model that is available to the project.
-   On **Flue/Cloudflare** the runtime has built-in model access; on **Flue/Node** set a provider key.
 2. **Per-agent integration secrets** — e.g. `STRIPE_SECRET_KEY`, `GITHUB_TOKEN`, `POSTHOG_API_KEY`.
    These are real third-party secrets. On Eve they are **Vercel project environment variables** (set
    in the dashboard or with `vercel env add`, pulled locally by `vercel env pull`). Some providers
-   (e.g. Slack) can instead be wired through a **Vercel connector** with no token at all. On Flue,
-   set them as environment variables per its docs.
+   (e.g. Slack) can instead be wired through a **Vercel connector** with no token at all.
 
 Each agent's page lists exactly which of these it needs (see [Finding agents](#finding-agents)).
 
@@ -148,35 +144,6 @@ my-agents/
 
 ---
 
-## Path C — Flue
-
-```bash
-npx atom-eve create website-qa --target flue --runtime node    # or --runtime cloudflare
-cd website-qa
-```
-
-`create` runs `flue init` and installs the agent into the Flue source tree:
-
-```text
-src/
-  agents/<agent>.ts
-  workflows/<agent>-<workflow>.ts
-  tools/<agent>/
-  lib/agents/<agent>/
-```
-
-Run it:
-
-```bash
-npx flue run website-qa --input '{"message":"..."}'
-```
-
-On **Cloudflare** the runtime has built-in model access (no API key). On **Node** set a provider
-key. Set any per-agent integration secrets as environment variables. Deploy per the Flue docs for
-your target: <https://flueframework.com/docs>.
-
----
-
 ## Finding agents
 
 Only install agents that actually exist in the registry. Sources:
@@ -194,26 +161,26 @@ invent agent names.
 ## Verify before you finish
 
 - The framework scaffold succeeded and dependencies installed.
-- Typecheck/build passes (`eve build`, or `flue` build per its docs).
+- Typecheck/build passes (`eve build`).
 - The project is linked to Vercel (`vercel link`) so the model resolves — or an
   `AI_GATEWAY_API_KEY` is set if running outside Vercel.
-- The agent runs locally (`npx eve dev`, or `npx flue run <agent> ...`) and does not error on a
+- The agent runs locally (`npx eve dev`) and does not error on a
   missing required integration secret — if it does, that env var still needs setting.
 
 ## CLI reference
 
 ```bash
-# Recommended: scaffold a full app (delegates to eve/flue), optionally install an agent
-npx atom-eve create <name> [--target eve|flue] [--runtime node|cloudflare] [--agent <agent>]
+# Recommended: scaffold a full app (delegates to eve), optionally install an agent
+npx atom-eve create <name> [--target eve] [--agent <agent>]
 
 # Monorepo root for running many agents (agents/*)
 npx atom-eve init --workspace [name]
 
 # Install an agent into an already-scaffolded project
-npx atom-eve add <agent> [--target eve|flue]
+npx atom-eve add <agent> [--target eve]
 
 # Write atom-eve.json (+ minimal fallback scaffold) into an existing project
-npx atom-eve init [--target eve|flue] [--runtime node|cloudflare|vercel]
+npx atom-eve init [--target eve] [--runtime node|cloudflare|vercel]
 
 npx atom-eve list
 ```
