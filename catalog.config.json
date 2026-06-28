@@ -1,4 +1,25 @@
 {
-  "featured": ["stripe-pulse"],
-  "homepageOrder": ["stripe-pulse"]
+  "featured": ["seo-audit", "website-qa", "stripe-pulse", "analytics-digest", "adversarial-reviewer", "ux-reviewer"],
+  "homepageOrder": [
+    "seo-audit",
+    "website-qa",
+    "stripe-pulse",
+    "analytics-digest",
+    "adversarial-reviewer",
+    "ux-reviewer",
+    "competitor-analysis",
+    "claim-checker",
+    "a11y-auditor",
+    "perf-auditor",
+    "visual-regression",
+    "cro-optimizer",
+    "funnel-analyst",
+    "experiment-analyst",
+    "onboarding-coach",
+    "onboarding-tester",
+    "error-copy",
+    "content-ideation",
+    "release-notes",
+    "research-assistant"
+  ]
 }
