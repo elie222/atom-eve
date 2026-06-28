@@ -1,0 +1,23 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "stripe-pulse",
+  "title": "Stripe Revenue & Churn Pulse",
+  "description": "Writes a grounded weekly revenue and churn pulse from Stripe facts, cross-references at-risk customers against PostHog engagement, and posts it to Slack.",
+  "category": "finance",
+  "family": "revenue",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["stripe", "posthog", "slack"],
+  "connections": [
+    {
+      "name": "slack",
+      "type": "platform",
+      "auth": "vercel-connect"
+    }
+  ],
+  "requiredEnv": ["STRIPE_API_KEY", "POSTHOG_CLI_API_KEY", "POSTHOG_CLI_PROJECT_ID"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4", "@vercel/connect@^0.2.10"]
+}

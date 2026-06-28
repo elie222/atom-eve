@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const targetSchema = z.enum(["eve", "flue"]);
+export const targetSchema = z.enum(["eve"]);
 export type Target = z.infer<typeof targetSchema>;
 
 export const runtimeSchema = z.enum(["vercel", "node", "cloudflare"]);
@@ -43,8 +43,7 @@ export const atomSchema = z.object({
   dependencies: z.array(z.string().min(1)).default([]),
   targetDependencies: z
     .object({
-      eve: z.array(z.string().min(1)).optional(),
-      flue: z.array(z.string().min(1)).optional()
+      eve: z.array(z.string().min(1)).optional()
     })
     .strict()
     .default({}),

@@ -36,7 +36,6 @@ export interface RegistryItem extends SourceRegistryItem {
   files: ResolvedRegistryFile[];
   meta: {
     atom: string;
-    target: Target;
     version: string;
     requiredEnv: string[];
     connections: RegistryManifest["connections"];
@@ -80,13 +79,9 @@ export async function generateRegistry(rootDir: string): Promise<void> {
   const orderedManifests = orderManifests(manifests, catalogConfig);
   for (const manifest of orderedManifests) {
     siteItems.push(toSiteIndexItem(manifest, catalogConfig));
-    for (const target of manifest.targets) {
-      const item = await createRegistryItem(rootDir, manifest, target);
-      sourceItems.push(toSourceRegistryItem(item));
-      const outPath = path.join(publicR, target, `${manifest.name}.json`);
-      await fs.mkdir(path.dirname(outPath), { recursive: true });
-      await writeJson(outPath, item);
-    }
+    const item = await createRegistryItem(rootDir, manifest);
+    sourceItems.push(toSourceRegistryItem(item));
+    await writeJson(path.join(publicR, `${manifest.name}.json`), item);
   }
 
   await writeJson(path.join(rootDir, "public", "index.json"), { items: siteItems });
@@ -123,10 +118,6 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
     await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
     await validateAgentStructure(path.join(registryDir, entry.name), parsed);
     const repoPath = `registry/${entry.name}`;
-    await validateTriggerPromptSources(path.join(registryDir, entry.name), parsed.name);
-    if (parsed.targets.includes("flue")) {
-      await validateFlueInstructions(path.join(registryDir, entry.name), parsed.name);
-    }
     manifests.push({
       ...parsed,
       repoPath,
@@ -137,18 +128,17 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
   return manifests.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-export async function createRegistryItem(rootDir: string, manifest: RegistryManifest, target: Target): Promise<RegistryItem> {
-  const files = await readLocalInstallFiles(rootDir, manifest, target);
+export async function createRegistryItem(rootDir: string, manifest: RegistryManifest): Promise<RegistryItem> {
+  const files = await readLocalInstallFiles(rootDir, manifest);
   return {
-    name: `${target}/${manifest.name}`,
+    name: manifest.name,
     type: "registry:block",
-    title: `${manifest.title} (${target})`,
+    title: manifest.title,
     description: manifest.description,
-    dependencies: dependenciesForTarget(manifest, target),
+    dependencies: dependenciesForManifest(manifest),
     files,
     meta: {
       atom: manifest.name,
-      target,
       version: manifest.version,
       requiredEnv: manifest.requiredEnv,
       connections: manifest.connections,
@@ -157,8 +147,8 @@ export async function createRegistryItem(rootDir: string, manifest: RegistryMani
   };
 }
 
-function dependenciesForTarget(manifest: RegistryManifest, target: Target): string[] {
-  return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies[target] ?? [])])].sort();
+function dependenciesForManifest(manifest: RegistryManifest): string[] {
+  return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies.eve ?? [])])].sort();
 }
 
 async function readTaxonomy(rootDir: string): Promise<Taxonomy> {
@@ -195,28 +185,22 @@ async function validateReadme(readmePath: string, agentName: string) {
 }
 
 const AGENT_STRUCTURE = {
-  rootFiles: new Set(["atom.json", "README.md", "instructions.md", "schedule.ts"]),
-  rootDirs: new Set(["lib", "skills", "eve", "flue"]),
-  eveFiles: new Set(["agent.ts"]),
-  eveDirs: new Set(["schedules", "tools", "sandbox", "connections", "lib", "evals"]),
-  flueFiles: new Set(["agent.ts"]),
-  flueDirs: new Set(["tools", "workflows", "lib"])
+  rootFiles: new Set(["atom.json", "README.md"]),
+  rootDirs: new Set(["agent"]),
+  agentFiles: new Set(["agent.ts", "instructions.md", "README.md"]),
+  agentDirs: new Set(["tools", "channels", "sandbox", "schedules", "skills", "connections", "lib", "evals"])
 };
 
 async function validateAgentStructure(agentDir: string, manifest: AtomManifest) {
   await assertAllowedEntries(agentDir, manifest.name, "", AGENT_STRUCTURE.rootFiles, AGENT_STRUCTURE.rootDirs);
-  if (manifest.targets.includes("eve")) {
-    await assertAllowedEntries(path.join(agentDir, "eve"), manifest.name, "eve", AGENT_STRUCTURE.eveFiles, AGENT_STRUCTURE.eveDirs);
-    const evalEntries = await fs.readdir(path.join(agentDir, "eve/evals"), { withFileTypes: true }).catch(() => []);
-    for (const entry of evalEntries) {
-      if (entry.isFile() && entry.name !== "evals.config.ts") {
-        throw new Error(`${manifest.name} eve/evals/${entry.name} is not allowed; put fixtures in eve/evals/fixtures and eval cases in a subfolder`);
-      }
-    }
-  }
-  if (manifest.targets.includes("flue")) {
-    await assertAllowedEntries(path.join(agentDir, "flue"), manifest.name, "flue", AGENT_STRUCTURE.flueFiles, AGENT_STRUCTURE.flueDirs);
-  }
+  await assertAllowedEntries(path.join(agentDir, "agent"), manifest.name, "agent", AGENT_STRUCTURE.agentFiles, AGENT_STRUCTURE.agentDirs);
+  await requireFile(path.join(agentDir, "agent", "agent.ts"), manifest.name, "agent/agent.ts");
+  await requireFile(path.join(agentDir, "agent", "instructions.md"), manifest.name, "agent/instructions.md");
+}
+
+async function requireFile(filePath: string, agentName: string, label: string) {
+  const stat = await fs.stat(filePath).catch(() => undefined);
+  if (!stat?.isFile()) throw new Error(`${agentName} is missing ${label}`);
 }
 
 async function assertAllowedEntries(
@@ -238,45 +222,6 @@ async function assertAllowedEntries(
     } else if (!allowedFiles.has(entry.name)) {
       throw new Error(`${agentName} has an unexpected file "${rel}"; allowed here: ${[...allowedFiles].join(", ")}`);
     }
-  }
-}
-
-async function validateTriggerPromptSources(agentDir: string, agentName: string) {
-  for (const triggerDir of ["eve/schedules", "flue/workflows"]) {
-    const files = await walk(path.join(agentDir, triggerDir)).catch(() => []);
-    for (const file of files) {
-      if (!file.endsWith(".ts")) continue;
-      const content = await fs.readFile(file, "utf8");
-      if (/markdown:\s*["`]/.test(content) || /session\.prompt\(\s*["`]/.test(content)) {
-        const rel = path.relative(agentDir, file);
-        throw new Error(`${agentName} ${rel} must import trigger prompt text from schedule.ts`);
-      }
-    }
-  }
-}
-
-async function validateFlueInstructions(agentDir: string, agentName: string) {
-  const agentPath = path.join(agentDir, "flue/agent.ts");
-  const content = await fs.readFile(agentPath, "utf8").catch(() => {
-    throw new Error(`${agentName} is missing flue/agent.ts`);
-  });
-  if (!/(['"])__ATOM_INSTRUCTIONS__\1/.test(content)) {
-    throw new Error(
-      `${agentName} flue/agent.ts must set instructions to the "__ATOM_INSTRUCTIONS__" placeholder ` +
-        `so instructions.md is the single source of truth`
-    );
-  }
-  if (/Instructions\b/.test(content)) {
-    throw new Error(
-      `${agentName} flue/agent.ts must not import a separate instructions constant from prompts; ` +
-        `use the "__ATOM_INSTRUCTIONS__" placeholder instead`
-    );
-  }
-  const instructionsPath = path.join(agentDir, "instructions.md");
-  try {
-    await fs.stat(instructionsPath);
-  } catch {
-    throw new Error(`${agentName} uses the instructions placeholder but is missing instructions.md`);
   }
 }
 
@@ -332,12 +277,9 @@ function toSiteIndexItem(manifest: RegistryManifest, config: CatalogConfig): Sit
 }
 
 async function hasScheduleFiles(rootDir: string, repoPath: string): Promise<boolean> {
-  for (const sourceDir of ["eve/schedules", "flue/workflows"]) {
-    const abs = path.join(rootDir, repoPath, sourceDir);
-    const files = await walk(abs).catch(() => []);
-    if (files.length > 0) return true;
-  }
-  return false;
+  const abs = path.join(rootDir, repoPath, "agent/schedules");
+  const files = await walk(abs).catch(() => []);
+  return files.length > 0;
 }
 
 async function writeJson(filePath: string, value: unknown) {

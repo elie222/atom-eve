@@ -3,11 +3,9 @@ import { spawnSync } from "node:child_process";
 import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
-import { createInterface } from "node:readline/promises";
 import {
   createInstallFileSpecs,
   readLocalInstallFiles,
-  resolveInstructionsPlaceholder,
   type InstallManifest,
   type Target
 } from "@atom-eve/install-map";
@@ -141,27 +139,18 @@ async function initWorkspace(args: Args) {
   console.log("Each agents/<name> folder is a standalone app and maps to its own deploy (e.g. one Vercel project).");
 }
 
-// Scaffolds a full agent app by delegating to the framework's own CLI (the
-// source of truth for project shape and deps), then drops in atom-eve.json and,
-// optionally, an installed agent. For Eve this means the project is Vercel-native:
-// link it with `vercel link` and the AI Gateway authenticates via VERCEL_OIDC_TOKEN
-// — no model API key required.
+// Scaffolds a full eve agent app by delegating to eve's own CLI (the source of
+// truth for project shape and deps), then drops in atom-eve.json and, optionally,
+// an installed agent. Eve is Vercel-native: link it with `vercel link` and the AI
+// Gateway authenticates via VERCEL_OIDC_TOKEN — no model API key required.
 async function create(args: Args) {
   const name = args._[1];
-  if (!name) throw new Error("Usage: atom-eve create <name> [--target eve|flue] [--agent <agent>]");
-  // create scaffolds a brand-new directory, so there is nothing to detect or prompt for —
-  // default to eve (the Vercel-native happy path) instead of routing through resolveTarget.
-  const target = args.target ?? "eve";
+  if (!name) throw new Error("Usage: atom-eve create <name> [--agent <agent>]");
+  const target: Target = "eve";
   const appDir = path.join(cwd, name);
 
-  if (target === "eve") {
-    // eve init creates the <name> directory itself, so scaffold from cwd.
-    runOrThrow("npx", ["eve@latest", "init", name], cwd, `Scaffolding Eve app with eve init: ${name}`);
-  } else {
-    // flue init writes into the current directory, so create the app dir first.
-    await fs.mkdir(appDir, { recursive: true });
-    runOrThrow("npx", ["flue", "init", "--target", args.runtime ?? "node"], appDir, `Scaffolding Flue app with flue init: ${name}`);
-  }
+  // eve init creates the <name> directory itself, so scaffold from cwd.
+  runOrThrow("npx", ["eve@latest", "init", name], cwd, `Scaffolding Eve app with eve init: ${name}`);
 
   await writeConfig(appDir, buildConfig(target, args));
 
@@ -175,14 +164,10 @@ async function create(args: Args) {
   console.log("\nNext steps:");
   console.log(`  cd ${name}`);
   if (!args.agent) console.log("  npx atom-eve add <agent>      # browse https://atomeve.dev");
-  if (target === "eve") {
-    console.log("  vercel link                   # connect to a Vercel project");
-    console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
-    console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
-    console.log("  npx eve dev");
-  } else {
-    console.log("  npx flue run <agent> --input '{ ... }'");
-  }
+  console.log("  vercel link                   # connect to a Vercel project");
+  console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
+  console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
+  console.log("  npx eve dev");
 }
 
 function runOrThrow(command: string, args: string[], cwdDir: string, label: string) {
@@ -205,57 +190,50 @@ async function writeIfMissingAt(filePath: string, content: string) {
 
 async function add(agent: string, args: Args) {
   const config = await readOrCreateConfig(args);
-  const target = args.target ?? config.target;
 
   if (agent.startsWith(".") || agent.startsWith("/")) {
-    await installLocalAgent(path.resolve(cwd, agent), target, config);
+    await installLocalAgent(path.resolve(cwd, agent), config);
     return;
   }
 
-  await installRemoteAgent(agent, target, config);
+  await installRemoteAgent(agent, config);
 }
 
-async function installLocalAgent(agentDir: string, target: Target, config: AtomEveConfig) {
+async function installLocalAgent(agentDir: string, config: AtomEveConfig) {
   const manifestPath = path.join(agentDir, "atom.json");
   const rootDir = findRegistryRoot(agentDir);
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
-  if (!manifest.targets.includes(target)) throw new Error(`${manifest.name} does not support ${target}`);
 
-  const files = await readLocalInstallFiles(rootDir, manifest, target);
+  const files = await readLocalInstallFiles(rootDir, manifest);
   for (const file of files) {
-    const destination = resolveInstallTarget(file.target, config);
+    const destination = resolveInstallTarget(file.target);
     await fs.mkdir(path.dirname(destination), { recursive: true });
     await fs.writeFile(destination, file.content);
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
 
-  await installPackageDependencies(dependenciesForTarget(manifest, target));
-  await installRemoteSkills(manifest.skills, target);
+  await installPackageDependencies(dependenciesForManifest(manifest));
+  await installRemoteSkills(manifest.skills);
 }
 
-async function installRemoteAgent(agent: string, target: Target, config: AtomEveConfig) {
+async function installRemoteAgent(agent: string, config: AtomEveConfig) {
   const repoPath = `registry/${agent}`;
   const manifest = validateManifest(await fetchGitHubJson(config, `${repoPath}/atom.json`), repoPath);
-  if (!manifest.targets.includes(target)) throw new Error(`${manifest.name} does not support ${target}`);
 
-  const files = await createInstallFileSpecs(manifest, target, {
+  const files = await createInstallFileSpecs(manifest, {
     hasFile: async (source) => remoteFileExists(config, `${repoPath}/${source}`),
     discoverFiles: async (sourceDir) => discoverRemoteFiles(config, repoPath, sourceDir)
   });
 
-  const instructions = (await remoteFileExists(config, `${repoPath}/instructions.md`))
-    ? await fetchGitHubRaw(config, `${repoPath}/instructions.md`)
-    : undefined;
-
   for (const file of files) {
-    const destination = resolveInstallTarget(file.target, config);
+    const destination = resolveInstallTarget(file.target);
     await fs.mkdir(path.dirname(destination), { recursive: true });
-    await fs.writeFile(destination, resolveInstructionsPlaceholder(await fetchGitHubRaw(config, file.path), instructions));
+    await fs.writeFile(destination, await fetchGitHubRaw(config, file.path));
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
 
-  await installPackageDependencies(dependenciesForTarget(manifest, target));
-  await installRemoteSkills(manifest.skills, target);
+  await installPackageDependencies(dependenciesForManifest(manifest));
+  await installRemoteSkills(manifest.skills);
 }
 
 async function installPackageDependencies(dependencies: string[]) {
@@ -287,8 +265,8 @@ async function installPackageDependencies(dependencies: string[]) {
   console.log(`added dependencies: ${added.join(", ")}`);
 }
 
-function dependenciesForTarget(manifest: AtomManifest, target: Target): string[] {
-  return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies[target] ?? [])])].sort();
+function dependenciesForManifest(manifest: AtomManifest): string[] {
+  return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies.eve ?? [])])].sort();
 }
 
 function parseDependencySpec(spec: string): { name: string; version: string } {
@@ -300,12 +278,8 @@ function parseDependencySpec(spec: string): { name: string; version: string } {
   };
 }
 
-function resolveInstallTarget(target: string, config: AtomEveConfig): string {
-  let normalized = target.replace(/^~\//, "");
-  if (config.target === "flue" && config.sourceRoot !== "src") {
-    normalized = normalized.replace(/^src\//, `${config.sourceRoot}/`);
-  }
-  return path.join(cwd, normalized);
+function resolveInstallTarget(target: string): string {
+  return path.join(cwd, target.replace(/^~\//, ""));
 }
 
 async function list() {
@@ -359,7 +333,7 @@ async function scaffoldProject(target: Target) {
         },
         dependencies: {
           ai: "^7.0.0",
-          eve: "^0.14.0"
+          eve: "^0.16.2"
         },
         devDependencies: {
           "@types/node": "24.x",
@@ -421,24 +395,7 @@ function parseArgs(argv: string[]): Args {
 }
 
 async function resolveTarget(args: Args): Promise<Target> {
-  if (args.target) return args.target;
-  const detected = detectTarget();
-  if (detected) return detected;
-  return promptForTarget();
-}
-
-async function promptForTarget(): Promise<Target> {
-  if (!process.stdin.isTTY || !process.stdout.isTTY) {
-    throw new Error("Could not detect project target. Re-run with --target eve or --target flue.");
-  }
-
-  const rl = createInterface({ input: process.stdin, output: process.stdout });
-  try {
-    const answer = await rl.question("Install agents for which target? (eve/flue) ");
-    return parseTarget(answer.trim().toLowerCase());
-  } finally {
-    rl.close();
-  }
+  return args.target ?? "eve";
 }
 
 function toPosixPath(filePath: string): string {
@@ -446,8 +403,8 @@ function toPosixPath(filePath: string): string {
 }
 
 function parseTarget(value: unknown): Target {
-  if (value === "eve" || value === "flue") return value;
-  throw new Error(`Invalid target: ${String(value)}. Expected eve or flue.`);
+  if (value === "eve") return value;
+  throw new Error(`Invalid target: ${String(value)}. Expected eve.`);
 }
 
 function parseRuntime(value: unknown): Runtime {
@@ -476,7 +433,7 @@ function validateManifest(value: unknown, repoPath: string): AtomManifest {
   const record = value as Record<string, unknown>;
   if (typeof record.name !== "string") throw new Error("atom.json is missing name");
   const targets = Array.isArray(record.targets) ? record.targets.map(parseTarget) : [];
-  if (!targets.length) throw new Error("atom.json must declare at least one target");
+  if (!targets.includes("eve")) throw new Error("atom.json must declare the eve target");
   return {
     name: record.name,
     repoPath,
@@ -501,8 +458,7 @@ function parseTargetDependencies(value: unknown): Partial<Record<Target, string[
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("atom.json targetDependencies must be an object");
   const record = value as Record<string, unknown>;
   return {
-    eve: parseStringArray(record.eve, "targetDependencies.eve"),
-    flue: parseStringArray(record.flue, "targetDependencies.flue")
+    eve: parseStringArray(record.eve, "targetDependencies.eve")
   };
 }
 
@@ -518,20 +474,18 @@ function parseSkillRefs(value: unknown): RemoteSkillRef[] {
 }
 
 // Remote skills are not vendored in the registry. They are declared in atom.json and
-// pulled from skills.sh at install time by delegating to the `skills` CLI, which owns
-// auth and per-tool placement: eve installs into agent/skills/, every other target uses
-// the universal .agents/skills/ location. The framework then discovers them as local files.
-async function installRemoteSkills(skills: RemoteSkillRef[], target: Target) {
+// pulled from skills.sh at install time by delegating to the `skills` CLI, which installs
+// into agent/skills/. The framework then discovers them as local files.
+async function installRemoteSkills(skills: RemoteSkillRef[]) {
   if (!skills.length) return;
   if (process.env.ATOM_EVE_SKIP_REMOTE_SKILLS) {
     console.log(`Skipping ${skills.length} remote skill(s) (ATOM_EVE_SKIP_REMOTE_SKILLS set).`);
     return;
   }
 
-  const agentTarget = target === "eve" ? "eve" : "universal";
   for (const skill of skills) {
     const { repo, skill: skillName } = splitSkillRef(skill.ref);
-    const args = ["--yes", "skills", "add", repo, "-a", agentTarget, "--copy", "-y"];
+    const args = ["--yes", "skills", "add", repo, "-a", "eve", "--copy", "-y"];
     if (skillName) args.push("-s", skillName);
     const result = spawnSync("npx", args, { cwd, stdio: "inherit", shell: false });
     if (result.status !== 0) {
@@ -545,21 +499,6 @@ function splitSkillRef(ref: string): { repo: string; skill?: string } {
   const at = ref.indexOf("@");
   if (at === -1) return { repo: ref };
   return { repo: ref.slice(0, at), skill: ref.slice(at + 1) };
-}
-
-function detectTarget(): Target | undefined {
-  try {
-    const names = new Set(requireLikeReadDir(cwd));
-    if (names.has("agent")) return "eve";
-    if (names.has("flue.config.ts") || names.has("flue.config.js")) return "flue";
-  } catch {
-    return undefined;
-  }
-  return undefined;
-}
-
-function requireLikeReadDir(dir: string): string[] {
-  return fsSync.readdirSync(dir);
 }
 
 function findRegistryRoot(agentDir: string): string {
@@ -666,20 +605,20 @@ function printHelp() {
   console.log(`atom-eve
 
 Commands:
-  atom-eve create <name> [--target eve|flue] [--agent <agent>]
-                                  Scaffold a full app via the framework CLI (eve/flue),
+  atom-eve create <name> [--agent <agent>]
+                                  Scaffold a full eve app via the eve CLI,
                                   then optionally install an agent. Recommended.
   atom-eve init --workspace [name]
                                   Scaffold a monorepo root (agents/*) for running many agents.
-  atom-eve init [--target eve|flue] [--runtime node|cloudflare|vercel]
+  atom-eve init [--runtime node|cloudflare|vercel]
                                   Write atom-eve.json (+ minimal fallback scaffold) in an existing project.
-  atom-eve add <agent> [--target eve|flue] [--runtime node|cloudflare|vercel]
-  atom-eve add ./registry/<agent> --target eve|flue
+  atom-eve add <agent>
+  atom-eve add ./registry/<agent>
   atom-eve list
 
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
-VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_SECRET_KEY)
-are set as Vercel project env vars. For Flue, set env vars per its docs.
+VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_API_KEY)
+are set as Vercel project env vars.
 `);
 }
 
@@ -687,11 +626,10 @@ function printAddHelp() {
   console.log(`atom-eve add
 
 Usage:
-  atom-eve add <agent> [--target eve|flue] [--runtime node|cloudflare|vercel]
-  atom-eve add ./registry/<agent> --target eve|flue
+  atom-eve add <agent>
+  atom-eve add ./registry/<agent>
 
 Examples:
-  atom-eve add website-qa --target eve
-  atom-eve add facebook-ads --target flue
+  atom-eve add stripe-pulse
 `);
 }

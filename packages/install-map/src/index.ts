@@ -1,18 +1,7 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-export type Target = "eve" | "flue";
-
-export const INSTRUCTIONS_PLACEHOLDER = "__ATOM_INSTRUCTIONS__";
-
-export function resolveInstructionsPlaceholder(content: string, instructions: string | undefined): string {
-  const pattern = /(['"])__ATOM_INSTRUCTIONS__\1/g;
-  if (!pattern.test(content)) return content;
-  if (instructions === undefined) {
-    throw new Error("Cannot resolve instructions placeholder: agent has no instructions.md");
-  }
-  return content.replace(pattern, () => JSON.stringify(instructions.trim()));
-}
+export type Target = "eve";
 
 export interface InstallManifest {
   name: string;
@@ -37,94 +26,18 @@ export interface InstallSourceReader {
 
 export async function createInstallFileSpecs(
   manifest: InstallManifest,
-  target: Target,
   sourceReader: InstallSourceReader
 ): Promise<InstallFileSpec[]> {
-  if (!manifest.targets.includes(target)) {
-    throw new Error(`${manifest.name} does not support ${target}`);
-  }
-
   const files: InstallFileSpec[] = [];
-  const addPath = (sourcePath: string, destination: string) => {
+  for (const source of await sourceReader.discoverFiles("agent")) {
+    const relInside = path.posix.relative("agent", source);
     files.push({
-      path: sourcePath,
-      target: destination,
+      path: `${manifest.repoPath}/${source}`,
+      target: `~/agent/${relInside}`,
       type: "registry:file"
     });
-  };
-  const add = (source: string, destination: string) => {
-    addPath(`${manifest.repoPath}/${source}`, destination);
-  };
-
-  const optionalFile = async (source: string): Promise<string | undefined> =>
-    (await sourceReader.hasFile(source)) ? source : undefined;
-
-  const requiredFile = async (source: string): Promise<string> => {
-    const found = await optionalFile(source);
-    if (!found) throw new Error(`${manifest.name} is missing ${source}`);
-    return found;
-  };
-
-  const addTree = async (
-    sourceDir: string,
-    destinationDir: string,
-    addFile: (source: string, destination: string) => void = add
-  ) => {
-    for (const source of await sourceReader.discoverFiles(sourceDir)) {
-      const relInside = path.posix.relative(sourceDir, source);
-      addFile(source, `${destinationDir}/${relInside}`);
-    }
-  };
-
-  if (target === "eve") {
-    const base = "~/agent";
-    const instructions = await optionalFile("instructions.md");
-    if (instructions) add(instructions, `${base}/instructions.md`);
-    const schedule = await optionalFile("schedule.ts");
-    if (schedule) add(schedule, `${base}/schedule.ts`);
-    for (const skill of await sourceReader.discoverFiles("skills")) {
-      add(skill, `${base}/skills/${path.posix.basename(skill)}`);
-    }
-    for (const lib of await sourceReader.discoverFiles("lib")) {
-      const relInside = path.posix.relative("lib", lib);
-      add(lib, `${base}/lib/${relInside}`);
-    }
-    await addTree("eve/lib", `${base}/lib`);
-    add(await requiredFile("eve/agent.ts"), `${base}/agent.ts`);
-    await addTree("eve/tools", `${base}/tools`);
-    await addTree("eve/connections", `${base}/connections`);
-    await addTree("eve/sandbox", `${base}/sandbox`);
-    await addTree("eve/schedules", "~/agent/schedules");
-    const evalFiles = await sourceReader.discoverFiles("eve/evals");
-    if (evalFiles.length > 0 && !evalFiles.includes("eve/evals/evals.config.ts")) {
-      addPath("registry/_common/evals/eve/evals.config.ts", "~/evals/evals.config.ts");
-    }
-    for (const source of evalFiles) {
-      const relInside = path.posix.relative("eve/evals", source);
-      add(source, `~/evals/${relInside}`);
-    }
-    return files;
   }
-
-  const sourceRoot = "src";
-  add(await requiredFile("flue/agent.ts"), `~/${sourceRoot}/agents/${manifest.name}.ts`);
-  const schedule = await optionalFile("schedule.ts");
-  if (schedule) add(schedule, `~/${sourceRoot}/lib/agents/${manifest.name}/schedule.ts`);
-  for (const skill of await sourceReader.discoverFiles("skills")) {
-    const name = path.posix.basename(skill, path.posix.extname(skill));
-    add(skill, `~/${sourceRoot}/skills/${manifest.name}-${name}/SKILL.md`);
-  }
-  for (const lib of await sourceReader.discoverFiles("lib")) {
-    const relInside = path.posix.relative("lib", lib);
-    add(lib, `~/${sourceRoot}/lib/agents/${manifest.name}/${relInside}`);
-  }
-  await addTree("flue/lib", `~/${sourceRoot}/lib/agents/${manifest.name}`);
-  await addTree("flue/tools", `~/${sourceRoot}/tools/${manifest.name}`);
-  await addTree("flue/workflows", `~/${sourceRoot}/workflows`, (source, destination) => {
-    const ext = path.posix.extname(destination);
-    const stem = destination.slice(0, -ext.length);
-    add(source, `${stem.replace(/\/([^/]+)$/, `/${manifest.name}-$1`)}${ext}`);
-  });
+  if (files.length === 0) throw new Error(`${manifest.name} is missing agent/`);
   return files;
 }
 
@@ -137,25 +50,15 @@ function createLocalSourceReader(rootDir: string, manifest: Pick<InstallManifest
 
 export async function readLocalInstallFiles(
   rootDir: string,
-  manifest: InstallManifest,
-  target: Target
+  manifest: InstallManifest
 ): Promise<ResolvedInstallFileSpec[]> {
-  const specs = await createInstallFileSpecs(manifest, target, createLocalSourceReader(rootDir, manifest));
-  const instructions = await readLocalInstructions(rootDir, manifest);
+  const specs = await createInstallFileSpecs(manifest, createLocalSourceReader(rootDir, manifest));
   return Promise.all(
     specs.map(async (file) => ({
       ...file,
-      content: resolveInstructionsPlaceholder(await fs.readFile(path.join(rootDir, file.path), "utf8"), instructions)
+      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
     }))
   );
-}
-
-async function readLocalInstructions(
-  rootDir: string,
-  manifest: Pick<InstallManifest, "repoPath">
-): Promise<string | undefined> {
-  const abs = path.join(rootDir, manifest.repoPath, "instructions.md");
-  return fs.readFile(abs, "utf8").catch(() => undefined);
 }
 
 async function optionalFile(
