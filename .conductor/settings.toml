@@ -1,0 +1,11 @@
+#:schema https://conductor.build/schemas/settings.repo.schema.json
+
+[scripts]
+setup = "pnpm install && pnpm generate"
+archive = "rm -rf fixtures/.tmp-*"
+run_mode = "concurrent"
+
+[scripts.run.web]
+command = "pnpm --dir apps/web dev --host 0.0.0.0 --port $CONDUCTOR_PORT"
+default = true
+icon = "globe"
