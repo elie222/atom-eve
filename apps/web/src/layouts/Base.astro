@@ -4,11 +4,41 @@ import "../styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  /** Open Graph / Twitter card image. Absolute URL or site-root-relative path. */
+  image?: string;
+  /** Alt text describing the share image. */
+  imageAlt?: string;
+  /** Open Graph type — "website" for the home page, "article" for content. */
+  type?: "website" | "article";
+  /** Set on pages that should be excluded from search indexes. */
+  noindex?: boolean;
+  /** JSON-LD structured data object(s) emitted into <head>. */
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
-const { title, description } = Astro.props;
+
+const {
+  title,
+  description,
+  image = "/atom-eve-og.png",
+  imageAlt = "Atom Eve — an open-source registry of installable AI agents",
+  type = "website",
+  noindex = false,
+  structuredData,
+} = Astro.props;
+
+const SITE = Astro.site ?? new URL("https://atomeve.dev");
 const metaDescription =
   description ?? "An open-source, shadcn-style registry of installable AI agents for eve.";
-const ogImage = "https://atomeve.dev/atom-eve-og.png";
+
+// Absolute URLs — required by Open Graph/Twitter and for canonical links.
+const canonicalURL = new URL(Astro.url.pathname, SITE);
+const ogImage = new URL(image, SITE).href;
+
+const jsonLd = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [];
 ---
 
 <!doctype html>
@@ -18,17 +48,30 @@ const ogImage = "https://atomeve.dev/atom-eve-og.png";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={metaDescription} />
+    <link rel="canonical" href={canonicalURL.href} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta property="og:site_name" content="Atom Eve" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={metaDescription} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1774" />
     <meta property="og:image:height" content="887" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@elie2222" />
+    <meta name="twitter:creator" content="@elie2222" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={metaDescription} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    {
+      jsonLd.map((data) => (
+        <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />
+      ))
+    }
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />

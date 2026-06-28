@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 // Reads registry data at build time (see src/lib/data.ts) and emits a
 // static site to ./dist (index + one page per agent under /agents/<name>/).
 export default defineConfig({
+  site: "https://atomeve.dev",
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

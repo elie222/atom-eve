@@ -56,9 +56,42 @@ const about: { k: string; v: string; accent?: boolean }[] = [
   { k: "Scheduled", v: item.scheduled ? "Yes" : "No" },
 ];
 const sourceUrl = `${REPO}/tree/main/${item.repoPath}`;
+const pageUrl = `https://atomeve.dev/agents/${item.name}/`;
+
+// JSON-LD: describe the agent as installable software + a breadcrumb trail
+// back to the registry, so result snippets show the path and app metadata.
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: item.title,
+    description: item.description,
+    url: pageUrl,
+    applicationCategory: "DeveloperApplication",
+    operatingSystem: "Any",
+    softwareVersion: item.version,
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    author: { "@type": "Organization", name: "Atom Eve", url: "https://atomeve.dev/" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Agents", item: "https://atomeve.dev/" },
+      { "@type": "ListItem", position: 2, name: item.title, item: pageUrl },
+    ],
+  },
+];
 ---
 
-<Base title={`${item.title} — Atom Eve`} description={item.description}>
+<Base
+  title={`${item.title} — Atom Eve`}
+  description={item.description}
+  type="article"
+  imageAlt={`${item.title} — an installable AI agent on Atom Eve`}
+  structuredData={structuredData}
+>
   <Nav variant="detail" />
 
   <div class="relative z-[2] mx-auto max-w-[1200px] px-[30px] pb-20 pt-[30px] max-sm:px-4">
