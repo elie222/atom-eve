@@ -9,9 +9,13 @@ const root = process.cwd();
 const cli = path.join(root, "packages", "cli", "dist", "index.js");
 const index = JSON.parse(await fs.readFile(path.join(root, "public", "index.json"), "utf8"));
 
+// Agents are authored eve-only (item.targets === ["eve"]), but flue is a
+// GENERATED target: for every agent we also generate its flue version, install
+// it into fixtures/flue, and typecheck the generated `src/**` against the real
+// `@flue/runtime`. FLUE.md is a doc-only gap note and is not typechecked.
 for (const item of index.items) {
   const agent = path.join(root, item.repoPath);
-  for (const target of item.targets) {
+  for (const target of [...item.targets, "flue"]) {
     const fixture = path.join(root, "fixtures", target);
     const temp = path.join(root, "fixtures", `.tmp-${target}-${item.name}`);
     await fs.rm(temp, { recursive: true, force: true });

@@ -28,11 +28,12 @@
     "atom-eve"
   ],
   "scripts": {
-    "build": "pnpm --filter @atom-eve/install-map build && tsup && chmod +x dist/index.js",
+    "build": "pnpm --filter @atom-eve/install-map build && pnpm --filter @atom-eve/flue-generator build && tsup && chmod +x dist/index.js",
     "prepack": "pnpm build",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
+    "@atom-eve/flue-generator": "workspace:*",
     "@atom-eve/install-map": "workspace:*",
     "tsup": "8.5.1",
     "typescript": "^5.7.2"

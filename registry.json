@@ -4,6 +4,75 @@
   "homepage": "https://atomeve.dev",
   "items": [
     {
+      "name": "seo-audit",
+      "type": "registry:block",
+      "title": "SEO Audit Agent",
+      "description": "Audits the configured site with Agent Browser and fetch, then writes a read-only Markdown report of SEO, content, and CTA fixes ordered by severity.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/seo-audit/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "website-qa",
+      "type": "registry:block",
+      "title": "Website QA Agent",
+      "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/website-qa/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "stripe-pulse",
       "type": "registry:block",
       "title": "Stripe Revenue & Churn Pulse",
@@ -62,37 +131,37 @@
       ]
     },
     {
-      "name": "a11y-auditor",
+      "name": "analytics-digest",
       "type": "registry:block",
-      "title": "Accessibility Auditor Agent",
-      "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
+      "title": "Analytics Digest Agent",
+      "description": "Pulls key event trends from PostHog with the posthog-cli and writes a plain-language weekly digest for operators.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
       ],
       "files": [
         {
-          "path": "registry/a11y-auditor/agent/agent.ts",
+          "path": "registry/analytics-digest/agent/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/agent/instructions.md",
+          "path": "registry/analytics-digest/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/agent/sandbox/sandbox.ts",
+          "path": "registry/analytics-digest/agent/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/agent/sandbox/workspace/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "path": "registry/analytics-digest/agent/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/agent/schedules/weekly.ts",
+          "path": "registry/analytics-digest/agent/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
         }
@@ -131,74 +200,37 @@
       ]
     },
     {
-      "name": "analytics-digest",
+      "name": "ux-reviewer",
       "type": "registry:block",
-      "title": "Analytics Digest Agent",
-      "description": "Pulls key event trends from PostHog with the posthog-cli and writes a plain-language weekly digest for operators.",
+      "title": "UX Reviewer Agent",
+      "description": "Walks a real user task in the browser with Agent Browser, scores each screen on usability, and recommends read-only improvements to the weakest spots.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
       ],
       "files": [
         {
-          "path": "registry/analytics-digest/agent/agent.ts",
+          "path": "registry/ux-reviewer/agent/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/agent/instructions.md",
+          "path": "registry/ux-reviewer/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/agent/sandbox/sandbox.ts",
+          "path": "registry/ux-reviewer/agent/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/agent/sandbox/workspace/setup-posthog-cli.sh",
-          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/analytics-digest/agent/schedules/weekly.ts",
-          "target": "~/agent/schedules/weekly.ts",
-          "type": "registry:file"
-        }
-      ]
-    },
-    {
-      "name": "claim-checker",
-      "type": "registry:block",
-      "title": "Claim Checker Agent",
-      "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
-      "dependencies": [
-        "ai@^7.0.4",
-        "eve@^0.16.2"
-      ],
-      "files": [
-        {
-          "path": "registry/claim-checker/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/claim-checker/agent/instructions.md",
-          "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/claim-checker/agent/sandbox/sandbox.ts",
-          "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/claim-checker/agent/sandbox/workspace/setup-agent-browser.sh",
+          "path": "registry/ux-reviewer/agent/sandbox/workspace/setup-agent-browser.sh",
           "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
-          "path": "registry/claim-checker/agent/schedules/weekly.ts",
+          "path": "registry/ux-reviewer/agent/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
         }
@@ -242,27 +274,148 @@
       ]
     },
     {
-      "name": "content-ideation",
+      "name": "claim-checker",
       "type": "registry:block",
-      "title": "Content Ideation Agent",
-      "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
+      "title": "Claim Checker Agent",
+      "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
       ],
       "files": [
         {
-          "path": "registry/content-ideation/agent/agent.ts",
+          "path": "registry/claim-checker/agent/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/content-ideation/agent/instructions.md",
+          "path": "registry/claim-checker/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
         },
         {
-          "path": "registry/content-ideation/agent/schedules/weekly.ts",
+          "path": "registry/claim-checker/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/claim-checker/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "a11y-auditor",
+      "type": "registry:block",
+      "title": "Accessibility Auditor Agent",
+      "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/a11y-auditor/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/a11y-auditor/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "perf-auditor",
+      "type": "registry:block",
+      "title": "Performance Auditor Agent",
+      "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/perf-auditor/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/perf-auditor/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "visual-regression",
+      "type": "registry:block",
+      "title": "Visual Regression Agent",
+      "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/visual-regression/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/visual-regression/agent/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
         }
@@ -306,37 +459,37 @@
       ]
     },
     {
-      "name": "error-copy",
+      "name": "funnel-analyst",
       "type": "registry:block",
-      "title": "Error Copy Agent",
-      "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
+      "title": "Funnel Analyst Agent",
+      "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
       ],
       "files": [
         {
-          "path": "registry/error-copy/agent/agent.ts",
+          "path": "registry/funnel-analyst/agent/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/agent/instructions.md",
+          "path": "registry/funnel-analyst/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/agent/sandbox/sandbox.ts",
+          "path": "registry/funnel-analyst/agent/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/agent/sandbox/workspace/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "path": "registry/funnel-analyst/agent/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/agent/schedules/weekly.ts",
+          "path": "registry/funnel-analyst/agent/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
         }
@@ -374,43 +527,6 @@
         },
         {
           "path": "registry/experiment-analyst/agent/schedules/weekly.ts",
-          "target": "~/agent/schedules/weekly.ts",
-          "type": "registry:file"
-        }
-      ]
-    },
-    {
-      "name": "funnel-analyst",
-      "type": "registry:block",
-      "title": "Funnel Analyst Agent",
-      "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
-      "dependencies": [
-        "ai@^7.0.4",
-        "eve@^0.16.2"
-      ],
-      "files": [
-        {
-          "path": "registry/funnel-analyst/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/funnel-analyst/agent/instructions.md",
-          "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/funnel-analyst/agent/sandbox/sandbox.ts",
-          "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/funnel-analyst/agent/sandbox/workspace/setup-posthog-cli.sh",
-          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/funnel-analyst/agent/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
         }
@@ -491,37 +607,64 @@
       ]
     },
     {
-      "name": "perf-auditor",
+      "name": "error-copy",
       "type": "registry:block",
-      "title": "Performance Auditor Agent",
-      "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
+      "title": "Error Copy Agent",
+      "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
       ],
       "files": [
         {
-          "path": "registry/perf-auditor/agent/agent.ts",
+          "path": "registry/error-copy/agent/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/agent/instructions.md",
+          "path": "registry/error-copy/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/agent/sandbox/sandbox.ts",
+          "path": "registry/error-copy/agent/sandbox/sandbox.ts",
           "target": "~/agent/sandbox/sandbox.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/agent/sandbox/workspace/setup-agent-browser.sh",
+          "path": "registry/error-copy/agent/sandbox/workspace/setup-agent-browser.sh",
           "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/agent/schedules/weekly.ts",
+          "path": "registry/error-copy/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "content-ideation",
+      "type": "registry:block",
+      "title": "Content Ideation Agent",
+      "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/content-ideation/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/content-ideation/agent/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
         }
@@ -582,149 +725,6 @@
         {
           "path": "registry/research-assistant/agent/instructions.md",
           "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        }
-      ]
-    },
-    {
-      "name": "seo-audit",
-      "type": "registry:block",
-      "title": "SEO Audit Agent",
-      "description": "Audits the configured site with Agent Browser and fetch, then writes a read-only Markdown report of SEO, content, and CTA fixes ordered by severity.",
-      "dependencies": [
-        "ai@^7.0.4",
-        "eve@^0.16.2"
-      ],
-      "files": [
-        {
-          "path": "registry/seo-audit/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/seo-audit/agent/instructions.md",
-          "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/seo-audit/agent/sandbox/sandbox.ts",
-          "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/seo-audit/agent/sandbox/workspace/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/seo-audit/agent/schedules/weekly.ts",
-          "target": "~/agent/schedules/weekly.ts",
-          "type": "registry:file"
-        }
-      ]
-    },
-    {
-      "name": "ux-reviewer",
-      "type": "registry:block",
-      "title": "UX Reviewer Agent",
-      "description": "Walks a real user task in the browser with Agent Browser, scores each screen on usability, and recommends read-only improvements to the weakest spots.",
-      "dependencies": [
-        "ai@^7.0.4",
-        "eve@^0.16.2"
-      ],
-      "files": [
-        {
-          "path": "registry/ux-reviewer/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/ux-reviewer/agent/instructions.md",
-          "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/ux-reviewer/agent/sandbox/sandbox.ts",
-          "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/ux-reviewer/agent/sandbox/workspace/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/ux-reviewer/agent/schedules/weekly.ts",
-          "target": "~/agent/schedules/weekly.ts",
-          "type": "registry:file"
-        }
-      ]
-    },
-    {
-      "name": "visual-regression",
-      "type": "registry:block",
-      "title": "Visual Regression Agent",
-      "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
-      "dependencies": [
-        "ai@^7.0.4",
-        "eve@^0.16.2"
-      ],
-      "files": [
-        {
-          "path": "registry/visual-regression/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/visual-regression/agent/instructions.md",
-          "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/visual-regression/agent/sandbox/sandbox.ts",
-          "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/visual-regression/agent/sandbox/workspace/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/visual-regression/agent/schedules/weekly.ts",
-          "target": "~/agent/schedules/weekly.ts",
-          "type": "registry:file"
-        }
-      ]
-    },
-    {
-      "name": "website-qa",
-      "type": "registry:block",
-      "title": "Website QA Agent",
-      "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
-      "dependencies": [
-        "ai@^7.0.4",
-        "eve@^0.16.2"
-      ],
-      "files": [
-        {
-          "path": "registry/website-qa/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/website-qa/agent/instructions.md",
-          "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/website-qa/agent/sandbox/sandbox.ts",
-          "target": "~/agent/sandbox/sandbox.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/website-qa/agent/sandbox/workspace/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         }
       ]
