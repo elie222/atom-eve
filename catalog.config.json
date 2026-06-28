@@ -1,4 +1,4 @@
 {
-  "featured": ["website-qa", "facebook-ads"],
-  "homepageOrder": ["website-qa", "facebook-ads"]
+  "featured": ["stripe-pulse"],
+  "homepageOrder": ["stripe-pulse"]
 }

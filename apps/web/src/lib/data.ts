@@ -239,42 +239,40 @@ interface ResolvedPayload {
   };
 }
 
-/* The installable source for an agent, one entry per supported target. Reads
- * the generated payloads; returns [] for targets whose payload is missing so a
- * partial build never breaks the page. Source is syntax-highlighted at build
- * time with Shiki so the browser ships zero highlighting JS. */
+/* The installable source for an agent. Reads the generated payload; returns []
+ * when it is missing so a partial build never breaks the page. Source is
+ * syntax-highlighted at build time with Shiki so the browser ships zero
+ * highlighting JS. */
 export async function getAgentFiles(item: RegistryItem): Promise<AgentTargetFiles[]> {
-  const out: AgentTargetFiles[] = [];
-  for (const target of item.targets ?? []) {
-    const file = path.join(ROOT, "public", "r", target, `${item.name}.json`);
-    if (!existsSync(file)) continue;
-    const payload = JSON.parse(readFileSync(file, "utf8")) as ResolvedPayload;
-    const files: AgentFile[] = await Promise.all(
-      payload.files
-        // Evals still install, but they're test scaffolding — noise for someone
-        // reading "what is this agent", so keep them out of the browser.
-        .filter((f) => fileGroup(f.target) !== "Evals")
-        .map(async (f) => {
-          const lang = fileLang(f.target);
-          return {
-            target: f.target,
-            name: f.target.slice(f.target.lastIndexOf("/") + 1),
-            content: f.content,
-            html: await highlight(f.content, lang),
-            group: fileGroup(f.target),
-            lang,
-          };
-        }),
-    );
-    out.push({
-      target,
+  const file = path.join(ROOT, "public", "r", `${item.name}.json`);
+  if (!existsSync(file)) return [];
+  const payload = JSON.parse(readFileSync(file, "utf8")) as ResolvedPayload;
+  const files: AgentFile[] = await Promise.all(
+    payload.files
+      // Evals still install, but they're test scaffolding — noise for someone
+      // reading "what is this agent", so keep them out of the browser.
+      .filter((f) => fileGroup(f.target) !== "Evals")
+      .map(async (f) => {
+        const lang = fileLang(f.target);
+        return {
+          target: f.target,
+          name: f.target.slice(f.target.lastIndexOf("/") + 1),
+          content: f.content,
+          html: await highlight(f.content, lang),
+          group: fileGroup(f.target),
+          lang,
+        };
+      }),
+  );
+  return [
+    {
+      target: (item.targets ?? ["eve"])[0] ?? "eve",
       files,
       skills: payload.meta?.skills ?? [],
       connections: payload.meta?.connections ?? [],
       requiredEnv: payload.meta?.requiredEnv ?? [],
-    });
-  }
-  return out;
+    },
+  ];
 }
 
 /* Other community builds of the same task — grouped by category. */

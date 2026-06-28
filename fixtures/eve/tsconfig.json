@@ -2,15 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": {
-      "eve": ["types/eve.d.ts"],
-      "eve/evals": ["types/eve-evals.d.ts"],
-      "eve/evals/expect": ["types/eve-evals-expect.d.ts"],
-      "eve/tools": ["types/eve-tools.d.ts"],
-      "eve/sandbox": ["types/eve-sandbox.d.ts"],
-      "eve/schedules": ["types/eve-schedules.d.ts"]
-    },
     "noEmit": true
   },
-  "include": ["agent/**/*.ts", "evals/**/*.ts", "types/**/*.d.ts"]
+  "include": ["agent/**/*.ts", "evals/**/*.ts"]
 }
