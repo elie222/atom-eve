@@ -99,6 +99,38 @@
       ]
     },
     {
+      "name": "adversarial-reviewer",
+      "type": "registry:block",
+      "title": "Adversarial Reviewer Agent",
+      "description": "Reads open GitHub pull requests and their diffs with the GitHub CLI and returns an independent, skeptical second-opinion review (read-only).",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/adversarial-reviewer/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/adversarial-reviewer/agent/sandbox/workspace/scripts/setup-gh.sh",
+          "target": "~/agent/sandbox/workspace/scripts/setup-gh.sh",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "analytics-digest",
       "type": "registry:block",
       "title": "Analytics Digest Agent",
@@ -496,6 +528,43 @@
       ]
     },
     {
+      "name": "release-notes",
+      "type": "registry:block",
+      "title": "Release Notes Agent",
+      "description": "Reads merged pull requests since the latest release with the GitHub CLI and drafts user-facing release notes grouped by change type for operator approval.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/release-notes/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/agent/sandbox/workspace/scripts/setup-gh.sh",
+          "target": "~/agent/sandbox/workspace/scripts/setup-gh.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/release-notes/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "research-assistant",
       "type": "registry:block",
       "title": "Research Assistant Agent",
@@ -513,6 +582,43 @@
         {
           "path": "registry/research-assistant/agent/instructions.md",
           "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "seo-audit",
+      "type": "registry:block",
+      "title": "SEO Audit Agent",
+      "description": "Audits the configured site with Agent Browser and fetch, then writes a read-only Markdown report of SEO, content, and CTA fixes ordered by severity.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/seo-audit/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
         }
       ]

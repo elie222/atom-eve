@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "adversarial-reviewer",
+  "title": "Adversarial Reviewer Agent",
+  "description": "Reads open GitHub pull requests and their diffs with the GitHub CLI and returns an independent, skeptical second-opinion review (read-only).",
+  "category": "code",
+  "family": "engineering",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["github"],
+  "connections": [],
+  "requiredEnv": ["GITHUB_TOKEN"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}
