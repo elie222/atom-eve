@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "research-assistant",
+  "title": "Research Assistant Agent",
+  "description": "Turns a focused question into a sourced, cited brief for a real decision using the built-in web_search and web_fetch tools, with adversarial source verification and no paid search APIs.",
+  "category": "research",
+  "family": "data",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["web"],
+  "connections": [],
+  "requiredEnv": [],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}

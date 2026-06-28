@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "website-qa",
+  "title": "Website QA Agent",
+  "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
+  "category": "qa",
+  "family": "engineering",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["agent-browser"],
+  "connections": [],
+  "requiredEnv": [],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}
