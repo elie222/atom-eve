@@ -25,6 +25,11 @@ If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, 
 5. **Run it.** For eve.dev: link Vercel with `vercel link`, pull env with `vercel env pull`, then run `npx eve dev`.
    For flue: follow the flue project's run script.
 
+For Eve, model calls go through the Vercel AI Gateway. The user does not need a model API key, but
+their Vercel account/team must have any required AI Gateway billing or account verification complete.
+If the first run fails with an AI Gateway/provider error, report it as model setup friction and ask
+the user to verify billing/access or set `AGENT_MODEL` to a model their project can use.
+
 Agents never auto-publish or take destructive actions on their own — they open PRs or post
 drafts for review. Keep that behavior intact when wiring them in.
 

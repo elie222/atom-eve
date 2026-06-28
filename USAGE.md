@@ -34,8 +34,8 @@ There are two different things people lump together as "env vars":
    `VERCEL_OIDC_TOKEN`. On a deployed Vercel project that token is injected automatically; locally
    you get it by linking the project (`vercel link`) and running `vercel env pull`. (An
    `AI_GATEWAY_API_KEY` or `ANTHROPIC_API_KEY` is only an escape hatch for running outside Vercel.)
-   The Vercel account or team still needs AI Gateway access enabled, including any current account
-   verification or billing requirement Vercel applies before serving model calls.
+   The Vercel account or team must have AI Gateway access enabled. Set `AGENT_MODEL` if you want to
+   use a different model that is available to the project.
    On **Flue/Cloudflare** the runtime has built-in model access; on **Flue/Node** set a provider key.
 2. **Per-agent integration secrets** — e.g. `STRIPE_SECRET_KEY`, `GITHUB_TOKEN`, `POSTHOG_API_KEY`.
    These are real third-party secrets. On Eve they are **Vercel project environment variables** (set

@@ -21,6 +21,8 @@ interface RemoteSkillRef {
 }
 
 interface AtomManifest extends InstallManifest {
+  dependencies: string[];
+  targetDependencies: Partial<Record<Target, string[]>>;
   skills: RemoteSkillRef[];
 }
 
@@ -170,6 +172,7 @@ async function create(args: Args) {
   if (target === "eve") {
     console.log("  vercel link                   # connect to a Vercel project");
     console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
+    console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
     console.log("  npx eve dev");
   } else {
     console.log("  npx flue run <agent> --input '{ ... }'");
@@ -220,6 +223,7 @@ async function installLocalAgent(agentDir: string, target: Target, config: AtomE
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
 
+  await installPackageDependencies(dependenciesForTarget(manifest, target));
   await installRemoteSkills(manifest.skills, target);
 }
 
@@ -240,7 +244,50 @@ async function installRemoteAgent(agent: string, target: Target, config: AtomEve
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
 
+  await installPackageDependencies(dependenciesForTarget(manifest, target));
   await installRemoteSkills(manifest.skills, target);
+}
+
+async function installPackageDependencies(dependencies: string[]) {
+  if (!dependencies.length) return;
+
+  const packageJsonPath = path.join(cwd, "package.json");
+  if (!fsSync.existsSync(packageJsonPath)) {
+    console.warn(`Could not add ${dependencies.join(", ")} because package.json was not found.`);
+    return;
+  }
+
+  const raw = JSON.parse(await fs.readFile(packageJsonPath, "utf8")) as Record<string, unknown>;
+  const packageJson = raw as {
+    dependencies?: Record<string, string>;
+    devDependencies?: Record<string, string>;
+  };
+  packageJson.dependencies = packageJson.dependencies ?? {};
+
+  const added: string[] = [];
+  for (const dependency of dependencies) {
+    const parsed = parseDependencySpec(dependency);
+    if (packageJson.dependencies[parsed.name] || packageJson.devDependencies?.[parsed.name]) continue;
+    packageJson.dependencies[parsed.name] = parsed.version;
+    added.push(`${parsed.name}@${parsed.version}`);
+  }
+
+  if (!added.length) return;
+  await fs.writeFile(packageJsonPath, `${JSON.stringify(packageJson, null, 2)}\n`);
+  console.log(`added dependencies: ${added.join(", ")}`);
+}
+
+function dependenciesForTarget(manifest: AtomManifest, target: Target): string[] {
+  return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies[target] ?? [])])].sort();
+}
+
+function parseDependencySpec(spec: string): { name: string; version: string } {
+  const versionAt = spec.startsWith("@") ? spec.indexOf("@", spec.indexOf("/") + 1) : spec.indexOf("@");
+  if (versionAt === -1) return { name: spec, version: "latest" };
+  return {
+    name: spec.slice(0, versionAt),
+    version: spec.slice(versionAt + 1) || "latest"
+  };
 }
 
 function resolveInstallTarget(target: string, config: AtomEveConfig): string {
@@ -424,7 +471,28 @@ function validateManifest(value: unknown, repoPath: string): AtomManifest {
     name: record.name,
     repoPath,
     targets,
+    dependencies: parseStringArray(record.dependencies, "dependencies"),
+    targetDependencies: parseTargetDependencies(record.targetDependencies),
     skills: parseSkillRefs(record.skills)
+  };
+}
+
+function parseStringArray(value: unknown, field: string): string[] {
+  if (value === undefined) return [];
+  if (!Array.isArray(value)) throw new Error(`atom.json ${field} must be an array`);
+  return value.map((entry) => {
+    if (typeof entry !== "string" || !entry) throw new Error(`atom.json ${field} must contain strings`);
+    return entry;
+  });
+}
+
+function parseTargetDependencies(value: unknown): Partial<Record<Target, string[]>> {
+  if (value === undefined) return {};
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("atom.json targetDependencies must be an object");
+  const record = value as Record<string, unknown>;
+  return {
+    eve: parseStringArray(record.eve, "targetDependencies.eve"),
+    flue: parseStringArray(record.flue, "targetDependencies.flue")
   };
 }
 

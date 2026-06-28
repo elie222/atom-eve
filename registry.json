@@ -4664,11 +4664,19 @@
       "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent (eve)",
-      "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior local history, and writes concise Markdown reports.",
+      "description": "Helps improve SEO by reviewing the configured site, finding content and metadata fixes, and tracking progress week to week.",
+      "dependencies": [
+        "@vercel/blob@^2.5.0"
+      ],
       "files": [
         {
           "path": "registry/seo-audit/shared/instructions.md",
           "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/shared/lib/memory.ts",
+          "target": "~/agent/lib/memory.ts",
           "type": "registry:file"
         },
         {
@@ -4677,8 +4685,28 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/seo-audit/shared/lib/seo-memory.ts",
+          "target": "~/agent/lib/seo-memory.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/lib/vercel-blob-memory.ts",
+          "target": "~/agent/lib/vercel-blob-memory.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/seo-audit/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/tools/read_seo_history.ts",
+          "target": "~/agent/tools/read_seo_history.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/targets/eve/tools/save_seo_audit_run.ts",
+          "target": "~/agent/tools/save_seo_audit_run.ts",
           "type": "registry:file"
         },
         {
@@ -4712,7 +4740,7 @@
       "name": "flue/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent (flue)",
-      "description": "Audits URLs or sitemaps for technical and content SEO issues, compares against prior local history, and writes concise Markdown reports.",
+      "description": "Helps improve SEO by reviewing the configured site, finding content and metadata fixes, and tracking progress week to week.",
       "files": [
         {
           "path": "registry/seo-audit/targets/flue/agent.ts",
@@ -4720,8 +4748,18 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/seo-audit/shared/lib/memory.ts",
+          "target": "~/src/lib/agents/seo-audit/memory.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/seo-audit/shared/lib/prompts.ts",
           "target": "~/src/lib/agents/seo-audit/prompts.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-audit/shared/lib/seo-memory.ts",
+          "target": "~/src/lib/agents/seo-audit/seo-memory.ts",
           "type": "registry:file"
         },
         {

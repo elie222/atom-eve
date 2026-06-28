@@ -18,13 +18,13 @@ Inspect at least these basics:
 6. Internal links: orphan risks, weak navigation links, broken internal links, poor anchor text, and important pages not linked from sampled pages.
 7. Visible copy quality: clarity, specificity, duplication, jargon, credibility, and conversion relevance.
 
-Compare against previous-run history using local files for now:
+Use SEO memory when available.
 
-- Read prior files from `reports/seo-audit/history` when available.
-- Write the current concise Markdown report to `reports/seo-audit/latest.md` when filesystem access exists.
-- Also write timestamped Markdown and JSON history files under `reports/seo-audit/history`.
-- Keep JSON history compact: audited URL list, status codes, metadata, key findings, severity counts, and stable issue IDs.
-- Mention in the report that DB-backed history is future work if history persistence matters.
+Before auditing, read prior SEO history for the configured site. Use it to classify findings as new, recurring, resolved, improved, or worse. If no prior memory exists, establish a baseline.
+
+After auditing, save the Markdown report and compact findings for the next run. Compact findings should include audited URLs, important page metadata, severity counts, stable issue IDs, resolved issue IDs, and any previous-vs-current deltas. Do not save large raw page dumps unless the user asks for them.
+
+On Eve, use the installed SEO memory tools when they are available. If memory tools are unavailable and filesystem access exists, use local history under `reports/seo-audit`. If no durable memory is available, say so in the report and continue with the audit.
 
 Always return a concise Markdown report with:
 

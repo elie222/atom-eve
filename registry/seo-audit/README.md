@@ -1,28 +1,19 @@
 # SEO Audit Agent
 
+The SEO Audit Agent reviews this project's configured site, finds practical SEO and content fixes, and tracks progress week to week.
+
 ## What it does
 
-The SEO Audit Agent reviews a public website, page, or sitemap for practical SEO and content issues. It fetches pages, optionally opens key pages in a browser through the framework sandbox, compares the current run with local history, and returns or writes a concise Markdown report.
+It audits a configured URL or sitemap, reports SEO and content issues, and uses prior history when available to show what changed since the last run.
 
-The package checks:
+## What it checks
 
-- Titles and meta descriptions.
-- Heading structure.
-- Canonical and robots signals.
-- Broken content, broken CTAs, and unclear conversion paths.
-- Content gaps and visible copy quality.
-- Internal links and obvious broken-link risks.
-- Previous-vs-current deltas from local history.
+- Titles, meta descriptions, headings, canonical tags, and robots signals.
+- Broken content, unclear CTAs, thin pages, and confusing conversion paths.
+- Content gaps, internal-link opportunities, and visible copy quality.
+- Previous-vs-current deltas when SEO memory is available.
 
-History is intentionally file-backed for the MVP. The agent writes snapshots and reports under `reports/seo-audit/history/...` in the sandbox or repo. DB-backed history, scheduled report retention, and cross-environment storage are future work.
-
-The package includes:
-
-- Shared SEO audit instructions.
-- An Eve root agent, weekly schedule, and sandbox bootstrap for report/history directories.
-- A Flue agent and weekly workflow trigger.
-
-It does not add paid APIs or custom browser wrapper tools. The agent should use the target framework's native sandbox command, browser, and fetch capabilities where available.
+It runs read-only. It does not submit forms, mutate the site, add paid APIs, or install a custom browser wrapper.
 
 ## Supported targets
 
@@ -32,100 +23,68 @@ It does not add paid APIs or custom browser wrapper tools. The agent should use 
 ## Install
 
 ```bash
-npx atom-eve add seo-audit --target flue
+npx atom-eve add seo-audit --target eve
 ```
 
 or:
 
 ```bash
-npx atom-eve add seo-audit --target eve
+npx atom-eve add seo-audit --target flue
 ```
 
 ## Setup
 
 No credentials are required for public pages.
 
-Before enabling a recurring run, configure the production URL or sitemap in your app repo. The installed weekly schedule/workflow intentionally uses a generic trigger; if no URL is configured, the agent should report the run as blocked instead of auditing a sample domain.
-
-For Eve:
+Before enabling a recurring run, configure the production URL or sitemap in the installed schedule or workflow:
 
 ```text
 agent/schedules/weekly.ts
-```
-
-For Flue:
-
-```text
 src/workflows/seo-audit-weekly.ts
 ```
 
-Make sure the runtime sandbox can make outbound HTTP requests and write local files under `reports/seo-audit/history`. If browser inspection is available in your framework, use it for visible copy, layout, and CTA checks. If browser inspection is unavailable, continue with fetch-based checks and note the limitation in the report.
+If no URL or sitemap is configured, the agent should report that the run is blocked instead of auditing a sample domain.
+
+Make sure the runtime can fetch the site. Browser access is optional, but useful for visible copy, layout, and CTA checks. For private sites, configure authenticated fetch or browser session handling in your app repo and do not commit credentials.
+
+## Memory
+
+SEO memory is optional but recommended for recurring audits. When available, the agent reads prior history before auditing and saves the current report plus compact findings after auditing.
+
+Eve installs include SEO memory tools backed by Vercel Blob and declare `@vercel/blob` as a dependency. Connect a Vercel Blob store if you want durable memory across runs. Other targets can wire a durable object store or use local files under `reports/seo-audit` when the runtime filesystem persists.
+
+The memory system does not require SQL tables or migrations.
 
 ## Usage
 
-Send the agent a URL or sitemap:
+Audit a sitemap:
 
 ```text
 Audit https://your-site.com/sitemap.xml.
 
-Sample up to 25 indexable URLs, inspect homepage and top content pages in a browser if available, compare against prior history, and write the Markdown report to reports/seo-audit/latest.md.
+Sample up to 25 indexable URLs and compare against prior history if available.
 ```
 
-For a single page:
+Audit a single page:
 
 ```text
 Audit https://your-site.com/pricing.
 
-Check metadata, headings, canonical and robots signals, internal links, CTA clarity, visible copy quality, and content gaps. Compare with the previous run if history exists.
+Check metadata, headings, canonical and robots signals, internal links, CTA clarity, visible copy quality, and content gaps.
 ```
 
-The agent should return a concise Markdown report and, when filesystem access is available, write:
-
-```text
-reports/seo-audit/latest.md
-reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.md
-reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.json
-```
-
-The JSON file should contain the lightweight observations needed for the next delta comparison, not raw page dumps.
-
-## Local Smoke Test
-
-Install into a fixture app and run type checks:
-
-```bash
-npx atom-eve init --target eve --runtime vercel
-npx atom-eve add seo-audit --target eve
-pnpm install
-pnpm typecheck
-```
-
-Then send a safe prompt:
-
-```text
-Audit https://your-site.com. Keep the run read-only and write the report to reports/seo-audit/latest.md.
-```
-
-## Updating An Installed Copy
-
-Rerun the add command from your app repo and review the diff:
-
-```bash
-npx atom-eve add seo-audit --target eve
-git diff
-```
-
-Treat installed files like shadcn components: keep local URL, schedule, retention, and reporting customizations that still matter.
+The agent should return a concise Markdown report with an executive summary, scope, previous-vs-current deltas, findings ordered by severity, opportunities, next actions, and artifacts written.
 
 ## Connections and auth
 
-This package has no required connections and no required environment variables.
-
-For private sites, configure authenticated fetch or browser session handling in your app repo. Do not commit cookies, browser profile state, or credentials.
+- Public pages do not require credentials.
+- Vercel Blob can be connected for Eve durable memory.
+- Cloudflare R2 or another object store can be wired for Flue/custom durable memory.
+- Private sites need authenticated fetch or browser session handling in the installed app. Do not commit credentials.
 
 ## Limitations
 
-- The MVP uses local file history under `reports/seo-audit/history`; DB-backed history is future work.
-- It is not a crawler at search-engine scale. Keep sitemap samples bounded unless you add queueing and rate controls.
+- Local file history may be lost in ephemeral sandboxes.
+- It is not a search-engine-scale crawler. Keep sitemap samples bounded unless you add queueing and rate controls.
 - JavaScript-heavy pages may need a browser-capable sandbox for reliable visible-copy and CTA checks.
 - Robots and sitemap interpretation is best-effort and should be reviewed before making high-impact indexing changes.
