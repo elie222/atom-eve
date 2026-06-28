@@ -8,6 +8,10 @@ interface AgentFile {
   html: string;
   group: FileGroup;
   lang: string;
+  remoteSkill?: {
+    ref: string;
+    url: string;
+  };
 }
 
 interface AgentTargetFiles {
@@ -135,14 +139,26 @@ export default function CodeBrowser({ targets }: Props) {
         <div className="min-w-0">
           <div className="flex items-center gap-3 border-b-2 border-edgedim px-4 py-[10px]">
             <code className="min-w-0 flex-1 truncate font-mono text-[12px] text-ink2">{active.target}</code>
-            <button
-              type="button"
-              onClick={copy}
-              className="arcade-btn flex-none cursor-pointer whitespace-nowrap px-[11px] py-[7px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
-              style={{ background: ACC, boxShadow: "3px 3px 0 rgba(0,0,0,0.4)" }}
-            >
-              {copied ? "COPIED ✓" : "COPY"}
-            </button>
+            {active.remoteSkill ? (
+              <a
+                href={active.remoteSkill.url}
+                target="_blank"
+                rel="noreferrer"
+                className="arcade-btn flex-none cursor-pointer whitespace-nowrap px-[11px] py-[7px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
+                style={{ background: ACC, boxShadow: "3px 3px 0 rgba(0,0,0,0.4)" }}
+              >
+                OPEN SKILL
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={copy}
+                className="arcade-btn flex-none cursor-pointer whitespace-nowrap px-[11px] py-[7px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
+                style={{ background: ACC, boxShadow: "3px 3px 0 rgba(0,0,0,0.4)" }}
+              >
+                {copied ? "COPIED ✓" : "COPY"}
+              </button>
+            )}
           </div>
           <div
             className="codeview max-h-[640px] overflow-auto"

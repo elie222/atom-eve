@@ -221,12 +221,16 @@ export interface AgentFile {
   html: string;
   group: FileGroup;
   lang: string;
+  remoteSkill?: {
+    ref: string;
+    url: string;
+  };
 }
 
 export interface AgentTargetFiles {
   target: string;
   files: AgentFile[];
-  skills: string[];
+  skills: RemoteSkillRef[];
   connections: { name: string; type: string; auth: string }[];
   requiredEnv: string[];
 }
@@ -234,10 +238,14 @@ export interface AgentTargetFiles {
 interface ResolvedPayload {
   files: { target: string; content: string }[];
   meta?: {
-    skills?: string[];
+    skills?: RemoteSkillRef[];
     connections?: { name: string; type: string; auth: string }[];
     requiredEnv?: string[];
   };
+}
+
+interface RemoteSkillRef {
+  ref: string;
 }
 
 /* The installable source for an agent. Reads the generated payload; returns []
@@ -265,6 +273,7 @@ export async function getAgentFiles(item: RegistryItem): Promise<AgentTargetFile
         };
       }),
   );
+  files.push(...remoteSkillFiles(payload.meta?.skills ?? []));
   return [
     {
       target: (item.targets ?? ["eve"])[0] ?? "eve",
@@ -274,6 +283,63 @@ export async function getAgentFiles(item: RegistryItem): Promise<AgentTargetFile
       requiredEnv: payload.meta?.requiredEnv ?? [],
     },
   ];
+}
+
+function remoteSkillFiles(skills: RemoteSkillRef[]): AgentFile[] {
+  return skills.map((skill) => {
+    const skillName = skill.ref.includes("@") ? skill.ref.slice(skill.ref.lastIndexOf("@") + 1) : baseRefName(skill.ref);
+    const url = skillUrl(skill.ref);
+    const content = `Imported from ${url}`;
+    return {
+      target: `~/agent/skills/${skillName}/SKILL.md`,
+      name: `${skillName} (remote)`,
+      content,
+      html: remoteSkillHtml(skill.ref, url),
+      group: "Skills",
+      lang: "text",
+      remoteSkill: {
+        ref: skill.ref,
+        url,
+      },
+    };
+  });
+}
+
+function baseRefName(ref: string): string {
+  return ref.split("/").filter(Boolean).at(-1) ?? ref;
+}
+
+function skillUrl(ref: string): string {
+  const [repo, skill] = ref.split("@");
+  const [owner, name] = repo.split("/");
+  if (!owner || !name) return `https://www.skills.sh/${ref}`;
+  return skill ? `https://www.skills.sh/${owner}/${name}/${skill}` : `https://www.skills.sh/${owner}/${name}`;
+}
+
+function remoteSkillHtml(ref: string, url: string): string {
+  return `<div class="p-5 font-mono text-[13px] leading-6 text-ink2">
+    <div class="mb-2 font-pixel text-[8px] tracking-[0.06em] text-dim">REMOTE SKILL</div>
+    <p class="mb-3">Imported from <code class="text-green">${escapeHtml(ref)}</code>.</p>
+    <p class="mb-4 text-muted">This skill is pulled from skills.sh during install instead of being vendored in this repository.</p>
+    <a class="font-mono text-[12px] text-green underline decoration-dotted underline-offset-4" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">Open full skill ↗</a>
+  </div>`;
+}
+
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case "&":
+        return "&amp;";
+      case "<":
+        return "&lt;";
+      case ">":
+        return "&gt;";
+      case '"':
+        return "&quot;";
+      default:
+        return "&#39;";
+    }
+  });
 }
 
 /* Other community builds of the same task — grouped by category. */
