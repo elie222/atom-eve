@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/instantly-outreach.js";
-import { outreachLoopPrompt } from "../lib/agents/instantly-outreach/prompts.js";
+import { outreachLoopPrompt } from "../lib/agents/instantly-outreach/schedule.js";
 
 interface WorkflowContext {
   harness: {

@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/product-podcast.js";
-import { weeklyPodcastPrompt } from "../lib/agents/product-podcast/prompts.js";
+import { weeklyPodcastPrompt } from "../lib/agents/product-podcast/schedule.js";
 
 interface WorkflowContext {
   harness: {

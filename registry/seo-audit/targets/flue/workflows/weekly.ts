@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/seo-audit.js";
-import { seoAuditFlueRunPrompt } from "../lib/agents/seo-audit/prompts.js";
+import { seoAuditFlueRunPrompt } from "../lib/agents/seo-audit/schedule.js";
 
 interface WorkflowContext {
   harness: {

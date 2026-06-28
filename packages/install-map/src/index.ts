@@ -80,6 +80,8 @@ export async function createInstallFileSpecs(
     const base = "~/agent";
     const instructions = await optionalFile("shared/instructions.md");
     if (instructions) add(instructions, `${base}/instructions.md`);
+    const schedule = await optionalFile("shared/schedule.ts");
+    if (schedule) add(schedule, `${base}/schedule.ts`);
     for (const skill of await sourceReader.discoverFiles("shared/skills")) {
       add(skill, `${base}/skills/${path.posix.basename(skill)}`);
     }
@@ -106,6 +108,8 @@ export async function createInstallFileSpecs(
 
   const sourceRoot = "src";
   add(await requiredFile("targets/flue/agent.ts"), `~/${sourceRoot}/agents/${manifest.name}.ts`);
+  const schedule = await optionalFile("shared/schedule.ts");
+  if (schedule) add(schedule, `~/${sourceRoot}/lib/agents/${manifest.name}/schedule.ts`);
   for (const skill of await sourceReader.discoverFiles("shared/skills")) {
     const name = path.posix.basename(skill, path.posix.extname(skill));
     add(skill, `~/${sourceRoot}/skills/${manifest.name}-${name}/SKILL.md`);

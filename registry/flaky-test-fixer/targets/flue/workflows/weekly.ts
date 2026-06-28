@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/flaky-test-fixer.js";
-import { weeklyReviewPrompt } from "../lib/agents/flaky-test-fixer/prompts.js";
+import { weeklyReviewPrompt } from "../lib/agents/flaky-test-fixer/schedule.js";
 
 interface WorkflowContext {
   harness: {

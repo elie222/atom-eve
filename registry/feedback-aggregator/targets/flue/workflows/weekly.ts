@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/feedback-aggregator.js";
-import { weeklyFeedbackPrompt } from "../lib/agents/feedback-aggregator/prompts.js";
+import { weeklyFeedbackPrompt } from "../lib/agents/feedback-aggregator/schedule.js";
 
 interface WorkflowContext {
   harness: {

@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/error-copy.js";
-import { weeklyErrorCopyPrompt } from "../lib/agents/error-copy/prompts.js";
+import { weeklyErrorCopyPrompt } from "../lib/agents/error-copy/schedule.js";
 
 interface WorkflowContext {
   harness: {

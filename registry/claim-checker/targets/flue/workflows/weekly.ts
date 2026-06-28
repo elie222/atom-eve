@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/claim-checker.js";
-import { weeklyClaimCheckPrompt } from "../lib/agents/claim-checker/prompts.js";
+import { weeklyClaimCheckPrompt } from "../lib/agents/claim-checker/schedule.js";
 
 interface WorkflowContext {
   harness: {

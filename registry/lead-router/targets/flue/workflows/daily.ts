@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/lead-router.js";
-import { dailyRoutingPrompt } from "../lib/agents/lead-router/prompts.js";
+import { dailyRoutingPrompt } from "../lib/agents/lead-router/schedule.js";
 
 interface WorkflowContext {
   harness: {

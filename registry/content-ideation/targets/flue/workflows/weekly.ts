@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/content-ideation.js";
-import { CONTENT_IDEATION_WEEKLY_PROMPT } from "../lib/agents/content-ideation/prompts.js";
+import { CONTENT_IDEATION_WEEKLY_PROMPT } from "../lib/agents/content-ideation/schedule.js";
 
 interface WorkflowContext {
   harness: {

@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { weeklyCompetitorAnalysisPrompt } from "../lib/prompts.js";
+import { weeklyCompetitorAnalysisPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * 1",

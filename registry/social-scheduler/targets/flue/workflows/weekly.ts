@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/social-scheduler.js";
-import { weeklySchedulePrompt } from "../lib/agents/social-scheduler/prompts.js";
+import { weeklySchedulePrompt } from "../lib/agents/social-scheduler/schedule.js";
 
 interface WorkflowContext {
   harness: {

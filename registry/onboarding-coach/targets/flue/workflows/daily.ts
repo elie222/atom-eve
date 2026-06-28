@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/onboarding-coach.js";
-import { dailyNudgePrompt } from "../lib/agents/onboarding-coach/prompts.js";
+import { dailyNudgePrompt } from "../lib/agents/onboarding-coach/schedule.js";
 
 interface WorkflowContext {
   harness: {

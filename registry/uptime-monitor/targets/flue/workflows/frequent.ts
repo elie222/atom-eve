@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/uptime-monitor.js";
-import { frequentCheckPrompt } from "../lib/agents/uptime-monitor/prompts.js";
+import { frequentCheckPrompt } from "../lib/agents/uptime-monitor/schedule.js";
 
 interface WorkflowContext {
   harness: {

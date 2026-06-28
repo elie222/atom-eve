@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/pr-pitcher.js";
-import { dailyPitchPrompt } from "../lib/agents/pr-pitcher/prompts.js";
+import { dailyPitchPrompt } from "../lib/agents/pr-pitcher/schedule.js";
 
 interface WorkflowContext {
   harness: {

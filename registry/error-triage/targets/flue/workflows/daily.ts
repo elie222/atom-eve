@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/error-triage.js";
-import { dailyErrorTriagePrompt } from "../lib/agents/error-triage/prompts.js";
+import { dailyErrorTriagePrompt } from "../lib/agents/error-triage/schedule.js";
 
 interface WorkflowContext {
   harness: {

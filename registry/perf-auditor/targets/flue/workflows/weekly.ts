@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/perf-auditor.js";
-import { weeklyPerfAuditPrompt } from "../lib/agents/perf-auditor/prompts.js";
+import { weeklyPerfAuditPrompt } from "../lib/agents/perf-auditor/schedule.js";
 
 interface WorkflowContext {
   harness: {

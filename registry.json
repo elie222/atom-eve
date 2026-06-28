@@ -71,6 +71,11 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/facebook-ads/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/facebook-ads/shared/skills/daily-loop.md",
           "target": "~/agent/skills/daily-loop.md",
           "type": "registry:file"
@@ -78,11 +83,6 @@
         {
           "path": "registry/facebook-ads/shared/lib/facebook.ts",
           "target": "~/agent/lib/facebook.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/facebook-ads/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -129,6 +129,11 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/facebook-ads/shared/schedule.ts",
+          "target": "~/src/lib/agents/facebook-ads/schedule.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/facebook-ads/shared/skills/daily-loop.md",
           "target": "~/src/skills/facebook-ads-daily-loop/SKILL.md",
           "type": "registry:file"
@@ -136,11 +141,6 @@
         {
           "path": "registry/facebook-ads/shared/lib/facebook.ts",
           "target": "~/src/lib/agents/facebook-ads/facebook.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/facebook-ads/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/facebook-ads/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -167,8 +167,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/a11y-auditor/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -220,8 +220,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/a11y-auditor/prompts.ts",
+          "path": "registry/a11y-auditor/shared/schedule.ts",
+          "target": "~/src/lib/agents/a11y-auditor/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -309,8 +309,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/analytics-digest/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -362,8 +362,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/analytics-digest/prompts.ts",
+          "path": "registry/analytics-digest/shared/schedule.ts",
+          "target": "~/src/lib/agents/analytics-digest/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -385,13 +385,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/backup-verifier/shared/lib/backup.ts",
-          "target": "~/agent/lib/backup.ts",
+          "path": "registry/backup-verifier/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/backup-verifier/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/backup-verifier/shared/lib/backup.ts",
+          "target": "~/agent/lib/backup.ts",
           "type": "registry:file"
         },
         {
@@ -438,13 +438,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/backup-verifier/shared/lib/backup.ts",
-          "target": "~/src/lib/agents/backup-verifier/backup.ts",
+          "path": "registry/backup-verifier/shared/schedule.ts",
+          "target": "~/src/lib/agents/backup-verifier/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/backup-verifier/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/backup-verifier/prompts.ts",
+          "path": "registry/backup-verifier/shared/lib/backup.ts",
+          "target": "~/src/lib/agents/backup-verifier/backup.ts",
           "type": "registry:file"
         },
         {
@@ -603,8 +603,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/claim-checker/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/claim-checker/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -656,8 +656,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/claim-checker/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/claim-checker/prompts.ts",
+          "path": "registry/claim-checker/shared/schedule.ts",
+          "target": "~/src/lib/agents/claim-checker/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -679,13 +679,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/code-reviewer/shared/lib/github.ts",
-          "target": "~/agent/lib/github.ts",
+          "path": "registry/code-reviewer/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/code-reviewer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/code-reviewer/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
           "type": "registry:file"
         },
         {
@@ -732,13 +732,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/code-reviewer/shared/lib/github.ts",
-          "target": "~/src/lib/agents/code-reviewer/github.ts",
+          "path": "registry/code-reviewer/shared/schedule.ts",
+          "target": "~/src/lib/agents/code-reviewer/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/code-reviewer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/code-reviewer/prompts.ts",
+          "path": "registry/code-reviewer/shared/lib/github.ts",
+          "target": "~/src/lib/agents/code-reviewer/github.ts",
           "type": "registry:file"
         },
         {
@@ -765,13 +765,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/community-support/shared/lib/discord.ts",
-          "target": "~/agent/lib/discord.ts",
+          "path": "registry/community-support/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/community-support/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/community-support/shared/lib/discord.ts",
+          "target": "~/agent/lib/discord.ts",
           "type": "registry:file"
         },
         {
@@ -818,13 +818,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/community-support/shared/lib/discord.ts",
-          "target": "~/src/lib/agents/community-support/discord.ts",
+          "path": "registry/community-support/shared/schedule.ts",
+          "target": "~/src/lib/agents/community-support/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/community-support/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/community-support/prompts.ts",
+          "path": "registry/community-support/shared/lib/discord.ts",
+          "target": "~/src/lib/agents/community-support/discord.ts",
           "type": "registry:file"
         },
         {
@@ -851,8 +851,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/competitor-analysis/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/competitor-analysis/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -899,8 +899,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/competitor-analysis/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/competitor-analysis/prompts.ts",
+          "path": "registry/competitor-analysis/shared/schedule.ts",
+          "target": "~/src/lib/agents/competitor-analysis/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -922,8 +922,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/content-ideation/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/content-ideation/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -965,8 +965,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/content-ideation/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/content-ideation/prompts.ts",
+          "path": "registry/content-ideation/shared/schedule.ts",
+          "target": "~/src/lib/agents/content-ideation/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1054,13 +1054,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/crm-hygiene/shared/lib/hubspot.ts",
-          "target": "~/agent/lib/hubspot.ts",
+          "path": "registry/crm-hygiene/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/crm-hygiene/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/crm-hygiene/shared/lib/hubspot.ts",
+          "target": "~/agent/lib/hubspot.ts",
           "type": "registry:file"
         },
         {
@@ -1107,13 +1107,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/crm-hygiene/shared/lib/hubspot.ts",
-          "target": "~/src/lib/agents/crm-hygiene/hubspot.ts",
+          "path": "registry/crm-hygiene/shared/schedule.ts",
+          "target": "~/src/lib/agents/crm-hygiene/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/crm-hygiene/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/crm-hygiene/prompts.ts",
+          "path": "registry/crm-hygiene/shared/lib/hubspot.ts",
+          "target": "~/src/lib/agents/crm-hygiene/hubspot.ts",
           "type": "registry:file"
         },
         {
@@ -1140,8 +1140,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/cro-optimizer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/cro-optimizer/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1193,8 +1193,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/cro-optimizer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/cro-optimizer/prompts.ts",
+          "path": "registry/cro-optimizer/shared/schedule.ts",
+          "target": "~/src/lib/agents/cro-optimizer/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1216,13 +1216,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/data-compliance/shared/lib/compliance.ts",
-          "target": "~/agent/lib/compliance.ts",
+          "path": "registry/data-compliance/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/data-compliance/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/data-compliance/shared/lib/compliance.ts",
+          "target": "~/agent/lib/compliance.ts",
           "type": "registry:file"
         },
         {
@@ -1269,13 +1269,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/data-compliance/shared/lib/compliance.ts",
-          "target": "~/src/lib/agents/data-compliance/compliance.ts",
+          "path": "registry/data-compliance/shared/schedule.ts",
+          "target": "~/src/lib/agents/data-compliance/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/data-compliance/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/data-compliance/prompts.ts",
+          "path": "registry/data-compliance/shared/lib/compliance.ts",
+          "target": "~/src/lib/agents/data-compliance/compliance.ts",
           "type": "registry:file"
         },
         {
@@ -1368,13 +1368,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/dep-guardian/shared/lib/github.ts",
-          "target": "~/agent/lib/github.ts",
+          "path": "registry/dep-guardian/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/dep-guardian/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/dep-guardian/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
           "type": "registry:file"
         },
         {
@@ -1421,13 +1421,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/dep-guardian/shared/lib/github.ts",
-          "target": "~/src/lib/agents/dep-guardian/github.ts",
+          "path": "registry/dep-guardian/shared/schedule.ts",
+          "target": "~/src/lib/agents/dep-guardian/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/dep-guardian/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/dep-guardian/prompts.ts",
+          "path": "registry/dep-guardian/shared/lib/github.ts",
+          "target": "~/src/lib/agents/dep-guardian/github.ts",
           "type": "registry:file"
         },
         {
@@ -1454,13 +1454,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/docs-sync/shared/lib/github.ts",
-          "target": "~/agent/lib/github.ts",
+          "path": "registry/docs-sync/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/docs-sync/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/docs-sync/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
           "type": "registry:file"
         },
         {
@@ -1507,13 +1507,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/docs-sync/shared/lib/github.ts",
-          "target": "~/src/lib/agents/docs-sync/github.ts",
+          "path": "registry/docs-sync/shared/schedule.ts",
+          "target": "~/src/lib/agents/docs-sync/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/docs-sync/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/docs-sync/prompts.ts",
+          "path": "registry/docs-sync/shared/lib/github.ts",
+          "target": "~/src/lib/agents/docs-sync/github.ts",
           "type": "registry:file"
         },
         {
@@ -1540,8 +1540,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/dunning/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/dunning/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1593,8 +1593,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/dunning/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/dunning/prompts.ts",
+          "path": "registry/dunning/shared/schedule.ts",
+          "target": "~/src/lib/agents/dunning/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1626,13 +1626,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-loops/shared/lib/loops.ts",
-          "target": "~/agent/lib/loops.ts",
+          "path": "registry/email-loops/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/email-loops/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/email-loops/shared/lib/loops.ts",
+          "target": "~/agent/lib/loops.ts",
           "type": "registry:file"
         },
         {
@@ -1679,13 +1679,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-loops/shared/lib/loops.ts",
-          "target": "~/src/lib/agents/email-loops/loops.ts",
+          "path": "registry/email-loops/shared/schedule.ts",
+          "target": "~/src/lib/agents/email-loops/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/email-loops/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/email-loops/prompts.ts",
+          "path": "registry/email-loops/shared/lib/loops.ts",
+          "target": "~/src/lib/agents/email-loops/loops.ts",
           "type": "registry:file"
         },
         {
@@ -1712,8 +1712,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-resend/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/email-resend/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1765,8 +1765,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-resend/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/email-resend/prompts.ts",
+          "path": "registry/email-resend/shared/schedule.ts",
+          "target": "~/src/lib/agents/email-resend/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1798,8 +1798,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-userlist/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/email-userlist/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1851,8 +1851,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/email-userlist/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/email-userlist/prompts.ts",
+          "path": "registry/email-userlist/shared/schedule.ts",
+          "target": "~/src/lib/agents/email-userlist/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1884,8 +1884,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/error-copy/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1937,8 +1937,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/error-copy/prompts.ts",
+          "path": "registry/error-copy/shared/schedule.ts",
+          "target": "~/src/lib/agents/error-copy/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -1960,8 +1960,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/error-triage/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/error-triage/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2013,8 +2013,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/error-triage/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/error-triage/prompts.ts",
+          "path": "registry/error-triage/shared/schedule.ts",
+          "target": "~/src/lib/agents/error-triage/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2046,8 +2046,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/experiment-analyst/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/experiment-analyst/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2099,8 +2099,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/experiment-analyst/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/experiment-analyst/prompts.ts",
+          "path": "registry/experiment-analyst/shared/schedule.ts",
+          "target": "~/src/lib/agents/experiment-analyst/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2122,13 +2122,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-aggregator/shared/lib/feedback.ts",
-          "target": "~/agent/lib/feedback.ts",
+          "path": "registry/feedback-aggregator/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-aggregator/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/feedback-aggregator/shared/lib/feedback.ts",
+          "target": "~/agent/lib/feedback.ts",
           "type": "registry:file"
         },
         {
@@ -2175,13 +2175,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-aggregator/shared/lib/feedback.ts",
-          "target": "~/src/lib/agents/feedback-aggregator/feedback.ts",
+          "path": "registry/feedback-aggregator/shared/schedule.ts",
+          "target": "~/src/lib/agents/feedback-aggregator/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-aggregator/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/feedback-aggregator/prompts.ts",
+          "path": "registry/feedback-aggregator/shared/lib/feedback.ts",
+          "target": "~/src/lib/agents/feedback-aggregator/feedback.ts",
           "type": "registry:file"
         },
         {
@@ -2208,13 +2208,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-sweep/shared/lib/github.ts",
-          "target": "~/agent/lib/github.ts",
+          "path": "registry/feedback-sweep/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-sweep/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/feedback-sweep/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
           "type": "registry:file"
         },
         {
@@ -2261,13 +2261,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-sweep/shared/lib/github.ts",
-          "target": "~/src/lib/agents/feedback-sweep/github.ts",
+          "path": "registry/feedback-sweep/shared/schedule.ts",
+          "target": "~/src/lib/agents/feedback-sweep/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/feedback-sweep/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/feedback-sweep/prompts.ts",
+          "path": "registry/feedback-sweep/shared/lib/github.ts",
+          "target": "~/src/lib/agents/feedback-sweep/github.ts",
           "type": "registry:file"
         },
         {
@@ -2294,13 +2294,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/flaky-test-fixer/shared/lib/github.ts",
-          "target": "~/agent/lib/github.ts",
+          "path": "registry/flaky-test-fixer/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/flaky-test-fixer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/flaky-test-fixer/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
           "type": "registry:file"
         },
         {
@@ -2347,13 +2347,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/flaky-test-fixer/shared/lib/github.ts",
-          "target": "~/src/lib/agents/flaky-test-fixer/github.ts",
+          "path": "registry/flaky-test-fixer/shared/schedule.ts",
+          "target": "~/src/lib/agents/flaky-test-fixer/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/flaky-test-fixer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/flaky-test-fixer/prompts.ts",
+          "path": "registry/flaky-test-fixer/shared/lib/github.ts",
+          "target": "~/src/lib/agents/flaky-test-fixer/github.ts",
           "type": "registry:file"
         },
         {
@@ -2380,8 +2380,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/funnel-analyst/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/funnel-analyst/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2433,8 +2433,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/funnel-analyst/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/funnel-analyst/prompts.ts",
+          "path": "registry/funnel-analyst/shared/schedule.ts",
+          "target": "~/src/lib/agents/funnel-analyst/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2456,13 +2456,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/google-ads/shared/lib/googleAds.ts",
-          "target": "~/agent/lib/googleAds.ts",
+          "path": "registry/google-ads/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/google-ads/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/google-ads/shared/lib/googleAds.ts",
+          "target": "~/agent/lib/googleAds.ts",
           "type": "registry:file"
         },
         {
@@ -2509,13 +2509,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/google-ads/shared/lib/googleAds.ts",
-          "target": "~/src/lib/agents/google-ads/googleAds.ts",
+          "path": "registry/google-ads/shared/schedule.ts",
+          "target": "~/src/lib/agents/google-ads/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/google-ads/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/google-ads/prompts.ts",
+          "path": "registry/google-ads/shared/lib/googleAds.ts",
+          "target": "~/src/lib/agents/google-ads/googleAds.ts",
           "type": "registry:file"
         },
         {
@@ -2542,13 +2542,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/inbox-triage/shared/lib/gmail.ts",
-          "target": "~/agent/lib/gmail.ts",
+          "path": "registry/inbox-triage/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/inbox-triage/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/inbox-triage/shared/lib/gmail.ts",
+          "target": "~/agent/lib/gmail.ts",
           "type": "registry:file"
         },
         {
@@ -2595,13 +2595,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/inbox-triage/shared/lib/gmail.ts",
-          "target": "~/src/lib/agents/inbox-triage/gmail.ts",
+          "path": "registry/inbox-triage/shared/schedule.ts",
+          "target": "~/src/lib/agents/inbox-triage/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/inbox-triage/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/inbox-triage/prompts.ts",
+          "path": "registry/inbox-triage/shared/lib/gmail.ts",
+          "target": "~/src/lib/agents/inbox-triage/gmail.ts",
           "type": "registry:file"
         },
         {
@@ -2628,6 +2628,11 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/instantly-outreach/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/instantly-outreach/shared/lib/apollo.ts",
           "target": "~/agent/lib/apollo.ts",
           "type": "registry:file"
@@ -2640,11 +2645,6 @@
         {
           "path": "registry/instantly-outreach/shared/lib/outreach.ts",
           "target": "~/agent/lib/outreach.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/instantly-outreach/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -2691,6 +2691,11 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/instantly-outreach/shared/schedule.ts",
+          "target": "~/src/lib/agents/instantly-outreach/schedule.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/instantly-outreach/shared/lib/apollo.ts",
           "target": "~/src/lib/agents/instantly-outreach/apollo.ts",
           "type": "registry:file"
@@ -2703,11 +2708,6 @@
         {
           "path": "registry/instantly-outreach/shared/lib/outreach.ts",
           "target": "~/src/lib/agents/instantly-outreach/outreach.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/instantly-outreach/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/instantly-outreach/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -2734,8 +2734,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/invoice-chaser/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/invoice-chaser/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2787,8 +2787,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/invoice-chaser/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/invoice-chaser/prompts.ts",
+          "path": "registry/invoice-chaser/shared/schedule.ts",
+          "target": "~/src/lib/agents/invoice-chaser/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -2820,13 +2820,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kb-writer/shared/lib/intercom.ts",
-          "target": "~/agent/lib/intercom.ts",
+          "path": "registry/kb-writer/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/kb-writer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/kb-writer/shared/lib/intercom.ts",
+          "target": "~/agent/lib/intercom.ts",
           "type": "registry:file"
         },
         {
@@ -2873,13 +2873,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kb-writer/shared/lib/intercom.ts",
-          "target": "~/src/lib/agents/kb-writer/intercom.ts",
+          "path": "registry/kb-writer/shared/schedule.ts",
+          "target": "~/src/lib/agents/kb-writer/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/kb-writer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/kb-writer/prompts.ts",
+          "path": "registry/kb-writer/shared/lib/intercom.ts",
+          "target": "~/src/lib/agents/kb-writer/intercom.ts",
           "type": "registry:file"
         },
         {
@@ -2906,13 +2906,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/keyword-researcher/shared/lib/dataforseo.ts",
-          "target": "~/agent/lib/dataforseo.ts",
+          "path": "registry/keyword-researcher/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/keyword-researcher/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/keyword-researcher/shared/lib/dataforseo.ts",
+          "target": "~/agent/lib/dataforseo.ts",
           "type": "registry:file"
         },
         {
@@ -2959,13 +2959,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/keyword-researcher/shared/lib/dataforseo.ts",
-          "target": "~/src/lib/agents/keyword-researcher/dataforseo.ts",
+          "path": "registry/keyword-researcher/shared/schedule.ts",
+          "target": "~/src/lib/agents/keyword-researcher/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/keyword-researcher/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/keyword-researcher/prompts.ts",
+          "path": "registry/keyword-researcher/shared/lib/dataforseo.ts",
+          "target": "~/src/lib/agents/keyword-researcher/dataforseo.ts",
           "type": "registry:file"
         },
         {
@@ -2992,8 +2992,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/kpi-digest/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3055,8 +3055,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/kpi-digest/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/kpi-digest/prompts.ts",
+          "path": "registry/kpi-digest/shared/schedule.ts",
+          "target": "~/src/lib/agents/kpi-digest/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3154,13 +3154,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/lead-router/shared/lib/hubspot.ts",
-          "target": "~/agent/lib/hubspot.ts",
+          "path": "registry/lead-router/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/lead-router/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/lead-router/shared/lib/hubspot.ts",
+          "target": "~/agent/lib/hubspot.ts",
           "type": "registry:file"
         },
         {
@@ -3207,13 +3207,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/lead-router/shared/lib/hubspot.ts",
-          "target": "~/src/lib/agents/lead-router/hubspot.ts",
+          "path": "registry/lead-router/shared/schedule.ts",
+          "target": "~/src/lib/agents/lead-router/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/lead-router/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/lead-router/prompts.ts",
+          "path": "registry/lead-router/shared/lib/hubspot.ts",
+          "target": "~/src/lib/agents/lead-router/hubspot.ts",
           "type": "registry:file"
         },
         {
@@ -3240,13 +3240,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/link-builder/shared/lib/linkbuilder.ts",
-          "target": "~/agent/lib/linkbuilder.ts",
+          "path": "registry/link-builder/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/link-builder/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/link-builder/shared/lib/linkbuilder.ts",
+          "target": "~/agent/lib/linkbuilder.ts",
           "type": "registry:file"
         },
         {
@@ -3293,13 +3293,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/link-builder/shared/lib/linkbuilder.ts",
-          "target": "~/src/lib/agents/link-builder/linkbuilder.ts",
+          "path": "registry/link-builder/shared/schedule.ts",
+          "target": "~/src/lib/agents/link-builder/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/link-builder/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/link-builder/prompts.ts",
+          "path": "registry/link-builder/shared/lib/linkbuilder.ts",
+          "target": "~/src/lib/agents/link-builder/linkbuilder.ts",
           "type": "registry:file"
         },
         {
@@ -3524,8 +3524,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-coach/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/onboarding-coach/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3577,8 +3577,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-coach/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/onboarding-coach/prompts.ts",
+          "path": "registry/onboarding-coach/shared/schedule.ts",
+          "target": "~/src/lib/agents/onboarding-coach/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3600,8 +3600,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-tester/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/onboarding-tester/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3653,8 +3653,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-tester/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/onboarding-tester/prompts.ts",
+          "path": "registry/onboarding-tester/shared/schedule.ts",
+          "target": "~/src/lib/agents/onboarding-tester/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3676,8 +3676,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/perf-auditor/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3729,8 +3729,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/perf-auditor/prompts.ts",
+          "path": "registry/perf-auditor/shared/schedule.ts",
+          "target": "~/src/lib/agents/perf-auditor/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -3752,13 +3752,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/pr-pitcher/shared/lib/pitcher.ts",
-          "target": "~/agent/lib/pitcher.ts",
+          "path": "registry/pr-pitcher/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/pr-pitcher/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/pr-pitcher/shared/lib/pitcher.ts",
+          "target": "~/agent/lib/pitcher.ts",
           "type": "registry:file"
         },
         {
@@ -3805,13 +3805,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/pr-pitcher/shared/lib/pitcher.ts",
-          "target": "~/src/lib/agents/pr-pitcher/pitcher.ts",
+          "path": "registry/pr-pitcher/shared/schedule.ts",
+          "target": "~/src/lib/agents/pr-pitcher/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/pr-pitcher/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/pr-pitcher/prompts.ts",
+          "path": "registry/pr-pitcher/shared/lib/pitcher.ts",
+          "target": "~/src/lib/agents/pr-pitcher/pitcher.ts",
           "type": "registry:file"
         },
         {
@@ -3838,13 +3838,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/product-podcast/shared/lib/podcast.ts",
-          "target": "~/agent/lib/podcast.ts",
+          "path": "registry/product-podcast/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/product-podcast/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/product-podcast/shared/lib/podcast.ts",
+          "target": "~/agent/lib/podcast.ts",
           "type": "registry:file"
         },
         {
@@ -3891,13 +3891,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/product-podcast/shared/lib/podcast.ts",
-          "target": "~/src/lib/agents/product-podcast/podcast.ts",
+          "path": "registry/product-podcast/shared/schedule.ts",
+          "target": "~/src/lib/agents/product-podcast/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/product-podcast/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/product-podcast/prompts.ts",
+          "path": "registry/product-podcast/shared/lib/podcast.ts",
+          "target": "~/src/lib/agents/product-podcast/podcast.ts",
           "type": "registry:file"
         },
         {
@@ -3924,13 +3924,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/recruiter/shared/lib/ashby.ts",
-          "target": "~/agent/lib/ashby.ts",
+          "path": "registry/recruiter/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/recruiter/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/recruiter/shared/lib/ashby.ts",
+          "target": "~/agent/lib/ashby.ts",
           "type": "registry:file"
         },
         {
@@ -3977,13 +3977,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/recruiter/shared/lib/ashby.ts",
-          "target": "~/src/lib/agents/recruiter/ashby.ts",
+          "path": "registry/recruiter/shared/schedule.ts",
+          "target": "~/src/lib/agents/recruiter/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/recruiter/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/recruiter/prompts.ts",
+          "path": "registry/recruiter/shared/lib/ashby.ts",
+          "target": "~/src/lib/agents/recruiter/ashby.ts",
           "type": "registry:file"
         },
         {
@@ -4010,8 +4010,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/reddit-radar/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/reddit-radar/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4063,8 +4063,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/reddit-radar/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/reddit-radar/prompts.ts",
+          "path": "registry/reddit-radar/shared/schedule.ts",
+          "target": "~/src/lib/agents/reddit-radar/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4096,8 +4096,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/refund-chaser/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/refund-chaser/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4149,8 +4149,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/refund-chaser/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/refund-chaser/prompts.ts",
+          "path": "registry/refund-chaser/shared/schedule.ts",
+          "target": "~/src/lib/agents/refund-chaser/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4182,13 +4182,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/release-notes/shared/lib/github.ts",
-          "target": "~/agent/lib/github.ts",
+          "path": "registry/release-notes/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/release-notes/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/release-notes/shared/lib/github.ts",
+          "target": "~/agent/lib/github.ts",
           "type": "registry:file"
         },
         {
@@ -4235,13 +4235,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/release-notes/shared/lib/github.ts",
-          "target": "~/src/lib/agents/release-notes/github.ts",
+          "path": "registry/release-notes/shared/schedule.ts",
+          "target": "~/src/lib/agents/release-notes/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/release-notes/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/release-notes/prompts.ts",
+          "path": "registry/release-notes/shared/lib/github.ts",
+          "target": "~/src/lib/agents/release-notes/github.ts",
           "type": "registry:file"
         },
         {
@@ -4268,13 +4268,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/repo-janitor/shared/lib/janitor.ts",
-          "target": "~/agent/lib/janitor.ts",
+          "path": "registry/repo-janitor/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/repo-janitor/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/repo-janitor/shared/lib/janitor.ts",
+          "target": "~/agent/lib/janitor.ts",
           "type": "registry:file"
         },
         {
@@ -4321,13 +4321,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/repo-janitor/shared/lib/janitor.ts",
-          "target": "~/src/lib/agents/repo-janitor/janitor.ts",
+          "path": "registry/repo-janitor/shared/schedule.ts",
+          "target": "~/src/lib/agents/repo-janitor/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/repo-janitor/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/repo-janitor/prompts.ts",
+          "path": "registry/repo-janitor/shared/lib/janitor.ts",
+          "target": "~/src/lib/agents/repo-janitor/janitor.ts",
           "type": "registry:file"
         },
         {
@@ -4400,8 +4400,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/revenue-digest/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/revenue-digest/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4453,8 +4453,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/revenue-digest/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/revenue-digest/prompts.ts",
+          "path": "registry/revenue-digest/shared/schedule.ts",
+          "target": "~/src/lib/agents/revenue-digest/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4486,8 +4486,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/reviews-harvester/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/reviews-harvester/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4539,8 +4539,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/reviews-harvester/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/reviews-harvester/prompts.ts",
+          "path": "registry/reviews-harvester/shared/schedule.ts",
+          "target": "~/src/lib/agents/reviews-harvester/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4575,13 +4575,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/shared/lib/memory.ts",
-          "target": "~/agent/lib/memory.ts",
+          "path": "registry/seo-audit/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/seo-audit/shared/lib/memory.ts",
+          "target": "~/agent/lib/memory.ts",
           "type": "registry:file"
         },
         {
@@ -4648,13 +4648,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/shared/lib/memory.ts",
-          "target": "~/src/lib/agents/seo-audit/memory.ts",
+          "path": "registry/seo-audit/shared/schedule.ts",
+          "target": "~/src/lib/agents/seo-audit/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/seo-audit/prompts.ts",
+          "path": "registry/seo-audit/shared/lib/memory.ts",
+          "target": "~/src/lib/agents/seo-audit/memory.ts",
           "type": "registry:file"
         },
         {
@@ -4747,13 +4747,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/social-scheduler/shared/lib/ayrshare.ts",
-          "target": "~/agent/lib/ayrshare.ts",
+          "path": "registry/social-scheduler/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/social-scheduler/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/social-scheduler/shared/lib/ayrshare.ts",
+          "target": "~/agent/lib/ayrshare.ts",
           "type": "registry:file"
         },
         {
@@ -4800,13 +4800,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/social-scheduler/shared/lib/ayrshare.ts",
-          "target": "~/src/lib/agents/social-scheduler/ayrshare.ts",
+          "path": "registry/social-scheduler/shared/schedule.ts",
+          "target": "~/src/lib/agents/social-scheduler/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/social-scheduler/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/social-scheduler/prompts.ts",
+          "path": "registry/social-scheduler/shared/lib/ayrshare.ts",
+          "target": "~/src/lib/agents/social-scheduler/ayrshare.ts",
           "type": "registry:file"
         },
         {
@@ -4833,8 +4833,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/spend-tracker/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/spend-tracker/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4886,8 +4886,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/spend-tracker/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/spend-tracker/prompts.ts",
+          "path": "registry/spend-tracker/shared/schedule.ts",
+          "target": "~/src/lib/agents/spend-tracker/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4919,8 +4919,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/standup-bot/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/standup-bot/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -4972,8 +4972,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/standup-bot/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/standup-bot/prompts.ts",
+          "path": "registry/standup-bot/shared/schedule.ts",
+          "target": "~/src/lib/agents/standup-bot/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5071,13 +5071,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/support-replies/shared/lib/intercom.ts",
-          "target": "~/agent/lib/intercom.ts",
+          "path": "registry/support-replies/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/support-replies/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/support-replies/shared/lib/intercom.ts",
+          "target": "~/agent/lib/intercom.ts",
           "type": "registry:file"
         },
         {
@@ -5124,13 +5124,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/support-replies/shared/lib/intercom.ts",
-          "target": "~/src/lib/agents/support-replies/intercom.ts",
+          "path": "registry/support-replies/shared/schedule.ts",
+          "target": "~/src/lib/agents/support-replies/schedule.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/support-replies/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/support-replies/prompts.ts",
+          "path": "registry/support-replies/shared/lib/intercom.ts",
+          "target": "~/src/lib/agents/support-replies/intercom.ts",
           "type": "registry:file"
         },
         {
@@ -5355,8 +5355,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/uptime-monitor/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/uptime-monitor/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5408,8 +5408,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/uptime-monitor/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/uptime-monitor/prompts.ts",
+          "path": "registry/uptime-monitor/shared/schedule.ts",
+          "target": "~/src/lib/agents/uptime-monitor/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5441,8 +5441,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/ux-reviewer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/ux-reviewer/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5494,8 +5494,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/ux-reviewer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/ux-reviewer/prompts.ts",
+          "path": "registry/ux-reviewer/shared/schedule.ts",
+          "target": "~/src/lib/agents/ux-reviewer/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5583,8 +5583,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/visual-regression/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/visual-regression/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5636,8 +5636,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/visual-regression/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/visual-regression/prompts.ts",
+          "path": "registry/visual-regression/shared/schedule.ts",
+          "target": "~/src/lib/agents/visual-regression/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5659,8 +5659,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/winback/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/winback/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5712,8 +5712,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/winback/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/winback/prompts.ts",
+          "path": "registry/winback/shared/schedule.ts",
+          "target": "~/src/lib/agents/winback/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5745,8 +5745,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/x-growth/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
+          "path": "registry/x-growth/shared/schedule.ts",
+          "target": "~/agent/schedule.ts",
           "type": "registry:file"
         },
         {
@@ -5798,8 +5798,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/x-growth/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/x-growth/prompts.ts",
+          "path": "registry/x-growth/shared/schedule.ts",
+          "target": "~/src/lib/agents/x-growth/schedule.ts",
           "type": "registry:file"
         },
         {

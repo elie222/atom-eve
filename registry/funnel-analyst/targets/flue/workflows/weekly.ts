@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/funnel-analyst.js";
-import { weeklyFunnelPrompt } from "../lib/agents/funnel-analyst/prompts.js";
+import { weeklyFunnelPrompt } from "../lib/agents/funnel-analyst/schedule.js";
 
 interface WorkflowContext {
   harness: {

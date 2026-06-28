@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { weeklyKeywordResearchPrompt } from "../lib/prompts.js";
+import { weeklyKeywordResearchPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * 1",

@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/winback.js";
-import { weeklyWinbackPrompt } from "../lib/agents/winback/prompts.js";
+import { weeklyWinbackPrompt } from "../lib/agents/winback/schedule.js";
 
 interface WorkflowContext {
   harness: {

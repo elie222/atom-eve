@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/refund-chaser.js";
-import { dailyChasePrompt } from "../lib/agents/refund-chaser/prompts.js";
+import { dailyChasePrompt } from "../lib/agents/refund-chaser/schedule.js";
 
 interface WorkflowContext {
   harness: {

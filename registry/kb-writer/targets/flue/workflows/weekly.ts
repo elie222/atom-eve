@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/kb-writer.js";
-import { weeklyKbPrompt } from "../lib/agents/kb-writer/prompts.js";
+import { weeklyKbPrompt } from "../lib/agents/kb-writer/schedule.js";
 
 interface WorkflowContext {
   harness: {

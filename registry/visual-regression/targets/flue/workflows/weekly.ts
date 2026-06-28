@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/visual-regression.js";
-import { weeklyVisualRegressionPrompt } from "../lib/agents/visual-regression/prompts.js";
+import { weeklyVisualRegressionPrompt } from "../lib/agents/visual-regression/schedule.js";
 
 interface WorkflowContext {
   harness: {

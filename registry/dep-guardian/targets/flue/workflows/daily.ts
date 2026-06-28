@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/dep-guardian.js";
-import { dailyReviewPrompt } from "../lib/agents/dep-guardian/prompts.js";
+import { dailyReviewPrompt } from "../lib/agents/dep-guardian/schedule.js";
 
 interface WorkflowContext {
   harness: {

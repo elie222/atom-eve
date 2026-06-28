@@ -22,6 +22,7 @@ registry/<agent>/
   README.md
   shared/
     instructions.md
+    schedule.ts
     skills/
     lib/
   targets/
@@ -88,9 +89,10 @@ Use this pattern:
 
 - Put the detailed agent behavior in `shared/instructions.md`. This is the single source of
   truth for agent instructions, for both targets.
-- If a schedule or workflow needs TypeScript trigger text, put shared constants in
-  `shared/lib/prompts.ts`. Keep `prompts.ts` for trigger/loop prompts only — do not put a copy
-  of the agent instructions there.
+- If a schedule or workflow needs trigger text, put the shared constants in `shared/schedule.ts`.
+  This file holds trigger/loop prompts only — the message the schedule fires — not agent
+  instructions. It exists because both the Eve schedule and the Flue workflow import the same
+  string; the cron itself stays in the Eve schedule file.
 - Keep schedules and workflows as thin triggers that import or reference shared prompt text.
 - Keep target-specific wrappers focused on framework API differences.
 
@@ -113,21 +115,23 @@ full instructions as Eve, with zero copy in TypeScript.
 Rules the generator enforces (see `validateFlueInstructions`):
 
 - Every `targets/flue/agent.ts` must set `instructions` to the `"__ATOM_INSTRUCTIONS__"`
-  placeholder. Do not inline a prompt string or import an instructions constant from `prompts.ts`.
+  placeholder. Do not inline a prompt string or import an instructions constant.
 - The agent must have a `shared/instructions.md`.
 - `instructions.md` is one canonical text for both targets. Where a target nuance is unavoidable
   (e.g. memory tools vs. local files), phrase it so both targets read correctly rather than
   forking the prompt.
 
-Schedules and workflows must import their trigger prompt from `shared/lib/prompts.ts`, not
+Schedules and workflows must import their trigger prompt from `shared/schedule.ts`, not
 inline a copy. The same trigger string appearing in both the Eve schedule and the Flue workflow
-is the canonical example of drift waiting to happen. Post-install import paths:
+is the canonical example of drift waiting to happen. `shared/schedule.ts` installs to
+`agent/schedule.ts` (Eve) and `src/lib/agents/<agent>/schedule.ts` (Flue). Post-install import
+paths:
 
-- Eve schedule (`agent/schedules/*.ts`) → `../lib/prompts.js`
-- Flue workflow (`src/workflows/<agent>-*.ts`) → `../lib/agents/<agent>/prompts.js`
+- Eve schedule (`agent/schedules/*.ts`) → `../schedule.js`
+- Flue workflow (`src/workflows/<agent>-*.ts`) → `../lib/agents/<agent>/schedule.js`
 
 If an agent has no schedule or workflow and therefore no trigger prompt, it should have no
-`shared/lib/prompts.ts` at all.
+`shared/schedule.ts` at all.
 
 Some small duplication is acceptable when frameworks require different entrypoints, but copied paragraphs that drift between targets are a bug.
 

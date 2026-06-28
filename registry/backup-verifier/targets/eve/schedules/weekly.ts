@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { weeklyRestoreCheckPrompt } from "../lib/prompts.js";
+import { weeklyRestoreCheckPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * 1",

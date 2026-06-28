@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/google-ads.js";
-import { dailyLoopPrompt } from "../lib/agents/google-ads/prompts.js";
+import { dailyLoopPrompt } from "../lib/agents/google-ads/schedule.js";
 
 interface WorkflowContext {
   harness: {

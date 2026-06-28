@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/standup-bot.js";
-import { dailyStandupPrompt } from "../lib/agents/standup-bot/prompts.js";
+import { dailyStandupPrompt } from "../lib/agents/standup-bot/schedule.js";
 
 interface WorkflowContext {
   harness: {

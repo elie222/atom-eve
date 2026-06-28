@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/recruiter.js";
-import { dailyReviewPrompt } from "../lib/agents/recruiter/prompts.js";
+import { dailyReviewPrompt } from "../lib/agents/recruiter/schedule.js";
 
 interface WorkflowContext {
   harness: {
