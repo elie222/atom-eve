@@ -4,31 +4,39 @@ import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
 import Glyph from "../../components/Glyph.astro";
 import InstallBox from "../../components/InstallBox.tsx";
-import { getItems, getReadmeHtml, variantsOf, type RegistryItem } from "../../lib/data";
+import CodeBrowser from "../../components/CodeBrowser.tsx";
+import { getAgentFiles, getItems, getReadmeHtml, variantsOf, type AgentTargetFiles, type RegistryItem } from "../../lib/data";
 import { catGlyph, famColor, prettify, REPO } from "../../lib/format";
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
   const items = getItems();
-  return items.map((item) => ({
-    params: { name: item.name },
-    props: {
-      item,
-      readmeHtml: getReadmeHtml(item),
-      variants: variantsOf(item, items).map((v) => ({
-        name: v.name,
-        title: v.title,
-      })),
-    },
-  }));
+  return Promise.all(
+    items.map(async (item) => ({
+      params: { name: item.name },
+      props: {
+        item,
+        readmeHtml: getReadmeHtml(item),
+        agentFiles: await getAgentFiles(item),
+        variants: variantsOf(item, items).map((v) => ({
+          name: v.name,
+          title: v.title,
+        })),
+      },
+    })),
+  );
 }
 
 interface Props {
   item: RegistryItem;
   readmeHtml: string;
+  agentFiles: AgentTargetFiles[];
   variants: { name: string; title: string }[];
 }
 
-const { item, readmeHtml, variants } = Astro.props as Props;
+const { item, readmeHtml, agentFiles, variants } = Astro.props as Props;
+
+const fileCount = agentFiles.reduce((max, t) => Math.max(max, t.files.length), 0);
+const hasCode = fileCount > 0;
 
 const color = famColor(item.family);
 const glyph = catGlyph(item.category);
@@ -102,7 +110,48 @@ const sourceUrl = `${REPO}/tree/main/${item.repoPath}`;
 
     <!-- content + sidebar -->
     <div class="detail-grid mt-[34px] grid grid-cols-[1fr_318px] items-start gap-9 max-md:grid-cols-1">
-      <div class="md min-w-0" set:html={readmeHtml} />
+      <div class="min-w-0">
+        {
+          hasCode && (
+            <div class="mb-5 flex border-2 border-edge bg-bg" role="tablist" aria-label="View">
+              <button
+                type="button"
+                role="tab"
+                id="tab-btn-readme"
+                aria-selected="true"
+                data-panel="readme"
+                class="detail-tab cursor-pointer border-r-2 border-edge px-4 py-[8px] font-pixel text-[8px] tracking-[0.06em] transition-colors"
+              >
+                README
+              </button>
+              <button
+                type="button"
+                role="tab"
+                id="tab-btn-code"
+                aria-selected="false"
+                data-panel="code"
+                class="detail-tab cursor-pointer px-4 py-[8px] font-pixel text-[8px] tracking-[0.06em] transition-colors"
+              >
+                CODE
+              </button>
+            </div>
+          )
+        }
+
+        <div id="panel-readme" class="md" set:html={readmeHtml} />
+
+        {
+          hasCode && (
+            <div id="panel-code" hidden>
+              <p class="mb-4 text-[14px] text-ink2">
+                The exact source <code class="font-mono text-[13px] text-green">npx atom-eve add</code> installs —
+                instructions, tools, and skills. Read it here, or copy any file straight into your project.
+              </p>
+              <CodeBrowser client:load targets={agentFiles} />
+            </div>
+          )
+        }
+      </div>
 
       <aside class="flex flex-col gap-4">
         <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
@@ -186,4 +235,22 @@ const sourceUrl = `${REPO}/tree/main/${item.repoPath}`;
   </div>
 
   <Footer />
+
+  <script>
+    // README / Code tab toggle on the detail page (progressive enhancement).
+    (() => {
+      const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>(".detail-tab"));
+      if (!buttons.length) return;
+      const panels: Record<string, HTMLElement | null> = {
+        readme: document.getElementById("panel-readme"),
+        code: document.getElementById("panel-code"),
+      };
+      const select = (name: string) => {
+        for (const btn of buttons) btn.setAttribute("aria-selected", String(btn.dataset.panel === name));
+        for (const [key, el] of Object.entries(panels)) el && (el.hidden = key !== name);
+      };
+      for (const btn of buttons) btn.addEventListener("click", () => select(btn.dataset.panel ?? "readme"));
+      if (location.hash === "#code") select("code");
+    })();
+  </script>
 </Base>

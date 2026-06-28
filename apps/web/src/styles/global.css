@@ -190,6 +190,39 @@
   border-color: var(--color-cyan);
 }
 
+/* ---- detail page README / Code tabs ---- */
+.detail-tab {
+  color: var(--color-muted);
+  background: transparent;
+}
+.detail-tab:hover {
+  color: var(--color-ink);
+}
+.detail-tab[aria-selected="true"] {
+  color: #0b0820;
+  background: var(--color-green);
+}
+
+/* ---- Shiki code viewer (CodeBrowser) ---- */
+.codeview .shiki,
+.codeview .shiki span {
+  /* let our panel background show through Shiki's theme background */
+  background: transparent !important;
+}
+.codeview pre.shiki {
+  margin: 0;
+  padding: 16px 18px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.6;
+  tab-size: 2;
+}
+.codeview pre.shiki code {
+  display: block;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
 /* ---- category toolbar tabs ---- */
 .cat-bar {
   scrollbar-width: none;
