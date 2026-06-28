@@ -230,7 +230,7 @@ export interface AgentFile {
 export interface AgentTargetFiles {
   target: string;
   files: AgentFile[];
-  skills: string[];
+  skills: RemoteSkillRef[];
   connections: { name: string; type: string; auth: string }[];
   requiredEnv: string[];
 }
