@@ -7,14 +7,21 @@ import {
   createInstallFileSpecs,
   readLocalInstallFiles,
   type InstallManifest,
+  type ResolvedInstallFileSpec,
   type Target
 } from "@atom-eve/install-map";
+import { generateFlueAgent, type EveAgentFile } from "@atom-eve/flue-generator";
 
 type Runtime = "vercel" | "node" | "cloudflare";
 
+// Agents are authored only as eve agents. `flue` is a generated install target:
+// the CLI reads the eve `agent/` source and codegens a flue `src/**` tree + a
+// FLUE.md gap note. The registry schema stays eve-only.
+type CliTarget = "eve" | "flue";
+
 interface AtomEveConfig {
   $schema?: string;
-  target: Target;
+  target: CliTarget;
   runtime?: Runtime;
   sourceRoot: string;
   registry: string;
@@ -32,7 +39,7 @@ interface AtomManifest extends InstallManifest {
 
 interface Args {
   _: string[];
-  target?: Target;
+  target?: CliTarget;
   runtime?: Runtime;
   sourceRoot?: string;
   workspace?: boolean;
@@ -87,7 +94,7 @@ async function main() {
   throw new Error(`Unknown command: ${command}`);
 }
 
-function buildConfig(target: Target, args: Args): AtomEveConfig {
+function buildConfig(target: CliTarget, args: Args): AtomEveConfig {
   return {
     $schema: "https://atomeve.dev/schema/atom-eve.json",
     target,
@@ -205,6 +212,36 @@ async function installLocalAgent(agentDir: string, config: AtomEveConfig) {
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
 
   const files = await readLocalInstallFiles(rootDir, manifest);
+  await installAgentFiles(manifest, files, config);
+}
+
+async function installRemoteAgent(agent: string, config: AtomEveConfig) {
+  const repoPath = `registry/${agent}`;
+  const manifest = validateManifest(await fetchGitHubJson(config, `${repoPath}/atom.json`), repoPath);
+
+  const specs = await createInstallFileSpecs(manifest, {
+    hasFile: async (source) => remoteFileExists(config, `${repoPath}/${source}`),
+    discoverFiles: async (sourceDir) => discoverRemoteFiles(config, repoPath, sourceDir)
+  });
+
+  const files: ResolvedInstallFileSpec[] = await Promise.all(
+    specs.map(async (file) => ({ ...file, content: await fetchGitHubRaw(config, file.path) }))
+  );
+  await installAgentFiles(manifest, files, config);
+}
+
+// Eve is a verbatim copy of the agent/ tree; flue is GENERATED from the same
+// eve source (src/** + FLUE.md). The registry only ever ships the eve agent.
+async function installAgentFiles(
+  manifest: AtomManifest,
+  files: ResolvedInstallFileSpec[],
+  config: AtomEveConfig
+) {
+  if (config.target === "flue") {
+    await installFlueAgent(manifest, files);
+    return;
+  }
+
   for (const file of files) {
     const destination = resolveInstallTarget(file.target);
     await fs.mkdir(path.dirname(destination), { recursive: true });
@@ -216,24 +253,44 @@ async function installLocalAgent(agentDir: string, config: AtomEveConfig) {
   await installRemoteSkills(manifest.skills);
 }
 
-async function installRemoteAgent(agent: string, config: AtomEveConfig) {
-  const repoPath = `registry/${agent}`;
-  const manifest = validateManifest(await fetchGitHubJson(config, `${repoPath}/atom.json`), repoPath);
+// Codegen the flue version of an eve agent and write it under the user's flue
+// project. The install file targets are `~/agent/<rel>`; recover `<rel>` and run
+// the generator. The generated CODE typechecks; FLUE.md lists the runtime wiring.
+async function installFlueAgent(manifest: AtomManifest, files: ResolvedInstallFileSpec[]) {
+  const eveFiles: EveAgentFile[] = files.map((file) => ({
+    path: file.target.replace(/^~\/agent\//, ""),
+    content: file.content
+  }));
 
-  const files = await createInstallFileSpecs(manifest, {
-    hasFile: async (source) => remoteFileExists(config, `${repoPath}/${source}`),
-    discoverFiles: async (sourceDir) => discoverRemoteFiles(config, repoPath, sourceDir)
+  const { files: generated, flueMd } = generateFlueAgent({
+    name: manifest.name,
+    files: eveFiles,
+    remoteSkills: manifest.skills
   });
 
-  for (const file of files) {
-    const destination = resolveInstallTarget(file.target);
+  for (const [relPath, content] of Object.entries(generated)) {
+    const destination = path.join(cwd, relPath);
     await fs.mkdir(path.dirname(destination), { recursive: true });
-    await fs.writeFile(destination, await fetchGitHubRaw(config, file.path));
-    console.log(`installed ${path.relative(cwd, destination)}`);
+    await fs.writeFile(destination, content);
+    console.log(`generated ${path.relative(cwd, destination)}`);
   }
 
-  await installPackageDependencies(dependenciesForManifest(manifest));
-  await installRemoteSkills(manifest.skills);
+  const flueMdPath = path.join(cwd, "src", "agents", `${manifest.name}.FLUE.md`);
+  await fs.mkdir(path.dirname(flueMdPath), { recursive: true });
+  await fs.writeFile(flueMdPath, flueMd);
+  console.log(`generated ${path.relative(cwd, flueMdPath)}`);
+
+  await installPackageDependencies(flueDependencies(generated));
+}
+
+// Flue projects always need the runtime; valibot/croner/hono only when a
+// workflow + cron app.ts was generated.
+function flueDependencies(generated: Record<string, string>): string[] {
+  const deps = ["@flue/runtime@1.0.0-beta.7"];
+  if (generated["src/app.ts"]) {
+    deps.push("croner@^9.1.0", "valibot@^1.1.0", "hono@^4.8.3");
+  }
+  return deps;
 }
 
 async function installPackageDependencies(dependencies: string[]) {
@@ -313,7 +370,11 @@ async function readOrCreateConfig(args: Args): Promise<AtomEveConfig> {
   return config;
 }
 
-async function scaffoldProject(target: Target) {
+async function scaffoldProject(target: CliTarget) {
+  if (target === "flue") {
+    await scaffoldFlueProject();
+    return;
+  }
   if (target !== "eve") return;
 
   await writeIfMissing(
@@ -369,6 +430,62 @@ async function scaffoldProject(target: Target) {
   );
 }
 
+// Flue is a generated target: a `src/**` project on `@flue/runtime`. Mirrors the
+// validated reference tsconfig (NodeNext + allowImportingTsExtensions so app.ts
+// can import ./workflows/*.ts; the *.md / *.skill.md ambient types ship in the
+// package). croner/valibot/hono are added on demand when a workflow is generated.
+async function scaffoldFlueProject() {
+  await writeIfMissing(
+    "package.json",
+    `${JSON.stringify(
+      {
+        name: path.basename(cwd),
+        version: "0.0.0",
+        private: true,
+        type: "module",
+        scripts: {
+          typecheck: "tsc --noEmit"
+        },
+        dependencies: {
+          "@flue/runtime": "1.0.0-beta.7"
+        },
+        devDependencies: {
+          "@types/node": "24.x",
+          typescript: "^5.7.3"
+        },
+        engines: {
+          node: ">=22.19.0"
+        }
+      },
+      null,
+      2
+    )}\n`
+  );
+
+  await writeIfMissing(
+    "tsconfig.json",
+    `${JSON.stringify(
+      {
+        compilerOptions: {
+          target: "ES2022",
+          module: "NodeNext",
+          moduleResolution: "NodeNext",
+          types: ["node"],
+          strict: true,
+          esModuleInterop: true,
+          skipLibCheck: true,
+          allowImportingTsExtensions: true,
+          noEmit: true,
+          resolveJsonModule: true
+        },
+        include: ["src/**/*.ts"]
+      },
+      null,
+      2
+    )}\n`
+  );
+}
+
 async function writeIfMissing(relativePath: string, content: string) {
   await writeIfMissingAt(path.join(cwd, relativePath), content);
 }
@@ -394,17 +511,27 @@ function parseArgs(argv: string[]): Args {
   return args;
 }
 
-async function resolveTarget(args: Args): Promise<Target> {
+async function resolveTarget(args: Args): Promise<CliTarget> {
   return args.target ?? "eve";
+}
+
+// Registry manifests are authored eve-only; this narrows a parsed CLI target to
+// the registry-side `Target` and rejects anything the registry never declares.
+function parseManifestTarget(value: unknown): Target {
+  const target = parseTarget(value);
+  if (target !== "eve") {
+    throw new Error(`atom.json declares an unsupported target: ${target}`);
+  }
+  return target;
 }
 
 function toPosixPath(filePath: string): string {
   return filePath.split(path.sep).join(path.posix.sep);
 }
 
-function parseTarget(value: unknown): Target {
-  if (value === "eve") return value;
-  throw new Error(`Invalid target: ${String(value)}. Expected eve.`);
+function parseTarget(value: unknown): CliTarget {
+  if (value === "eve" || value === "flue") return value;
+  throw new Error(`Invalid target: ${String(value)}. Expected eve or flue.`);
 }
 
 function parseRuntime(value: unknown): Runtime {
@@ -432,7 +559,7 @@ function validateManifest(value: unknown, repoPath: string): AtomManifest {
   if (!value || typeof value !== "object") throw new Error("Invalid atom.json");
   const record = value as Record<string, unknown>;
   if (typeof record.name !== "string") throw new Error("atom.json is missing name");
-  const targets = Array.isArray(record.targets) ? record.targets.map(parseTarget) : [];
+  const targets = Array.isArray(record.targets) ? record.targets.map(parseManifestTarget) : [];
   if (!targets.includes("eve")) throw new Error("atom.json must declare the eve target");
   return {
     name: record.name,
@@ -628,8 +755,10 @@ function printAddHelp() {
 Usage:
   atom-eve add <agent>
   atom-eve add ./registry/<agent>
+  atom-eve add <agent> --target flue   # generate the flue version + FLUE.md
 
 Examples:
   atom-eve add stripe-pulse
+  atom-eve add stripe-pulse --target flue
 `);
 }
