@@ -123,6 +123,9 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
     await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
     const repoPath = `registry/${entry.name}`;
     await validateTriggerPromptSources(path.join(registryDir, entry.name), parsed.name);
+    if (parsed.targets.includes("flue")) {
+      await validateFlueInstructions(path.join(registryDir, entry.name), parsed.name);
+    }
     manifests.push({
       ...parsed,
       repoPath,
@@ -202,6 +205,31 @@ async function validateTriggerPromptSources(agentDir: string, agentName: string)
         throw new Error(`${agentName} ${rel} must import trigger prompt text from shared/lib/prompts.ts`);
       }
     }
+  }
+}
+
+async function validateFlueInstructions(agentDir: string, agentName: string) {
+  const agentPath = path.join(agentDir, "targets/flue/agent.ts");
+  const content = await fs.readFile(agentPath, "utf8").catch(() => {
+    throw new Error(`${agentName} is missing targets/flue/agent.ts`);
+  });
+  if (!/(['"])__ATOM_INSTRUCTIONS__\1/.test(content)) {
+    throw new Error(
+      `${agentName} targets/flue/agent.ts must set instructions to the "__ATOM_INSTRUCTIONS__" placeholder ` +
+        `so shared/instructions.md is the single source of truth`
+    );
+  }
+  if (/Instructions\b/.test(content)) {
+    throw new Error(
+      `${agentName} targets/flue/agent.ts must not import a separate instructions constant from prompts; ` +
+        `use the "__ATOM_INSTRUCTIONS__" placeholder instead`
+    );
+  }
+  const instructionsPath = path.join(agentDir, "shared/instructions.md");
+  try {
+    await fs.stat(instructionsPath);
+  } catch {
+    throw new Error(`${agentName} uses the instructions placeholder but is missing shared/instructions.md`);
   }
 }
 

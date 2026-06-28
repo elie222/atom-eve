@@ -248,11 +248,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/adversarial-reviewer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/adversarial-reviewer/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -293,11 +288,6 @@
         {
           "path": "registry/adversarial-reviewer/shared/lib/github.ts",
           "target": "~/src/lib/agents/adversarial-reviewer/github.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/adversarial-reviewer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/adversarial-reviewer/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -486,11 +476,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/blog-writer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/blog-writer/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -534,11 +519,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/blog-writer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/blog-writer/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/blog-writer/targets/flue/tools/article.ts",
           "target": "~/src/tools/blog-writer/article.ts",
           "type": "registry:file"
@@ -554,11 +534,6 @@
         {
           "path": "registry/buyer-voice/shared/instructions.md",
           "target": "~/agent/instructions.md",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/buyer-voice/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -602,11 +577,6 @@
         {
           "path": "registry/buyer-voice/targets/flue/agent.ts",
           "target": "~/src/agents/buyer-voice.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/buyer-voice/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/buyer-voice/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -1023,11 +993,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/creative-studio/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/creative-studio/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -1068,11 +1033,6 @@
         {
           "path": "registry/creative-studio/shared/lib/fal.ts",
           "target": "~/src/lib/agents/creative-studio/fal.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/creative-studio/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/creative-studio/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -1347,11 +1307,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/deal-followup/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/deal-followup/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -1392,11 +1347,6 @@
         {
           "path": "registry/deal-followup/shared/lib/followup.ts",
           "target": "~/src/lib/agents/deal-followup/followup.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/deal-followup/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/deal-followup/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -3143,11 +3093,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/launch-captain/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/launch-captain/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -3188,11 +3133,6 @@
         {
           "path": "registry/launch-captain/shared/lib/launch.ts",
           "target": "~/src/lib/agents/launch-captain/launch.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/launch-captain/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/launch-captain/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -3391,11 +3331,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/logging-coverage/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/logging-coverage/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -3439,11 +3374,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/logging-coverage/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/logging-coverage/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/logging-coverage/targets/flue/tools/logging.ts",
           "target": "~/src/tools/logging-coverage/logging.ts",
           "type": "registry:file"
@@ -3464,11 +3394,6 @@
         {
           "path": "registry/meeting-notes/shared/lib/fireflies.ts",
           "target": "~/agent/lib/fireflies.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/meeting-notes/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -3515,11 +3440,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/meeting-notes/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/meeting-notes/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/meeting-notes/targets/flue/tools/fireflies.ts",
           "target": "~/src/tools/meeting-notes/fireflies.ts",
           "type": "registry:file"
@@ -3540,11 +3460,6 @@
         {
           "path": "registry/microcopy/shared/lib/microcopy.ts",
           "target": "~/agent/lib/microcopy.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/microcopy/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -3588,11 +3503,6 @@
         {
           "path": "registry/microcopy/shared/lib/microcopy.ts",
           "target": "~/src/lib/agents/microcopy/microcopy.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/microcopy/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/microcopy/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -4444,11 +4354,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/research-assistant/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/research-assistant/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -4479,11 +4384,6 @@
         {
           "path": "registry/research-assistant/targets/flue/agent.ts",
           "target": "~/src/agents/research-assistant.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/research-assistant/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/research-assistant/prompts.ts",
           "type": "registry:file"
         }
       ]
@@ -4786,11 +4686,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/short-video/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/short-video/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -4831,11 +4726,6 @@
         {
           "path": "registry/short-video/shared/lib/fal.ts",
           "target": "~/src/lib/agents/short-video/fal.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/short-video/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/short-video/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -5115,11 +5005,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/status-comms/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/status-comms/shared/lib/statuscomms.ts",
           "target": "~/agent/lib/statuscomms.ts",
           "type": "registry:file"
@@ -5160,11 +5045,6 @@
         {
           "path": "registry/status-comms/targets/flue/agent.ts",
           "target": "~/src/agents/status-comms.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/status-comms/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/status-comms/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -5282,11 +5162,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/test-writer/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/test-writer/targets/eve/agent.ts",
           "target": "~/agent/agent.ts",
           "type": "registry:file"
@@ -5330,11 +5205,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/test-writer/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/test-writer/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/test-writer/targets/flue/tools/planner.ts",
           "target": "~/src/tools/test-writer/planner.ts",
           "type": "registry:file"
@@ -5355,11 +5225,6 @@
         {
           "path": "registry/thumbnail-studio/shared/lib/fal.ts",
           "target": "~/agent/lib/fal.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/thumbnail-studio/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -5406,11 +5271,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/thumbnail-studio/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/thumbnail-studio/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/thumbnail-studio/targets/flue/tools/fal.ts",
           "target": "~/src/tools/thumbnail-studio/fal.ts",
           "type": "registry:file"
@@ -5431,11 +5291,6 @@
         {
           "path": "registry/ticket-to-pr/shared/lib/linear.ts",
           "target": "~/agent/lib/linear.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/ticket-to-pr/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -5479,11 +5334,6 @@
         {
           "path": "registry/ticket-to-pr/shared/lib/linear.ts",
           "target": "~/src/lib/agents/ticket-to-pr/linear.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/ticket-to-pr/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/ticket-to-pr/prompts.ts",
           "type": "registry:file"
         },
         {
@@ -5667,11 +5517,6 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/value-propagation/shared/lib/prompts.ts",
-          "target": "~/agent/lib/prompts.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/value-propagation/shared/lib/propagation.ts",
           "target": "~/agent/lib/propagation.ts",
           "type": "registry:file"
@@ -5712,11 +5557,6 @@
         {
           "path": "registry/value-propagation/targets/flue/agent.ts",
           "target": "~/src/agents/value-propagation.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/value-propagation/shared/lib/prompts.ts",
-          "target": "~/src/lib/agents/value-propagation/prompts.ts",
           "type": "registry:file"
         },
         {

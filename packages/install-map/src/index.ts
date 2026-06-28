@@ -3,6 +3,17 @@ import path from "node:path";
 
 export type Target = "eve" | "flue";
 
+export const INSTRUCTIONS_PLACEHOLDER = "__ATOM_INSTRUCTIONS__";
+
+export function resolveInstructionsPlaceholder(content: string, instructions: string | undefined): string {
+  const pattern = /(['"])__ATOM_INSTRUCTIONS__\1/g;
+  if (!pattern.test(content)) return content;
+  if (instructions === undefined) {
+    throw new Error("Cannot resolve instructions placeholder: agent has no shared/instructions.md");
+  }
+  return content.replace(pattern, () => JSON.stringify(instructions.trim()));
+}
+
 export interface InstallManifest {
   name: string;
   repoPath: string;
@@ -126,12 +137,21 @@ export async function readLocalInstallFiles(
   target: Target
 ): Promise<ResolvedInstallFileSpec[]> {
   const specs = await createInstallFileSpecs(manifest, target, createLocalSourceReader(rootDir, manifest));
+  const instructions = await readLocalInstructions(rootDir, manifest);
   return Promise.all(
     specs.map(async (file) => ({
       ...file,
-      content: await fs.readFile(path.join(rootDir, file.path), "utf8")
+      content: resolveInstructionsPlaceholder(await fs.readFile(path.join(rootDir, file.path), "utf8"), instructions)
     }))
   );
+}
+
+async function readLocalInstructions(
+  rootDir: string,
+  manifest: Pick<InstallManifest, "repoPath">
+): Promise<string | undefined> {
+  const abs = path.join(rootDir, manifest.repoPath, "shared/instructions.md");
+  return fs.readFile(abs, "utf8").catch(() => undefined);
 }
 
 async function optionalFile(
