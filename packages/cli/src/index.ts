@@ -4,7 +4,13 @@ import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { createInterface } from "node:readline/promises";
-import { createInstallFileSpecs, readLocalInstallFiles, type InstallManifest, type Target } from "@atom-eve/install-map";
+import {
+  createInstallFileSpecs,
+  readLocalInstallFiles,
+  resolveInstructionsPlaceholder,
+  type InstallManifest,
+  type Target
+} from "@atom-eve/install-map";
 
 type Runtime = "vercel" | "node" | "cloudflare";
 
@@ -237,10 +243,14 @@ async function installRemoteAgent(agent: string, target: Target, config: AtomEve
     discoverFiles: async (sourceDir) => discoverRemoteFiles(config, repoPath, sourceDir)
   });
 
+  const instructions = (await remoteFileExists(config, `${repoPath}/shared/instructions.md`))
+    ? await fetchGitHubRaw(config, `${repoPath}/shared/instructions.md`)
+    : undefined;
+
   for (const file of files) {
     const destination = resolveInstallTarget(file.target, config);
     await fs.mkdir(path.dirname(destination), { recursive: true });
-    await fs.writeFile(destination, await fetchGitHubRaw(config, file.path));
+    await fs.writeFile(destination, resolveInstructionsPlaceholder(await fetchGitHubRaw(config, file.path), instructions));
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
 

@@ -86,18 +86,48 @@ Do not copy long behavior prompts across Eve agent files, Flue agent files, sche
 
 Use this pattern:
 
-- Put the detailed agent behavior in `shared/instructions.md`.
-- If Flue or a workflow needs TypeScript prompt text, put shared constants in `shared/lib/prompts.ts`.
+- Put the detailed agent behavior in `shared/instructions.md`. This is the single source of
+  truth for agent instructions, for both targets.
+- If a schedule or workflow needs TypeScript trigger text, put shared constants in
+  `shared/lib/prompts.ts`. Keep `prompts.ts` for trigger/loop prompts only — do not put a copy
+  of the agent instructions there.
 - Keep schedules and workflows as thin triggers that import or reference shared prompt text.
 - Keep target-specific wrappers focused on framework API differences.
+
+### Agent instructions are inlined into the Flue agent at build time
+
+Eve installs `shared/instructions.md` as a file the agent discovers (`agent/instructions.md`).
+Flue has no equivalent file slot — its `defineAgent` takes an `instructions` string. To keep
+`instructions.md` as the only source, the Flue `targets/flue/agent.ts` sets:
+
+```ts
+instructions: "__ATOM_INSTRUCTIONS__"
+```
+
+At install/build time the install-map resolver (`resolveInstructionsPlaceholder`,
+`INSTRUCTIONS_PLACEHOLDER` in `@atom-eve/install-map`) replaces that quoted sentinel with a
+JSON-encoded copy of `shared/instructions.md`. This runs in every path: the local CLI install,
+the remote CLI install, and the website registry payload. So the Flue agent always ships the same
+full instructions as Eve, with zero copy in TypeScript.
+
+Rules the generator enforces (see `validateFlueInstructions`):
+
+- Every `targets/flue/agent.ts` must set `instructions` to the `"__ATOM_INSTRUCTIONS__"`
+  placeholder. Do not inline a prompt string or import an instructions constant from `prompts.ts`.
+- The agent must have a `shared/instructions.md`.
+- `instructions.md` is one canonical text for both targets. Where a target nuance is unavoidable
+  (e.g. memory tools vs. local files), phrase it so both targets read correctly rather than
+  forking the prompt.
 
 Schedules and workflows must import their trigger prompt from `shared/lib/prompts.ts`, not
 inline a copy. The same trigger string appearing in both the Eve schedule and the Flue workflow
 is the canonical example of drift waiting to happen. Post-install import paths:
 
 - Eve schedule (`agent/schedules/*.ts`) → `../lib/prompts.js`
-- Flue workflow (`src/workflows/<agent>-*.ts`) and Flue agent (`src/agents/<agent>.ts`) →
-  `../lib/agents/<agent>/prompts.js`
+- Flue workflow (`src/workflows/<agent>-*.ts`) → `../lib/agents/<agent>/prompts.js`
+
+If an agent has no schedule or workflow and therefore no trigger prompt, it should have no
+`shared/lib/prompts.ts` at all.
 
 Some small duplication is acceptable when frameworks require different entrypoints, but copied paragraphs that drift between targets are a bug.
 
