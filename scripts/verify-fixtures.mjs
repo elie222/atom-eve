@@ -17,7 +17,7 @@ for (const item of index.items) {
     await fs.rm(temp, { recursive: true, force: true });
     await fs.cp(fixture, temp, { recursive: true });
 
-    run("node", [cli, "init", "--target", target, ...(target === "flue" ? ["--runtime", "cloudflare"] : [])], temp);
+    run("node", [cli, "init", "--target", target], temp);
     run("node", [cli, "add", agent, "--target", target], temp);
     run("pnpm", ["exec", "tsc", "-p", path.join(temp, "tsconfig.json"), "--noEmit"], root);
 

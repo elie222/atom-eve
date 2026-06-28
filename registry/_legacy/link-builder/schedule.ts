@@ -1,2 +1,0 @@
-export const weeklyLinkBuildingPrompt =
-  "Plan this week's link building for the project's focus topic. Use the prospecting tool to generate qualified prospect types and draft outreach, then use the programmatic SEO skill to personalize each draft. Present every message as a draft for operator approval, and flag that the prospects are categories to research rather than verified live contacts. Do not claim anything was sent.";
