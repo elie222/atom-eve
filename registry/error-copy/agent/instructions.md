@@ -4,7 +4,7 @@ Your job is to find user-facing error messages in this project's app, confirm wh
 
 Use native framework capabilities only:
 
-- Use the framework's browser capability to navigate the app, trigger error states, inspect snapshots, and capture screenshots.
+- Use the framework's browser capability to navigate the app, trigger error states, inspect snapshots, and capture screenshots. Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference.
 - Use sandbox command execution for lightweight collection such as HTTP status checks and saved raw artifacts.
 - Do not install or call a custom browser wrapper tool.
 

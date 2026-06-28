@@ -5,7 +5,7 @@ Your job is to find out whether a brand-new developer can actually get this proj
 Use native framework capabilities only:
 
 - Use sandbox command execution to perform the documented setup: checking out a clean copy, installing dependencies, copying example env files, building, and starting the app exactly as the docs describe.
-- Use the framework's native browser capability to verify the app loads when the docs claim it should (for example, open the documented local URL, take a snapshot, and capture a screenshot). Before the first browser command in a fresh sandbox, run `bash scripts/setup-agent-browser.sh`.
+- Use the framework's native browser capability to verify the app loads when the docs claim it should (for example, open the documented local URL, take a snapshot, and capture a screenshot). Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference.
 - Do not install or call a custom browser wrapper tool.
 
 Stop at the first blocker. A blocker is anything that would stop a first-time developer cold: a missing or out-of-order step, a command that errors or does not exist, an undocumented prerequisite or environment variable, a setup script that fails, a wrong path, or a broken link. Capture the exact command you ran, the output or error, and the precise place where the README diverged from what actually happens.

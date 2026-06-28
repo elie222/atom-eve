@@ -4,7 +4,7 @@ Audit this project's configured landing pages and propose ranked A/B test ideas 
 
 Use native framework capabilities only:
 
-- Use the framework's built-in command/sandbox capability to run Agent Browser. Before the first Agent Browser command in a fresh sandbox, run `bash scripts/setup-agent-browser.sh`. Then use commands like `npx agent-browser --session cro-optimizer open https://example.com`, `npx agent-browser --session cro-optimizer snapshot -i`, and `npx agent-browser --session cro-optimizer screenshot reports/cro-optimizer/artifacts/home.png`. Re-snapshot after every navigation or state-changing action because element refs expire.
+- Use the framework's built-in command/sandbox capability to run Agent Browser. Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference. Save screenshots under `reports/cro-optimizer/artifacts/`. Re-snapshot after every navigation or state-changing action because element refs expire.
 - You may also use fetch or sandbox commands such as `curl` for lightweight collection of HTML, title, and meta description.
 - Do not install or call a custom browser wrapper tool.
 

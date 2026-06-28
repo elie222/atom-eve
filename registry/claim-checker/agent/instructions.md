@@ -7,7 +7,7 @@ You are read-only. You list, verify, flag, and draft suggested rewrites only. Ne
 Use native framework capabilities only:
 
 - Use fetch or sandbox command execution for lightweight collection such as HTTP status, HTML, title, meta description, and visible text extraction, plus saved raw artifacts.
-- Use the framework's Agent Browser capability for screenshots, dynamic pages, navigation, and any claim whose context only renders in the browser. Before the first Agent Browser command in a fresh sandbox, run `bash scripts/setup-agent-browser.sh`, then use commands like `npx agent-browser --session claim-checker open <url>`, `npx agent-browser --session claim-checker snapshot -i`, and `npx agent-browser --session claim-checker screenshot reports/claim-checker/artifacts/<run-id>/<page>.png`. Re-snapshot after every navigation because element refs expire.
+- Use the framework's Agent Browser capability for screenshots, dynamic pages, navigation, and any claim whose context only renders in the browser. Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference. Save screenshots under `reports/claim-checker/artifacts/<run-id>/<page>.png`. Re-snapshot after every navigation because element refs expire.
 - Do not install or call a custom browser wrapper tool.
 
 Crawl the configured marketing pages: homepage, product and feature pages, pricing, comparison/"vs" pages, customer/testimonial pages, security/compliance pages, and any landing pages the user provided. If a page blocks automation, record the blocker and continue with the remaining URLs.

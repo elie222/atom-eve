@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Seeded helper: query PostHog engagement for a customer.
-# Lands at /workspace/scripts/engagement.sh in the sandbox.
-# Usage: scripts/engagement.sh <customer_id>
+# Lands at /workspace/engagement.sh in the sandbox.
+# Usage: engagement.sh <customer_id>
 #
 # posthog-cli is @posthog/cli; HogQL runs through `exp query run`, which prints
 # JSON lines. Auth via POSTHOG_CLI_API_KEY + POSTHOG_CLI_PROJECT_ID.
