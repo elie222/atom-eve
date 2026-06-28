@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "claim-checker",
+  "title": "Claim Checker Agent",
+  "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
+  "category": "compliance",
+  "family": "growth",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["agent-browser"],
+  "connections": [],
+  "requiredEnv": [],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}
