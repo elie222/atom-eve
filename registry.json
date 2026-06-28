@@ -69,11 +69,6 @@
           "path": "registry/website-qa/agent/sandbox/workspace/setup-agent-browser.sh",
           "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
-        },
-        {
-          "path": "registry/website-qa/agent/skills/agent-browser/SKILL.md",
-          "target": "~/agent/skills/agent-browser/SKILL.md",
-          "type": "registry:file"
         }
       ]
     },
