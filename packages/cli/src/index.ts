@@ -243,8 +243,8 @@ async function installRemoteAgent(agent: string, target: Target, config: AtomEve
     discoverFiles: async (sourceDir) => discoverRemoteFiles(config, repoPath, sourceDir)
   });
 
-  const instructions = (await remoteFileExists(config, `${repoPath}/shared/instructions.md`))
-    ? await fetchGitHubRaw(config, `${repoPath}/shared/instructions.md`)
+  const instructions = (await remoteFileExists(config, `${repoPath}/instructions.md`))
+    ? await fetchGitHubRaw(config, `${repoPath}/instructions.md`)
     : undefined;
 
   for (const file of files) {

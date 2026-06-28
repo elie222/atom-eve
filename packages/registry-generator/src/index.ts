@@ -121,6 +121,7 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
     const parsed = atomSchema.parse(raw);
     validateTaxonomy(parsed, taxonomy);
     await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
+    await validateAgentStructure(path.join(registryDir, entry.name), parsed);
     const repoPath = `registry/${entry.name}`;
     await validateTriggerPromptSources(path.join(registryDir, entry.name), parsed.name);
     if (parsed.targets.includes("flue")) {
@@ -193,43 +194,89 @@ async function validateReadme(readmePath: string, agentName: string) {
   }
 }
 
+const AGENT_STRUCTURE = {
+  rootFiles: new Set(["atom.json", "README.md", "instructions.md", "schedule.ts"]),
+  rootDirs: new Set(["lib", "skills", "eve", "flue"]),
+  eveFiles: new Set(["agent.ts"]),
+  eveDirs: new Set(["schedules", "tools", "sandbox", "connections", "lib", "evals"]),
+  flueFiles: new Set(["agent.ts"]),
+  flueDirs: new Set(["tools", "workflows", "lib"])
+};
+
+async function validateAgentStructure(agentDir: string, manifest: AtomManifest) {
+  await assertAllowedEntries(agentDir, manifest.name, "", AGENT_STRUCTURE.rootFiles, AGENT_STRUCTURE.rootDirs);
+  if (manifest.targets.includes("eve")) {
+    await assertAllowedEntries(path.join(agentDir, "eve"), manifest.name, "eve", AGENT_STRUCTURE.eveFiles, AGENT_STRUCTURE.eveDirs);
+    const evalEntries = await fs.readdir(path.join(agentDir, "eve/evals"), { withFileTypes: true }).catch(() => []);
+    for (const entry of evalEntries) {
+      if (entry.isFile() && entry.name !== "evals.config.ts") {
+        throw new Error(`${manifest.name} eve/evals/${entry.name} is not allowed; put fixtures in eve/evals/fixtures and eval cases in a subfolder`);
+      }
+    }
+  }
+  if (manifest.targets.includes("flue")) {
+    await assertAllowedEntries(path.join(agentDir, "flue"), manifest.name, "flue", AGENT_STRUCTURE.flueFiles, AGENT_STRUCTURE.flueDirs);
+  }
+}
+
+async function assertAllowedEntries(
+  dir: string,
+  agentName: string,
+  label: string,
+  allowedFiles: Set<string>,
+  allowedDirs: Set<string>
+) {
+  const entries = await fs.readdir(dir, { withFileTypes: true }).catch(() => {
+    throw new Error(`${agentName} is missing the ${label || "agent root"} directory`);
+  });
+  for (const entry of entries) {
+    const rel = label ? `${label}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) {
+      if (!allowedDirs.has(entry.name)) {
+        throw new Error(`${agentName} has an unexpected folder "${rel}/"; allowed here: ${[...allowedDirs].join(", ")}`);
+      }
+    } else if (!allowedFiles.has(entry.name)) {
+      throw new Error(`${agentName} has an unexpected file "${rel}"; allowed here: ${[...allowedFiles].join(", ")}`);
+    }
+  }
+}
+
 async function validateTriggerPromptSources(agentDir: string, agentName: string) {
-  const triggerDirs = ["targets/eve/schedules", "targets/flue/workflows"];
-  for (const triggerDir of triggerDirs) {
+  for (const triggerDir of ["eve/schedules", "flue/workflows"]) {
     const files = await walk(path.join(agentDir, triggerDir)).catch(() => []);
     for (const file of files) {
       if (!file.endsWith(".ts")) continue;
       const content = await fs.readFile(file, "utf8");
       if (/markdown:\s*["`]/.test(content) || /session\.prompt\(\s*["`]/.test(content)) {
         const rel = path.relative(agentDir, file);
-        throw new Error(`${agentName} ${rel} must import trigger prompt text from shared/schedule.ts`);
+        throw new Error(`${agentName} ${rel} must import trigger prompt text from schedule.ts`);
       }
     }
   }
 }
 
 async function validateFlueInstructions(agentDir: string, agentName: string) {
-  const agentPath = path.join(agentDir, "targets/flue/agent.ts");
+  const agentPath = path.join(agentDir, "flue/agent.ts");
   const content = await fs.readFile(agentPath, "utf8").catch(() => {
-    throw new Error(`${agentName} is missing targets/flue/agent.ts`);
+    throw new Error(`${agentName} is missing flue/agent.ts`);
   });
   if (!/(['"])__ATOM_INSTRUCTIONS__\1/.test(content)) {
     throw new Error(
-      `${agentName} targets/flue/agent.ts must set instructions to the "__ATOM_INSTRUCTIONS__" placeholder ` +
-        `so shared/instructions.md is the single source of truth`
+      `${agentName} flue/agent.ts must set instructions to the "__ATOM_INSTRUCTIONS__" placeholder ` +
+        `so instructions.md is the single source of truth`
     );
   }
   if (/Instructions\b/.test(content)) {
     throw new Error(
-      `${agentName} targets/flue/agent.ts must not import a separate instructions constant from prompts; ` +
+      `${agentName} flue/agent.ts must not import a separate instructions constant from prompts; ` +
         `use the "__ATOM_INSTRUCTIONS__" placeholder instead`
     );
   }
-  const instructionsPath = path.join(agentDir, "shared/instructions.md");
+  const instructionsPath = path.join(agentDir, "instructions.md");
   try {
     await fs.stat(instructionsPath);
   } catch {
-    throw new Error(`${agentName} uses the instructions placeholder but is missing shared/instructions.md`);
+    throw new Error(`${agentName} uses the instructions placeholder but is missing instructions.md`);
   }
 }
 
@@ -285,7 +332,7 @@ function toSiteIndexItem(manifest: RegistryManifest, config: CatalogConfig): Sit
 }
 
 async function hasScheduleFiles(rootDir: string, repoPath: string): Promise<boolean> {
-  for (const sourceDir of ["targets/eve/schedules", "targets/flue/workflows"]) {
+  for (const sourceDir of ["eve/schedules", "flue/workflows"]) {
     const abs = path.join(rootDir, repoPath, sourceDir);
     const files = await walk(abs).catch(() => []);
     if (files.length > 0) return true;
