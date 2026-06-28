@@ -1,29 +1,19 @@
 # SEO Audit Agent
 
+The SEO Audit Agent reviews this project's configured site, finds practical SEO and content fixes, and tracks progress week to week.
+
 ## What it does
 
-The SEO Audit Agent helps improve SEO by reviewing the configured site, finding content and metadata fixes, and tracking progress week to week.
+It audits a configured URL or sitemap, reports SEO and content issues, and uses prior history when available to show what changed since the last run.
 
-The package checks:
+## What it checks
 
-- Titles and meta descriptions.
-- Heading structure.
-- Canonical and robots signals.
-- Broken content, broken CTAs, and unclear conversion paths.
-- Content gaps and visible copy quality.
-- Internal links and obvious broken-link risks.
-- Previous-vs-current deltas from the configured memory backend.
+- Titles, meta descriptions, headings, canonical tags, and robots signals.
+- Broken content, unclear CTAs, thin pages, and confusing conversion paths.
+- Content gaps, internal-link opportunities, and visible copy quality.
+- Previous-vs-current deltas when SEO memory is available.
 
-Eve installs default to Vercel Blob memory through the included SEO memory tools. Other targets can use a configured object store or local filesystem history when available. The package does not require SQL tables or migrations.
-
-The package includes:
-
-- Shared SEO audit instructions.
-- Shared memory helpers under `shared/lib/memory.ts` and SEO memory paths under `shared/lib/seo-memory.ts`.
-- An Eve root agent, weekly schedule, Vercel Blob-backed SEO memory tools, and sandbox bootstrap for report/history directories.
-- A Flue agent and weekly workflow trigger.
-
-It does not add paid APIs or custom browser wrapper tools. The agent should use the target framework's native sandbox command, browser, and fetch capabilities where available.
+It runs read-only. It does not submit forms, mutate the site, add paid APIs, or install a custom browser wrapper.
 
 ## Supported targets
 
@@ -33,180 +23,68 @@ It does not add paid APIs or custom browser wrapper tools. The agent should use 
 ## Install
 
 ```bash
-npx atom-eve add seo-audit --target flue
+npx atom-eve add seo-audit --target eve
 ```
 
 or:
 
 ```bash
-npx atom-eve add seo-audit --target eve
+npx atom-eve add seo-audit --target flue
 ```
 
 ## Setup
 
 No credentials are required for public pages.
 
-Before enabling a recurring run, configure the production URL or sitemap in your app repo. The installed weekly schedule/workflow intentionally uses a generic trigger; if no URL is configured, the agent should report the run as blocked instead of auditing a sample domain.
-
-For Eve:
+Before enabling a recurring run, configure the production URL or sitemap in the installed schedule or workflow:
 
 ```text
 agent/schedules/weekly.ts
-```
-
-For Flue:
-
-```text
 src/workflows/seo-audit-weekly.ts
 ```
 
-Make sure the runtime sandbox can make outbound HTTP requests. Eve installs use Vercel Blob memory by default through the installed SEO memory tools. For Flue or custom hosts, configure a blob-backed memory adapter or allow local file writes under `reports/seo-audit/history`. If browser inspection is available in your framework, use it for visible copy, layout, and CTA checks. If browser inspection is unavailable, continue with fetch-based checks and note the limitation in the report.
+If no URL or sitemap is configured, the agent should report that the run is blocked instead of auditing a sample domain.
+
+Make sure the runtime can fetch the site. Browser access is optional, but useful for visible copy, layout, and CTA checks. For private sites, configure authenticated fetch or browser session handling in your app repo and do not commit credentials.
 
 ## Memory
 
-Eve uses Vercel Blob as the default durable memory backend. If Blob is unavailable or the installed tools are removed, the agent can use the local filesystem when it is available:
+SEO memory is optional but recommended for recurring audits. When available, the agent reads prior history before auditing and saves the current report plus compact findings after auditing.
 
-```text
-reports/seo-audit/latest.md
-reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.md
-reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.json
-```
+Eve installs include SEO memory tools backed by Vercel Blob and declare `@vercel/blob` as a dependency. Connect a Vercel Blob store if you want durable memory across runs. Other targets can wire a durable object store or use local files under `reports/seo-audit` when the runtime filesystem persists.
 
-Blob-backed memory uses the same small-file mental model, but stores it in object storage under a project-local prefix:
-
-```text
-seo-audit/<site>/
-  latest.json
-  latest.md
-  index.json
-  runs/<run-id>/
-    summary.json
-    report.md
-    pages.json
-    issues.json
-```
-
-Listing by prefix is expected. This agent saves a few reports for itself, so it does not need a query engine for the common case. Keep `index.json` compact if you want a quick summary, but it is fine to list `runs/` directly.
-
-### Vercel Blob
-
-For Eve on Vercel, the installed agent includes Blob-backed memory tools and declares `@vercel/blob` as a registry dependency. Connect a Blob store in the host app:
-
-```bash
-pnpm add @vercel/blob
-vercel blob create-store seo-audit-memory --access private
-vercel env pull
-```
-
-Once Blob credentials are available to the runtime, the agent can list, read, and write SEO memory files directly through those tools. If a user wants local-only memory, they can remove the tools and dependency from their installed copy.
-
-If you want to use the same helper from custom app code, import it from the installed agent:
-
-```ts
-import { createVercelSeoAuditMemoryStore } from "./agent/lib/vercel-blob-memory.js";
-
-export const seoMemory = createVercelSeoAuditMemoryStore("https://your-site.com");
-```
-
-### Cloudflare R2
-
-For Flue on Cloudflare, bind an R2 bucket in the host app and pass the binding to the shared adapter. The Flue install does not assume Vercel Blob or Eve memory tools:
-
-```jsonc
-{
-  "r2_buckets": [
-    {
-      "binding": "SEO_AUDIT_MEMORY",
-      "bucket_name": "seo-audit-memory"
-    }
-  ]
-}
-```
-
-```ts
-import { createR2BlobClient, type R2LikeBucket } from "../lib/agents/seo-audit/memory.js";
-import { createSeoAuditMemoryStore } from "../lib/agents/seo-audit/seo-memory.js";
-
-export function createSeoMemory(env: { SEO_AUDIT_MEMORY: R2LikeBucket }) {
-  return createSeoAuditMemoryStore({
-    client: createR2BlobClient(env.SEO_AUDIT_MEMORY),
-    siteUrl: "https://your-site.com"
-  });
-}
-```
-
-Installed agents still work without these snippets. Blob memory is an opt-in durability upgrade for hosts with ephemeral sandboxes; local history is used only when the runtime can read and write files.
+The memory system does not require SQL tables or migrations.
 
 ## Usage
 
-Send the agent a URL or sitemap:
+Audit a sitemap:
 
 ```text
 Audit https://your-site.com/sitemap.xml.
 
-Sample up to 25 indexable URLs, inspect homepage and top content pages in a browser if available, compare against prior history, and write the Markdown report to reports/seo-audit/latest.md.
+Sample up to 25 indexable URLs and compare against prior history if available.
 ```
 
-For a single page:
+Audit a single page:
 
 ```text
 Audit https://your-site.com/pricing.
 
-Check metadata, headings, canonical and robots signals, internal links, CTA clarity, visible copy quality, and content gaps. Compare with the previous run if history exists.
+Check metadata, headings, canonical and robots signals, internal links, CTA clarity, visible copy quality, and content gaps.
 ```
 
-The agent should return a concise Markdown report. When filesystem access is available, write:
-
-```text
-reports/seo-audit/latest.md
-reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.md
-reports/seo-audit/history/YYYY-MM-DDTHH-mm-ssZ.json
-```
-
-The JSON file should contain the lightweight observations needed for the next delta comparison, not raw page dumps. When using blob memory, write the equivalent compact JSON and Markdown files under the object layout described in [Memory](#memory).
-
-## Local Smoke Test
-
-Install into a fixture app and run type checks:
-
-```bash
-npx atom-eve init --target eve --runtime vercel
-npx atom-eve add seo-audit --target eve
-pnpm install
-pnpm typecheck
-```
-
-Then send a safe prompt:
-
-```text
-Audit https://your-site.com. Keep the run read-only and write the report to reports/seo-audit/latest.md.
-```
-
-## Updating An Installed Copy
-
-Rerun the add command from your app repo and review the diff:
-
-```bash
-npx atom-eve add seo-audit --target eve
-git diff
-```
-
-Treat installed files like shadcn components: keep local URL, schedule, retention, and reporting customizations that still matter.
+The agent should return a concise Markdown report with an executive summary, scope, previous-vs-current deltas, findings ordered by severity, opportunities, next actions, and artifacts written.
 
 ## Connections and auth
 
-This package has no required connections and no required environment variables for local file-backed history.
-
-Optional durable memory may require host-specific configuration:
-
-- Vercel Blob: `BLOB_READ_WRITE_TOKEN` or Vercel OIDC plus `BLOB_STORE_ID`, depending on how the store is connected.
-- Cloudflare R2: an R2 bucket binding such as `SEO_AUDIT_MEMORY`.
-
-For private sites, configure authenticated fetch or browser session handling in your app repo. Do not commit cookies, browser profile state, or credentials.
+- Public pages do not require credentials.
+- Vercel Blob can be connected for Eve durable memory.
+- Cloudflare R2 or another object store can be wired for Flue/custom durable memory.
+- Private sites need authenticated fetch or browser session handling in the installed app. Do not commit credentials.
 
 ## Limitations
 
-- Local file history under `reports/seo-audit/history` can be lost when the runtime sandbox is ephemeral. Use blob-backed memory when reports must survive across runs.
-- It is not a crawler at search-engine scale. Keep sitemap samples bounded unless you add queueing and rate controls.
+- Local file history may be lost in ephemeral sandboxes.
+- It is not a search-engine-scale crawler. Keep sitemap samples bounded unless you add queueing and rate controls.
 - JavaScript-heavy pages may need a browser-capable sandbox for reliable visible-copy and CTA checks.
 - Robots and sitemap interpretation is best-effort and should be reviewed before making high-impact indexing changes.
