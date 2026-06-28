@@ -98,13 +98,6 @@ export default function CodeBrowser({ targets }: Props) {
         </span>
       </div>
 
-      {files.length <= 1 && targets.length > 1 && (
-        <div className="border-b-2 border-edgedim px-4 py-[9px] font-mono text-[11.5px] text-muted">
-          {activeTarget} ships fewer files here — this framework inlines instructions and logic into the
-          agent file. Switch targets above to compare.
-        </div>
-      )}
-
       <div className="grid grid-cols-[230px_1fr] max-md:grid-cols-1">
         {/* file tree */}
         <div className="border-r-2 border-edgedim p-2 max-md:border-b-2 max-md:border-r-0">
