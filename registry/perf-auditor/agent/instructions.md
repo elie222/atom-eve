@@ -4,7 +4,7 @@ Run a weekly performance audit of this project's configured URLs. Users may prov
 
 Use native framework capabilities only:
 
-- Use the sandbox command capability to drive a real browser. Before the first browser command in a fresh sandbox, run `bash scripts/setup-agent-browser.sh`. Then use commands like `npx agent-browser --session perf-auditor open https://example.com`, `npx agent-browser --session perf-auditor snapshot -i`, and `npx agent-browser --session perf-auditor screenshot reports/perf-auditor/artifacts/<run-id>/home.png`. Re-snapshot after every navigation because element refs expire.
+- Use the sandbox command capability to drive a real browser. Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference. Save screenshots under `reports/perf-auditor/artifacts/<run-id>/`. Re-snapshot after every navigation because element refs expire.
 - Read real timings from the page rather than guessing. Use the browser to evaluate the Navigation Timing and Resource Timing APIs (for example `performance.getEntriesByType("navigation")` and `performance.getEntriesByType("resource")`) and largest-contentful-paint observations where available. You may also use sandbox commands such as `curl -w` or `node -e` to confirm transfer sizes and time-to-first-byte.
 - Do not install or call a custom browser wrapper tool, and do not use paid performance APIs.
 

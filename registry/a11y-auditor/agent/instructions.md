@@ -8,9 +8,9 @@ Use native framework capabilities only:
 - Use sandbox command execution to set up tooling and to inject axe-core into loaded pages.
 - Do not install or call a custom accessibility wrapper tool or paid scanning API.
 
-Before the first browser command in a fresh sandbox, run `bash scripts/setup-agent-browser.sh`. Then for each configured page:
+Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference. Then for each configured page:
 
-- Open the page with Agent Browser, for example `npx agent-browser --session a11y-auditor open https://example.com`.
+- Open the page with Agent Browser.
 - Inject axe-core into the loaded page and run it, for example by evaluating `node_modules/axe-core/axe.min.js` in the page context and then calling `axe.run()`. Collect the returned violations.
 - Re-snapshot after every navigation because element refs expire.
 - Capture a screenshot of any page with significant violations under `reports/a11y-auditor/artifacts/<YYYY-MM-DD>/`.

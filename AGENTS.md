@@ -246,6 +246,11 @@ agents. Do not copy a third-party skill into this repo. Declare it in `atom.json
 "skills": [{ "ref": "coreyhaines31/marketingskills@copywriting" }]
 ```
 
+When an agent's capability is a CLI with a published usage skill (e.g.
+`vercel-labs/agent-browser@agent-browser`), declare that skill in `atom.json` `skills` and let the
+model load it on demand. Do not inline the CLI's command reference into `instructions.md` — keep a
+brief pointer to the skill plus the agent-specific caveats (re-snapshot, screenshot paths).
+
 The `ref` is the skills.sh install id: `owner/repo`, optionally `@skill` to pick one skill from a
 multi-skill repo (the same value `npx skills add <ref>` accepts). At install time the CLI
 delegates to the `skills` CLI (`npx skills add <repo> -s <skill> -a <target> --copy -y`), which
@@ -341,6 +346,8 @@ Keep Flue wrappers thin. Shared logic should live in `lib`, then be mapped into 
 ## Browser And Sandbox Capabilities
 
 For browser-driven agents, use the framework's native sandbox or command capability to run browser tooling. Do not create a custom wrapper tool when the framework can run the CLI directly.
+
+Sandbox setup scripts live flat at `agent/sandbox/workspace/<setup>.sh` (no `scripts/` nesting); eve mirrors `agent/sandbox/workspace/**` to `/workspace`, so the script lands at `/workspace/<setup>.sh` and the `bootstrap` runs it with `bash <setup>.sh`. The `bootstrap` is template-scoped, so every session inherits the installed CLI — `instructions.md` must NOT also tell the agent to run the setup script "before the first command". The agent uses the CLI directly.
 
 For Website QA specifically, the agent's job is to test real product flows in the browser. Do not substitute an HTML, SEO, or landing-page audit when browser automation is blocked. Report the blocker clearly.
 

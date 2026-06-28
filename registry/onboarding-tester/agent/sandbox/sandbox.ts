@@ -8,6 +8,6 @@ export default defineSandbox({
   revalidationKey: () => "onboarding-tester-agent-browser-v1",
   async bootstrap({ use }) {
     const sandbox = await use();
-    await sandbox.run({ command: "bash scripts/setup-agent-browser.sh" });
+    await sandbox.run({ command: "bash setup-agent-browser.sh" });
   },
 });

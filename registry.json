@@ -40,13 +40,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/stripe-pulse/agent/sandbox/workspace/scripts/engagement.sh",
-          "target": "~/agent/sandbox/workspace/scripts/engagement.sh",
+          "path": "registry/stripe-pulse/agent/sandbox/workspace/engagement.sh",
+          "target": "~/agent/sandbox/workspace/engagement.sh",
           "type": "registry:file"
         },
         {
-          "path": "registry/stripe-pulse/agent/sandbox/workspace/scripts/setup-clis.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-clis.sh",
+          "path": "registry/stripe-pulse/agent/sandbox/workspace/setup-clis.sh",
+          "target": "~/agent/sandbox/workspace/setup-clis.sh",
           "type": "registry:file"
         },
         {
@@ -87,8 +87,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/a11y-auditor/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/a11y-auditor/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -124,8 +124,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/adversarial-reviewer/agent/sandbox/workspace/scripts/setup-gh.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-gh.sh",
+          "path": "registry/adversarial-reviewer/agent/sandbox/workspace/setup-gh.sh",
+          "target": "~/agent/sandbox/workspace/setup-gh.sh",
           "type": "registry:file"
         }
       ]
@@ -156,8 +156,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/analytics-digest/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
+          "path": "registry/analytics-digest/agent/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -193,8 +193,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/claim-checker/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/claim-checker/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -230,8 +230,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/competitor-analysis/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/competitor-analysis/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -294,8 +294,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/cro-optimizer/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/cro-optimizer/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -331,8 +331,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/error-copy/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/error-copy/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -368,8 +368,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/experiment-analyst/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
+          "path": "registry/experiment-analyst/agent/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -405,8 +405,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/funnel-analyst/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
+          "path": "registry/funnel-analyst/agent/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -442,8 +442,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-coach/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-posthog-cli.sh",
+          "path": "registry/onboarding-coach/agent/sandbox/workspace/setup-posthog-cli.sh",
+          "target": "~/agent/sandbox/workspace/setup-posthog-cli.sh",
           "type": "registry:file"
         },
         {
@@ -479,8 +479,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/onboarding-tester/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/onboarding-tester/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -516,8 +516,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/perf-auditor/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/perf-auditor/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -553,8 +553,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/release-notes/agent/sandbox/workspace/scripts/setup-gh.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-gh.sh",
+          "path": "registry/release-notes/agent/sandbox/workspace/setup-gh.sh",
+          "target": "~/agent/sandbox/workspace/setup-gh.sh",
           "type": "registry:file"
         },
         {
@@ -612,8 +612,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/seo-audit/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -649,8 +649,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/ux-reviewer/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/ux-reviewer/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -686,8 +686,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/visual-regression/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/visual-regression/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         },
         {
@@ -723,8 +723,8 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/website-qa/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
-          "target": "~/agent/sandbox/workspace/scripts/setup-agent-browser.sh",
+          "path": "registry/website-qa/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
         }
       ]

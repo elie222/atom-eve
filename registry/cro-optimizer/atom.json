@@ -14,5 +14,8 @@
   "connections": [],
   "requiredEnv": [],
   "dependencies": ["eve@^0.16.2", "ai@^7.0.4"],
-  "skills": [{ "ref": "coreyhaines31/marketingskills@marketing-psychology" }]
+  "skills": [
+    { "ref": "coreyhaines31/marketingskills@marketing-psychology" },
+    { "ref": "vercel-labs/agent-browser@agent-browser" }
+  ]
 }

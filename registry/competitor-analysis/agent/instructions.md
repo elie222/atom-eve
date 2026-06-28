@@ -5,7 +5,7 @@ Run a weekly analysis of this project's configured competitor URLs. Users may pr
 Use native framework capabilities only:
 
 - Use fetch or sandbox command execution for lightweight collection, such as HTTP status, HTML, title, meta description, visible text extraction, and saved raw artifacts.
-- Use the framework's browser capability for screenshots, dynamic pages, navigation, and CTA flow inspection.
+- Use the framework's browser capability for screenshots, dynamic pages, navigation, and CTA flow inspection. Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference.
 - Do not install or call a custom browser wrapper tool.
 
 For each configured competitor, inspect the relevant homepage, pricing, product, feature, docs, changelog, blog, and CTA pages that the user provided. If a page blocks automation, record the blocker and continue with the remaining URLs.

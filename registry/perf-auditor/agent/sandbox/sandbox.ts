@@ -8,6 +8,6 @@ export default defineSandbox({
   revalidationKey: () => "perf-auditor-agent-browser-v1",
   async bootstrap({ use }) {
     const sandbox = await use();
-    await sandbox.run({ command: "bash scripts/setup-agent-browser.sh" });
+    await sandbox.run({ command: "bash setup-agent-browser.sh" });
   },
 });
