@@ -9,7 +9,7 @@ export function resolveInstructionsPlaceholder(content: string, instructions: st
   const pattern = /(['"])__ATOM_INSTRUCTIONS__\1/g;
   if (!pattern.test(content)) return content;
   if (instructions === undefined) {
-    throw new Error("Cannot resolve instructions placeholder: agent has no shared/instructions.md");
+    throw new Error("Cannot resolve instructions placeholder: agent has no instructions.md");
   }
   return content.replace(pattern, () => JSON.stringify(instructions.trim()));
 }
@@ -78,49 +78,49 @@ export async function createInstallFileSpecs(
 
   if (target === "eve") {
     const base = "~/agent";
-    const instructions = await optionalFile("shared/instructions.md");
+    const instructions = await optionalFile("instructions.md");
     if (instructions) add(instructions, `${base}/instructions.md`);
-    const schedule = await optionalFile("shared/schedule.ts");
+    const schedule = await optionalFile("schedule.ts");
     if (schedule) add(schedule, `${base}/schedule.ts`);
-    for (const skill of await sourceReader.discoverFiles("shared/skills")) {
+    for (const skill of await sourceReader.discoverFiles("skills")) {
       add(skill, `${base}/skills/${path.posix.basename(skill)}`);
     }
-    for (const lib of await sourceReader.discoverFiles("shared/lib")) {
-      const relInside = path.posix.relative("shared/lib", lib);
+    for (const lib of await sourceReader.discoverFiles("lib")) {
+      const relInside = path.posix.relative("lib", lib);
       add(lib, `${base}/lib/${relInside}`);
     }
-    await addTree("targets/eve/lib", `${base}/lib`);
-    add(await requiredFile("targets/eve/agent.ts"), `${base}/agent.ts`);
-    await addTree("targets/eve/tools", `${base}/tools`);
-    await addTree("targets/eve/connections", `${base}/connections`);
-    await addTree("targets/eve/sandbox", `${base}/sandbox`);
-    await addTree("targets/eve/schedules", "~/agent/schedules");
-    const evalFiles = await sourceReader.discoverFiles("evals/eve");
-    if (evalFiles.length > 0 && !evalFiles.includes("evals/eve/evals.config.ts")) {
+    await addTree("eve/lib", `${base}/lib`);
+    add(await requiredFile("eve/agent.ts"), `${base}/agent.ts`);
+    await addTree("eve/tools", `${base}/tools`);
+    await addTree("eve/connections", `${base}/connections`);
+    await addTree("eve/sandbox", `${base}/sandbox`);
+    await addTree("eve/schedules", "~/agent/schedules");
+    const evalFiles = await sourceReader.discoverFiles("eve/evals");
+    if (evalFiles.length > 0 && !evalFiles.includes("eve/evals/evals.config.ts")) {
       addPath("registry/_common/evals/eve/evals.config.ts", "~/evals/evals.config.ts");
     }
     for (const source of evalFiles) {
-      const relInside = path.posix.relative("evals/eve", source);
+      const relInside = path.posix.relative("eve/evals", source);
       add(source, `~/evals/${relInside}`);
     }
     return files;
   }
 
   const sourceRoot = "src";
-  add(await requiredFile("targets/flue/agent.ts"), `~/${sourceRoot}/agents/${manifest.name}.ts`);
-  const schedule = await optionalFile("shared/schedule.ts");
+  add(await requiredFile("flue/agent.ts"), `~/${sourceRoot}/agents/${manifest.name}.ts`);
+  const schedule = await optionalFile("schedule.ts");
   if (schedule) add(schedule, `~/${sourceRoot}/lib/agents/${manifest.name}/schedule.ts`);
-  for (const skill of await sourceReader.discoverFiles("shared/skills")) {
+  for (const skill of await sourceReader.discoverFiles("skills")) {
     const name = path.posix.basename(skill, path.posix.extname(skill));
     add(skill, `~/${sourceRoot}/skills/${manifest.name}-${name}/SKILL.md`);
   }
-  for (const lib of await sourceReader.discoverFiles("shared/lib")) {
-    const relInside = path.posix.relative("shared/lib", lib);
+  for (const lib of await sourceReader.discoverFiles("lib")) {
+    const relInside = path.posix.relative("lib", lib);
     add(lib, `~/${sourceRoot}/lib/agents/${manifest.name}/${relInside}`);
   }
-  await addTree("targets/flue/lib", `~/${sourceRoot}/lib/agents/${manifest.name}`);
-  await addTree("targets/flue/tools", `~/${sourceRoot}/tools/${manifest.name}`);
-  await addTree("targets/flue/workflows", `~/${sourceRoot}/workflows`, (source, destination) => {
+  await addTree("flue/lib", `~/${sourceRoot}/lib/agents/${manifest.name}`);
+  await addTree("flue/tools", `~/${sourceRoot}/tools/${manifest.name}`);
+  await addTree("flue/workflows", `~/${sourceRoot}/workflows`, (source, destination) => {
     const ext = path.posix.extname(destination);
     const stem = destination.slice(0, -ext.length);
     add(source, `${stem.replace(/\/([^/]+)$/, `/${manifest.name}-$1`)}${ext}`);
@@ -154,7 +154,7 @@ async function readLocalInstructions(
   rootDir: string,
   manifest: Pick<InstallManifest, "repoPath">
 ): Promise<string | undefined> {
-  const abs = path.join(rootDir, manifest.repoPath, "shared/instructions.md");
+  const abs = path.join(rootDir, manifest.repoPath, "instructions.md");
   return fs.readFile(abs, "utf8").catch(() => undefined);
 }
 
