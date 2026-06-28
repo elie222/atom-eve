@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/reddit-radar.js";
-import { dailyRadarPrompt } from "../lib/agents/reddit-radar/prompts.js";
+import { dailyRadarPrompt } from "../lib/agents/reddit-radar/schedule.js";
 
 interface WorkflowContext {
   harness: {

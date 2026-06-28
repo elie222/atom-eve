@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/keyword-researcher.js";
-import { weeklyKeywordResearchPrompt } from "../lib/agents/keyword-researcher/prompts.js";
+import { weeklyKeywordResearchPrompt } from "../lib/agents/keyword-researcher/schedule.js";
 
 interface WorkflowContext {
   harness: {

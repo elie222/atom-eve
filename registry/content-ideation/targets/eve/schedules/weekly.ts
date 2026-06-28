@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { CONTENT_IDEATION_WEEKLY_PROMPT } from "../lib/prompts.js";
+import { CONTENT_IDEATION_WEEKLY_PROMPT } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 10 * * 1",

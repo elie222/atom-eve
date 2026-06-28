@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { dailyRoutingPrompt } from "../lib/prompts.js";
+import { dailyRoutingPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * *",

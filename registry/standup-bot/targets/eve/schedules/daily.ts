@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { dailyStandupPrompt } from "../lib/prompts.js";
+import { dailyStandupPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * *",

@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/experiment-analyst.js";
-import { weeklyLoopPrompt } from "../lib/agents/experiment-analyst/prompts.js";
+import { weeklyLoopPrompt } from "../lib/agents/experiment-analyst/schedule.js";
 
 interface WorkflowContext {
   harness: {

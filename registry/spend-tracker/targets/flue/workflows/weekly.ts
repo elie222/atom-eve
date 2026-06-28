@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/spend-tracker.js";
-import { weeklySpendPrompt } from "../lib/agents/spend-tracker/prompts.js";
+import { weeklySpendPrompt } from "../lib/agents/spend-tracker/schedule.js";
 
 interface WorkflowContext {
   harness: {

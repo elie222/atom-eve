@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/inbox-triage.js";
-import { dailyTriagePrompt } from "../lib/agents/inbox-triage/prompts.js";
+import { dailyTriagePrompt } from "../lib/agents/inbox-triage/schedule.js";
 
 interface WorkflowContext {
   harness: {

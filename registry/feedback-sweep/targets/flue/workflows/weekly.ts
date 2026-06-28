@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/feedback-sweep.js";
-import { weeklySweepPrompt } from "../lib/agents/feedback-sweep/prompts.js";
+import { weeklySweepPrompt } from "../lib/agents/feedback-sweep/schedule.js";
 
 interface WorkflowContext {
   harness: {

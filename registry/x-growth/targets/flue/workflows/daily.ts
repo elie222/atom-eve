@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/x-growth.js";
-import { dailyMentionsPrompt } from "../lib/agents/x-growth/prompts.js";
+import { dailyMentionsPrompt } from "../lib/agents/x-growth/schedule.js";
 
 interface WorkflowContext {
   harness: {

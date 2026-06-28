@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/competitor-analysis.js";
-import { weeklyCompetitorAnalysisPrompt } from "../lib/agents/competitor-analysis/prompts.js";
+import { weeklyCompetitorAnalysisPrompt } from "../lib/agents/competitor-analysis/schedule.js";
 
 interface WorkflowContext {
   harness: {

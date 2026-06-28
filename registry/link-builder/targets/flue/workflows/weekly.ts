@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/link-builder.js";
-import { weeklyLinkBuildingPrompt } from "../lib/agents/link-builder/prompts.js";
+import { weeklyLinkBuildingPrompt } from "../lib/agents/link-builder/schedule.js";
 
 interface WorkflowContext {
   harness: {

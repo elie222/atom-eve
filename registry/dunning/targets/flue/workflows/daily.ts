@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/dunning.js";
-import { dailyLoopPrompt } from "../lib/agents/dunning/prompts.js";
+import { dailyLoopPrompt } from "../lib/agents/dunning/schedule.js";
 
 interface WorkflowContext {
   harness: {

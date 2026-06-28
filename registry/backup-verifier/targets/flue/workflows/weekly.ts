@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/backup-verifier.js";
-import { weeklyRestoreCheckPrompt } from "../lib/agents/backup-verifier/prompts.js";
+import { weeklyRestoreCheckPrompt } from "../lib/agents/backup-verifier/schedule.js";
 
 interface WorkflowContext {
   harness: {

@@ -81,7 +81,7 @@ export function fileGroup(targetPath: string): FileGroup {
   if (/\/tools?\//.test(p)) return "Tools";
   if (/\/connections?\//.test(p)) return "Connections";
   if (/\/sandbox\//.test(p)) return "Sandbox";
-  if (/\/schedules?\//.test(p)) return "Schedules";
+  if (/\/schedules?\//.test(p) || /\/schedule\.ts$/.test(p)) return "Schedules";
   if (/\/workflows?\//.test(p)) return "Workflows";
   if (/\/lib\//.test(p)) return "Library";
   if (/(^|\/)~\/evals\//.test(p) || /\/evals?\//.test(p) || /\.eval\.ts$/.test(p)) return "Evals";

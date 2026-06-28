@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/data-compliance.js";
-import { dailyScanPrompt } from "../lib/agents/data-compliance/prompts.js";
+import { dailyScanPrompt } from "../lib/agents/data-compliance/schedule.js";
 
 interface WorkflowContext {
   harness: {

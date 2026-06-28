@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/docs-sync.js";
-import { dailyDocsSyncPrompt } from "../lib/agents/docs-sync/prompts.js";
+import { dailyDocsSyncPrompt } from "../lib/agents/docs-sync/schedule.js";
 
 interface WorkflowContext {
   harness: {

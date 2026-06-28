@@ -202,7 +202,7 @@ async function validateTriggerPromptSources(agentDir: string, agentName: string)
       const content = await fs.readFile(file, "utf8");
       if (/markdown:\s*["`]/.test(content) || /session\.prompt\(\s*["`]/.test(content)) {
         const rel = path.relative(agentDir, file);
-        throw new Error(`${agentName} ${rel} must import trigger prompt text from shared/lib/prompts.ts`);
+        throw new Error(`${agentName} ${rel} must import trigger prompt text from shared/schedule.ts`);
       }
     }
   }

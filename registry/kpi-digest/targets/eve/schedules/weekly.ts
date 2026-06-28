@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { weeklyKpiPrompt } from "../lib/prompts.js";
+import { weeklyKpiPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * 1",

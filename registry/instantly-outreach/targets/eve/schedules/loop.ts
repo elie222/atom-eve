@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { outreachLoopPrompt } from "../lib/prompts.js";
+import { outreachLoopPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 */3 * *",

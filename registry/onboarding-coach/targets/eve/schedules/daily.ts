@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { dailyNudgePrompt } from "../lib/prompts.js";
+import { dailyNudgePrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * *",

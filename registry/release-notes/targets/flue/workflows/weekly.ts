@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/release-notes.js";
-import { weeklyReleaseNotesPrompt } from "../lib/agents/release-notes/prompts.js";
+import { weeklyReleaseNotesPrompt } from "../lib/agents/release-notes/schedule.js";
 
 interface WorkflowContext {
   harness: {

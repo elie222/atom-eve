@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/repo-janitor.js";
-import { weeklyCleanupPrompt } from "../lib/agents/repo-janitor/prompts.js";
+import { weeklyCleanupPrompt } from "../lib/agents/repo-janitor/schedule.js";
 
 interface WorkflowContext {
   harness: {

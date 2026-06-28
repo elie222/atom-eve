@@ -1,5 +1,5 @@
 import { defineSchedule } from "eve/schedules";
-import { weeklySweepPrompt } from "../lib/prompts.js";
+import { weeklySweepPrompt } from "../schedule.js";
 
 export default defineSchedule({
   cron: "0 9 * * 1",

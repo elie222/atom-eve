@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/a11y-auditor.js";
-import { weeklyA11yAuditPrompt } from "../lib/agents/a11y-auditor/prompts.js";
+import { weeklyA11yAuditPrompt } from "../lib/agents/a11y-auditor/schedule.js";
 
 interface WorkflowContext {
   harness: {

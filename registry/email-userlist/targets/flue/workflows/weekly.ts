@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/email-userlist.js";
-import { weeklyEmailPrompt } from "../lib/agents/email-userlist/prompts.js";
+import { weeklyEmailPrompt } from "../lib/agents/email-userlist/schedule.js";
 
 interface WorkflowContext {
   harness: {

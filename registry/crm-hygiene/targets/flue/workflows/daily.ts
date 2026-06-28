@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/crm-hygiene.js";
-import { dailyLoopPrompt } from "../lib/agents/crm-hygiene/prompts.js";
+import { dailyLoopPrompt } from "../lib/agents/crm-hygiene/schedule.js";
 
 interface WorkflowContext {
   harness: {

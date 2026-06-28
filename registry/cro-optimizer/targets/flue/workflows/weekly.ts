@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/cro-optimizer.js";
-import { weeklyCroOptimizerPrompt } from "../lib/agents/cro-optimizer/prompts.js";
+import { weeklyCroOptimizerPrompt } from "../lib/agents/cro-optimizer/schedule.js";
 
 interface WorkflowContext {
   harness: {

@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/onboarding-tester.js";
-import { weeklyOnboardingTesterPrompt } from "../lib/agents/onboarding-tester/prompts.js";
+import { weeklyOnboardingTesterPrompt } from "../lib/agents/onboarding-tester/schedule.js";
 
 interface WorkflowContext {
   harness: {

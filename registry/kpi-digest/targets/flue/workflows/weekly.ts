@@ -1,6 +1,6 @@
 import { defineWorkflow } from "@flue/runtime";
 import agent from "../agents/kpi-digest.js";
-import { weeklyKpiPrompt } from "../lib/agents/kpi-digest/prompts.js";
+import { weeklyKpiPrompt } from "../lib/agents/kpi-digest/schedule.js";
 
 interface WorkflowContext {
   harness: {
