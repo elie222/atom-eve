@@ -7,7 +7,7 @@
   "scripts": {
     "generate": "pnpm --filter @atom-eve/schemas build && pnpm --filter @atom-eve/install-map build && tsx packages/registry-generator/src/cli.ts",
     "build": "pnpm generate && pnpm --filter @atom-eve/registry-generator build && pnpm --filter atom-eve build && pnpm --filter @atom-eve/web build",
-    "typecheck": "pnpm --filter @atom-eve/schemas typecheck && pnpm --filter @atom-eve/install-map typecheck && pnpm --filter @atom-eve/install-map build && pnpm --filter @atom-eve/registry-generator typecheck && pnpm --filter @atom-eve/registry-generator build && pnpm --filter atom-eve typecheck",
+    "typecheck": "pnpm --filter @atom-eve/schemas typecheck && pnpm --filter @atom-eve/install-map typecheck && pnpm --filter @atom-eve/install-map build && pnpm --filter @atom-eve/flue-generator typecheck && pnpm --filter @atom-eve/flue-generator build && pnpm --filter @atom-eve/registry-generator typecheck && pnpm --filter @atom-eve/registry-generator build && pnpm --filter atom-eve typecheck",
     "verify:fixtures": "node scripts/verify-fixtures.mjs",
     "secret-scan": "node scripts/secret-scan.mjs",
     "check": "pnpm generate && pnpm typecheck && pnpm build && pnpm verify:fixtures && pnpm secret-scan"
