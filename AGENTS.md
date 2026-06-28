@@ -50,6 +50,34 @@ changing any framework-facing code.
   (Zod for eve, Valibot for flue); only the framework-neutral `run()` logic, name, description, and
   types are shared.
 
+## Giving an agent capability (CLI-first)
+
+An agent must do work only an LLM can do. If removing the model leaves ~the same output, it's a
+script, not an agent. **Never bake judgment or copy into tool code** — no `recommend*` / `draft*` /
+`classify*` / `score*` functions that map an input to a hardcoded output string. The tool/CLI returns
+raw facts; the model does the reasoning and writing.
+
+Give the agent a real capability, in this priority:
+
+1. **CLI in the sandbox + a usage skill (default).** Run a real CLI (`posthog-cli`, `stripe`, `gh`,
+   …) via the agent's sandbox; document the workflow in `instructions.md` or a skill. CLIs give
+   **progressive disclosure** (`<cli> search → info → call`) — the model pulls only the schema it
+   needs, so the full API surface is reachable at near-zero prompt cost. Best coverage, least noise.
+2. **Custom `defineTool` (the focused exception).** For a narrow, known, specific operation (or one
+   validated write) where you want the model laser-focused on exactly one thing. Returns raw facts /
+   performs one action.
+3. **MCP / OpenAPI connection** (`agent/connections/*.ts`, Vercel Connect auth) — only when there is
+   no usable CLI but the service exposes an MCP server / OpenAPI contract. Narrow the surface with
+   `tools.allow`/`block`. Note the trade-off: an MCP connection loads a tool catalog into context and
+   is capped at whatever the server author curated, whereas a CLI exposes everything on demand.
+
+So the ordering is **CLI > custom tool > MCP**, not the reverse — MCP is a convenience for when no
+good CLI exists, not the default.
+
+**Credentials:** CLIs read restricted/read-only keys from the sandbox env (the agent never echoes
+them). MCP/OpenAPI connections on eve use **Vercel Connect** (`connect()` from `@vercel/connect/eve`)
+so the model never sees a token; flue takes credentials from env/secrets in trusted app code.
+
 ## Source Layout
 
 Each agent lives in its own folder. The root holds the agent's shared definition plus metadata;
