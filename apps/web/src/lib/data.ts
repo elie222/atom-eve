@@ -250,17 +250,21 @@ export async function getAgentFiles(item: RegistryItem): Promise<AgentTargetFile
     if (!existsSync(file)) continue;
     const payload = JSON.parse(readFileSync(file, "utf8")) as ResolvedPayload;
     const files: AgentFile[] = await Promise.all(
-      payload.files.map(async (f) => {
-        const lang = fileLang(f.target);
-        return {
-          target: f.target,
-          name: f.target.slice(f.target.lastIndexOf("/") + 1),
-          content: f.content,
-          html: await highlight(f.content, lang),
-          group: fileGroup(f.target),
-          lang,
-        };
-      }),
+      payload.files
+        // Evals still install, but they're test scaffolding — noise for someone
+        // reading "what is this agent", so keep them out of the browser.
+        .filter((f) => fileGroup(f.target) !== "Evals")
+        .map(async (f) => {
+          const lang = fileLang(f.target);
+          return {
+            target: f.target,
+            name: f.target.slice(f.target.lastIndexOf("/") + 1),
+            content: f.content,
+            html: await highlight(f.content, lang),
+            group: fileGroup(f.target),
+            lang,
+          };
+        }),
     );
     out.push({
       target,

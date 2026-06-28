@@ -135,7 +135,6 @@ export default function CodeBrowser({ targets }: Props) {
         <div className="min-w-0">
           <div className="flex items-center gap-3 border-b-2 border-edgedim px-4 py-[10px]">
             <code className="min-w-0 flex-1 truncate font-mono text-[12px] text-ink2">{active.target}</code>
-            <span className="hidden font-mono text-[10px] uppercase text-dim sm:inline">{active.lang}</span>
             <button
               type="button"
               onClick={copy}
