@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://atomeve.dev/sitemap.xml

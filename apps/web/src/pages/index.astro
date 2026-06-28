@@ -5,7 +5,7 @@ import Footer from "../components/Footer.astro";
 import AgentCard from "../components/AgentCard.astro";
 import AgentRow from "../components/AgentRow.astro";
 import { getItems, getTaxonomy, toCard, familyCounts } from "../lib/data";
-import { famColor, prettify, REPO } from "../lib/format";
+import { famColor, prettify, REPO, X_PROFILE } from "../lib/format";
 
 const items = getItems();
 const taxonomy = getTaxonomy();
@@ -35,11 +35,43 @@ function starfield(n: number, w: number, h: number, cols: string[]): string {
   return stars.join(",");
 }
 const HERO_STARS = starfield(120, 1280, 470, ["#ffffff", "#37d6ff", "#ff45c2", "#a974ff", "#cfc4ff"]);
+
+const metaDescription = `Atom Eve is an open-source, shadcn-style registry of ${total} installable AI agents — SEO, ads, QA, support, and more. Drop them straight into your project with one command.`;
+
+// JSON-LD: identify the site (with on-site search) and the org behind it so
+// search engines can surface a sitelinks search box and brand entity.
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Atom Eve",
+    url: "https://atomeve.dev/",
+    description: metaDescription,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: "https://atomeve.dev/?q={search_term_string}",
+      },
+      "query-input": "required name=search_term_string",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Atom Eve",
+    url: "https://atomeve.dev/",
+    logo: "https://atomeve.dev/android-chrome-512x512.png",
+    sameAs: [REPO, X_PROFILE],
+  },
+];
 ---
 
 <Base
   title="Atom Eve — an agent for every job"
-  description="An open-source, shadcn-style registry of installable AI agents for eve."
+  description={metaDescription}
+  imageAlt="Atom Eve — an open-source registry of installable AI agents for eve"
+  structuredData={structuredData}
 >
   <Nav variant="landing" />
 
