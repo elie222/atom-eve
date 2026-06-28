@@ -13,6 +13,5 @@
   "integrations": ["agent-browser"],
   "connections": [],
   "requiredEnv": [],
-  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"],
-  "skills": [{ "ref": "vercel-labs/agent-browser@agent-browser" }]
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
 }

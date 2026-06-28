@@ -22,7 +22,7 @@ This copies the agent into `agent/` in your eve app.
 
 ## Setup
 
-No credentials or environment variables are required for public websites. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built.
+No credentials or environment variables are required for public websites. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built. The package also installs a local Eve `agent-browser` skill so the agent can load the browser workflow and command reference on demand.
 
 After installing, customize `agent/instructions.md` with your own onboarding flow, test-credential policy, and acceptance criteria. For private apps, configure your own Agent Browser profile/session outside this package and document that flow in your local copy. Do not commit session state or credentials.
 
@@ -34,7 +34,7 @@ This agent is on-demand. Send it a target URL and a goal, for example:
 Test https://example.com signup. Do not submit payment, bypass CAPTCHA, or use real credentials. Capture screenshots for each important state and summarize blockers.
 ```
 
-The agent drives Agent Browser in the sandbox:
+The agent drives Agent Browser in the sandbox and can load its local `agent-browser` skill for the command workflow:
 
 ```bash
 npx agent-browser --session website-qa open https://example.com
