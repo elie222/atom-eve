@@ -2,7 +2,7 @@
   "name": "atom-eve",
   "version": "0.1.0",
   "private": false,
-  "description": "Install Atom Eve agents into Eve and Flue projects.",
+  "description": "Install Atom Eve agents into Eve projects.",
   "license": "MIT",
   "type": "module",
   "bin": {
@@ -21,7 +21,6 @@
   },
   "keywords": [
     "eve",
-    "flue",
     "agents",
     "ai",
     "shadcn",
