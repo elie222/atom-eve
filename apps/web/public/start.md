@@ -23,7 +23,8 @@ If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, 
 4. **Wire up keys.** Check the agent page or `https://atomeve.dev/index.json` for `requiredEnv`.
    Never invent secret values — ask the user. On Eve, set integration secrets as Vercel project env vars.
 5. **Run it.** For eve.dev: link Vercel with `vercel link`, pull env with `vercel env pull`, then run `npx eve dev`.
-   For flue: follow the flue project's run script.
+   Use local Eve dev as the smoke test. After deploy, trigger the configured production channel and
+   inspect the run in Vercel Agent Runs. For flue: follow the flue project's run script.
 
 For Eve, model calls go through the Vercel AI Gateway. The user does not need a model API key, but
 their Vercel account/team must have any required AI Gateway billing or account verification complete.
