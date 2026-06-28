@@ -33,8 +33,11 @@ changing any framework-facing code.
   `agent/tools/*.ts` (`defineTool` from `eve/tools`, `inputSchema` accepts **Zod** / any Standard
   Schema / plain JSON Schema, `execute(input, ctx)`; filename = tool name), `agent/channels/*.ts`
   (`slackChannel` is **bidirectional** — handles inbound mentions and posts replies; creds via Vercel
-  Connect), `agent/sandbox/sandbox.ts` (`defineSandbox`), `agent/schedules/*.ts`
-  (`defineSchedule({ cron, run })`). Peer deps: `ai`, `zod`. Docs: `node_modules/eve/docs/`.
+  Connect), `agent/sandbox/sandbox.ts` (`defineSandbox`), `agent/schedules/*.ts` —
+  `defineSchedule` is one-of `{ cron, markdown }` or `{ cron, run }`: use **`markdown`** (task mode)
+  for a report agent with no external channel (eve runs the agent on the prompt at the cron tick and
+  the report is the session output); use **`run`** only to hand the result to a channel via
+  `receive(channel, …)`. Peer deps: `ai`, `zod`. Docs: `node_modules/eve/docs/`.
 - **flue** — npm `@flue/runtime`. Source under `src/`: agents are flat files `src/agents/<name>.ts`
   (`defineAgent(({ id }) => ({ model, instructions, tools, sandbox, skills }))` — a factory,
   capabilities inline). Tools use `defineTool` from `@flue/runtime` with **Valibot** `input`/`output`
