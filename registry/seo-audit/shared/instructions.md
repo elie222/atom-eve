@@ -18,27 +18,13 @@ Inspect at least these basics:
 6. Internal links: orphan risks, weak navigation links, broken internal links, poor anchor text, and important pages not linked from sampled pages.
 7. Visible copy quality: clarity, specificity, duplication, jargon, credibility, and conversion relevance.
 
-Compare against previous-run history using the configured memory backend. Treat memory as the agent's own small file system for reports and compact run data:
+Use SEO memory when available.
 
-- Default to Vercel Blob-backed memory through the installed SEO memory tools.
-- Use `list_seo_memory`, `read_seo_memory`, and `write_seo_memory` to list, read, and write memory files in Vercel Blob for the configured site.
-- If the Blob tools fail because the project removed them or Blob credentials are unavailable, report the blocker and fall back to local files only when filesystem access exists.
-- When using local files, read prior history from `reports/seo-audit/history` and write `reports/seo-audit/latest.md` plus timestamped Markdown and JSON files under `reports/seo-audit/history`.
-- For blob-backed memory, use the same conceptual layout under `seo-audit/<site>/`: `latest.json`, `latest.md`, `index.json`, and `runs/<run-id>/summary.json`, `report.md`, `pages.json`, and `issues.json`.
-- Listing a small number of memory files by prefix is acceptable. This agent is expected to save reports for itself, not operate a large analytics database.
-- Keep JSON memory compact: audited URL list, status codes, metadata, key findings, severity counts, resolved issue IDs, and stable issue IDs.
-- If durable memory is unavailable because Blob credentials are unavailable and the sandbox is fresh, say so and establish a new baseline.
+Before auditing, read prior SEO history for the configured site. Use it to classify findings as new, recurring, resolved, improved, or worse. If no prior memory exists, establish a baseline.
 
-Use this memory lifecycle on every run:
+After auditing, save the Markdown report and compact findings for the next run. Compact findings should include audited URLs, important page metadata, severity counts, stable issue IDs, resolved issue IDs, and any previous-vs-current deltas. Do not save large raw page dumps unless the user asks for them.
 
-1. Resolve the configured site or sitemap into a stable site key.
-2. Before auditing, list and read existing `latest.json`, `index.json`, and the most relevant recent `runs/<run-id>/summary.json` or `report.md` files.
-3. During analysis, classify findings as new, recurring, resolved, improved, or worse when prior memory exists.
-4. After auditing, write `runs/<run-id>/report.md` with the full Markdown report.
-5. Write `runs/<run-id>/summary.json` with compact run metadata, severity counts, issue IDs, resolved issue IDs, and previous-vs-current deltas.
-6. Write `runs/<run-id>/pages.json` with sampled URLs, status codes, titles, descriptions, headings, canonical/robots signals, and notable page observations.
-7. Write `runs/<run-id>/issues.json` with stable issue IDs, severity, affected URLs, evidence, recommendation, and status.
-8. Update `latest.md`, `latest.json`, and `index.json` so the next run can quickly find the current baseline and recent runs.
+On Eve, use the installed SEO memory tools when they are available. If memory tools are unavailable and filesystem access exists, use local history under `reports/seo-audit`. If no durable memory is available, say so in the report and continue with the audit.
 
 Always return a concise Markdown report with:
 

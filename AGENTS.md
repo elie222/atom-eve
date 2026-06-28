@@ -33,6 +33,29 @@ Keep `atom.json` small. It is catalog metadata, not runtime config. Put behavior
 
 Write `atom.json` descriptions and the opening of each agent README for users browsing the catalog: lead with the outcome the agent helps with, not implementation details such as storage backends, files written, or framework internals.
 
+## Agent READMEs
+
+Agent READMEs are user-facing install and operating guides, not design docs. Keep them short enough that a user can quickly understand what the agent does, how to install it, what they must configure, how to run it, and what limitations matter.
+
+Include:
+
+- The outcome the agent helps with.
+- A concise list of user-visible checks or actions.
+- Supported targets and install commands.
+- Required setup such as URLs, schedules, credentials, or host capabilities.
+- Short usage examples.
+- Optional integrations or memory/storage requirements only at the level needed to operate the installed agent.
+- Important limitations and safety notes.
+
+Avoid:
+
+- Internal file layouts, generated path maps, helper API examples, or adapter wiring snippets.
+- Long explanations of implementation tradeoffs.
+- Repeating the same setup or memory details across multiple sections.
+- Backend-specific details in the opening description unless the user must choose that backend during install.
+
+If implementation detail is useful for maintainers, put it in source code, shared helper types, `AGENTS.md`, or a dedicated internal doc. Do not make every installed agent README carry the full architecture.
+
 ## Installed Agents Are Local Templates
 
 Users install these files into their own repo and then edit them. Write installed instructions for the user's project, not as generic marketing copy.

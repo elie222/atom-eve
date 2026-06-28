@@ -4700,18 +4700,13 @@
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/targets/eve/tools/list_seo_memory.ts",
-          "target": "~/agent/tools/list_seo_memory.ts",
+          "path": "registry/seo-audit/targets/eve/tools/read_seo_history.ts",
+          "target": "~/agent/tools/read_seo_history.ts",
           "type": "registry:file"
         },
         {
-          "path": "registry/seo-audit/targets/eve/tools/read_seo_memory.ts",
-          "target": "~/agent/tools/read_seo_memory.ts",
-          "type": "registry:file"
-        },
-        {
-          "path": "registry/seo-audit/targets/eve/tools/write_seo_memory.ts",
-          "target": "~/agent/tools/write_seo_memory.ts",
+          "path": "registry/seo-audit/targets/eve/tools/save_seo_audit_run.ts",
+          "target": "~/agent/tools/save_seo_audit_run.ts",
           "type": "registry:file"
         },
         {
