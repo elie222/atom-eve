@@ -112,3 +112,7 @@ export function baseName(targetPath: string): string {
   const clean = targetPath.replace(/\/+$/, "");
   return clean.slice(clean.lastIndexOf("/") + 1) || clean;
 }
+
+export function displayPath(targetPath: string): string {
+  return targetPath.replace(/^~\/agent\//, "");
+}
