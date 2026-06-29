@@ -81,7 +81,7 @@ export async function generateRegistry(rootDir: string): Promise<void> {
     siteItems.push(toSiteIndexItem(manifest, catalogConfig));
     const item = await createRegistryItem(rootDir, manifest);
     sourceItems.push(toSourceRegistryItem(item));
-    await writeJson(path.join(publicR, `${manifest.name}.json`), item);
+    await writeJson(path.join(publicR, `${item.name}.json`), item);
   }
 
   await writeJson(path.join(rootDir, "public", "index.json"), { items: siteItems });
@@ -131,7 +131,7 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
 export async function createRegistryItem(rootDir: string, manifest: RegistryManifest): Promise<RegistryItem> {
   const files = await readLocalInstallFiles(rootDir, manifest);
   return {
-    name: manifest.name,
+    name: registryItemName(manifest),
     type: "registry:block",
     title: manifest.title,
     description: manifest.description,
@@ -145,6 +145,10 @@ export async function createRegistryItem(rootDir: string, manifest: RegistryMani
       skills: manifest.skills
     }
   };
+}
+
+function registryItemName(manifest: RegistryManifest): string {
+  return `eve/${manifest.name}`;
 }
 
 function dependenciesForManifest(manifest: RegistryManifest): string[] {

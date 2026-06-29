@@ -4,7 +4,7 @@
   "homepage": "https://atomeve.dev",
   "items": [
     {
-      "name": "seo-audit",
+      "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit Agent",
       "description": "Audits the configured site with Agent Browser and fetch, then writes a read-only Markdown report of SEO, content, and CTA fixes ordered by severity.",
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "name": "website-qa",
+      "name": "eve/website-qa",
       "type": "registry:block",
       "title": "Website QA Agent",
       "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
@@ -73,7 +73,7 @@
       ]
     },
     {
-      "name": "stripe-pulse",
+      "name": "eve/stripe-pulse",
       "type": "registry:block",
       "title": "Stripe Revenue & Churn Pulse",
       "description": "Writes a grounded weekly revenue and churn pulse from Stripe facts, cross-references at-risk customers against PostHog engagement, and posts it to Slack.",
@@ -131,7 +131,7 @@
       ]
     },
     {
-      "name": "analytics-digest",
+      "name": "eve/analytics-digest",
       "type": "registry:block",
       "title": "Analytics Digest Agent",
       "description": "Pulls key event trends from PostHog with the posthog-cli and writes a plain-language weekly digest for operators.",
@@ -168,7 +168,7 @@
       ]
     },
     {
-      "name": "adversarial-reviewer",
+      "name": "eve/adversarial-reviewer",
       "type": "registry:block",
       "title": "Adversarial Reviewer Agent",
       "description": "Reads open GitHub pull requests and their diffs with the GitHub CLI and returns an independent, skeptical second-opinion review (read-only).",
@@ -200,7 +200,7 @@
       ]
     },
     {
-      "name": "ux-reviewer",
+      "name": "eve/ux-reviewer",
       "type": "registry:block",
       "title": "UX Reviewer Agent",
       "description": "Walks a real user task in the browser with Agent Browser, scores each screen on usability, and recommends read-only improvements to the weakest spots.",
@@ -237,7 +237,7 @@
       ]
     },
     {
-      "name": "competitor-analysis",
+      "name": "eve/competitor-analysis",
       "type": "registry:block",
       "title": "Competitor Analysis Agent",
       "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
@@ -274,7 +274,7 @@
       ]
     },
     {
-      "name": "claim-checker",
+      "name": "eve/claim-checker",
       "type": "registry:block",
       "title": "Claim Checker Agent",
       "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
@@ -311,7 +311,7 @@
       ]
     },
     {
-      "name": "a11y-auditor",
+      "name": "eve/a11y-auditor",
       "type": "registry:block",
       "title": "Accessibility Auditor Agent",
       "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
@@ -348,7 +348,7 @@
       ]
     },
     {
-      "name": "perf-auditor",
+      "name": "eve/perf-auditor",
       "type": "registry:block",
       "title": "Performance Auditor Agent",
       "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
@@ -385,7 +385,7 @@
       ]
     },
     {
-      "name": "visual-regression",
+      "name": "eve/visual-regression",
       "type": "registry:block",
       "title": "Visual Regression Agent",
       "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
@@ -422,7 +422,7 @@
       ]
     },
     {
-      "name": "cro-optimizer",
+      "name": "eve/cro-optimizer",
       "type": "registry:block",
       "title": "CRO Optimizer Agent",
       "description": "Audits landing pages with native browser automation and conversion heuristics, then proposes ranked A/B test ideas with hypotheses.",
@@ -459,7 +459,7 @@
       ]
     },
     {
-      "name": "funnel-analyst",
+      "name": "eve/funnel-analyst",
       "type": "registry:block",
       "title": "Funnel Analyst Agent",
       "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
@@ -496,7 +496,7 @@
       ]
     },
     {
-      "name": "experiment-analyst",
+      "name": "eve/experiment-analyst",
       "type": "registry:block",
       "title": "Experiment Analyst Agent",
       "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
@@ -533,7 +533,7 @@
       ]
     },
     {
-      "name": "onboarding-coach",
+      "name": "eve/onboarding-coach",
       "type": "registry:block",
       "title": "Onboarding Coach Agent",
       "description": "Finds users stuck before activation in PostHog and drafts the right nudge for each onboarding step.",
@@ -570,7 +570,7 @@
       ]
     },
     {
-      "name": "onboarding-tester",
+      "name": "eve/onboarding-tester",
       "type": "registry:block",
       "title": "Onboarding Tester Agent",
       "description": "Acts like a first-time developer: follows the project's README and clean setup from scratch, stops at the first blocker, and reports the exact doc or script fix needed without changing anything.",
@@ -607,7 +607,7 @@
       ]
     },
     {
-      "name": "error-copy",
+      "name": "eve/error-copy",
       "type": "registry:block",
       "title": "Error Copy Agent",
       "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
@@ -644,7 +644,7 @@
       ]
     },
     {
-      "name": "content-ideation",
+      "name": "eve/content-ideation",
       "type": "registry:block",
       "title": "Content Ideation Agent",
       "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
@@ -671,7 +671,7 @@
       ]
     },
     {
-      "name": "release-notes",
+      "name": "eve/release-notes",
       "type": "registry:block",
       "title": "Release Notes Agent",
       "description": "Reads merged pull requests since the latest release with the GitHub CLI and drafts user-facing release notes grouped by change type for operator approval.",
@@ -708,7 +708,7 @@
       ]
     },
     {
-      "name": "research-assistant",
+      "name": "eve/research-assistant",
       "type": "registry:block",
       "title": "Research Assistant Agent",
       "description": "Turns a focused question into a sourced, cited brief for a real decision using the built-in web_search and web_fetch tools, with adversarial source verification and no paid search APIs.",
