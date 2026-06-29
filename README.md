@@ -70,6 +70,9 @@ Adding an agent to an existing project instead:
 npx atom-eve add facebook-ads --target eve
 ```
 
+If the current directory does not have a `package.json` yet, `add` initializes the Atom Eve project
+files first and then installs the agent.
+
 Add Slack as an Eve interface when you install:
 
 ```bash

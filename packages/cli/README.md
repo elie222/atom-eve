@@ -23,7 +23,7 @@ npx atom-eve add seo-audit --target eve --deliver slack
 # Monorepo root for running many agents (agents/*)
 npx atom-eve init --workspace my-agents
 
-# Install an agent into an already-scaffolded project
+# Install an agent; if package.json is missing, this initializes the project first
 npx atom-eve add facebook-ads --target eve
 
 # Write atom-eve.json (+ minimal fallback scaffold) into an existing project
