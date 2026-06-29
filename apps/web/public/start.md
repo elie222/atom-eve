@@ -4,7 +4,7 @@ Atom Eve is an open-source registry of installable AI agents for **eve.dev** and
 — like shadcn, but for agents. Each agent is a folder plus an `atom.json`
 manifest that declares what it does and which environment keys it needs.
 
-Browse the full catalog at **https://www.atomeve.dev**.
+Browse the full catalog at **https://atomeve.dev**.
 
 ---
 
