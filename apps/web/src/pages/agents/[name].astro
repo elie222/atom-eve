@@ -56,7 +56,7 @@ const about: { k: string; v: string; accent?: boolean }[] = [
   { k: "Scheduled", v: item.scheduled ? "Yes" : "No" },
 ];
 const sourceUrl = `${REPO}/tree/main/${item.repoPath}`;
-const pageUrl = `https://atomeve.dev/agents/${item.name}/`;
+const pageUrl = `https://www.atomeve.dev/agents/${item.name}/`;
 
 // JSON-LD: describe the agent as installable software + a breadcrumb trail
 // back to the registry, so result snippets show the path and app metadata.
@@ -72,13 +72,13 @@ const structuredData = [
     softwareVersion: item.version,
     isAccessibleForFree: true,
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-    author: { "@type": "Organization", name: "Atom Eve", url: "https://atomeve.dev/" },
+    author: { "@type": "Organization", name: "Atom Eve", url: "https://www.atomeve.dev/" },
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Agents", item: "https://atomeve.dev/" },
+      { "@type": "ListItem", position: 1, name: "Agents", item: "https://www.atomeve.dev/" },
       { "@type": "ListItem", position: 2, name: item.title, item: pageUrl },
     ],
   },

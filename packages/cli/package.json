@@ -1,6 +1,6 @@
 {
   "name": "atom-eve",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "Install Atom Eve agents into Eve projects.",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "dist",
     "README.md"
   ],
-  "homepage": "https://atomeve.dev",
+  "homepage": "https://www.atomeve.dev",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/elie222/atom-eve.git",

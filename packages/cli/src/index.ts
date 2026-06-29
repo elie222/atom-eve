@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { createInterface } from "node:readline/promises";
 import {
   createInstallFileSpecs,
   readLocalInstallFiles,
@@ -181,7 +182,7 @@ async function initWorkspace(args: Args) {
 
   const where = name ? `cd ${name} && ` : "";
   console.log("Workspace ready. Add an agent app under agents/:");
-  console.log(`  ${where}npx atom-eve create my-agent --target eve --agent website-qa`);
+  console.log(`  ${where}npx atom-eve create my-agent --agent website-qa`);
   console.log("Each agents/<name> folder is a standalone app and maps to its own deploy (e.g. one Vercel project).");
 }
 
@@ -213,7 +214,7 @@ async function create(args: Args) {
 
   console.log("\nNext steps:");
   console.log(`  cd ${name}`);
-  if (!args.agent) console.log("  npx atom-eve add <agent>      # browse https://atomeve.dev");
+  if (!args.agent) console.log("  npx atom-eve add <agent>      # browse atomeve.dev");
   console.log("  vercel link                   # connect to a Vercel project");
   console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
   console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
@@ -222,7 +223,7 @@ async function create(args: Args) {
 
 function resolveCreateTarget(args: Args): Target {
   const target = args.target ?? "eve";
-  if (target !== "eve") throw new Error("atom-eve create currently supports only --target eve.");
+  if (target !== "eve") throw new Error("atom-eve create currently supports only the eve target.");
   return target;
 }
 
@@ -234,7 +235,7 @@ function rejectInstallOptions(command: string, args: Args) {
 
 function rejectExplicitFlueOverlays(args: Args) {
   if (args.target === "flue" && (args.channel || args.deliver)) {
-    throw new Error("--channel and --deliver are currently supported only for --target eve.");
+    throw new Error("--channel and --deliver are currently supported only for eve installs.");
   }
 }
 
@@ -529,7 +530,7 @@ function needsSlackChannel(options: InstallOptions): boolean {
 
 function rejectEveOverlaysForFlue(config: AtomEveConfig, options: InstallOptions) {
   if (config.target === "flue" && (options.channel || options.deliver)) {
-    throw new Error("--channel and --deliver are currently supported only for --target eve.");
+    throw new Error("--channel and --deliver are currently supported only for eve installs.");
   }
 }
 
@@ -691,7 +692,7 @@ async function list() {
       console.log(`${item.name}\t${item.targets.join(",")}\t${item.title}`);
     }
   } catch {
-    console.log("Agent list is available at https://atomeve.dev");
+    console.log("Agent list is available at atomeve.dev");
   }
 }
 
@@ -860,7 +861,26 @@ function parseArgs(argv: string[]): Args {
 }
 
 async function resolveTarget(args: Args): Promise<CliTarget> {
-  return args.target ?? "eve";
+  if (args.target) return args.target;
+  return promptForTarget("eve");
+}
+
+async function promptForTarget(defaultTarget: CliTarget): Promise<CliTarget> {
+  if (!process.stdin.isTTY || !process.stdout.isTTY || process.env.CI) return defaultTarget;
+
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    const answer = await rl.question(`Install agents for which target? (eve/Flue) ${dimText(`[${defaultTarget}]`)} `);
+    const value = answer.trim();
+    return value ? parseTarget(value) : defaultTarget;
+  } finally {
+    rl.close();
+  }
+}
+
+function dimText(text: string): string {
+  if (process.env.NO_COLOR) return text;
+  return `\x1b[2m${text}\x1b[0m`;
 }
 
 // Registry manifests are authored eve-only; this narrows a parsed CLI target to
@@ -878,8 +898,9 @@ function toPosixPath(filePath: string): string {
 }
 
 function parseTarget(value: unknown): CliTarget {
-  if (value === "eve" || value === "flue") return value;
-  throw new Error(`Invalid target: ${String(value)}. Expected eve or flue.`);
+  const normalized = typeof value === "string" ? value.toLowerCase() : value;
+  if (normalized === "eve" || normalized === "flue") return normalized;
+  throw new Error(`Invalid target: ${String(value)}. Expected eve or Flue.`);
 }
 
 function parseRuntime(value: unknown): Runtime {
@@ -1104,8 +1125,9 @@ Commands:
   atom-eve list
 
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
-VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_API_KEY)
-are set as Vercel project env vars.
+VERCEL_OIDC_TOKEN — no model API key needed. Provider auth is configured per agent:
+use Vercel Connect or a Vercel integration when available, otherwise set the required
+project env vars.
 
 Slack flags are Eve-only. \`--channel slack\` installs a bidirectional Slack channel.
 \`--deliver slack\` also rewires markdown schedules to post their final result to
