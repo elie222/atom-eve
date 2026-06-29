@@ -182,7 +182,7 @@ async function initWorkspace(args: Args) {
 
   const where = name ? `cd ${name} && ` : "";
   console.log("Workspace ready. Add an agent app under agents/:");
-  console.log(`  ${where}npx atom-eve create my-agent --target eve --agent website-qa`);
+  console.log(`  ${where}npx atom-eve create my-agent --agent website-qa`);
   console.log("Each agents/<name> folder is a standalone app and maps to its own deploy (e.g. one Vercel project).");
 }
 
@@ -223,7 +223,7 @@ async function create(args: Args) {
 
 function resolveCreateTarget(args: Args): Target {
   const target = args.target ?? "eve";
-  if (target !== "eve") throw new Error("atom-eve create currently supports only --target eve.");
+  if (target !== "eve") throw new Error("atom-eve create currently supports only the eve target.");
   return target;
 }
 
@@ -235,7 +235,7 @@ function rejectInstallOptions(command: string, args: Args) {
 
 function rejectExplicitFlueOverlays(args: Args) {
   if (args.target === "flue" && (args.channel || args.deliver)) {
-    throw new Error("--channel and --deliver are currently supported only for --target eve.");
+    throw new Error("--channel and --deliver are currently supported only for eve installs.");
   }
 }
 
@@ -530,7 +530,7 @@ function needsSlackChannel(options: InstallOptions): boolean {
 
 function rejectEveOverlaysForFlue(config: AtomEveConfig, options: InstallOptions) {
   if (config.target === "flue" && (options.channel || options.deliver)) {
-    throw new Error("--channel and --deliver are currently supported only for --target eve.");
+    throw new Error("--channel and --deliver are currently supported only for eve installs.");
   }
 }
 

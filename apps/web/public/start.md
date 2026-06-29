@@ -14,16 +14,17 @@ If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, 
 
 1. **Detect or scaffold the project.** Atom Eve installs into an `eve.dev` project.
    - An `eve.dev` project has an `agent/` directory.
-   - If none exists, scaffold a complete app with `npx atom-eve create <name> --target eve --agent <agent>`.
+   - If none exists, scaffold a complete app with `npx atom-eve create <name> --agent <agent>`.
 2. **Find the right agents.** Match the user's goal to agents in the registry
    (see "Browse" below). Prefer agents whose `family`/`category` fit the job.
-3. **Install each agent.** For a new app, use `npx atom-eve create <name> --target eve --agent <agent>`.
+3. **Install each agent.** For a new app, use `npx atom-eve create <name> --agent <agent>`.
    For an existing Eve app, use `npx atom-eve add <agent>`.
 4. **Wire up keys.** Check the agent page or `https://atomeve.dev/index.json` for `requiredEnv`.
    Never invent secret values — ask the user. On Eve, set integration secrets as Vercel project env vars.
-5. **Run it.** For eve.dev: link Vercel with `vercel link`, pull env with `vercel env pull`, then run `npx eve dev`.
-   Use local Eve dev as the first smoke test. After deploy, trigger the configured production channel
-   and inspect the run in Vercel Agent Runs.
+5. **Prepare to run it.** For eve.dev: link Vercel with `vercel link` and pull env with `vercel env pull`.
+   Do not run `npx eve dev` or trigger a deployed channel unless the user asks you to verify the agent,
+   because that can spend real model tokens. When the user does ask for verification, use local Eve dev
+   first, then inspect deployed runs in Vercel Agent Runs after triggering the configured production channel.
 
 For Eve, model calls go through the Vercel AI Gateway. The user does not need a model API key, but
 their Vercel account/team must have any required AI Gateway billing or account verification complete.
@@ -39,10 +40,10 @@ drafts for review. Keep that behavior intact when wiring them in.
 
 ```bash
 # Scaffold a new Eve app and install an agent
-npx atom-eve create my-agent --target eve --agent website-qa
+npx atom-eve create my-agent --agent website-qa
 
 # Add an agent to an existing project
-npx atom-eve add website-qa --target eve
+npx atom-eve add website-qa
 
 # List available agents
 npx atom-eve list
