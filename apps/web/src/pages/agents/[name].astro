@@ -6,7 +6,7 @@ import Glyph from "../../components/Glyph.astro";
 import InstallBox from "../../components/InstallBox.tsx";
 import CodeBrowser from "../../components/CodeBrowser.tsx";
 import { getAgentFiles, getItems, getReadmeHtml, variantsOf, type AgentTargetFiles, type RegistryItem } from "../../lib/data";
-import { catGlyph, famColor, prettify, REPO } from "../../lib/format";
+import { catGlyph, famColor, installTargets, prettify, REPO } from "../../lib/format";
 
 export async function getStaticPaths() {
   const items = getItems();
@@ -40,7 +40,7 @@ const hasCode = fileCount > 0;
 
 const color = famColor(item.family);
 const glyph = catGlyph(item.category);
-const frameworks = item.targets ?? [];
+const frameworks = installTargets(item.targets);
 const integrations = item.integrations ?? [];
 const requiredEnv = item.requiredEnv ?? [];
 
