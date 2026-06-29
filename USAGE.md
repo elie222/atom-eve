@@ -98,19 +98,23 @@ provider with a Vercel connector (e.g. Slack), configure the connector in Vercel
 npx eve dev          # interactive terminal UI; npx eve info shows routes/artifacts
 ```
 
+Use local Eve dev as the first smoke test. Run the agent once, then fix any missing model,
+integration, or sandbox setup before deploying.
+
 ### 5. Deploy
 
 Deploy the app folder as a Vercel project (its **Root Directory** = the app folder). The OIDC token
 and project env vars are injected automatically in production. Follow <https://eve.dev/docs> for
 current deploy details.
 
-The generated Eve HTTP channel is intentionally conservative in production. If you plan to call the
-raw session API directly from a browser, script, or external service, replace the placeholder auth in
-`agent/channels/eve.ts` with the auth policy you want before relying on that endpoint.
+After deploy, trigger the production channel you intentionally configured, such as Slack, a
+scheduled run, or an app UI/HTTP channel. Then inspect the run in the Vercel dashboard under
+**Agent Runs**.
 
-If Vercel Deployment Protection or team SSO is enabled for the project, direct checks such as
-`curl https://<deployment>/eve/v1/health` may redirect to Vercel login until the deployment or
-endpoint is made accessible to the caller.
+Do not assume a freshly installed Eve agent exposes a public production testing endpoint. If you add
+an HTTP channel, configure its auth policy explicitly and test it through that channel's expected
+client. If Vercel Deployment Protection or team SSO is enabled, automated HTTP checks need an
+approved bypass or access method.
 
 ---
 
@@ -166,6 +170,8 @@ invent agent names.
   `AI_GATEWAY_API_KEY` is set if running outside Vercel.
 - The agent runs locally (`npx eve dev`) and does not error on a
   missing required integration secret — if it does, that env var still needs setting.
+- For deployed Eve agents, trigger the configured production channel and inspect the resulting run
+  in Vercel **Agent Runs**.
 
 ## CLI reference
 
