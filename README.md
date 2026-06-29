@@ -21,13 +21,11 @@ agent set it up. Paste this into **Claude Code**, **Codex**, **Cursor**, or simi
 
 ```text
 Set up a new Eve project in this directory using Atom Eve.
-Read https://www.atomeve.dev/start.md and follow it.
+Read https://atomeve.dev/start.md and follow it.
 Start with one agent so we can confirm it builds and runs, then we'll add more.
 ```
 
-The agent follows [`start.md`](apps/web/public/start.md), scaffolds the project, installs an agent,
-and prepares it for verification. Name specific agents (browse [www.atomeve.dev](https://www.atomeve.dev))
-if you already know what you want.
+Name specific agents if you already know what you want, or browse [atomeve.dev](https://www.atomeve.dev).
 
 ## Why This Exists
 
@@ -43,8 +41,8 @@ Atom Eve packages that structure into installable agent folders:
 
 The website is the human-facing catalog:
 
-- [www.atomeve.dev](https://www.atomeve.dev)
-- [Full generated registry index](https://www.atomeve.dev/index.json)
+- [atomeve.dev](https://www.atomeve.dev)
+- [atomeve.dev/index.json](https://www.atomeve.dev/index.json)
 
 Each agent page links back to its source folder and renders that agent's README.
 
@@ -53,8 +51,7 @@ Each agent page links back to its source folder and renders that agent's README.
 ### Prerequisites
 
 - Node.js with `npx` available.
-- For Eve installs: a Vercel account and the [Vercel CLI](https://vercel.com/docs/cli)
-  (`npm i -g vercel`) for model access, deployment, and connectors.
+- For Eve installs: a Vercel account and the [Vercel CLI](https://vercel.com/docs/cli).
 
 Scaffold a full app and install an agent in one step (`create` delegates to the framework's own
 scaffolder, then installs the agent's source):
@@ -64,21 +61,15 @@ npx atom-eve create my-agent --agent facebook-ads
 cd my-agent
 ```
 
-On Eve this is **Vercel-native**: run `vercel link` and the model resolves through the Vercel AI
-Gateway via `VERCEL_OIDC_TOKEN` — no model API key to set. For provider auth, use the agent's
-documented setup: supported services may connect through Vercel Connect or a Vercel integration,
-while others use project env vars.
+For Eve, link the project to Vercel and pull env vars:
 
 ```bash
 vercel link
 vercel env pull
 ```
 
-The Vercel account or team must have AI Gateway access enabled. Set `AGENT_MODEL` if you want a
-different model that is available to the project. If the agent uses a Vercel connector or integration
-for a provider such as Stripe or Slack, connect it in Vercel. If it lists `requiredEnv` for a
-provider without a connector, add those values as Vercel project env vars and re-run
-`vercel env pull`.
+If an agent needs provider auth, follow that agent's README. Some providers connect through Vercel;
+others use project env vars.
 
 Adding an agent to an existing project instead:
 
@@ -86,8 +77,7 @@ Adding an agent to an existing project instead:
 npx atom-eve add facebook-ads
 ```
 
-If the current directory does not have a `package.json` yet, `add` initializes the Atom Eve project
-files first and then installs the agent.
+If the current directory has no `package.json`, `add` creates the project files first.
 
 Add Slack as an Eve interface when you install:
 
@@ -96,7 +86,7 @@ npx atom-eve add seo-audit --channel slack
 npx atom-eve add seo-audit --deliver slack
 ```
 
-`--channel slack` installs a bidirectional Slack channel. `--deliver slack` implies the channel and rewires simple scheduled report prompts so the scheduled run posts its final answer to `SLACK_CHANNEL_ID`.
+`--channel slack` installs Slack. `--deliver slack` also routes simple scheduled reports to Slack.
 
 Running many agents from one repo? Scaffold a workspace root and create one app per agent:
 
@@ -108,12 +98,11 @@ npx atom-eve create facebook-ads --agent facebook-ads
 
 ![Atom Eve install flow](apps/web/public/atom-eve-install.png)
 
-The CLI writes `atom-eve.json` to remember project defaults. Pass `--target flue` when you want the
-Flue version.
+Pass `--target flue` when you want the Flue version.
 
 ### Verify And Deploy
 
-Install dependencies and run the project checks before deploying changes:
+Before deploying, run the installed project's checks:
 
 ```bash
 pnpm install
@@ -121,16 +110,13 @@ pnpm typecheck
 pnpm build
 ```
 
-When you are ready to spend model tokens to verify the installed agent, use local Eve dev as the
-first smoke test:
+For Eve, smoke-test the agent locally:
 
 ```bash
 npx eve dev
 ```
 
-After deploy, trigger the production channel you intentionally configured, such as Slack, a
-scheduled run, or an app UI/HTTP channel. Then inspect the run in the Vercel dashboard under
-**Agent Runs**.
+After deploy, trigger the channel you configured and inspect the run in Vercel **Agent Runs** if needed.
 
 ### Local Checkout Fallback
 
