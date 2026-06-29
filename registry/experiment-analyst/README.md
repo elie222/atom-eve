@@ -4,9 +4,9 @@ A PostHog experiment agent that reviews A/B results and summarizes learnings for
 
 ## What it does
 
-Reviews your A/B experiments in [PostHog](https://posthog.com), checks statistical significance, calls a winning variant where the data supports it, and summarizes the practical learnings for an operator to act on.
+Reviews A/B experiments in [PostHog](https://posthog.com), checks statistical significance, calls a winning variant when the data supports it, and summarizes practical learnings for operator approval.
 
-It queries PostHog through the official PostHog CLI (`posthog-cli`) running in the eve sandbox, not a hand-written REST client. The CLI's `posthog-cli api` interface exposes PostHog's full tool surface and handles auth, so the agent follows a mandatory discover -> info -> call workflow and never guesses endpoints. It is read-only: it reads experiment configuration and results and never rolls out a variant, changes a feature flag, or starts or stops an experiment.
+It is read-only: it reads experiment configuration and results, but never rolls out a variant, changes a feature flag, or starts or stops an experiment.
 
 ## Supported targets
 
@@ -22,28 +22,24 @@ This copies the agent into `agent/` in your eve app.
 
 ## Setup
 
-Create a personal API key in PostHog (Settings -> Personal API keys) with read access, and note your project ID (Settings -> Project). Set these environment variables for the agent's sandbox:
+Create a PostHog personal API key with read access and note your project ID. Set:
 
 - `POSTHOG_CLI_API_KEY` — PostHog personal API key for the CLI.
 - `POSTHOG_CLI_PROJECT_ID` — PostHog project id.
 
-If your project is on the EU cloud or self-hosted, pass `--host` to the CLI (for example `--host https://eu.posthog.com`). `posthog-cli login` is the interactive alternative to the env vars.
-
-The sandbox bootstraps the `posthog-cli` binary on first run, so the first run may spend extra time while the sandbox template is built.
+For EU cloud or self-hosted PostHog, pass `--host` to the CLI, for example `--host https://eu.posthog.com`. `posthog-cli login` is the interactive alternative to env vars.
 
 ## Usage
 
-Ask the agent to review current experiments on demand, or let the bundled weekly schedule (Mondays at 09:00 UTC) run it automatically. The schedule runs in task mode: eve starts the agent on its cron tick and the report lands in that run's session. There is no external channel — the report is the session output.
-
-The agent runs `posthog-cli` following the mandatory workflow: discover the experiment tools with `posthog-cli api search experiment`, inspect each tool with `posthog-cli api info <tool>` before calling it, confirm events with `posthog-cli api call read-data-schema`, then read results with `posthog-cli api call <tool>`. It names a winner only when an experiment is significant and returns conservative recommendations for operator approval.
+Ask the agent to review current experiments on demand, or use the bundled weekly schedule (Mondays at 09:00 UTC). It confirms event definitions, reads experiment results through `posthog-cli`, names a winner only when significant, and returns conservative recommendations.
 
 ## Connections and auth
 
-This agent has no external channel connection. It queries PostHog through the official `posthog-cli` running in the eve sandbox, which reads `POSTHOG_CLI_API_KEY` and `POSTHOG_CLI_PROJECT_ID` from the environment. The agent never passes `--confirm`, so it cannot run PostHog's destructive tools.
+This agent has no external channel connection. It queries PostHog through the official `posthog-cli`, using `POSTHOG_CLI_API_KEY` and `POSTHOG_CLI_PROJECT_ID` from the environment. It never passes `--confirm`, so it cannot run destructive PostHog tools.
 
 ## Limitations
 
-- The agent is strictly read-only. It only reads experiment configuration and results and never mutates anything. PostHog's destructive CLI tools require `--confirm` and are not used.
-- It calls a winner only when PostHog reports the experiment as significant; significance and probability come straight from PostHog's computed results.
-- It relies on `posthog-cli` being installed and authenticated in the sandbox. If the CLI or auth is unavailable, the agent reports the blocker instead of inventing results.
-- Outputs are session-local Markdown reports. Save them externally if you want longer run history.
+- The agent is strictly read-only and never mutates PostHog experiments or feature flags.
+- It calls a winner only when PostHog reports the experiment as significant.
+- It relies on `posthog-cli` being installed and authenticated; if unavailable, it reports the blocker.
+- Outputs are session-local Markdown reports unless you save them externally.

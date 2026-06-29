@@ -4,9 +4,9 @@ A first-time-developer agent that follows your README from a clean checkout and 
 
 ## What it does
 
-Acts like a brand-new contributor who just cloned the repo: it reads your README (and the CONTRIBUTING, getting-started, or setup scripts it points to) and follows the documented steps literally, in order, from a clean checkout. It stops at the first blocker (a missing or out-of-order step, a command that errors, an undocumented prerequisite, a failing setup script), confirms it by retrying from clean, and reports the exact doc or script fix that would unblock a first-time developer. It is read-only: it never edits, commits, or "fixes" the repo.
+Acts like a brand-new contributor: it follows your README and linked onboarding docs or setup scripts literally, from a clean checkout. It stops at the first blocker, confirms it by retrying from clean, and reports the doc or script change that would unblock a first-time developer.
 
-It uses native sandbox commands to perform the documented setup and drives a real browser (Agent Browser) in the eve sandbox to verify the app loads when the docs claim it should. The capability is the sandbox plus the browser; the LLM does the onboarding judgment.
+It is read-only: it never edits, commits, or fixes the repo.
 
 ## Supported targets
 
@@ -22,23 +22,21 @@ This copies the agent into `agent/` in your eve app.
 
 ## Setup
 
-No credentials or environment variables are required to follow public documentation. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built.
+No credentials or environment variables are required for public documentation.
 
-After installing, edit `agent/instructions.md` to tell the agent where this project's onboarding docs live (README, CONTRIBUTING, docs/getting-started, setup scripts).
+After installing, customize `agent/instructions.md` with the onboarding docs to test, such as `README.md`, `CONTRIBUTING.md`, `docs/getting-started`, or setup scripts.
 
 ## Usage
 
-Run the agent on demand against a repo, or let the bundled weekly schedule (Mondays at 09:00 UTC) run it automatically. The schedule runs in task mode: eve starts the agent on its cron tick and the report lands in that run's session. There is no external channel — the report is the session output.
-
-The agent follows the documented setup from a clean checkout, stops at the first blocker with the exact command and output, proposes the corrected doc or script text, retries from clean to confirm reproducibility, and reports whether onboarding completes.
+Run the agent on demand against a repo, or use the bundled weekly schedule (Mondays at 09:00 UTC). It reports the exact command and output for the first blocker, proposes corrected doc or script text, retries from clean, and says whether onboarding completes.
 
 ## Connections and auth
 
-This agent has no external service connection and no required environment variables. Setup commands and browser automation run inside the eve sandbox, which is treated as disposable; there is no auth by default.
+This agent has no external service connection and no required environment variables. Setup commands and browser checks run in the disposable Eve sandbox, with no auth by default.
 
 ## Limitations
 
-- The agent depends on sandbox command execution and `agent-browser` being available in the eve sandbox. If either is unavailable, it reports that blocker instead of guessing whether onboarding works.
-- It diagnoses onboarding only; it never edits, commits, or pushes changes to the repo.
-- Reports and artifacts are session-local; wire them to your own storage if you need long-term history.
+- It depends on sandbox command execution and `agent-browser`; if either is unavailable, it reports the blocker.
+- It diagnoses onboarding only; it never edits, commits, or pushes changes.
+- Reports and artifacts are session-local unless you persist them.
 - Running setup commands in the sandbox reproduces the experience but does not change your project.

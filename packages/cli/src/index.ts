@@ -35,8 +35,10 @@ interface RemoteSkillRef {
 }
 
 interface AtomManifest extends InstallManifest {
+  title?: string;
   dependencies: string[];
   targetDependencies: Partial<Record<Target, string[]>>;
+  requiredEnv: string[];
   skills: RemoteSkillRef[];
 }
 
@@ -379,6 +381,7 @@ async function installAgentFiles(
 ) {
   if (config.target === "flue") {
     await installFlueAgent(manifest, files);
+    printPostInstallNextSteps(manifest, config);
     return;
   }
 
@@ -393,6 +396,7 @@ async function installAgentFiles(
 
   await installPackageDependencies(dependenciesForInstall(manifest, options));
   await installRemoteSkills(manifest.skills);
+  printPostInstallNextSteps(manifest, config);
 }
 
 // Codegen the flue version of an eve agent and write it under the user's flue
@@ -474,6 +478,28 @@ function dependenciesForInstall(manifest: AtomManifest, options: InstallOptions)
     dependencies.push(SLACK_CONNECT_DEPENDENCY);
   }
   return [...new Set(dependencies)].sort();
+}
+
+function printPostInstallNextSteps(manifest: AtomManifest, config: AtomEveConfig) {
+  console.log("");
+  console.log(`Installed ${manifest.title ?? manifest.name}.`);
+  console.log("Next steps:");
+  console.log(`  Read setup notes: ${agentDocsUrl(manifest)}`);
+  if (config.target === "flue") {
+    console.log(`  Customize src/agents/${manifest.name}.md with your real project context.`);
+  } else {
+    console.log("  Customize agent/instructions.md with your real project context.");
+  }
+  if (manifest.requiredEnv.length) console.log(`  Configure required env vars: ${manifest.requiredEnv.join(", ")}`);
+  if (manifest.skills.length) {
+    console.log("  If remote skill install was skipped or failed:");
+    for (const skill of manifest.skills) console.log(`    npx skills add ${skill.ref}`);
+  }
+  console.log("  pnpm install && pnpm typecheck && pnpm build");
+}
+
+function agentDocsUrl(manifest: Pick<AtomManifest, "name">): string {
+  return `https://www.atomeve.dev/agents/${manifest.name}`;
 }
 
 function applyEveOverlays(
@@ -942,10 +968,12 @@ function validateManifest(value: unknown, repoPath: string): AtomManifest {
   if (!targets.includes("eve")) throw new Error("atom.json must declare the eve target");
   return {
     name: record.name,
+    title: typeof record.title === "string" ? record.title : undefined,
     repoPath,
     targets,
     dependencies: parseStringArray(record.dependencies, "dependencies"),
     targetDependencies: parseTargetDependencies(record.targetDependencies),
+    requiredEnv: parseStringArray(record.requiredEnv, "requiredEnv"),
     skills: parseSkillRefs(record.skills)
   };
 }

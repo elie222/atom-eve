@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "content-agent",
+  "title": "Content Agent",
+  "description": "Researches what people are discussing right now and turns those signals into content briefs, calendars, hooks, outlines, and approval-ready drafts.",
+  "category": "content",
+  "family": "growth",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["last30days", "perplexity", "exa"],
+  "connections": [],
+  "requiredEnv": [],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"],
+  "skills": [{ "ref": "mvanhorn/last30days-skill@last30days" }]
+}

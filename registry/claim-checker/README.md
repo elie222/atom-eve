@@ -1,12 +1,12 @@
 # Claim Checker Agent
 
-A browser-driven agent that inventories marketing claims and drafts repairs for the riskiest overstatements.
+A browser-driven agent that inventories marketing claims and drafts repairs for risky overstatements.
 
 ## What it does
 
-Crawls your configured marketing site, inventories every customer-facing claim, checks each against your product sources of truth, and drafts repairs for the riskiest overstatements (unsubstantiated metrics, absolute or superlative language, unsupported compliance/security assertions, competitor comparisons). It is read-only: it lists, verifies, flags, and drafts suggested rewrites only, and never edits, publishes, or ships any marketing copy.
+Crawls your configured marketing pages, inventories customer-facing claims, checks them against your product sources of truth, and flags risky claims such as unsubstantiated metrics, absolute language, unsupported compliance assertions, and competitor comparisons. It drafts defensible rewrites for high-risk claims.
 
-It uses fetch and sandbox commands for lightweight collection and drives a real browser (Agent Browser) in the eve sandbox for screenshots and dynamic pages, following the open -> snapshot -> screenshot loop. The capability is the browser and fetch; the LLM does the verdict and repair drafting.
+It is read-only: it never edits, publishes, or ships marketing copy.
 
 ## Supported targets
 
@@ -22,23 +22,21 @@ This copies the agent into `agent/` in your eve app.
 
 ## Setup
 
-No credentials or environment variables are required for public pages. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built.
+No credentials or environment variables are required for public pages.
 
-After installing, edit `agent/instructions.md` with your real marketing URLs, product sources of truth (docs, changelog, pricing config), claims policy, and review preferences.
+After installing, customize `agent/instructions.md` with your marketing URLs, product sources of truth, claims policy, and review preferences.
 
 ## Usage
 
-Run the agent on demand against your marketing pages, or let the bundled weekly schedule (Mondays at 09:00 UTC) run it automatically. The schedule runs in task mode: eve starts the agent on its cron tick and the report lands in that run's session. There is no external channel — the report is the session output.
-
-The agent crawls the configured pages, records each claim with its exact wording, source URL, type, and a verdict (supported, unverified, or overstated) grounded in your product sources of truth, ranks flagged claims by risk, and drafts a defensible repair for each high-risk claim.
+Run the agent on demand against marketing pages, or use the bundled weekly schedule (Mondays at 09:00 UTC). It records each claim with exact wording, source URL, claim type, verdict, risk level, and suggested repair.
 
 ## Connections and auth
 
-This agent has no external service connection and no required environment variables. Browser automation runs through the `agent-browser` CLI inside the eve sandbox, and there is no auth by default. For authenticated pages, create a browser session/profile manually outside this package and adapt the instructions.
+This agent has no external service connection and no required environment variables. Browser automation uses `agent-browser` in the Eve sandbox. For authenticated pages, provide your own browser session/profile and adapt the local instructions.
 
 ## Limitations
 
-- Browser automation depends on `agent-browser` being available in the eve sandbox. If it is unavailable, the agent reports the blocker instead of doing a static audit.
-- Verdicts are only as good as the product sources of truth you point it at; it marks anything it cannot verify as unverified rather than guessing.
-- Screenshots and reports are session-local artifacts; wire them to your own storage if you need long-term history.
-- Suggested repairs are drafts for a human to review and apply; the agent never publishes copy.
+- Browser automation depends on `agent-browser`; if unavailable, the agent reports the blocker.
+- Verdicts depend on the sources of truth you provide; unverifiable claims are marked unverified.
+- Screenshots and reports are session-local unless you persist them.
+- Suggested repairs are drafts for human review and application.
