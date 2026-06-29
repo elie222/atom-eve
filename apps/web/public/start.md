@@ -1,8 +1,8 @@
 # Atom Eve — Quick Start
 
-Atom Eve is an open-source registry of installable AI agents for **eve.dev** —
-like shadcn, but for agents. Each agent is a folder plus an `atom.json` manifest that declares
-what it does and which environment keys it needs.
+Atom Eve is an open-source registry of installable AI agents for **eve.dev** and generated
+**Flue** projects — like shadcn, but for agents. Each agent is a folder plus an `atom.json`
+manifest that declares what it does and which environment keys it needs.
 
 Browse the full catalog at **https://atomeve.dev**.
 
@@ -12,16 +12,22 @@ Browse the full catalog at **https://atomeve.dev**.
 
 If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, do this:
 
-1. **Detect or scaffold the project.** Atom Eve installs into an `eve.dev` project.
-   - An `eve.dev` project has an `agent/` directory.
-   - If none exists, scaffold a complete app with `npx atom-eve create <name> --agent <agent>`.
+1. **Detect or scaffold the project.** Eve is the default target; use Flue only when the user asks
+   for Flue or the project is already a Flue project.
+   - An Eve project has an `agent/` directory.
+   - A Flue project uses `@flue/runtime` and source under `src/`.
+   - If no project exists and the user did not ask for Flue, scaffold an Eve app with
+     `npx atom-eve create <name> --agent <agent>`.
 2. **Find the right agents.** Match the user's goal to agents in the registry
    (see "Browse" below). Prefer agents whose `family`/`category` fit the job.
-3. **Install each agent.** For a new app, use `npx atom-eve create <name> --agent <agent>`.
-   For an existing Eve app, use `npx atom-eve add <agent>`.
+3. **Install each agent.** For a new Eve app, use `npx atom-eve create <name> --agent <agent>`.
+   For an existing Eve app, use `npx atom-eve add <agent>`. For Flue, use
+   `npx atom-eve add <agent> --target flue`.
 4. **Wire up keys.** Check the agent page or `https://atomeve.dev/index.json` for `requiredEnv`.
    Never invent secret values — ask the user. On Eve, set integration secrets as Vercel project env vars.
-5. **Prepare runtime config.** For eve.dev: link Vercel with `vercel link` and pull env with `vercel env pull`.
+   On Flue, use the project's configured runtime secrets/env system.
+5. **Prepare runtime config.** For eve.dev: link Vercel with `vercel link` and pull env with
+   `vercel env pull`.
 
 For Eve, model calls go through the Vercel AI Gateway. The user does not need a model API key, but
 their Vercel account/team must have any required AI Gateway billing or account verification complete.
@@ -41,6 +47,9 @@ npx atom-eve create my-agent --agent website-qa
 
 # Add an agent to an existing project
 npx atom-eve add website-qa
+
+# Generate/install for Flue
+npx atom-eve add website-qa --target flue
 
 # List available agents
 npx atom-eve list
