@@ -113,7 +113,7 @@ generated Flue version.
 
 ### Verify And Deploy
 
-Build or typecheck before you hand the project back:
+Install dependencies and run the project checks before deploying changes:
 
 ```bash
 pnpm install
