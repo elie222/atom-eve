@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://atomeve.dev/sitemap.xml
+Sitemap: https://www.atomeve.dev/sitemap.xml

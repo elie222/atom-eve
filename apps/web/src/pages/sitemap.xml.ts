@@ -1,13 +1,13 @@
 import type { APIRoute } from "astro";
 import { getItems } from "../lib/data";
 
-// Static sitemap at https://atomeve.dev/sitemap.xml — the home page plus one
+// Static sitemap at https://www.atomeve.dev/sitemap.xml — the home page plus one
 // entry per agent under /agents/<name>/. Kept dependency-free (no sitemap
 // integration) so it stays in lockstep with the registry data the site is
 // built from (see src/lib/data.ts).
 export const prerender = true;
 
-const SITE = "https://atomeve.dev";
+const SITE = "https://www.atomeve.dev";
 
 export const GET: APIRoute = () => {
   const urls = [

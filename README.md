@@ -26,7 +26,7 @@ Start with one agent so we can confirm it builds and runs, then we'll add more.
 ```
 
 The agent follows [`start.md`](apps/web/public/start.md), scaffolds the project, installs an agent,
-and prepares it for verification. Name specific agents (browse [atomeve.dev](https://atomeve.dev))
+and prepares it for verification. Name specific agents (browse [www.atomeve.dev](https://www.atomeve.dev))
 if you already know what you want.
 
 ## Why This Exists
@@ -43,8 +43,8 @@ Atom Eve packages that structure into installable agent folders:
 
 The website is the human-facing catalog:
 
-- [atomeve.dev](https://atomeve.dev)
-- [Full generated registry index](https://atomeve.dev/index.json)
+- [www.atomeve.dev](https://www.atomeve.dev)
+- [Full generated registry index](https://www.atomeve.dev/index.json)
 
 Each agent page links back to its source folder and renders that agent's README.
 

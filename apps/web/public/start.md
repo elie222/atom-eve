@@ -4,13 +4,13 @@ Atom Eve is an open-source registry of installable AI agents for **eve.dev** and
 **Flue** projects — like shadcn, but for agents. Each agent is a folder plus an `atom.json`
 manifest that declares what it does and which environment keys it needs.
 
-Browse the full catalog at **https://atomeve.dev**.
+Browse the full catalog at **https://www.atomeve.dev**.
 
 ---
 
 ## For AI coding assistants
 
-If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, do this:
+If a user pasted a prompt like _"Read www.atomeve.dev/start.md and add agents…"_, do this:
 
 1. **Detect or scaffold the project.** Eve is the default target; use Flue only when the user asks
    for Flue or the project is already a Flue project.
@@ -23,7 +23,7 @@ If a user pasted a prompt like _"Read atomeve.dev/start.md and add agents…"_, 
 3. **Install each agent.** For a new Eve app, use `npx atom-eve create <name> --agent <agent>`.
    For an existing Eve app, use `npx atom-eve add <agent>`. For Flue, use
    `npx atom-eve add <agent> --target flue`.
-4. **Wire up keys.** Check the agent page or `https://atomeve.dev/index.json` for `requiredEnv`.
+4. **Wire up keys.** Check the agent page or `https://www.atomeve.dev/index.json` for `requiredEnv`.
    Never invent secret values — ask the user. On Eve, set integration secrets as Vercel project env vars.
    On Flue, use the project's configured runtime secrets/env system.
 5. **Prepare runtime config.** For eve.dev: link Vercel with `vercel link` and pull env with
@@ -71,7 +71,7 @@ The registry is grouped into families:
 - **ops** — productivity, spend, HR, scheduling
 - **data** — analytics, research
 
-Open any agent's page at `https://atomeve.dev/agents/<name>/` to see its description,
+Open any agent's page at `https://www.atomeve.dev/agents/<name>/` to see its description,
 required keys, integrations, and install command.
 
 ---

@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "atom-eve",
-  "homepage": "https://atomeve.dev",
+  "homepage": "https://www.atomeve.dev",
   "items": [
     {
       "name": "eve/seo-audit",

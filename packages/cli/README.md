@@ -3,11 +3,11 @@
 **Installable AI agents for [Eve](https://eve.dev) projects.**
 
 Atom Eve is an open-source, shadcn-style registry of real agent source code. Browse an agent on
-[atomeve.dev](https://atomeve.dev), install it into your own repo with this CLI, add your
+[www.atomeve.dev](https://www.atomeve.dev), install it into your own repo with this CLI, add your
 credentials, and run it. Atom Eve doesn't host or run your agents or store credentials — it gives you
 code you can review, modify, and deploy yourself.
 
-- **Website & catalog:** [atomeve.dev](https://atomeve.dev)
+- **Website & catalog:** [www.atomeve.dev](https://www.atomeve.dev)
 - **Source & docs:** [github.com/elie222/atom-eve](https://github.com/elie222/atom-eve)
 
 ## Quick start
