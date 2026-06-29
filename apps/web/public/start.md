@@ -23,9 +23,10 @@ If a user pasted a prompt like _"Read www.atomeve.dev/start.md and add agents…
 3. **Install each agent.** For a new Eve app, use `npx atom-eve create <name> --agent <agent>`.
    For an existing Eve app, use `npx atom-eve add <agent>`. For Flue, use
    `npx atom-eve add <agent> --target flue`.
-4. **Wire up keys.** Check the agent page or `https://www.atomeve.dev/index.json` for `requiredEnv`.
-   Never invent secret values — ask the user. On Eve, set integration secrets as Vercel project env vars.
-   On Flue, use the project's configured runtime secrets/env system.
+4. **Wire up auth.** Check the agent page or `https://www.atomeve.dev/index.json` for connections
+   and `requiredEnv`. Never invent secret values — ask the user. On Eve, use Vercel Connect or a
+   Vercel integration when available; otherwise set project env vars. On Flue, use the project's
+   configured runtime secrets/env system.
 5. **Prepare runtime config.** For eve.dev: link Vercel with `vercel link` and pull env with
    `vercel env pull`.
 

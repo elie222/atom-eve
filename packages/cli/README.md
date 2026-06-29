@@ -32,7 +32,7 @@ npx atom-eve init
 
 The CLI resolves the target and copies registry source files into the framework-native project layout. Eve installs write a root agent under `agent/`.
 
-Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VERCEL_OIDC_TOKEN` — no model API key needed. Per-agent integration secrets (e.g. `STRIPE_SECRET_KEY`) are set as Vercel project env vars.
+Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VERCEL_OIDC_TOKEN` — no model API key needed. Provider auth is configured per agent: use Vercel Connect or a Vercel integration when available, otherwise set the required project env vars.
 
 Slack is an Eve install option. `--channel slack` adds a bidirectional Slack channel using Vercel Connect. `--deliver slack` implies the Slack channel and rewires simple `markdown` schedules so the scheduled run posts its final response to `SLACK_CHANNEL_ID`.
 

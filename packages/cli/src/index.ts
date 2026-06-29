@@ -1125,8 +1125,9 @@ Commands:
   atom-eve list
 
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
-VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_API_KEY)
-are set as Vercel project env vars.
+VERCEL_OIDC_TOKEN — no model API key needed. Provider auth is configured per agent:
+use Vercel Connect or a Vercel integration when available, otherwise set the required
+project env vars.
 
 Slack flags are Eve-only. \`--channel slack\` installs a bidirectional Slack channel.
 \`--deliver slack\` also rewires markdown schedules to post their final result to

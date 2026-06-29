@@ -65,8 +65,9 @@ cd my-agent
 ```
 
 On Eve this is **Vercel-native**: run `vercel link` and the model resolves through the Vercel AI
-Gateway via `VERCEL_OIDC_TOKEN` — no model API key to set. Per-agent integration secrets (e.g.
-`STRIPE_SECRET_KEY`) are Vercel project env vars.
+Gateway via `VERCEL_OIDC_TOKEN` — no model API key to set. For provider auth, use the agent's
+documented setup: supported services may connect through Vercel Connect or a Vercel integration,
+while others use project env vars.
 
 ```bash
 vercel link
@@ -74,10 +75,10 @@ vercel env pull
 ```
 
 The Vercel account or team must have AI Gateway access enabled. Set `AGENT_MODEL` if you want a
-different model that is available to the project. If an agent lists `requiredEnv`, add those values
-as Vercel project env vars (`vercel env add STRIPE_SECRET_KEY`, etc.) and re-run `vercel env pull`.
-For a provider with a Vercel connector, such as Slack, configure the connector in Vercel instead of
-adding a token.
+different model that is available to the project. If the agent uses a Vercel connector or integration
+for a provider such as Stripe or Slack, connect it in Vercel. If it lists `requiredEnv` for a
+provider without a connector, add those values as Vercel project env vars and re-run
+`vercel env pull`.
 
 Adding an agent to an existing project instead:
 
