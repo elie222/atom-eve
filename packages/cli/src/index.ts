@@ -240,7 +240,12 @@ async function add(agent: string, args: Args) {
     return;
   }
 
-  await installRemoteAgent(agent, config, args);
+  await installRemoteAgent(normalizeRemoteAgentName(agent, config.target), config, args);
+}
+
+function normalizeRemoteAgentName(agent: string, target: CliTarget): string {
+  const prefix = `${target}/`;
+  return agent.startsWith(prefix) ? agent.slice(prefix.length) : agent;
 }
 
 async function installLocalAgent(agentDir: string, config: AtomEveConfig, options: InstallOptions) {

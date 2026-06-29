@@ -253,7 +253,7 @@ interface RemoteSkillRef {
  * syntax-highlighted at build time with Shiki so the browser ships zero
  * highlighting JS. */
 export async function getAgentFiles(item: RegistryItem): Promise<AgentTargetFiles[]> {
-  const file = path.join(ROOT, "public", "r", `${item.name}.json`);
+  const file = path.join(ROOT, "public", "r", `${registryPayloadName(item)}.json`);
   if (!existsSync(file)) return [];
   const payload = JSON.parse(readFileSync(file, "utf8")) as ResolvedPayload;
   const files: AgentFile[] = await Promise.all(
@@ -283,6 +283,10 @@ export async function getAgentFiles(item: RegistryItem): Promise<AgentTargetFile
       requiredEnv: payload.meta?.requiredEnv ?? [],
     },
   ];
+}
+
+function registryPayloadName(item: RegistryItem): string {
+  return `${(item.targets ?? ["eve"])[0] ?? "eve"}/${item.name}`;
 }
 
 function remoteSkillFiles(skills: RemoteSkillRef[]): AgentFile[] {
