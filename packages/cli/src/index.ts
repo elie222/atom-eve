@@ -214,7 +214,7 @@ async function create(args: Args) {
 
   console.log("\nNext steps:");
   console.log(`  cd ${name}`);
-  if (!args.agent) console.log("  npx atom-eve add <agent>      # browse https://www.atomeve.dev");
+  if (!args.agent) console.log("  npx atom-eve add <agent>      # browse atomeve.dev");
   console.log("  vercel link                   # connect to a Vercel project");
   console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
   console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
@@ -692,7 +692,7 @@ async function list() {
       console.log(`${item.name}\t${item.targets.join(",")}\t${item.title}`);
     }
   } catch {
-    console.log("Agent list is available at https://www.atomeve.dev");
+    console.log("Agent list is available at atomeve.dev");
   }
 }
 
