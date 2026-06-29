@@ -2,7 +2,6 @@
 
 [scripts]
 setup = "pnpm install && pnpm generate"
-archive = "rm -rf fixtures/.tmp-*"
 run_mode = "concurrent"
 
 [scripts.run.web]
