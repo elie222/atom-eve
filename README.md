@@ -21,7 +21,7 @@ agent set it up. Paste this into **Claude Code**, **Codex**, **Cursor**, or simi
 
 ```text
 Set up a new Eve project in this directory using Atom Eve.
-Read https://atomeve.dev/start.md and follow it.
+Read https://www.atomeve.dev/start.md and follow it.
 Start with one agent so we can confirm it builds and runs, then we'll add more.
 ```
 
