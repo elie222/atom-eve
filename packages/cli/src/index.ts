@@ -13,6 +13,8 @@ import {
 import { generateFlueAgent, type EveAgentFile } from "@atom-eve/flue-generator";
 
 type Runtime = "vercel" | "node" | "cloudflare";
+type Channel = "slack";
+type Delivery = "slack";
 
 // Agents are authored only as eve agents. `flue` is a generated install target:
 // the CLI reads the eve `agent/` source and codegens a flue `src/**` tree + a
@@ -44,6 +46,15 @@ interface Args {
   sourceRoot?: string;
   workspace?: boolean;
   agent?: string;
+  channel?: Channel;
+  deliver?: Delivery;
+}
+
+const SLACK_CONNECT_DEPENDENCY = "@vercel/connect@^0.2.10";
+
+interface InstallOptions {
+  channel?: Channel;
+  deliver?: Delivery;
 }
 
 const cwd = process.cwd();
@@ -63,6 +74,7 @@ async function main() {
   }
 
   if (command === "init") {
+    rejectInstallOptions(command, args);
     if (args.workspace) {
       await initWorkspace(args);
     } else {
@@ -87,6 +99,7 @@ async function main() {
   }
 
   if (command === "list") {
+    rejectInstallOptions(command, args);
     await list();
     return;
   }
@@ -153,7 +166,7 @@ async function initWorkspace(args: Args) {
 async function create(args: Args) {
   const name = args._[1];
   if (!name) throw new Error("Usage: atom-eve create <name> [--agent <agent>]");
-  const target: Target = "eve";
+  const target = resolveCreateTarget(args);
   const appDir = path.join(cwd, name);
 
   // eve init creates the <name> directory itself, so scaffold from cwd.
@@ -165,7 +178,11 @@ async function create(args: Args) {
     // Re-invoke this CLI inside the new app so the agent installs against its config
     // (add() operates on the module-global cwd, which is fixed at process load).
     const addArgs = [process.argv[1]!, "add", args.agent, "--target", target];
+    if (args.channel) addArgs.push("--channel", args.channel);
+    if (args.deliver) addArgs.push("--deliver", args.deliver);
     runOrThrow(process.execPath, addArgs, appDir, `Installing agent: ${args.agent}`);
+  } else {
+    await installStandaloneEveOverlays(appDir, name, args);
   }
 
   console.log("\nNext steps:");
@@ -175,6 +192,24 @@ async function create(args: Args) {
   console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
   console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
   console.log("  npx eve dev");
+}
+
+function resolveCreateTarget(args: Args): Target {
+  const target = args.target ?? "eve";
+  if (target !== "eve") throw new Error("atom-eve create currently supports only --target eve.");
+  return target;
+}
+
+function rejectInstallOptions(command: string, args: Args) {
+  if (args.channel || args.deliver) {
+    throw new Error(`--channel and --deliver are supported only for atom-eve create and atom-eve add, not ${command}.`);
+  }
+}
+
+function rejectExplicitFlueOverlays(args: Args) {
+  if (args.target === "flue" && (args.channel || args.deliver)) {
+    throw new Error("--channel and --deliver are currently supported only for --target eve.");
+  }
 }
 
 function runOrThrow(command: string, args: string[], cwdDir: string, label: string) {
@@ -196,26 +231,28 @@ async function writeIfMissingAt(filePath: string, content: string) {
 }
 
 async function add(agent: string, args: Args) {
+  rejectExplicitFlueOverlays(args);
   const config = await readOrCreateConfig(args);
+  rejectEveOverlaysForFlue(config, args);
 
   if (agent.startsWith(".") || agent.startsWith("/")) {
-    await installLocalAgent(path.resolve(cwd, agent), config);
+    await installLocalAgent(path.resolve(cwd, agent), config, args);
     return;
   }
 
-  await installRemoteAgent(agent, config);
+  await installRemoteAgent(agent, config, args);
 }
 
-async function installLocalAgent(agentDir: string, config: AtomEveConfig) {
+async function installLocalAgent(agentDir: string, config: AtomEveConfig, options: InstallOptions) {
   const manifestPath = path.join(agentDir, "atom.json");
   const rootDir = findRegistryRoot(agentDir);
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
 
   const files = await readLocalInstallFiles(rootDir, manifest);
-  await installAgentFiles(manifest, files, config);
+  await installAgentFiles(manifest, files, config, options);
 }
 
-async function installRemoteAgent(agent: string, config: AtomEveConfig) {
+async function installRemoteAgent(agent: string, config: AtomEveConfig, options: InstallOptions) {
   const repoPath = `registry/${agent}`;
   const manifest = validateManifest(await fetchGitHubJson(config, `${repoPath}/atom.json`), repoPath);
 
@@ -227,7 +264,7 @@ async function installRemoteAgent(agent: string, config: AtomEveConfig) {
   const files: ResolvedInstallFileSpec[] = await Promise.all(
     specs.map(async (file) => ({ ...file, content: await fetchGitHubRaw(config, file.path) }))
   );
-  await installAgentFiles(manifest, files, config);
+  await installAgentFiles(manifest, files, config, options);
 }
 
 // Eve is a verbatim copy of the agent/ tree; flue is GENERATED from the same
@@ -235,21 +272,24 @@ async function installRemoteAgent(agent: string, config: AtomEveConfig) {
 async function installAgentFiles(
   manifest: AtomManifest,
   files: ResolvedInstallFileSpec[],
-  config: AtomEveConfig
+  config: AtomEveConfig,
+  options: InstallOptions
 ) {
   if (config.target === "flue") {
     await installFlueAgent(manifest, files);
     return;
   }
 
-  for (const file of files) {
+  const resolvedFiles = applyEveOverlays(manifest, files, options);
+
+  for (const file of resolvedFiles) {
     const destination = resolveInstallTarget(file.target);
     await fs.mkdir(path.dirname(destination), { recursive: true });
     await fs.writeFile(destination, file.content);
     console.log(`installed ${path.relative(cwd, destination)}`);
   }
 
-  await installPackageDependencies(dependenciesForManifest(manifest));
+  await installPackageDependencies(dependenciesForInstall(manifest, options));
   await installRemoteSkills(manifest.skills);
 }
 
@@ -293,10 +333,10 @@ function flueDependencies(generated: Record<string, string>): string[] {
   return deps;
 }
 
-async function installPackageDependencies(dependencies: string[]) {
+async function installPackageDependencies(dependencies: string[], baseDir = cwd) {
   if (!dependencies.length) return;
 
-  const packageJsonPath = path.join(cwd, "package.json");
+  const packageJsonPath = path.join(baseDir, "package.json");
   if (!fsSync.existsSync(packageJsonPath)) {
     console.warn(`Could not add ${dependencies.join(", ")} because package.json was not found.`);
     return;
@@ -324,6 +364,209 @@ async function installPackageDependencies(dependencies: string[]) {
 
 function dependenciesForManifest(manifest: AtomManifest): string[] {
   return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies.eve ?? [])])].sort();
+}
+
+function dependenciesForInstall(manifest: AtomManifest, options: InstallOptions): string[] {
+  const dependencies = dependenciesForManifest(manifest);
+  if (needsSlackChannel(options) && !dependencies.some((dep) => parseDependencySpec(dep).name === "@vercel/connect")) {
+    dependencies.push(SLACK_CONNECT_DEPENDENCY);
+  }
+  return [...new Set(dependencies)].sort();
+}
+
+function applyEveOverlays(
+  manifest: AtomManifest,
+  files: ResolvedInstallFileSpec[],
+  options: InstallOptions
+): ResolvedInstallFileSpec[] {
+  if (!needsSlackChannel(options)) return files;
+
+  const next = files.map((file) => ({ ...file }));
+  const hasSlackChannel = next.some((file) => file.target === "~/agent/channels/slack.ts");
+  if (!hasSlackChannel) {
+    next.push({
+      path: `${manifest.repoPath}/agent/channels/slack.ts`,
+      target: "~/agent/channels/slack.ts",
+      type: "registry:file",
+      content: slackChannelContent(manifest.name)
+    });
+    console.log("added Slack channel overlay");
+  }
+
+  if (options.deliver === "slack") {
+    const transformed = applySlackScheduleDelivery(next);
+    if (transformed === 0) {
+      console.warn("No markdown schedules were converted for Slack delivery. Schedules with custom run() code need manual wiring.");
+    }
+  }
+
+  return next.sort((a, b) => a.target.localeCompare(b.target));
+}
+
+async function installStandaloneEveOverlays(appDir: string, agentName: string, options: InstallOptions) {
+  if (!needsSlackChannel(options)) return;
+
+  const slackPath = path.join(appDir, "agent", "channels", "slack.ts");
+  if (fsSync.existsSync(slackPath)) {
+    console.log(`Skipped existing ${path.relative(cwd, slackPath)}`);
+  } else {
+    await fs.mkdir(path.dirname(slackPath), { recursive: true });
+    await fs.writeFile(slackPath, slackChannelContent(agentName));
+    console.log(`installed ${path.relative(cwd, slackPath)}`);
+  }
+
+  if (options.deliver === "slack") {
+    console.warn("No agent schedules were installed, so --deliver slack has no schedules to wire.");
+  }
+
+  await installPackageDependencies([SLACK_CONNECT_DEPENDENCY], appDir);
+}
+
+function needsSlackChannel(options: InstallOptions): boolean {
+  return options.channel === "slack" || options.deliver === "slack";
+}
+
+function rejectEveOverlaysForFlue(config: AtomEveConfig, options: InstallOptions) {
+  if (config.target === "flue" && (options.channel || options.deliver)) {
+    throw new Error("--channel and --deliver are currently supported only for --target eve.");
+  }
+}
+
+function slackChannelContent(agentName: string): string {
+  const connectionName = JSON.stringify(`slack/${agentName}`);
+  return `import { connectSlackCredentials } from "@vercel/connect/eve";
+import { slackChannel } from "eve/channels/slack";
+
+export default slackChannel({
+  credentials: connectSlackCredentials(${connectionName}),
+});
+`;
+}
+
+function applySlackScheduleDelivery(files: ResolvedInstallFileSpec[]): number {
+  let transformed = 0;
+
+  for (const file of files) {
+    if (!isScheduleFile(file.target)) continue;
+    const nextContent = toSlackDeliverySchedule(file.content);
+    if (!nextContent) continue;
+    file.content = nextContent;
+    transformed += 1;
+    console.log(`wired ${file.target.replace(/^~\/agent\//, "agent/")} for scheduled Slack delivery`);
+  }
+
+  return transformed;
+}
+
+function isScheduleFile(target: string): boolean {
+  return target.startsWith("~/agent/schedules/") && target.endsWith(".ts");
+}
+
+function toSlackDeliverySchedule(content: string): string | undefined {
+  if (!content.includes("defineSchedule") || !content.includes("markdown")) return undefined;
+  if (/\brun\s*:|\basync\s+run\s*\(/.test(content)) return undefined;
+
+  const cron = extractPropertyExpression(content, "cron");
+  const markdown = extractPropertyExpression(content, "markdown");
+  if (!cron || !markdown) return undefined;
+
+  return `import { defineSchedule } from "eve/schedules";
+
+import slack from "../channels/slack.js";
+
+export default defineSchedule({
+  cron: ${cron},
+  async run({ receive, waitUntil, appAuth }) {
+    const channelId = process.env.SLACK_CHANNEL_ID;
+    if (!channelId) throw new Error("SLACK_CHANNEL_ID is required for scheduled Slack delivery.");
+
+    waitUntil(
+      receive(slack, {
+        message: ${markdown},
+        target: { channelId },
+        auth: appAuth,
+      }),
+    );
+  },
+});
+`;
+}
+
+function extractPropertyExpression(content: string, property: string): string | undefined {
+  const match = new RegExp(`\\b${property}\\s*:`).exec(content);
+  if (!match || match.index === undefined) return undefined;
+
+  let i = match.index + match[0].length;
+  while (/\s/.test(content[i] ?? "")) i += 1;
+
+  const start = i;
+  let depth = 0;
+  let quote: '"' | "'" | "`" | undefined;
+  let escaped = false;
+  let lineComment = false;
+  let blockComment = false;
+
+  for (; i < content.length; i += 1) {
+    const char = content[i]!;
+    const next = content[i + 1];
+
+    if (lineComment) {
+      if (char === "\n") lineComment = false;
+      continue;
+    }
+
+    if (blockComment) {
+      if (char === "*" && next === "/") {
+        blockComment = false;
+        i += 1;
+      }
+      continue;
+    }
+
+    if (quote) {
+      if (escaped) {
+        escaped = false;
+      } else if (char === "\\") {
+        escaped = true;
+      } else if (char === quote) {
+        quote = undefined;
+      }
+      continue;
+    }
+
+    if (char === "/" && next === "/") {
+      lineComment = true;
+      i += 1;
+      continue;
+    }
+
+    if (char === "/" && next === "*") {
+      blockComment = true;
+      i += 1;
+      continue;
+    }
+
+    if (char === '"' || char === "'" || char === "`") {
+      quote = char;
+      continue;
+    }
+
+    if (char === "(" || char === "[" || char === "{") {
+      depth += 1;
+      continue;
+    }
+
+    if (char === ")" || char === "]" || char === "}") {
+      if (depth === 0) break;
+      depth -= 1;
+      continue;
+    }
+
+    if (char === "," && depth === 0) break;
+  }
+
+  const expression = content.slice(start, i).trim();
+  return expression || undefined;
 }
 
 function parseDependencySpec(spec: string): { name: string; version: string } {
@@ -504,6 +747,10 @@ function parseArgs(argv: string[]): Args {
       args.workspace = true;
     } else if (value === "--agent") {
       args.agent = argv[++i];
+    } else if (value === "--channel") {
+      args.channel = parseChannel(argv[++i]);
+    } else if (value === "--deliver") {
+      args.deliver = parseDelivery(argv[++i]);
     } else {
       args._.push(value);
     }
@@ -537,6 +784,16 @@ function parseTarget(value: unknown): CliTarget {
 function parseRuntime(value: unknown): Runtime {
   if (value === "vercel" || value === "node" || value === "cloudflare") return value;
   throw new Error(`Invalid runtime: ${String(value)}. Expected vercel, node, or cloudflare.`);
+}
+
+function parseChannel(value: unknown): Channel {
+  if (value === "slack") return value;
+  throw new Error(`Invalid channel: ${String(value)}. Expected slack.`);
+}
+
+function parseDelivery(value: unknown): Delivery {
+  if (value === "slack") return value;
+  throw new Error(`Invalid delivery: ${String(value)}. Expected slack.`);
 }
 
 function isHelpFlag(value: unknown): boolean {
@@ -732,7 +989,7 @@ function printHelp() {
   console.log(`atom-eve
 
 Commands:
-  atom-eve create <name> [--agent <agent>]
+  atom-eve create <name> [--agent <agent>] [--channel slack] [--deliver slack]
                                   Scaffold a full eve app via the eve CLI,
                                   then optionally install an agent. Recommended.
   atom-eve init --workspace [name]
@@ -741,11 +998,17 @@ Commands:
                                   Write atom-eve.json (+ minimal fallback scaffold) in an existing project.
   atom-eve add <agent>
   atom-eve add ./registry/<agent>
+  atom-eve add <agent> --channel slack
+  atom-eve add <agent> --deliver slack
   atom-eve list
 
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
 VERCEL_OIDC_TOKEN — no model API key needed. Agent integration secrets (e.g. STRIPE_API_KEY)
 are set as Vercel project env vars.
+
+Slack flags are Eve-only. \`--channel slack\` installs a bidirectional Slack channel.
+\`--deliver slack\` also rewires markdown schedules to post their final result to
+SLACK_CHANNEL_ID.
 `);
 }
 
@@ -753,12 +1016,14 @@ function printAddHelp() {
   console.log(`atom-eve add
 
 Usage:
-  atom-eve add <agent>
-  atom-eve add ./registry/<agent>
+  atom-eve add <agent> [--channel slack] [--deliver slack]
+  atom-eve add ./registry/<agent> [--channel slack] [--deliver slack]
   atom-eve add <agent> --target flue   # generate the flue version + FLUE.md
 
 Examples:
   atom-eve add stripe-pulse
+  atom-eve add seo-audit --channel slack
+  atom-eve add seo-audit --deliver slack
   atom-eve add stripe-pulse --target flue
 `);
 }

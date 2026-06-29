@@ -70,6 +70,15 @@ Adding an agent to an existing project instead:
 npx atom-eve add facebook-ads --target eve
 ```
 
+Add Slack as an Eve interface when you install:
+
+```bash
+npx atom-eve add seo-audit --target eve --channel slack
+npx atom-eve add seo-audit --target eve --deliver slack
+```
+
+`--channel slack` installs a bidirectional Slack channel. `--deliver slack` implies the channel and rewires simple scheduled report prompts so the scheduled run posts its final answer to `SLACK_CHANNEL_ID`.
+
 Running many agents from one repo? Scaffold a workspace root and create one app per agent:
 
 ```bash
