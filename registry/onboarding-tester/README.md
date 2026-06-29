@@ -24,7 +24,7 @@ This copies the agent into `agent/` in your eve app.
 
 No credentials or environment variables are required to follow public documentation. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built.
 
-After installing, edit `agent/instructions.md` to tell the agent where this project's onboarding docs live (README, CONTRIBUTING, docs/getting-started, setup scripts).
+After installing, customize `agent/instructions.md` to tell the agent where this project's onboarding docs live (README, CONTRIBUTING, docs/getting-started, setup scripts).
 
 ## Usage
 

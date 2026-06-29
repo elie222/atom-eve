@@ -24,7 +24,7 @@ This copies the agent into `agent/` in your eve app.
 
 No credentials or environment variables are required for public screens. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built.
 
-After installing, edit `agent/instructions.md` with your real screen list and target URLs. Place known-good reference images under `reports/visual-regression/baseline`; the agent treats that directory as a read-only reference.
+After installing, customize `agent/instructions.md` with your real screen list and target URLs. Place known-good reference images under `reports/visual-regression/baseline`; the agent treats that directory as a read-only reference.
 
 ## Usage
 

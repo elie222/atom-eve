@@ -24,7 +24,7 @@ This copies the agent into `agent/` in your eve app.
 
 No credentials or environment variables are required for public pages. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built.
 
-After installing, edit `agent/instructions.md` with your real competitors, the pages to review, your own positioning and market, and reporting preferences. It does not use paid search APIs.
+After installing, customize `agent/instructions.md` with your real competitors, the pages to review, your own positioning and market, and reporting preferences. It does not use paid search APIs.
 
 ## Usage
 

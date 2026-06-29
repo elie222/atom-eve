@@ -24,7 +24,7 @@ This copies the agent into `agent/` in your eve app.
 
 No API keys or environment variables are required. The agent relies on eve's built-in `web_search` (provider-managed) and `web_fetch` tools, which ship with every agent.
 
-After install, edit `agent/instructions.md` to reflect the kinds of questions, sources, and decisions your project cares about. Confirm web search is enabled for your model provider in your deployment; if it is unavailable the agent will say so rather than answering from memory.
+After installing, customize `agent/instructions.md` to reflect the kinds of questions, sources, and decisions your project cares about. Confirm web search is enabled for your model provider in your deployment; if it is unavailable the agent will say so rather than answering from memory.
 
 ## Usage
 

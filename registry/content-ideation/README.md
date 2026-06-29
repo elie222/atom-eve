@@ -22,7 +22,7 @@ This copies the agent into `agent/` in your eve app.
 
 ## Setup
 
-No API keys or environment variables are required. After installing, edit `agent/instructions.md` to reflect your real audience, channels, product language, approval rules, and publishing preferences.
+No API keys or environment variables are required. After installing, customize `agent/instructions.md` to reflect your real audience, channels, product language, approval rules, and publishing preferences.
 
 Give the agent recent context each run (changelogs, call notes, metrics, decisions) or point it at local notes. It can optionally consume `mvanhorn/last30days-skill` output when your project already uses that skill as a recent-context source; it does not vendor or assume that skill's code, and continues from the context you provide if it is unavailable.
 

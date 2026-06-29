@@ -24,7 +24,7 @@ This copies the agent into `agent/` in your eve app.
 
 No credentials or environment variables are required for public flows. The installed sandbox bootstrap prepares Agent Browser and a Chromium runtime inside the eve sandbox on first run, so the first browser run may spend extra time while the sandbox template is built.
 
-After installing, edit `agent/instructions.md` with your real app URLs, flows, brand voice, and copy guidelines. For authenticated flows, configure your own Agent Browser session outside this package and document that flow in your local copy. Do not commit session state or credentials.
+After installing, customize `agent/instructions.md` with your real app URLs, flows, brand voice, and copy guidelines. For authenticated flows, configure your own Agent Browser session outside this package and document that flow in your local copy. Do not commit session state or credentials.
 
 ## Usage
 

@@ -141,18 +141,26 @@ the third person — write "You are…", "Use…", "Do not…", not "This agent 
 reflects…". (Third-person references to a *tool* are fine: "The X tool only reads data; it does not
 send email.")
 
+Keep `instructions.md` purely for runtime behavior. Do not include user-facing setup notes,
+maintainer guidance, or instructions to edit the file after install. Put customization guidance in
+the agent README's `## Setup` section, and let the CLI point users to the README plus generic next
+steps after install. The installed prompt may refer to configured project resources, but it should
+not explain how a human should configure those resources.
+
 Prefer wording like:
 
 - "You are a SEO audit agent." (state the role directly; don't prefix it with "this project's")
 - "Audit this project's configured site..." (keep "this project's" for the user's real resources —
   site, repo, Stripe account, open PRs — where it carries meaning)
-- "This file is intended to be edited after install so you reflect the project's real..."
+- "If no site, URL, or sitemap is configured, stop and say what needs to be configured..."
 
 Avoid wording like:
 
 - "You are this project's SEO audit agent." (drop "this project's" from the role; it adds nothing)
 - "You are a pragmatic agent for growth teams." (marketing tone)
 - "This agent is read-only." (third person — write "You are read-only.")
+- "This file is intended to be edited after install so you reflect the project's real..."
+- "After installing, edit `agent/instructions.md`..." inside `instructions.md`.
 - "Replace this placeholder with the production URL before enabling the workflow."
 - Hard-coded `example.com` or project-specific domains in executable prompts.
 
