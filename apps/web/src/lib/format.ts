@@ -4,6 +4,14 @@ export const REPO = "https://github.com/elie222/atom-eve";
 export const DISCORD = "https://discord.gg/RWwKa2Sn7h";
 export const X_PROFILE = "https://x.com/elie2222";
 export const EVE_URL = "https://eve.dev";
+export const FLUE_URL = "https://flueframework.com";
+
+export const GENERATED_INSTALL_TARGETS = ["flue"] as const;
+
+export function installTargets(targets: string[] | undefined): string[] {
+  const authored = targets && targets.length > 0 ? targets : ["eve"];
+  return [...new Set([...authored, ...GENERATED_INSTALL_TARGETS])];
+}
 
 /* family -> accent colour (arcade palette) */
 export const FAM: Record<string, string> = {

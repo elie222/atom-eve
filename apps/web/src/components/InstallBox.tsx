@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { installCommand } from "../lib/format";
+import { installCommand, installTargets } from "../lib/format";
 
 interface Props {
   name: string;
@@ -10,10 +10,10 @@ const ACC = "#54f0a8";
 
 /* Install target tabs + copyable command (arcade terminal). */
 export default function InstallBox({ name, targets }: Props) {
-  const frameworks = targets.length ? targets : ["npm"];
+  const frameworks = installTargets(targets);
   const cmds = useMemo(() => {
     const map: Record<string, string> = {};
-    for (const t of frameworks) map[t] = installCommand(name, t === "npm" ? undefined : t);
+    for (const t of frameworks) map[t] = installCommand(name, t);
     return map;
   }, [name, frameworks]);
 

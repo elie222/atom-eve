@@ -36,7 +36,7 @@ function starfield(n: number, w: number, h: number, cols: string[]): string {
 }
 const HERO_STARS = starfield(120, 1280, 470, ["#ffffff", "#37d6ff", "#ff45c2", "#a974ff", "#cfc4ff"]);
 
-const metaDescription = `Atom Eve is an open-source, shadcn-style registry of ${total} installable AI agents — SEO, ads, QA, support, and more. Drop them straight into your project with one command.`;
+const metaDescription = `Atom Eve is an open-source, shadcn-style registry of ${total} installable AI agents for eve and Flue projects — SEO, ads, QA, support, and more. Drop them straight into your project with one command.`;
 
 // JSON-LD: identify the site (with on-site search) and the org behind it so
 // search engines can surface a sitelinks search box and brand entity.
@@ -70,7 +70,7 @@ const structuredData = [
 <Base
   title="Atom Eve — an agent for every job"
   description={metaDescription}
-  imageAlt="Atom Eve — an open-source registry of installable AI agents for eve"
+  imageAlt="Atom Eve — an open-source registry of installable AI agents for eve and Flue"
   structuredData={structuredData}
 >
   <Nav variant="landing" />
@@ -114,9 +114,10 @@ const structuredData = [
       <span class="absolute -bottom-[5px] -right-[5px] h-[9px] w-[9px] bg-pink"></span>
     </div>
 
-    <p class="mx-auto mt-6 max-w-[640px] text-[21px] leading-[1.55] text-ink2">
-      Open-source AI agents for <span class="text-cyan">eve</span> — one for every job. Drop them
-      straight into your project.
+    <p class="mx-auto mt-6 max-w-[690px] text-[21px] leading-[1.55] text-ink2">
+      Open-source AI agents for <span class="text-cyan">eve</span> and{" "}
+      <span class="text-green">Flue</span> projects — one for every job. Drop them straight into your
+      project.
     </p>
 
     <div class="mt-7 flex flex-wrap items-center justify-center gap-[13px]">
@@ -311,7 +312,8 @@ const structuredData = [
       <div class="p-5">
         <p class="m-0 text-[15px] leading-[1.6] text-ink2">
           Atom Eve drops open-source AI agents straight into your project — like shadcn, but for
-          agents. Works with <span class="text-cyan">eve</span>.
+          agents. Works with <span class="text-cyan">eve</span> and{" "}
+          <span class="text-green">Flue</span>.
         </p>
 
         <!-- step 1 -->
@@ -347,7 +349,7 @@ const structuredData = [
           </div>
           <div class="px-[14px] py-[13px]">
             <div class="mb-[11px] text-[14px] leading-[1.5] text-muted">
-              No eve project yet? Scaffold one in the format Atom Eve expects:
+              No project yet? Scaffold an eve or Flue install target:
             </div>
             <div class="flex items-center gap-3">
               <code

@@ -1,6 +1,6 @@
 ---
 import AtomLogo from "./AtomLogo.astro";
-import { REPO, DISCORD, X_PROFILE, EVE_URL } from "../lib/format";
+import { REPO, DISCORD, X_PROFILE, EVE_URL, FLUE_URL } from "../lib/format";
 ---
 
 <footer class="relative mt-14 overflow-hidden border-t-2 border-edge">
@@ -23,8 +23,8 @@ import { REPO, DISCORD, X_PROFILE, EVE_URL } from "../lib/format";
         </div>
       </div>
       <p class="mt-[14px] text-[12px] leading-[1.6] text-dim">
-        Atom Eve is an open-source community project. Not affiliated with or endorsed by Vercel, Eve,
-        or Cloudflare. Works with eve — credit &amp; thanks to the team.
+        Atom Eve is an open-source community project. Not affiliated with or endorsed by Vercel, eve,
+        Flue, or Cloudflare. Works with eve and Flue — credit &amp; thanks to the teams.
       </p>
     </div>
     <div class="flex gap-6 font-mono text-[12px] text-muted">
@@ -33,6 +33,9 @@ import { REPO, DISCORD, X_PROFILE, EVE_URL } from "../lib/format";
       <a href={X_PROFILE} class="whitespace-nowrap transition-colors hover:text-ink">X</a>
       <a href={EVE_URL} class="whitespace-nowrap text-ink transition-colors hover:text-cyan"
         >eve ↗</a
+      >
+      <a href={FLUE_URL} class="whitespace-nowrap text-ink transition-colors hover:text-green"
+        >Flue ↗</a
       >
     </div>
   </div>
