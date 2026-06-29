@@ -1,12 +1,12 @@
 # Release Notes Agent
 
-A GitHub-driven agent that reads merged pull requests and drafts user-facing release notes for operator approval.
+A GitHub-driven agent that reads merged pull requests and drafts user-facing release notes.
 
 ## What it does
 
-Reviews the pull requests merged into your GitHub repository since the latest release or tag, groups them by change type (features, fixes, performance, refactors, docs, other), and drafts user-facing release notes grounded in that merged work. It is draft-first and read-only: every run returns Markdown release notes for operator approval, and the agent never publishes a release or moves a tag.
+Reviews pull requests merged since the latest release or tag, groups them by change type, and drafts user-facing Markdown release notes grounded in merged work.
 
-It reads GitHub through the official GitHub CLI (`gh`) running in the eve sandbox via the built-in `bash` tool, not a hand-written REST client. The capability is `gh` (`gh release view`, `gh pr list --state merged`, `gh pr view`, `gh pr diff`); the LLM does the classification and writing.
+It is draft-first and read-only: it never publishes a release, moves a tag, or edits changelog files.
 
 ## Supported targets
 
@@ -22,7 +22,7 @@ This copies the agent into `agent/` in your eve app.
 
 ## Setup
 
-Create a GitHub token (a fine-grained or classic personal access token, or a GitHub App token) with read access to the repository's contents and pull requests. The GitHub CLI reads it from `GH_TOKEN`/`GITHUB_TOKEN`.
+Create a GitHub token with read access to repository contents and pull requests. The GitHub CLI reads it from `GH_TOKEN`/`GITHUB_TOKEN`.
 
 Required environment variable for the agent's sandbox:
 
@@ -30,13 +30,9 @@ Required environment variable for the agent's sandbox:
 
 Set the target repository in `owner/repo` form by passing `-R owner/repo` to `gh` or via `GH_REPO`. Edit `agent/instructions.md` to pin your repo and change-type conventions, and `agent/schedules/weekly.ts` before enabling the recurring run.
 
-The sandbox bootstraps the `gh` binary on first run from the official linux-amd64 release tarball, so the first run may spend extra time while the sandbox template is built.
-
 ## Usage
 
-Run the agent on demand to draft release notes for the latest changes, or let the bundled weekly schedule (Mondays at 09:00 UTC) run it automatically in task mode: eve starts the agent on its cron tick and the draft lands in that run's session.
-
-The agent drives `gh` in the sandbox:
+Run the agent on demand to draft release notes for recent changes, or use the bundled weekly schedule (Mondays at 09:00 UTC). It uses:
 
 ```bash
 gh release view -R owner/repo --json tagName,publishedAt
@@ -44,15 +40,15 @@ gh pr list -R owner/repo --state merged --json number,title,mergedAt,labels,url
 gh pr diff -R owner/repo <number>
 ```
 
-It returns the release notes as a Markdown draft. Review it, then publish the release from GitHub yourself.
+Review the Markdown draft, then publish the release from GitHub yourself.
 
 ## Connections and auth
 
-This agent has no external channel connection. It reads GitHub through the official `gh` CLI inside the eve sandbox, which reads `GITHUB_TOKEN` from the environment. The agent never runs write commands such as `gh release create`, so it cannot publish releases or move tags.
+This agent has no external channel connection. It reads GitHub through the official `gh` CLI inside the Eve sandbox, using `GITHUB_TOKEN` from the environment. It never runs write commands such as `gh release create`.
 
 ## Limitations
 
-- The agent is read-only by design: it lists merged pull requests and drafts notes, but does not publish releases, create or move tags, or edit changelog files.
-- Pull request classification is heuristic, based on conventional-commit title prefixes and labels; review and re-group entries before publishing.
-- It relies on `gh` being installed and authenticated in the sandbox. If the CLI or token is unavailable, the agent reports the blocker instead of inventing entries.
-- Outputs are session-local Markdown drafts. Save them externally if you want longer history.
+- The agent lists merged pull requests and drafts notes only; it does not publish releases or create or move tags.
+- Pull request classification is heuristic, based on title prefixes and labels; review before publishing.
+- It relies on `gh` being installed and authenticated; if unavailable, it reports the blocker.
+- Outputs are session-local Markdown drafts unless you save them externally.
