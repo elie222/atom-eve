@@ -52,9 +52,9 @@ Each agent page links back to its source folder and renders that agent's README.
 
 ### Prerequisites
 
-- Node.js 24.x and a package manager (`pnpm` recommended; `npm` works).
-- A Vercel account and the [Vercel CLI](https://vercel.com/docs/cli) (`npm i -g vercel`) for Eve
-  model access, deployment, and connectors.
+- Node.js with `npx` available.
+- For Eve installs: a Vercel account and the [Vercel CLI](https://vercel.com/docs/cli)
+  (`npm i -g vercel`) for model access, deployment, and connectors.
 
 Scaffold a full app and install an agent in one step (`create` delegates to the framework's own
 scaffolder, then installs the agent's source):
