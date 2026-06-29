@@ -132,11 +132,6 @@ After deploy, trigger the production channel you intentionally configured, such 
 scheduled run, or an app UI/HTTP channel. Then inspect the run in the Vercel dashboard under
 **Agent Runs**.
 
-Do not assume a freshly installed Eve agent exposes a public production testing endpoint. If you add
-an HTTP channel, configure its auth policy explicitly and test it through that channel's expected
-client. If Vercel Deployment Protection or team SSO is enabled, automated HTTP checks need an
-approved bypass or access method.
-
 ### Local Checkout Fallback
 
 If you are developing the registry locally or need to bypass the public GitHub source, install from a checkout path:
