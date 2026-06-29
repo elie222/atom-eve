@@ -46,7 +46,7 @@ const requiredEnv = item.requiredEnv ?? [];
 
 // "Paste into your agent" prompt for this specific agent.
 const promptName = item.title.toLowerCase().endsWith("agent") ? item.title : `${item.title} agent`;
-const pastePrompt = `Read www.atomeve.dev/start.md and set up ${promptName} in my project.`;
+const pastePrompt = `Read atomeve.dev/start.md and set up ${promptName} in my project.`;
 
 const about: { k: string; v: string; accent?: boolean }[] = [
   { k: "Category", v: `${prettify(item.family)} / ${prettify(item.category)}` },
