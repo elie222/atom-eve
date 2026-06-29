@@ -109,7 +109,7 @@ npx atom-eve create facebook-ads --agent facebook-ads
 ![Atom Eve install flow](apps/web/public/atom-eve-install.png)
 
 The CLI writes `atom-eve.json` to remember project defaults. Pass `--target flue` when you want the
-generated Flue version.
+Flue version.
 
 ### Verify And Deploy
 
