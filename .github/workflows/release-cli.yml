@@ -1,7 +1,7 @@
 name: Release CLI
 
 # Manually publish a new `atom-eve` npm version: Actions -> Release CLI -> Run workflow.
-# Requires an NPM_TOKEN (npm Automation token) repository secret.
+# Requires npm Trusted Publishing configured for this package and workflow.
 
 on:
   workflow_dispatch:
@@ -41,6 +41,9 @@ jobs:
           cache: pnpm
           registry-url: "https://registry.npmjs.org"
 
+      - name: Update npm for trusted publishing
+        run: npm install -g npm@latest
+
       - name: Install
         run: pnpm install --frozen-lockfile
 
@@ -52,9 +55,9 @@ jobs:
           echo "version=${NEW#v}" >> "$GITHUB_OUTPUT"
 
       - name: Publish to npm
-        run: pnpm --filter atom-eve publish --no-git-checks --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd packages/cli
+          npm publish --access public
 
       - name: Commit and tag the release
         run: |
