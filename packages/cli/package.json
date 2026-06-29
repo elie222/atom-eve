@@ -1,6 +1,6 @@
 {
   "name": "atom-eve",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "Install Atom Eve agents into Eve projects.",
   "license": "MIT",

@@ -9,6 +9,19 @@ const root = process.cwd();
 const cli = path.join(root, "packages", "cli", "dist", "index.js");
 const index = JSON.parse(await fs.readFile(path.join(root, "public", "index.json"), "utf8"));
 
+const defaultTargetItem = index.items[0];
+if (defaultTargetItem) {
+  const agent = path.join(root, defaultTargetItem.repoPath);
+  const temp = path.join(root, "fixtures", `.tmp-default-target-${defaultTargetItem.name}`);
+  await fs.rm(temp, { recursive: true, force: true });
+  await fs.mkdir(temp, { recursive: true });
+
+  run("node", [cli, "add", agent], temp);
+  await assertDefaultEveProject(temp);
+
+  await fs.rm(temp, { recursive: true, force: true });
+}
+
 // Agents are authored eve-only (item.targets === ["eve"]), but flue is a
 // GENERATED target: for every agent we also generate its flue version, install
 // it into fixtures/flue, and typecheck the generated `src/**` against the real
@@ -34,4 +47,15 @@ function run(command, args, cwd) {
   if (result.status !== 0) {
     throw new Error(`${command} ${args.join(" ")} failed with exit code ${result.status}`);
   }
+}
+
+async function assertDefaultEveProject(dir) {
+  const config = JSON.parse(await fs.readFile(path.join(dir, "atom-eve.json"), "utf8"));
+  if (config.target !== "eve") {
+    throw new Error(`Expected default target eve, got ${String(config.target)}`);
+  }
+
+  await fs.access(path.join(dir, "package.json"));
+  await fs.access(path.join(dir, "tsconfig.json"));
+  await fs.access(path.join(dir, "agent", "agent.ts"));
 }

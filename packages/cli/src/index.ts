@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 import fsSync from "node:fs";
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { createInterface } from "node:readline/promises";
 import {
   createInstallFileSpecs,
   readLocalInstallFiles,
@@ -860,7 +861,26 @@ function parseArgs(argv: string[]): Args {
 }
 
 async function resolveTarget(args: Args): Promise<CliTarget> {
-  return args.target ?? "eve";
+  if (args.target) return args.target;
+  return promptForTarget("eve");
+}
+
+async function promptForTarget(defaultTarget: CliTarget): Promise<CliTarget> {
+  if (!process.stdin.isTTY || !process.stdout.isTTY || process.env.CI) return defaultTarget;
+
+  const rl = createInterface({ input: process.stdin, output: process.stdout });
+  try {
+    const answer = await rl.question(`Install agents for which target? (eve/Flue) ${dimText(`[${defaultTarget}]`)} `);
+    const value = answer.trim();
+    return value ? parseTarget(value) : defaultTarget;
+  } finally {
+    rl.close();
+  }
+}
+
+function dimText(text: string): string {
+  if (process.env.NO_COLOR) return text;
+  return `\x1b[2m${text}\x1b[0m`;
 }
 
 // Registry manifests are authored eve-only; this narrows a parsed CLI target to
@@ -878,8 +898,9 @@ function toPosixPath(filePath: string): string {
 }
 
 function parseTarget(value: unknown): CliTarget {
-  if (value === "eve" || value === "flue") return value;
-  throw new Error(`Invalid target: ${String(value)}. Expected eve or flue.`);
+  const normalized = typeof value === "string" ? value.toLowerCase() : value;
+  if (normalized === "eve" || normalized === "flue") return normalized;
+  throw new Error(`Invalid target: ${String(value)}. Expected eve or Flue.`);
 }
 
 function parseRuntime(value: unknown): Runtime {
