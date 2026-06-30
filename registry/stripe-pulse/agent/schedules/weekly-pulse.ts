@@ -6,11 +6,15 @@ import slack from "../channels/slack.js";
 export default defineSchedule({
   cron: "0 9 * * 1",
   async run({ receive, waitUntil, appAuth }) {
+    const channelId = process.env.SLACK_PULSE_CHANNEL_ID;
+    if (!channelId) {
+      throw new Error("SLACK_PULSE_CHANNEL_ID is not set");
+    }
     waitUntil(
       receive(slack, {
         message:
           "Generate this week's revenue & churn pulse and post it to the channel.",
-        target: { channelId: process.env.SLACK_PULSE_CHANNEL_ID ?? "C0000000000" },
+        target: { channelId },
         auth: appAuth,
       }),
     );

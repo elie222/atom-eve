@@ -11,8 +11,14 @@
   "version": "0.1.0",
   "targets": ["eve"],
   "integrations": ["agent-browser"],
-  "connections": [],
-  "requiredEnv": [],
-  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"],
+  "connections": [
+    {
+      "name": "slack",
+      "type": "platform",
+      "auth": "vercel-connect"
+    }
+  ],
+  "requiredEnv": ["SLACK_QA_CHANNEL_ID"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4", "@vercel/connect@^0.2.10"],
   "skills": [{ "ref": "vercel-labs/agent-browser@agent-browser" }]
 }

@@ -18,6 +18,6 @@
       "auth": "vercel-connect"
     }
   ],
-  "requiredEnv": ["STRIPE_API_KEY", "POSTHOG_CLI_API_KEY", "POSTHOG_CLI_PROJECT_ID"],
+  "requiredEnv": ["STRIPE_API_KEY", "POSTHOG_CLI_API_KEY", "POSTHOG_CLI_PROJECT_ID", "SLACK_PULSE_CHANNEL_ID"],
   "dependencies": ["eve@^0.16.2", "ai@^7.0.4", "@vercel/connect@^0.2.10"]
 }
