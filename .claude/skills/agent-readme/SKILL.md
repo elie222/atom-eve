@@ -1,6 +1,8 @@
 ---
 name: agent-readme
 description: Write or deslopify a registry agent's README (`registry/<agent>/README.md`). Use when authoring a new agent README, trimming an existing one, or cutting AI-generated README noise ("these READMEs are too long / generic / repetitive", "deslopify the readmes", "fix the <agent> README"). Not for `agent/instructions.md`, the runtime prompt.
+metadata:
+  internal: true
 ---
 
 # Agent READMEs
