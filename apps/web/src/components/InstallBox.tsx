@@ -8,7 +8,6 @@ interface Props {
 
 const ACC = "#54f0a8";
 
-/* Install target tabs + copyable command (arcade terminal). */
 export default function InstallBox({ name, targets }: Props) {
   const frameworks = installTargets(targets);
   const cmds = useMemo(() => {
@@ -29,11 +28,12 @@ export default function InstallBox({ name, targets }: Props) {
   return (
     <div
       id="install"
-      className="mt-[26px] border-2 border-edge bg-code"
+      className="mt-3 border-2 border-edge bg-code"
       style={{ boxShadow: "5px 5px 0 rgba(0,0,0,0.4)" }}
     >
       <div className="flex flex-wrap items-center gap-[10px] border-b-2 border-edgedim px-4 py-[11px]">
-        <span className="mr-1 font-pixel text-[8px] tracking-[0.06em] text-dim">INSTALL TARGET</span>
+        <span className="mr-1 font-pixel text-[8px] tracking-[0.06em] text-dim">OR USE THE CLI</span>
+        <span className="font-pixel text-[8px] tracking-[0.06em] text-dim">TARGET</span>
         <div className="flex border-2 border-edge bg-bg" role="tablist" aria-label="Install target">
           {frameworks.map((t) => {
             const on = t === active;

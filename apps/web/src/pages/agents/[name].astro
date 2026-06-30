@@ -109,12 +109,8 @@ const structuredData = [
       </div>
     </div>
 
-    <!-- install (React island) -->
-    <InstallBox client:load name={item.name} targets={item.targets ?? []} />
-
-    <!-- or paste into your agent -->
     <div
-      class="mt-3 border-2 border-edge bg-code"
+      class="mt-[26px] border-2 border-edge bg-code"
       style="box-shadow:4px 4px 0 rgba(0,0,0,0.35)"
     >
       <div class="flex items-center gap-2 border-b-2 border-edgedim px-4 py-[10px]">
@@ -122,7 +118,7 @@ const structuredData = [
         <span class="h-[9px] w-[9px] bg-amber"></span>
         <span class="h-[9px] w-[9px] bg-cyan"></span>
         <span class="ml-[6px] font-pixel text-[8px] tracking-[0.06em] text-dim"
-          >OR PASTE INTO YOUR AGENT</span
+          >PASTE INTO YOUR AGENT</span
         >
       </div>
       <div class="flex items-center gap-[14px] px-[18px] py-[14px]">
@@ -140,6 +136,8 @@ const structuredData = [
         </button>
       </div>
     </div>
+
+    <InstallBox client:load name={item.name} targets={item.targets ?? []} />
 
     <!-- content + sidebar -->
     <div class="detail-grid mt-[34px] grid grid-cols-[1fr_318px] items-start gap-9 max-md:grid-cols-1">
