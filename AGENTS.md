@@ -256,8 +256,6 @@ For browser-driven agents, use the framework's native sandbox or command capabil
 
 Sandbox setup scripts live flat at `agent/sandbox/workspace/<setup>.sh` (no `scripts/` nesting); eve mirrors `agent/sandbox/workspace/**` to `/workspace`, so the script lands at `/workspace/<setup>.sh` and the `bootstrap` runs it with `bash <setup>.sh`. The `bootstrap` is template-scoped, so every session inherits the installed CLI — `instructions.md` must NOT also tell the agent to run the setup script "before the first command". The agent uses the CLI directly.
 
-For Website QA specifically, the agent's job is to test real product flows in the browser. Do not substitute an HTML, SEO, or landing-page audit when browser automation is blocked. Report the blocker clearly.
-
 ## Generated Registry Files
 
 The generator emits two registry shapes:

@@ -43,7 +43,7 @@
     {
       "name": "eve/website-qa",
       "type": "registry:block",
-      "title": "Website QA Agent",
+      "title": "Product QA Agent",
       "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
       "dependencies": [
         "ai@^7.0.4",
