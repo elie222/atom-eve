@@ -13,9 +13,17 @@ const cards = items.map(toCard);
 const counts = familyCounts(items);
 const total = items.length;
 
-// Get Started modal commands (real atom-eve CLI).
-const PROMPT = "Read atomeve.dev/start.md and add an agent.";
-const INIT_CMD = "npx atom-eve init";
+// Get Started modal: curated starter agents. Filtered against the live registry
+// so a renamed slug never renders a dead chip. Picking one rewrites both commands.
+const STARTERS = [
+  { slug: "website-qa", label: "Website QA", tag: "Tests your signup and checkout flows for breaks." },
+  { slug: "seo-audit", label: "SEO Audit", tag: "Pinpoints the fixes that lift your search rankings." },
+  { slug: "stripe-pulse", label: "Stripe Revenue", tag: "Weekly revenue and churn alerts, posted to Slack." },
+  { slug: "research-assistant", label: "Research Assistant", tag: "Turns a question into a cited, decision-ready brief." },
+].filter((s) => items.some((it) => it.name === s.slug));
+const START = STARTERS[0]!;
+const startPrompt = `Read atomeve.dev/start.md and add the ${START.label} agent.`;
+const startCli = `npx atom-eve init\nnpx atom-eve add ${START.slug}`;
 
 // Deterministic starfield behind the hero (seeded so static output is stable).
 // One 2px dot whose box-shadow paints `n` stars across a centered canvas.
@@ -148,7 +156,7 @@ const structuredData = [
       <span class="font-mono text-[13px] text-dim">/</span>
       <input
         id="agent-search"
-        placeholder={'Search agents — "seo", "ads", "qa"…'}
+        placeholder="Search agents…"
         class="flex-1 border-none bg-transparent text-left font-mono text-[13px] tracking-[0.02em] text-ink outline-none"
       />
       <span class="animate-blink inline-block h-[16px] w-2 bg-cyan"></span>
@@ -294,7 +302,7 @@ const structuredData = [
     data-close-modal
   >
     <div
-      class="relative max-h-[90vh] w-[min(560px,100%)] overflow-auto border-2 border-edge2 bg-panel shadow-[9px_9px_0_rgba(0,0,0,0.5)]"
+      class="relative max-h-[90vh] w-[min(620px,100%)] overflow-auto border-2 border-edge2 bg-panel shadow-[9px_9px_0_rgba(0,0,0,0.5)]"
     >
       <div class="flex items-center justify-between gap-3 border-b-2 border-edge px-5 py-[18px]">
         <div class="font-pixel text-[13px]">
@@ -311,53 +319,125 @@ const structuredData = [
       </div>
       <div class="p-5">
         <p class="m-0 text-[15px] leading-[1.6] text-ink2">
-          Atom Eve drops open-source AI agents straight into your project.
+          Add an agent to your project, yours to edit and deploy.
         </p>
 
-        <!-- step 1 -->
-        <div class="mt-5 border-2 border-edge bg-code">
+        <!-- pick an agent -->
+        <div class="mt-[18px]">
+          <div class="mb-[10px] flex items-baseline justify-between gap-3">
+            <span class="font-pixel text-[8px] tracking-[0.06em] text-dim">PICK AN AGENT</span>
+            <a
+              href="#registry-views"
+              data-close-modal
+              class="font-mono text-[12px] text-muted2 transition-colors hover:text-cyan"
+            >
+              Browse all agents →
+            </a>
+          </div>
+          <div id="gs-agents" class="flex flex-wrap gap-[8px]">
+            {
+              STARTERS.map((a, i) => (
+                <button
+                  type="button"
+                  class="gs-chip cursor-pointer border-2 border-edge bg-bg px-[11px] py-[6px] font-mono text-[12.5px] text-muted transition-colors hover:border-cyan hover:text-ink"
+                  data-slug={a.slug}
+                  data-label={a.label}
+                  data-tag={a.tag}
+                  aria-pressed={i === 0 ? "true" : "false"}
+                >
+                  {a.label}
+                </button>
+              ))
+            }
+          </div>
+          <p id="gs-agent-tag" class="mt-[10px] text-[13px] leading-[1.5] text-muted">{START.tag}</p>
+        </div>
+
+        <!-- method 1: coding agent -->
+        <div class="mt-[18px] border-2 border-edge bg-code">
           <div class="flex items-center gap-2 border-b-2 border-edgedim px-[14px] py-[11px]">
-            <span class="font-pixel text-[9px] tracking-[0.04em] text-green">1 · HAVE A PROJECT?</span
+            <span class="font-pixel text-[9px] tracking-[0.04em] text-green">USE YOUR CODING AGENT</span
             >
           </div>
           <div class="px-[14px] py-[13px]">
-            <div class="mb-[11px] text-[14px] leading-[1.5] text-muted">
-              Paste this into your coding agent:
-            </div>
             <div class="flex items-center gap-3">
               <code
                 class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13.5px] text-ink2"
-                ><span class="text-green">▸</span> {PROMPT}</code
+                ><span class="text-green">▸</span> Read atomeve.dev/start.md and add the <span
+                  id="gs-prompt-name"
+                  class="text-green">{START.label}</span
+                > agent.</code
               >
               <button
                 type="button"
-                class="copy-btn arcade-btn flex-none whitespace-nowrap bg-cyan px-3 py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820] shadow-[3px_3px_0_rgba(0,0,0,0.4)]"
-                data-cmd={PROMPT}
+                id="gs-prompt-copy"
+                class="copy-btn arcade-btn flex-none whitespace-nowrap bg-green px-3 py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820] shadow-[3px_3px_0_rgba(0,0,0,0.4)]"
+                data-cmd={startPrompt}
               >
                 COPY
               </button>
             </div>
+            <div class="mt-[11px] text-[13px] leading-[1.5] text-muted">
+              Works in Claude Code, Cursor, or Codex.
+            </div>
           </div>
         </div>
 
-        <!-- step 2 -->
+        <!-- method 2: cli -->
         <div class="mt-[14px] border-2 border-edge bg-code">
-          <div class="flex items-center gap-2 border-b-2 border-edgedim px-[14px] py-[11px]">
-            <span class="font-pixel text-[9px] tracking-[0.04em] text-cyan">2 · STARTING FRESH?</span>
+          <div
+            class="flex items-center justify-between gap-3 border-b-2 border-edgedim px-[14px] py-[11px]"
+          >
+            <span class="font-pixel text-[9px] tracking-[0.04em] text-cyan">OR USE THE CLI</span>
+            <div class="flex items-center gap-[8px]">
+              <span class="font-pixel text-[8px] tracking-[0.06em] text-dim">TARGET</span>
+              <div
+                id="gs-target"
+                class="flex border-2 border-edge bg-bg"
+                role="tablist"
+                aria-label="Install target"
+              >
+                <button
+                  type="button"
+                  role="tab"
+                  data-target="eve"
+                  aria-selected="true"
+                  class="gs-target-btn cursor-pointer border-r-2 border-edge px-[10px] py-[4px] font-mono text-[12px] font-semibold text-muted"
+                >
+                  eve
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  data-target="flue"
+                  aria-selected="false"
+                  class="gs-target-btn cursor-pointer px-[10px] py-[4px] font-mono text-[12px] font-semibold text-muted"
+                >
+                  Flue
+                </button>
+              </div>
+            </div>
           </div>
           <div class="px-[14px] py-[13px]">
-            <div class="mb-[11px] text-[14px] leading-[1.5] text-muted">
-              No project yet? Scaffold an eve or Flue install target:
-            </div>
             <div class="flex items-center gap-3">
-              <code
-                class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13.5px] text-ink2"
-                ><span class="text-cyan">$</span> {INIT_CMD}</code
-              >
+              <div class="min-w-0 flex-1 font-mono text-[13.5px] leading-[1.7] text-ink2">
+                <div class="overflow-hidden text-ellipsis whitespace-nowrap">
+                  <span class="text-cyan">$</span> npx atom-eve init<span
+                    id="gs-cli-target"
+                    class="text-muted"></span>
+                </div>
+                <div class="overflow-hidden text-ellipsis whitespace-nowrap">
+                  <span class="text-cyan">$</span> npx atom-eve add <span
+                    id="gs-cli-slug"
+                    class="text-cyan">{START.slug}</span
+                  >
+                </div>
+              </div>
               <button
                 type="button"
-                class="copy-btn arcade-btn flex-none whitespace-nowrap bg-green px-3 py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820] shadow-[3px_3px_0_rgba(0,0,0,0.4)]"
-                data-cmd={INIT_CMD}
+                id="gs-cli-copy"
+                class="copy-btn arcade-btn flex-none whitespace-nowrap bg-cyan px-3 py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820] shadow-[3px_3px_0_rgba(0,0,0,0.4)]"
+                data-cmd={startCli}
               >
                 COPY
               </button>
@@ -366,7 +446,7 @@ const structuredData = [
         </div>
 
         <div class="mt-[18px] font-mono text-[13px] text-muted2">
-          Need more? <a href={REPO} class="text-ink hover:text-cyan">Read the docs ↗</a>
+          <a href={REPO} class="text-ink hover:text-cyan">Read the docs ↗</a>
         </div>
       </div>
     </div>
@@ -458,5 +538,67 @@ const structuredData = [
         if (e.key === "Escape") close();
       });
     }
+
+    // ----- get started: agent picker + target toggle rewrite both commands -----
+    const gsAgents = document.getElementById("gs-agents");
+    if (gsAgents) {
+      const promptName = document.getElementById("gs-prompt-name")!;
+      const promptCopy = document.getElementById("gs-prompt-copy")!;
+      const agentTag = document.getElementById("gs-agent-tag")!;
+      const cliTarget = document.getElementById("gs-cli-target")!;
+      const cliSlug = document.getElementById("gs-cli-slug")!;
+      const cliCopy = document.getElementById("gs-cli-copy")!;
+      const chips = Array.from(gsAgents.querySelectorAll<HTMLElement>(".gs-chip"));
+      const targets = Array.from(
+        document.querySelectorAll<HTMLElement>("#gs-target .gs-target-btn")
+      );
+
+      let slug = chips[0]?.dataset.slug ?? "";
+      let label = chips[0]?.dataset.label ?? "";
+      let tag = chips[0]?.dataset.tag ?? "";
+      let target = "eve";
+
+      const render = () => {
+        const prompt = `Read atomeve.dev/start.md and add the ${label} agent.`;
+        promptName.textContent = label;
+        promptCopy.dataset.cmd = prompt;
+        agentTag.textContent = tag;
+        // init writes the target to atom-eve.json, so the add line needs no flag.
+        const flag = target === "flue" ? " --target flue" : "";
+        cliTarget.textContent = flag;
+        cliSlug.textContent = slug;
+        cliCopy.dataset.cmd = `npx atom-eve init${flag}\nnpx atom-eve add ${slug}`;
+      };
+
+      for (const chip of chips) {
+        chip.addEventListener("click", () => {
+          for (const c of chips) c.setAttribute("aria-pressed", String(c === chip));
+          slug = chip.dataset.slug ?? slug;
+          label = chip.dataset.label ?? label;
+          tag = chip.dataset.tag ?? tag;
+          render();
+        });
+      }
+      for (const btn of targets) {
+        btn.addEventListener("click", () => {
+          for (const b of targets) b.setAttribute("aria-selected", String(b === btn));
+          target = btn.dataset.target ?? "eve";
+          render();
+        });
+      }
+      render();
+    }
   </script>
+
+  <style>
+    .gs-chip[aria-pressed="true"] {
+      border-color: var(--color-cyan);
+      background: var(--color-cyan);
+      color: #0b0820;
+    }
+    .gs-target-btn[aria-selected="true"] {
+      background: var(--color-cyan);
+      color: #0b0820;
+    }
+  </style>
 </Base>
