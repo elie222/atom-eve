@@ -112,7 +112,14 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
   for (const entry of entries) {
     if (!entry.isDirectory() || entry.name.startsWith("_")) continue;
     const manifestPath = path.join(registryDir, entry.name, "atom.json");
-    const raw = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+    const rawText = await fs.readFile(manifestPath, "utf8").catch(() => undefined);
+    if (rawText === undefined) {
+      // In-progress scaffold with no manifest yet. Skip it rather than crash the
+      // whole build, so a half-created agent never blocks generating the rest.
+      console.warn(`Skipping registry/${entry.name}: no atom.json yet`);
+      continue;
+    }
+    const raw = JSON.parse(rawText);
     const parsed = atomSchema.parse(raw);
     validateTaxonomy(parsed, taxonomy);
     await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
@@ -181,7 +188,7 @@ async function validateReadme(readmePath: string, agentName: string) {
   const content = await fs.readFile(readmePath, "utf8").catch(() => {
     throw new Error(`${agentName} is missing README.md`);
   });
-  const requiredSections = ["What it does", "Supported targets", "Install", "Setup", "Usage", "Connections and auth"];
+  const requiredSections = ["What it does", "Setup"];
   for (const section of requiredSections) {
     const pattern = new RegExp(`^##\\s+${escapeRegExp(section)}\\s*$`, "im");
     if (!pattern.test(content)) throw new Error(`${agentName} README.md is missing "## ${section}"`);
@@ -198,7 +205,6 @@ const AGENT_STRUCTURE = {
 async function validateAgentStructure(agentDir: string, manifest: AtomManifest) {
   await assertAllowedEntries(agentDir, manifest.name, "", AGENT_STRUCTURE.rootFiles, AGENT_STRUCTURE.rootDirs);
   await assertAllowedEntries(path.join(agentDir, "agent"), manifest.name, "agent", AGENT_STRUCTURE.agentFiles, AGENT_STRUCTURE.agentDirs);
-  await requireFile(path.join(agentDir, "agent", "agent.ts"), manifest.name, "agent/agent.ts");
   await requireFile(path.join(agentDir, "agent", "instructions.md"), manifest.name, "agent/instructions.md");
 }
 

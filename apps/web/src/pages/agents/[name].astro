@@ -114,10 +114,7 @@ const structuredData = [
       style="box-shadow:4px 4px 0 rgba(0,0,0,0.35)"
     >
       <div class="flex items-center gap-2 border-b-2 border-edgedim px-4 py-[10px]">
-        <span class="h-[9px] w-[9px] bg-pink"></span>
-        <span class="h-[9px] w-[9px] bg-amber"></span>
-        <span class="h-[9px] w-[9px] bg-cyan"></span>
-        <span class="ml-[6px] font-pixel text-[8px] tracking-[0.06em] text-dim"
+        <span class="font-pixel text-[8px] tracking-[0.06em] text-dim"
           >PASTE INTO YOUR AGENT</span
         >
       </div>
@@ -185,30 +182,6 @@ const structuredData = [
       </div>
 
       <aside class="flex flex-col gap-4">
-        <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
-          <div class="mb-[14px] flex items-center justify-between gap-3">
-            <div class="font-pixel text-[8px] tracking-[0.06em] text-dim">ABOUT</div>
-            <a href={sourceUrl} class="font-mono text-[11px] text-muted transition-colors hover:text-green">
-              Source ↗
-            </a>
-          </div>
-          <div class="flex flex-col gap-[11px] text-[13px]">
-            {
-              about.map((row) => (
-                <div class="flex justify-between gap-3">
-                  <span class="text-muted2">{row.k}</span>
-                  <span
-                    class="text-right font-mono text-[12px]"
-                    style={row.accent ? "color:#54f0a8" : "color:#efe9ff"}
-                  >
-                    {row.v}
-                  </span>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
         {
           integrations.length > 0 && (
             <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
@@ -261,6 +234,30 @@ const structuredData = [
             </div>
           )
         }
+
+        <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
+          <div class="mb-[14px] flex items-center justify-between gap-3">
+            <div class="font-pixel text-[8px] tracking-[0.06em] text-dim">ABOUT</div>
+            <a href={sourceUrl} class="font-mono text-[11px] text-muted transition-colors hover:text-green">
+              Source ↗
+            </a>
+          </div>
+          <div class="flex flex-col gap-[11px] text-[13px]">
+            {
+              about.map((row) => (
+                <div class="flex justify-between gap-3">
+                  <span class="text-muted2">{row.k}</span>
+                  <span
+                    class="text-right font-mono text-[12px]"
+                    style={row.accent ? "color:#54f0a8" : "color:#efe9ff"}
+                  >
+                    {row.v}
+                  </span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
 
         <div class="border-2 border-edge bg-panel p-4 shadow-[4px_4px_0_rgba(0,0,0,0.25)]">
           <div class="mb-[10px] font-pixel text-[8px] tracking-[0.06em] text-pink">NEW DROPS</div>
