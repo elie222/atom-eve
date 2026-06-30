@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "research-assistant",
   "title": "Research Assistant",
-  "description": "Turns a focused question into a sourced, cited brief for a real decision using the built-in web_search and web_fetch tools, with adversarial source verification and no paid search APIs.",
+  "description": "Get a sourced, cited brief that answers a focused question and tells you what to decide.",
   "category": "research",
   "family": "data",
   "author": {

@@ -130,7 +130,7 @@
       "name": "eve/analytics-digest",
       "type": "registry:block",
       "title": "Analytics Digest",
-      "description": "Pulls key event trends from PostHog with the posthog-cli and writes a plain-language weekly digest for operators.",
+      "description": "Get a plain-language weekly digest of your PostHog event trends, leading with the headline movement and what to investigate.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -285,7 +285,7 @@
       "name": "eve/a11y-auditor",
       "type": "registry:block",
       "title": "Accessibility Auditor",
-      "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
+      "description": "Get a prioritized report of your pages' accessibility problems, grouped by user harm with the WCAG criterion and a concrete fix for each.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -477,7 +477,7 @@
       "name": "eve/standup-bot",
       "type": "registry:block",
       "title": "Standup Bot",
-      "description": "Reads recent Slack channel updates and drafts a daily standup digest of priorities, active threads, and wins for operator approval.",
+      "description": "Get a ready-to-review daily standup digest of priorities, active threads, blockers, and wins drawn from your Slack channel.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -664,7 +664,7 @@
       "name": "eve/research-assistant",
       "type": "registry:block",
       "title": "Research Assistant",
-      "description": "Turns a focused question into a sourced, cited brief for a real decision using the built-in web_search and web_fetch tools, with adversarial source verification and no paid search APIs.",
+      "description": "Get a sourced, cited brief that answers a focused question and tells you what to decide.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"

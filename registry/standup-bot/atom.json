@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "standup-bot",
   "title": "Standup Bot",
-  "description": "Reads recent Slack channel updates and drafts a daily standup digest of priorities, active threads, and wins for operator approval.",
+  "description": "Get a ready-to-review daily standup digest of priorities, active threads, blockers, and wins drawn from your Slack channel.",
   "category": "productivity",
   "family": "ops",
   "author": {

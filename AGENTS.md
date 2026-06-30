@@ -116,9 +116,8 @@ Write `atom.json` titles, descriptions, and the opening of each agent README for
 
 ## Agent READMEs
 
-A README is the human's install decision, not the agent's prompt (`instructions.md`). It carries only what is unique to the agent: the outcome, what it does, and what you must configure. The catalog page renders everything derivable (install, targets, env, integrations, schedule, channels), so the README never repeats it. Shape: H1, a one-line outcome lead, then `What it does` and `Setup`, the two sections the generator requires.
-
-Before writing or editing any `registry/<agent>/README.md`, use the `agent-readme` skill (`.claude/skills/agent-readme/`).
+Before writing or editing any `registry/<agent>/README.md`, use the `agent-readme` skill
+(`.claude/skills/agent-readme/`). It owns the README shape and rules; this file does not repeat them.
 
 ## Installed Agents Are Local Templates
 
