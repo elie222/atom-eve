@@ -18,8 +18,8 @@ Eve is the default target. Use Flue only if the user asks or the project already
 - New project: `npx atom-eve create <name> --agent <agent>`, then `cd <name>`
 - Existing Eve project: `npx atom-eve add <agent>`
 - Flue: `npx atom-eve add <agent> --target flue`
-- Slack interface: add `--channel slack` (two-way) or `--deliver slack` (a scheduled run
-  posts its result to Slack)
+- Slack: a two-way Slack channel is on by default (pass `--no-slack` to opt out); add
+  `--deliver slack` to also post a scheduled run's report to Slack
 
 ## Wire credentials
 

@@ -16,8 +16,8 @@ code you can review, modify, and deploy yourself.
 # Scaffold a full app (delegates to eve) and install an agent — recommended
 npx atom-eve create my-agent --agent website-qa
 
-# Add Slack as an interface, and optionally route scheduled reports to Slack
-npx atom-eve create seo --agent seo-audit --channel slack
+# Slack is on by default; opt out, or also route the scheduled report to Slack
+npx atom-eve create seo --agent seo-audit --no-slack
 npx atom-eve add seo-audit --deliver slack
 
 # Monorepo root for running many agents (agents/*)
@@ -34,6 +34,6 @@ The CLI resolves the target and copies registry source files into the framework-
 
 Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VERCEL_OIDC_TOKEN` — no model API key needed. Provider auth is configured per agent: use Vercel Connect or a Vercel integration when available, otherwise set the required project env vars.
 
-Slack is an Eve install option. `--channel slack` adds a bidirectional Slack channel using Vercel Connect. `--deliver slack` implies the Slack channel and rewires simple `markdown` schedules so the scheduled run posts its final response to `SLACK_CHANNEL_ID`.
+A bidirectional Slack channel is added by default on Eve installs (authenticated via Vercel Connect); pass `--no-slack` to opt out. `--deliver slack` additionally rewires simple `markdown` schedules so the scheduled run posts its report to `SLACK_CHANNEL_ID`.
 
 See the [project README](https://github.com/elie222/atom-eve/blob/main/README.md) for the end-to-end flow.
