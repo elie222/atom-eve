@@ -411,7 +411,7 @@ function trackInstall(manifest: AtomManifest, config: AtomEveConfig, options: In
     event: "install",
     agent: manifest.name,
     target: config.target,
-    channel: options.channel ?? options.deliver
+    channel: options.deliver
   });
 }
 
