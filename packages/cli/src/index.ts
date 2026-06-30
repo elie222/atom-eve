@@ -51,6 +51,8 @@ interface Args {
   agent?: string;
   channel?: Channel;
   deliver?: Delivery;
+  // Slack is on by default; `--no-slack` sets this to false to opt out.
+  slack?: boolean;
 }
 
 const SLACK_CONNECT_DEPENDENCY = "@vercel/connect@^0.2.10";
@@ -83,6 +85,8 @@ const EVE_STOPS = [
 interface InstallOptions {
   channel?: Channel;
   deliver?: Delivery;
+  // Slack is on by default. `--no-slack` sets this to false to opt out.
+  slack?: boolean;
 }
 
 const cwd = process.cwd();
@@ -209,6 +213,7 @@ async function create(args: Args) {
     const addArgs = [process.argv[1]!, "add", args.agent, "--target", target];
     if (args.channel) addArgs.push("--channel", args.channel);
     if (args.deliver) addArgs.push("--deliver", args.deliver);
+    if (args.slack === false) addArgs.push("--no-slack");
     runOrThrow(process.execPath, addArgs, appDir, `Installing agent: ${args.agent}`);
   } else {
     await installStandaloneEveOverlays(appDir, name, args);
@@ -521,11 +526,8 @@ function applyEveOverlays(
     console.log("added Slack channel overlay");
   }
 
-  if (options.deliver === "slack") {
-    const transformed = applySlackScheduleDelivery(next);
-    if (transformed === 0) {
-      console.warn("No markdown schedules were converted for Slack delivery. Schedules with custom run() code need manual wiring.");
-    }
+  if (wantsSlackScheduleDelivery(options)) {
+    applySlackScheduleDelivery(next);
   }
 
   return next.sort((a, b) => a.target.localeCompare(b.target));
@@ -543,15 +545,24 @@ async function installStandaloneEveOverlays(appDir: string, agentName: string, o
     console.log(`installed ${path.relative(cwd, slackPath)}`);
   }
 
-  if (options.deliver === "slack") {
-    console.warn("No agent schedules were installed, so --deliver slack has no schedules to wire.");
-  }
-
   await installPackageDependencies([SLACK_CONNECT_DEPENDENCY], appDir);
 }
 
+// Slack is on by default for eve installs. `--no-slack` (options.slack === false)
+// opts out. The explicit `--channel slack` / `--deliver slack` forms still force
+// it on even if someone were to combine them oddly.
+function slackEnabled(options: InstallOptions): boolean {
+  return options.slack !== false || options.channel === "slack" || options.deliver === "slack";
+}
+
 function needsSlackChannel(options: InstallOptions): boolean {
-  return options.channel === "slack" || options.deliver === "slack";
+  return slackEnabled(options);
+}
+
+// Default-on Slack and `--deliver slack` both wire markdown schedules to post to
+// Slack. `--no-slack` turns delivery wiring off along with the channel.
+function wantsSlackScheduleDelivery(options: InstallOptions): boolean {
+  return slackEnabled(options);
 }
 
 function rejectEveOverlaysForFlue(config: AtomEveConfig, options: InstallOptions) {
@@ -571,19 +582,14 @@ export default slackChannel({
 `;
 }
 
-function applySlackScheduleDelivery(files: ResolvedInstallFileSpec[]): number {
-  let transformed = 0;
-
+function applySlackScheduleDelivery(files: ResolvedInstallFileSpec[]): void {
   for (const file of files) {
     if (!isScheduleFile(file.target)) continue;
     const nextContent = toSlackDeliverySchedule(file.content);
     if (!nextContent) continue;
     file.content = nextContent;
-    transformed += 1;
     console.log(`wired ${file.target.replace(/^~\/agent\//, "agent/")} for scheduled Slack delivery`);
   }
-
-  return transformed;
 }
 
 function isScheduleFile(target: string): boolean {
@@ -606,7 +612,15 @@ export default defineSchedule({
   cron: ${cron},
   async run({ receive, waitUntil, appAuth }) {
     const channelId = process.env.SLACK_CHANNEL_ID;
-    if (!channelId) throw new Error("SLACK_CHANNEL_ID is required for scheduled Slack delivery.");
+    if (!channelId) {
+      // Slack is on by default, but the deploy has not set SLACK_CHANNEL_ID yet.
+      // Skip the post and finish cleanly instead of crashing the scheduled run.
+      // Set SLACK_CHANNEL_ID to deliver this report to Slack.
+      console.warn(
+        "[schedule] SLACK_CHANNEL_ID is not set; skipping Slack delivery for this run.",
+      );
+      return;
+    }
 
     waitUntil(
       receive(slack, {
@@ -879,6 +893,10 @@ function parseArgs(argv: string[]): Args {
       args.channel = parseChannel(argv[++i]);
     } else if (value === "--deliver") {
       args.deliver = parseDelivery(argv[++i]);
+    } else if (value === "--no-slack") {
+      args.slack = false;
+    } else if (value === "--slack") {
+      args.slack = true;
     } else {
       args._.push(value);
     }
@@ -1139,7 +1157,7 @@ function printHelp() {
   console.log(`atom-eve
 
 Commands:
-  atom-eve create <name> [--agent <agent>] [--channel slack] [--deliver slack]
+  atom-eve create <name> [--agent <agent>] [--no-slack]
                                   Scaffold a full eve app via the eve CLI,
                                   then optionally install an agent. Recommended.
   atom-eve init --workspace [name]
@@ -1148,8 +1166,7 @@ Commands:
                                   Write atom-eve.json (+ minimal fallback scaffold) in an existing project.
   atom-eve add <agent>
   atom-eve add ./registry/<agent>
-  atom-eve add <agent> --channel slack
-  atom-eve add <agent> --deliver slack
+  atom-eve add <agent> --no-slack
   atom-eve list
 
 Eve is Vercel-native: run \`vercel link\` and the AI Gateway authenticates via
@@ -1157,9 +1174,10 @@ VERCEL_OIDC_TOKEN — no model API key needed. Provider auth is configured per a
 use Vercel Connect or a Vercel integration when available, otherwise set the required
 project env vars.
 
-Slack flags are Eve-only. \`--channel slack\` installs a bidirectional Slack channel.
-\`--deliver slack\` also rewires markdown schedules to post their final result to
-SLACK_CHANNEL_ID.
+Slack is Eve-only and on by default. Every eve install adds a bidirectional Slack
+channel and rewires markdown schedules to post their report to SLACK_CHANNEL_ID
+(unconfigured deploys skip the post and run cleanly). Pass \`--no-slack\` to opt out.
+The explicit \`--channel slack\` / \`--deliver slack\` forms still work.
 `);
 }
 
@@ -1167,14 +1185,17 @@ function printAddHelp() {
   console.log(`atom-eve add
 
 Usage:
-  atom-eve add <agent> [--channel slack] [--deliver slack]
-  atom-eve add ./registry/<agent> [--channel slack] [--deliver slack]
+  atom-eve add <agent> [--no-slack]
+  atom-eve add ./registry/<agent> [--no-slack]
   atom-eve add <agent> --target flue   # generate the flue version + FLUE.md
+
+Slack is on by default for eve installs (channel + scheduled report delivery).
+Pass --no-slack to opt out.
 
 Examples:
   atom-eve add stripe-pulse
-  atom-eve add seo-audit --channel slack
-  atom-eve add seo-audit --deliver slack
+  atom-eve add seo-audit
+  atom-eve add seo-audit --no-slack
   atom-eve add stripe-pulse --target flue
 `);
 }

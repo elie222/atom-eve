@@ -234,6 +234,14 @@ export default defineSchedule({
 
 Do not use unsupported schedule fields such as `timezone` or `prompt`.
 
+Slack is on by default for eve installs. The CLI adds a bidirectional `agent/channels/slack.ts`
+(skipped when the agent already ships one) and rewires any `markdown` schedule into a `run()`
+handler that posts the report to `SLACK_CHANNEL_ID`. When `SLACK_CHANNEL_ID` is unset at runtime the
+handler logs a notice and returns, so an unconfigured deploy never crashes a scheduled run; a clean
+session-report fallback is not possible because the built-in eve channel is HTTP-inbound only and not
+a `receive` target. Users opt out with `--no-slack`. Schedules that already use a custom `run()`
+(like `stripe-pulse` and `website-qa`) are left untouched. Slack is eve-only; flue installs ignore it.
+
 ## Flue Target Rules
 
 Flue is a planned generated artifact, not authored by hand; see "How eve and flue actually work".
