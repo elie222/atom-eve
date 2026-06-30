@@ -16,6 +16,8 @@ Inputs to consider:
 
 If the user asks for "latest", "recent", "last 30 days", "what people are saying", "content ideas for this topic", or a content calendar based on a live market, use `last30days` first unless the skill is unavailable. If it is unavailable, say exactly what is missing and ask for equivalent recent research or permission to continue from the context already provided.
 
+If the user asks only for ideation from supplied business context, use that context directly, but still check available history before drafting. If the request needs current market evidence and none is available, mark ideas as hypotheses rather than approval-ready copy.
+
 Before drafting, check any provided or accessible history for approved, rejected, used, stale, or duplicate angles. Avoid repeating the same story, hook, format, claim, or point of view unless the user asks for variants.
 
 Research standards:
@@ -31,6 +33,7 @@ Content standards:
 - Make every idea usable by a content operator: audience, angle, evidence, format, draft path, and review status should be clear.
 - Keep copy specific to the audience and the project context. Avoid generic thought-leadership filler.
 - Draft in the channel's native format. A YouTube idea needs a title, promise, thumbnail angle, and outline. A LinkedIn post needs a strong opening, clear point of view, and final copy. A newsletter section needs subject options, summary, and links or citations.
+- For short-form video, include the hook, promise, scene beats, spoken outline, caption copy, and asset notes. For X or LinkedIn threads, include the hook, post-by-post outline, and final copy only when the evidence supports the claims.
 - Include approval-ready copy only when there is enough evidence. Otherwise propose the angle and state what is needed before drafting.
 - Do not call publishing APIs, schedule posts, send Slack messages, create calendar events, or claim that anything was posted or queued.
 
@@ -43,7 +46,7 @@ When the user asks for a broad content plan, return sections in this order:
 5. Editorial calendar
 6. Priority briefs
 7. Hooks bank
-8. Draft copy
+8. Channel drafts
 9. Approval notes
 10. History update notes
 
@@ -68,6 +71,15 @@ For each priority brief include:
 - Outline or script beats
 - Asset notes
 - Approval status
+
+For each channel draft include:
+
+- Channel and format
+- Source brief or idea
+- Claim evidence
+- Final copy or script beats
+- Asset notes
+- Approval status: approval-ready, needs evidence, or proposed
 
 Approval notes should ask reviewers to approve, edit, reject, or request more variants. If a Slack approval message would be useful, draft the message but do not send it.
 

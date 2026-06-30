@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "error-triage",
+  "title": "Error Triage",
+  "description": "Pulls recent Sentry issues and turns them into a prioritized debugging report.",
+  "category": "observability",
+  "family": "engineering",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["sentry"],
+  "connections": [],
+  "requiredEnv": ["SENTRY_AUTH_TOKEN", "SENTRY_ORG", "SENTRY_PROJECT"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}

@@ -51,7 +51,32 @@ sub-command doesn't surface directly.
 ## 2. Engagement cross-reference (`posthog-cli`)
 
 For each at-risk customer, check product engagement. Auth via
-`POSTHOG_CLI_API_KEY` and `POSTHOG_CLI_PROJECT_ID`. Run HogQL and read JSON lines:
+`POSTHOG_CLI_API_KEY` and `POSTHOG_CLI_PROJECT_ID`.
+
+Use the `posthog-cli api` workflow. Do not guess tool names or schemas:
+
+```bash
+posthog-cli api search query
+posthog-cli api info <tool>
+posthog-cli api call read-data-schema '<json>'
+posthog-cli api call <tool> '<json>'
+```
+
+Use the inspected query tool to run HogQL equivalent to:
+
+```bash
+SELECT
+  properties.\$customer_id AS customer,
+  count() AS events,
+  max(timestamp) AS last_seen
+FROM events
+WHERE timestamp > now() - INTERVAL 30 DAY
+  AND properties.\$customer_id IN ('cus_123','cus_456')
+GROUP BY customer
+```
+
+If your installed PostHog CLI only exposes the older experimental query command,
+use it as a fallback and call that out in the pulse:
 
 ```bash
 posthog-cli exp query run "

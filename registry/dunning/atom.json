@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "dunning",
+  "title": "Dunning",
+  "description": "Reviews failed Stripe payments and drafts prioritized recovery actions before revenue is lost.",
+  "category": "finance",
+  "family": "revenue",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["stripe"],
+  "connections": [],
+  "requiredEnv": ["STRIPE_API_KEY"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}

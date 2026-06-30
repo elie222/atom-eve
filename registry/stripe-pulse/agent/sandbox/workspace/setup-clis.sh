@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-# Seeds the sandbox with the two CLIs the agent reasons over:
-#   - stripe   : revenue & churn reads (subscriptions, invoices, charges, events)
-#   - posthog-cli : product-engagement cross-reference (HogQL via `exp query run`)
-#
-# Run once from sandbox bootstrap (template-scoped). Idempotent: skips installs
-# that are already on PATH so template rebuilds stay cheap.
 set -euo pipefail
 
 if ! command -v stripe >/dev/null 2>&1; then

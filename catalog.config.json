@@ -11,7 +11,6 @@
     "claim-checker",
     "a11y-auditor",
     "perf-auditor",
-    "visual-regression",
     "cro-optimizer",
     "funnel-analyst",
     "experiment-analyst",
@@ -19,8 +18,7 @@
     "onboarding-coach",
     "onboarding-tester",
     "error-copy",
-    "content-ideation",
-    "release-notes",
-    "research-assistant"
+    "content-agent",
+    "release-notes"
   ]
 }
