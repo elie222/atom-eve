@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "claim-checker",
   "title": "Claim Checker",
-  "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
+  "description": "Get a risk-ranked inventory of every marketing claim that overstates your product, with defensible rewrites for the riskiest ones.",
   "category": "compliance",
   "family": "growth",
   "author": {

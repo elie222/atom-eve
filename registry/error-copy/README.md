@@ -1,42 +1,11 @@
 # Error Copy
 
-A browser-driven agent that finds user-facing error messages and drafts clearer rewrites.
-
 ## What it does
 
-Drives your app in a real browser to surface form validation errors, HTTP error pages, empty states, permission denials, and failed-action toasts. It records reachable error states with current copy, URL, trigger steps, screenshots, and before/after rewrite drafts.
-
-It is read-only and draft-first: it never edits code, copy, or configuration, and never uses real credentials or bypasses CAPTCHA.
-
-## Supported targets
-
-- `eve`
-
-## Install
-
-```bash
-npx atom-eve add error-copy
-```
-
-This copies the agent into `agent/` in your eve app.
+Drives your app in a real browser to surface user-facing error states: form validation errors, HTTP error pages (404, 403, 500, maintenance), empty and zero-result views, permission denials, and failed-action toasts and banners. For each one it records the verbatim copy, the URL and trigger steps, a screenshot saved under `reports/error-copy/artifacts/`, and whether the state is actually reachable or only theoretical. You get a Markdown report with before/after rewrite drafts that improve clarity, tone, and next-step guidance, each with its rationale.
 
 ## Setup
 
-No credentials or environment variables are required for public flows.
+Set the app URLs, flows, brand voice, and copy guidelines in `agent/instructions.md`. For authenticated flows, point it at local env or config notes that list them; keep credentials and session state out of this package.
 
-After installing, customize `agent/instructions.md` with app URLs, flows, brand voice, and copy guidelines. For authenticated flows, configure an Agent Browser session outside this package and document that flow locally. Do not commit session state or credentials.
-
-## Usage
-
-Run the agent on demand against app URLs and flows, or use the bundled weekly schedule (Mondays at 09:00 UTC). It reports each error state, whether it was reachable, and a rewrite with rationale.
-
-## Connections and auth
-
-This agent has no external service connection and no required environment variables. Browser automation uses `agent-browser` in the Eve sandbox. For authenticated apps, provide your own browser session/profile and adapt the local instructions.
-
-## Limitations
-
-- If browser automation is unavailable or a flow is blocked, the agent reports the blocker instead of guessing.
-- It never edits copy, code, or configuration; all rewrites are drafts for operator approval.
-- Screenshots and reports are session-local unless you persist them.
-- Keep app URLs, credentials, and copy guidelines in your app repo, not this registry package.
+It is draft-first: it records errors and proposes rewrites but never edits code, copy, or configuration, never uses real credentials or payment, and never bypasses CAPTCHA.

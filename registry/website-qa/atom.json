@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "website-qa",
   "title": "Product QA",
-  "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
+  "description": "Catch broken signup, onboarding, and core flows before users do, with a screenshotted report of what failed and how to fix it.",
   "category": "qa",
   "family": "engineering",
   "author": {

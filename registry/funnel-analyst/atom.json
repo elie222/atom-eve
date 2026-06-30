@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "funnel-analyst",
   "title": "Funnel Analyst",
-  "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
+  "description": "Find where users drop off in your funnel and what to fix to convert more of them.",
   "category": "analytics",
   "family": "data",
   "author": {
