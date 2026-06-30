@@ -1,4 +1,4 @@
-# Adversarial Reviewer Agent
+# Adversarial Reviewer
 
 A GitHub-driven agent that gives open pull requests a skeptical second review.
 

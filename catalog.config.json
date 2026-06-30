@@ -15,6 +15,7 @@
     "cro-optimizer",
     "funnel-analyst",
     "experiment-analyst",
+    "standup-bot",
     "onboarding-coach",
     "onboarding-tester",
     "error-copy",

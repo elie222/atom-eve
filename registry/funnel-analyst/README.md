@@ -1,4 +1,4 @@
-# Funnel Analyst Agent
+# Funnel Analyst
 
 A PostHog funnel agent that finds the biggest conversion drop-offs and recommends where to focus.
 

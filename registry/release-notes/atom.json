@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "release-notes",
-  "title": "Release Notes Agent",
+  "title": "Release Notes",
   "description": "Reads merged pull requests since the latest release with the GitHub CLI and drafts user-facing release notes grouped by change type for operator approval.",
   "category": "docs",
   "family": "engineering",

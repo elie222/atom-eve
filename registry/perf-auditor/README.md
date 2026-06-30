@@ -1,4 +1,4 @@
-# Performance Auditor Agent
+# Performance Auditor
 
 A browser-driven performance agent that finds the single worst bottleneck per page and proposes one fix.
 

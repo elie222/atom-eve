@@ -107,11 +107,11 @@ unexpected folders or stray files will fail `pnpm check`. Sandbox setup scripts 
 
 Keep `atom.json` small. It is catalog metadata, not runtime config. Put behavior in source files. Cron timing belongs in `agent/schedules/*`, not in `atom.json`.
 
-Write `atom.json` descriptions and the opening of each agent README for users browsing the catalog: lead with the outcome the agent helps with, not implementation details such as storage backends, files written, or framework internals.
+Write `atom.json` titles, descriptions, and the opening of each agent README for users browsing the catalog: lead with the outcome the agent helps with, not implementation details such as storage backends, files written, or framework internals. Do not append "Agent" to catalog titles or README H1s unless it is part of a proper name.
 
 ## Agent READMEs
 
-Agent READMEs are user-facing install and operating guides, not design docs. Keep them short enough that a user can quickly understand what the agent does, how to install it, what they must configure, how to run it, and what limitations matter.
+Agent READMEs are user-facing install and operating guides, not design docs. Keep them short enough that a user can quickly understand what the agent does, how to install it, what they must configure, and how to run it.
 
 Include:
 
@@ -121,12 +121,13 @@ Include:
 - Required setup such as URLs, schedules, credentials, or host capabilities.
 - Short usage examples.
 - Optional integrations or memory/storage requirements only at the level needed to operate the installed agent.
-- Important limitations and safety notes.
+- Safety notes only when they materially affect how the user should operate the installed agent.
 
 Avoid:
 
 - Internal file layouts, generated path maps, helper API examples, or adapter wiring snippets.
 - Long explanations of implementation tradeoffs.
+- Generic limitations sections that repeat what the setup, usage, or auth sections already make clear.
 - Repeating the same setup or memory details across multiple sections.
 - Backend-specific details in the opening description unless the user must choose that backend during install.
 

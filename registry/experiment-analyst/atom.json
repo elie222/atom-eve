@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "experiment-analyst",
-  "title": "Experiment Analyst Agent",
+  "title": "Experiment Analyst",
   "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
   "category": "analytics",
   "family": "data",

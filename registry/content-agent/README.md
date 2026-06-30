@@ -1,4 +1,4 @@
-# Content Agent
+# Content
 
 A research-backed content agent that turns current market conversation into an approval-ready content pipeline.
 

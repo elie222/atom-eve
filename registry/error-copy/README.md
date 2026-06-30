@@ -1,4 +1,4 @@
-# Error Copy Agent
+# Error Copy
 
 A browser-driven agent that finds user-facing error messages and drafts clearer rewrites.
 

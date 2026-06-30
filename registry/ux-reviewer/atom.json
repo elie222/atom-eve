@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "ux-reviewer",
-  "title": "UX Reviewer Agent",
+  "title": "UX Reviewer",
   "description": "Walks a real user task in the browser with Agent Browser, scores each screen on usability, and recommends read-only improvements to the weakest spots.",
   "category": "ux",
   "family": "engineering",

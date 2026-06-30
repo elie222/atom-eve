@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "visual-regression",
-  "title": "Visual Regression Agent",
+  "title": "Visual Regression",
   "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
   "category": "design",
   "family": "engineering",

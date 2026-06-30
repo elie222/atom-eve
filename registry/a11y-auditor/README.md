@@ -1,4 +1,4 @@
-# Accessibility Auditor Agent
+# Accessibility Auditor
 
 A browser-driven accessibility agent that reports WCAG issues by user harm.
 

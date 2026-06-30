@@ -1,4 +1,4 @@
-# Claim Checker Agent
+# Claim Checker
 
 A browser-driven agent that inventories marketing claims and drafts repairs for risky overstatements.
 

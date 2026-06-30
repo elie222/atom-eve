@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "cro-optimizer",
-  "title": "CRO Optimizer Agent",
+  "title": "CRO Optimizer",
   "description": "Audits landing pages with native browser automation and conversion heuristics, then proposes ranked A/B test ideas with hypotheses.",
   "category": "cro",
   "family": "growth",

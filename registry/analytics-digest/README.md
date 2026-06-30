@@ -1,4 +1,4 @@
-# Analytics Digest Agent
+# Analytics Digest
 
 A PostHog analytics agent that writes a plain-language weekly digest for operators.
 
