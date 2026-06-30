@@ -16,8 +16,8 @@ const total = items.length;
 // Get Started modal: curated starter agents. Filtered against the live registry
 // so a renamed slug never renders a dead chip. Picking one rewrites both commands.
 const STARTERS = [
-  { slug: "website-qa", label: "Website QA", tag: "Tests your signup and checkout flows for breaks." },
-  { slug: "seo-audit", label: "SEO Audit", tag: "Pinpoints the fixes that lift your search rankings." },
+  { slug: "website-qa", label: "App QA", tag: "Tests your signup and checkout flows for breaks." },
+  { slug: "seo-audit", label: "SEO Audit", tag: "Finds the fixes that lift your search rankings, worst first." },
   { slug: "stripe-pulse", label: "Stripe Revenue", tag: "Weekly revenue and churn alerts, posted to Slack." },
   { slug: "research-assistant", label: "Research Assistant", tag: "Turns a question into a cited, decision-ready brief." },
 ].filter((s) => items.some((it) => it.name === s.slug));
