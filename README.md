@@ -257,6 +257,14 @@ pnpm check
 
 `pnpm check` runs generation, package typechecks, builds, fixture installs/typechecks, and a basic secret scan.
 
+## Telemetry
+
+The CLI sends one anonymous event when an agent install completes, so we can see which
+agents are useful. It carries no identifier of any kind: just the agent name, target,
+optional channel, CLI version, detected coding agent, and a CI flag. Nothing is tied to
+a machine or user. Opt out with `ATOM_EVE_DISABLE_TELEMETRY=1` or the standard
+`DO_NOT_TRACK=1`. The endpoint is `api/t.ts`; see its header for the storage shape.
+
 ## License
 
 MIT
