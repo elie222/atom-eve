@@ -548,21 +548,16 @@ async function installStandaloneEveOverlays(appDir: string, agentName: string, o
   await installPackageDependencies([SLACK_CONNECT_DEPENDENCY], appDir);
 }
 
-// Slack is on by default for eve installs. `--no-slack` (options.slack === false)
-// opts out. The explicit `--channel slack` / `--deliver slack` forms still force
-// it on even if someone were to combine them oddly.
-function slackEnabled(options: InstallOptions): boolean {
-  return options.slack !== false || options.channel === "slack" || options.deliver === "slack";
-}
-
+// The Slack channel is on by default for eve installs; `--no-slack` opts out.
 function needsSlackChannel(options: InstallOptions): boolean {
-  return slackEnabled(options);
+  return options.slack !== false;
 }
 
-// Default-on Slack and `--deliver slack` both wire markdown schedules to post to
-// Slack. `--no-slack` turns delivery wiring off along with the channel.
+// The Slack channel is on by default, but auto-posting the scheduled report is
+// opt-in: it needs SLACK_CHANNEL_ID and a Vercel Connect Slack connector, so
+// only `--deliver slack` wires markdown schedules for delivery.
 function wantsSlackScheduleDelivery(options: InstallOptions): boolean {
-  return slackEnabled(options);
+  return options.deliver === "slack";
 }
 
 function rejectEveOverlaysForFlue(config: AtomEveConfig, options: InstallOptions) {
@@ -612,15 +607,7 @@ export default defineSchedule({
   cron: ${cron},
   async run({ receive, waitUntil, appAuth }) {
     const channelId = process.env.SLACK_CHANNEL_ID;
-    if (!channelId) {
-      // Slack is on by default, but the deploy has not set SLACK_CHANNEL_ID yet.
-      // Skip the post and finish cleanly instead of crashing the scheduled run.
-      // Set SLACK_CHANNEL_ID to deliver this report to Slack.
-      console.warn(
-        "[schedule] SLACK_CHANNEL_ID is not set; skipping Slack delivery for this run.",
-      );
-      return;
-    }
+    if (!channelId) throw new Error("SLACK_CHANNEL_ID is required for scheduled Slack delivery.");
 
     waitUntil(
       receive(slack, {
@@ -895,8 +882,6 @@ function parseArgs(argv: string[]): Args {
       args.deliver = parseDelivery(argv[++i]);
     } else if (value === "--no-slack") {
       args.slack = false;
-    } else if (value === "--slack") {
-      args.slack = true;
     } else {
       args._.push(value);
     }
@@ -1174,10 +1159,9 @@ VERCEL_OIDC_TOKEN — no model API key needed. Provider auth is configured per a
 use Vercel Connect or a Vercel integration when available, otherwise set the required
 project env vars.
 
-Slack is Eve-only and on by default. Every eve install adds a bidirectional Slack
-channel and rewires markdown schedules to post their report to SLACK_CHANNEL_ID
-(unconfigured deploys skip the post and run cleanly). Pass \`--no-slack\` to opt out.
-The explicit \`--channel slack\` / \`--deliver slack\` forms still work.
+Slack is Eve-only. Every eve install adds a bidirectional Slack channel by default;
+pass \`--no-slack\` to opt out. Add \`--deliver slack\` to also post an agent's
+scheduled report to SLACK_CHANNEL_ID.
 `);
 }
 
@@ -1189,8 +1173,8 @@ Usage:
   atom-eve add ./registry/<agent> [--no-slack]
   atom-eve add <agent> --target flue   # generate the flue version + FLUE.md
 
-Slack is on by default for eve installs (channel + scheduled report delivery).
-Pass --no-slack to opt out.
+A Slack channel is on by default for eve installs; pass --no-slack to opt out.
+Add --deliver slack to also post the scheduled report to Slack.
 
 Examples:
   atom-eve add stripe-pulse
