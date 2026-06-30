@@ -698,6 +698,134 @@
       ]
     },
     {
+      "name": "eve/dep-guardian",
+      "type": "registry:block",
+      "title": "Dependency Guardian",
+      "description": "Triages dependency updates and reachable security alerts into a clear upgrade plan.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/dep-guardian/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/agent/sandbox/workspace/setup-gh.sh",
+          "target": "~/agent/sandbox/workspace/setup-gh.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dep-guardian/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/docs-sync",
+      "type": "registry:block",
+      "title": "Docs Sync",
+      "description": "Finds code and documentation drift and drafts the docs changes maintainers should ship next.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/docs-sync/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/agent/sandbox/workspace/setup-gh.sh",
+          "target": "~/agent/sandbox/workspace/setup-gh.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/docs-sync/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/dunning",
+      "type": "registry:block",
+      "title": "Dunning",
+      "description": "Reviews failed Stripe payments and drafts prioritized recovery actions before revenue is lost.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/dunning/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/agent/sandbox/workspace/setup-stripe.sh",
+          "target": "~/agent/sandbox/workspace/setup-stripe.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/dunning/agent/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/error-triage",
+      "type": "registry:block",
+      "title": "Error Triage",
+      "description": "Pulls recent Sentry issues and turns them into a prioritized debugging report.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/error-triage/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/agent/sandbox/workspace/setup-sentry.sh",
+          "target": "~/agent/sandbox/workspace/setup-sentry.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/error-triage/agent/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/meeting-notes",
       "type": "registry:block",
       "title": "Meeting Notes",

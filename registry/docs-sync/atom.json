@@ -1,0 +1,17 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "docs-sync",
+  "title": "Docs Sync",
+  "description": "Finds code and documentation drift and drafts the docs changes maintainers should ship next.",
+  "category": "docs",
+  "family": "engineering",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["github"],
+  "connections": [],
+  "requiredEnv": ["GITHUB_TOKEN"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}
