@@ -1,11 +1,13 @@
 ---
 import AtomLogo from "./AtomLogo.astro";
-import { REPO } from "../lib/format";
+import { REPO, NEWSLETTER_URL } from "../lib/format";
 
 interface Props {
   variant?: "landing" | "detail";
 }
 const { variant = "landing" } = Astro.props;
+
+const NOTIFY = { label: "Notify me", href: NEWSLETTER_URL, external: true };
 
 const links =
   variant === "detail"
@@ -13,10 +15,12 @@ const links =
         { label: "Browse", href: "/" },
         { label: "Docs", href: REPO },
         { label: "Contribute", href: REPO },
+        NOTIFY,
       ]
     : [
         { label: "Docs", href: REPO },
         { label: "Contribute", href: REPO },
+        NOTIFY,
       ];
 ---
 
@@ -34,6 +38,8 @@ const links =
         links.map((l) => (
           <a
             href={l.href}
+            target={"external" in l && l.external ? "_blank" : undefined}
+            rel={"external" in l && l.external ? "noopener" : undefined}
             class="font-mono text-[12.5px] text-muted transition-colors hover:text-ink"
           >
             {l.label}
