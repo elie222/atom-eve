@@ -24,7 +24,7 @@ npx atom-eve add seo-audit --deliver slack
 npx atom-eve init --workspace my-agents
 
 # Install an agent; if package.json is missing, this initializes the project first
-npx atom-eve add facebook-ads
+npx atom-eve add seo-audit
 
 # Write atom-eve.json (+ minimal fallback scaffold) into an existing project
 npx atom-eve init

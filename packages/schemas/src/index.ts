@@ -47,7 +47,7 @@ export const atomSchema = z.object({
     })
     .strict()
     .default({}),
-  // Owned skills live as files under shared/skills/ and are copied on install.
+  // Owned skills live as files under agent/skills/ and are copied on install.
   // This array declares remote skills pulled from skills.sh at install time instead.
   skills: z.array(remoteSkillSchema).default([])
 }).strict();

@@ -80,4 +80,4 @@ required keys, integrations, and install command.
 ## Publish your own
 
 Every agent is a folder + an `atom.json` manifest. Fork the template, open a PR, and it's
-auto-listed on merge. See the repo: **https://github.com/atomeve**.
+auto-listed on merge. See the repo: **https://github.com/elie222/atom-eve**.

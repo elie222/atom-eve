@@ -7,7 +7,7 @@
 Atom Eve is an open-source, shadcn-style registry of real agent source code. Browse an agent, install it into your own repo, add your credentials, and run it on [Eve](https://eve.dev).
 
 ```bash
-npx atom-eve add facebook-ads
+npx atom-eve add seo-audit
 ```
 
 The registry is source-first. Atom Eve does not host or run your agents, store credentials, or provide a managed runtime. It gives you code you can review, copy, modify, and deploy yourself.
@@ -36,7 +36,7 @@ Skills and prompts are useful, but they usually run only when a human invokes th
 Atom Eve packages that structure into installable agent folders:
 
 - **Eve agents** install as root agents under `agent/`.
-- Shared instructions, skills, and library code live once in this repo.
+- Agent instructions, skills, tools, schedules, and library code live in source folders you can review.
 - Generated shadcn registry files make installs transparent and inspectable.
 
 ## Browse The Registry
@@ -60,7 +60,7 @@ Scaffold a full app and install an agent in one step (`create` delegates to the 
 scaffolder, then installs the agent's source):
 
 ```bash
-npx atom-eve create my-agent --agent facebook-ads
+npx atom-eve create my-agent --agent seo-audit
 cd my-agent
 ```
 
@@ -83,7 +83,7 @@ provider without a connector, add those values as Vercel project env vars and re
 Adding an agent to an existing project instead:
 
 ```bash
-npx atom-eve add facebook-ads
+npx atom-eve add seo-audit
 ```
 
 If the current directory does not have a `package.json` yet, `add` initializes the Atom Eve project
@@ -106,7 +106,7 @@ Running many agents from one repo? Scaffold a workspace root and create one app 
 ```bash
 npx atom-eve init --workspace my-agents
 cd my-agents
-npx atom-eve create facebook-ads --agent facebook-ads
+npx atom-eve create seo --agent seo-audit
 ```
 
 ![Atom Eve install flow](apps/web/public/atom-eve-install.png)
@@ -140,7 +140,7 @@ scheduled run, or an app UI/HTTP channel. Then inspect the run in the Vercel das
 If you are developing the registry locally or need to bypass the public GitHub source, install from a checkout path:
 
 ```bash
-npx atom-eve add /path/to/atom-eve/registry/facebook-ads
+npx atom-eve add /path/to/atom-eve/registry/seo-audit
 ```
 
 This uses the same install map as public registry installs, but reads the source files directly from disk.
@@ -183,18 +183,24 @@ Create a folder under `registry/`:
 registry/my-agent/
   atom.json
   README.md
-  shared/
+  agent/
     instructions.md
+    agent.ts            # optional
+    tools/
+    channels/
+    sandbox/
+    schedules/
     skills/
+    connections/
     lib/
-  targets/
-    eve/
+    evals/
 ```
 
 Minimum requirements:
 
 - Globally unique `name` in `atom.json`.
 - An `eve` target.
+- Runtime prompt at `agent/instructions.md`.
 - README with setup and usage instructions.
 - Real source code, not placeholder logic.
 - No secrets committed to the repo.
@@ -207,27 +213,27 @@ The generator validates manifests, taxonomy, required README sections, generated
 ```json
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
-  "name": "facebook-ads",
-  "title": "Facebook Ads",
-  "description": "Reviews campaign performance and proposes daily budget and creative actions.",
-  "category": "ads",
+  "name": "seo-audit",
+  "title": "SEO Audit",
+  "description": "Get a prioritized, fix-it-today report of the SEO and content problems on your site.",
+  "category": "seo",
   "family": "growth",
   "targets": ["eve"],
-  "integrations": ["facebook-ads"],
-  "connections": [{ "name": "facebook-ads", "type": "custom-tool", "auth": "env" }],
-  "requiredEnv": ["FB_ACCESS_TOKEN", "FB_AD_ACCOUNT_ID"]
+  "integrations": ["agent-browser"],
+  "connections": [],
+  "requiredEnv": [],
+  "skills": [{ "ref": "vercel-labs/agent-browser@agent-browser" }]
 }
 ```
 
-Source paths are inferred:
+Runtime behavior belongs in `agent/`, which is copied verbatim on install:
 
-- `shared/instructions.md` becomes Eve instructions and shared prompt source.
-- `shared/skills/*` installs as framework-native skill files.
-- `shared/lib/*` installs into target-specific library paths.
-- `targets/eve/agent.ts` is the Eve root-agent entrypoint.
-- `targets/eve/schedules/*` installs as Eve root schedules.
+- `agent/instructions.md` is the installed system prompt.
+- `agent/agent.ts` optionally pins a non-default model.
+- `agent/tools/*`, `agent/connections/*`, `agent/skills/*`, and `agent/lib/*` provide capabilities.
+- `agent/schedules/*` defines Eve schedules.
 
-For example, cron timing belongs in `targets/eve/schedules/daily.ts` or the target-specific scheduling/workflow file, not in `atom.json`.
+For example, cron timing belongs in `agent/schedules/weekly.ts`, not in `atom.json`.
 
 ## Repository Layout
 
@@ -239,7 +245,7 @@ packages/
   registry-generator/     # atom.json -> shadcn registry + site index
   schemas/                # Shared schemas
 registry/
-  facebook-ads/           # Reference agent package
+  seo-audit/              # Reference agent package
 fixtures/
   eve/                    # Minimal install/typecheck fixture
 public/
