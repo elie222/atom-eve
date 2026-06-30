@@ -54,5 +54,5 @@ This agent has no external service connection and no required environment variab
 
 - If browser automation is unavailable, the agent continues with HTTP-based checks and calls out the limitation.
 - There is no persistent history; save reports externally if you want previous-vs-current deltas.
-- It is not a search-engine-scale crawler; keep sitemap samples bounded unless you add queueing and rate controls.
+- Keep sitemap samples bounded unless you add queueing and rate controls; it samples rather than crawling at search-engine scale.
 - Review robots and sitemap interpretations before making high-impact indexing changes.
