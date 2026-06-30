@@ -205,7 +205,7 @@ The generator validates manifests, taxonomy, required README sections, generated
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "facebook-ads",
-  "title": "Facebook Ads Agent",
+  "title": "Facebook Ads",
   "description": "Reviews campaign performance and proposes daily budget and creative actions.",
   "category": "ads",
   "family": "growth",

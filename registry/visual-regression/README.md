@@ -1,4 +1,4 @@
-# Visual Regression Agent
+# Visual Regression
 
 A browser-driven agent that snapshots key screens and flags unintended UI diffs against a baseline.
 

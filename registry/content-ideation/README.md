@@ -1,4 +1,4 @@
-# Content Ideation Agent
+# Content Ideation
 
 A reasoning agent that turns recent business context into an approval-ready content queue.
 

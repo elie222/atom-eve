@@ -1,0 +1,23 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "standup-bot",
+  "title": "Standup Bot",
+  "description": "Reads recent Slack channel updates and drafts a daily standup digest of priorities, active threads, and wins for operator approval.",
+  "category": "productivity",
+  "family": "ops",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["slack"],
+  "connections": [
+    {
+      "name": "slack",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["SLACK_BOT_TOKEN", "SLACK_CHANNEL_ID"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}

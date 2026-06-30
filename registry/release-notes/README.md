@@ -1,4 +1,4 @@
-# Release Notes Agent
+# Release Notes
 
 A GitHub-driven agent that reads merged pull requests and drafts user-facing release notes.
 

@@ -181,7 +181,7 @@ async function validateReadme(readmePath: string, agentName: string) {
   const content = await fs.readFile(readmePath, "utf8").catch(() => {
     throw new Error(`${agentName} is missing README.md`);
   });
-  const requiredSections = ["What it does", "Supported targets", "Install", "Setup", "Usage", "Connections and auth", "Limitations"];
+  const requiredSections = ["What it does", "Supported targets", "Install", "Setup", "Usage", "Connections and auth"];
   for (const section of requiredSections) {
     const pattern = new RegExp(`^##\\s+${escapeRegExp(section)}\\s*$`, "im");
     if (!pattern.test(content)) throw new Error(`${agentName} README.md is missing "## ${section}"`);

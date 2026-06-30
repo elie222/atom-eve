@@ -1,4 +1,4 @@
-# SEO Audit Agent
+# SEO Audit
 
 A browser-driven SEO agent that writes a practical, severity-ordered report of content and metadata fixes.
 

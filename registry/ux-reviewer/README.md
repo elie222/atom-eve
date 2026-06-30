@@ -1,4 +1,4 @@
-# UX Reviewer Agent
+# UX Reviewer
 
 A read-only UX agent that walks a real user task in the browser and scores each screen.
 

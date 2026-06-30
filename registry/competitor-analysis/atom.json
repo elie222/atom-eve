@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "competitor-analysis",
-  "title": "Competitor Analysis Agent",
+  "title": "Competitor Analysis",
   "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
   "category": "research",
   "family": "data",

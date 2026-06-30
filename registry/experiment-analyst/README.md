@@ -1,4 +1,4 @@
-# Experiment Analyst Agent
+# Experiment Analyst
 
 A PostHog experiment agent that reviews A/B results and summarizes learnings for an operator.
 

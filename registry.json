@@ -6,7 +6,7 @@
     {
       "name": "eve/seo-audit",
       "type": "registry:block",
-      "title": "SEO Audit Agent",
+      "title": "SEO Audit",
       "description": "Audits the configured site with Agent Browser and fetch, then writes a read-only Markdown report of SEO, content, and CTA fixes ordered by severity.",
       "dependencies": [
         "ai@^7.0.4",
@@ -43,7 +43,7 @@
     {
       "name": "eve/website-qa",
       "type": "registry:block",
-      "title": "Product QA Agent",
+      "title": "Product QA",
       "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
       "dependencies": [
         "ai@^7.0.4",
@@ -133,7 +133,7 @@
     {
       "name": "eve/analytics-digest",
       "type": "registry:block",
-      "title": "Analytics Digest Agent",
+      "title": "Analytics Digest",
       "description": "Pulls key event trends from PostHog with the posthog-cli and writes a plain-language weekly digest for operators.",
       "dependencies": [
         "ai@^7.0.4",
@@ -170,7 +170,7 @@
     {
       "name": "eve/adversarial-reviewer",
       "type": "registry:block",
-      "title": "Adversarial Reviewer Agent",
+      "title": "Adversarial Reviewer",
       "description": "Reads open GitHub pull requests and their diffs with the GitHub CLI and returns an independent, skeptical second-opinion review (read-only).",
       "dependencies": [
         "ai@^7.0.4",
@@ -202,7 +202,7 @@
     {
       "name": "eve/ux-reviewer",
       "type": "registry:block",
-      "title": "UX Reviewer Agent",
+      "title": "UX Reviewer",
       "description": "Walks a real user task in the browser with Agent Browser, scores each screen on usability, and recommends read-only improvements to the weakest spots.",
       "dependencies": [
         "ai@^7.0.4",
@@ -239,7 +239,7 @@
     {
       "name": "eve/competitor-analysis",
       "type": "registry:block",
-      "title": "Competitor Analysis Agent",
+      "title": "Competitor Analysis",
       "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
       "dependencies": [
         "ai@^7.0.4",
@@ -276,7 +276,7 @@
     {
       "name": "eve/claim-checker",
       "type": "registry:block",
-      "title": "Claim Checker Agent",
+      "title": "Claim Checker",
       "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
       "dependencies": [
         "ai@^7.0.4",
@@ -313,7 +313,7 @@
     {
       "name": "eve/a11y-auditor",
       "type": "registry:block",
-      "title": "Accessibility Auditor Agent",
+      "title": "Accessibility Auditor",
       "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
       "dependencies": [
         "ai@^7.0.4",
@@ -350,7 +350,7 @@
     {
       "name": "eve/perf-auditor",
       "type": "registry:block",
-      "title": "Performance Auditor Agent",
+      "title": "Performance Auditor",
       "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
       "dependencies": [
         "ai@^7.0.4",
@@ -387,7 +387,7 @@
     {
       "name": "eve/visual-regression",
       "type": "registry:block",
-      "title": "Visual Regression Agent",
+      "title": "Visual Regression",
       "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
       "dependencies": [
         "ai@^7.0.4",
@@ -424,7 +424,7 @@
     {
       "name": "eve/cro-optimizer",
       "type": "registry:block",
-      "title": "CRO Optimizer Agent",
+      "title": "CRO Optimizer",
       "description": "Audits landing pages with native browser automation and conversion heuristics, then proposes ranked A/B test ideas with hypotheses.",
       "dependencies": [
         "ai@^7.0.4",
@@ -461,7 +461,7 @@
     {
       "name": "eve/funnel-analyst",
       "type": "registry:block",
-      "title": "Funnel Analyst Agent",
+      "title": "Funnel Analyst",
       "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
       "dependencies": [
         "ai@^7.0.4",
@@ -498,7 +498,7 @@
     {
       "name": "eve/experiment-analyst",
       "type": "registry:block",
-      "title": "Experiment Analyst Agent",
+      "title": "Experiment Analyst",
       "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
       "dependencies": [
         "ai@^7.0.4",
@@ -533,9 +533,46 @@
       ]
     },
     {
+      "name": "eve/standup-bot",
+      "type": "registry:block",
+      "title": "Standup Bot",
+      "description": "Reads recent Slack channel updates and drafts a daily standup digest of priorities, active threads, and wins for operator approval.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/standup-bot/agent/agent.ts",
+          "target": "~/agent/agent.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/agent/lib/slack.ts",
+          "target": "~/agent/lib/slack.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/agent/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/standup-bot/agent/tools/read_updates.ts",
+          "target": "~/agent/tools/read_updates.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/onboarding-coach",
       "type": "registry:block",
-      "title": "Onboarding Coach Agent",
+      "title": "Onboarding Coach",
       "description": "Finds users stuck before activation in PostHog and drafts the right nudge for each onboarding step.",
       "dependencies": [
         "ai@^7.0.4",
@@ -572,7 +609,7 @@
     {
       "name": "eve/onboarding-tester",
       "type": "registry:block",
-      "title": "Onboarding Tester Agent",
+      "title": "Onboarding Tester",
       "description": "Acts like a first-time developer: follows the project's README and clean setup from scratch, stops at the first blocker, and reports the exact doc or script fix needed without changing anything.",
       "dependencies": [
         "ai@^7.0.4",
@@ -609,7 +646,7 @@
     {
       "name": "eve/error-copy",
       "type": "registry:block",
-      "title": "Error Copy Agent",
+      "title": "Error Copy",
       "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
       "dependencies": [
         "ai@^7.0.4",
@@ -646,7 +683,7 @@
     {
       "name": "eve/content-ideation",
       "type": "registry:block",
-      "title": "Content Ideation Agent",
+      "title": "Content Ideation",
       "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
       "dependencies": [
         "ai@^7.0.4",
@@ -673,7 +710,7 @@
     {
       "name": "eve/release-notes",
       "type": "registry:block",
-      "title": "Release Notes Agent",
+      "title": "Release Notes",
       "description": "Reads merged pull requests since the latest release with the GitHub CLI and drafts user-facing release notes grouped by change type for operator approval.",
       "dependencies": [
         "ai@^7.0.4",
@@ -710,7 +747,7 @@
     {
       "name": "eve/research-assistant",
       "type": "registry:block",
-      "title": "Research Assistant Agent",
+      "title": "Research Assistant",
       "description": "Turns a focused question into a sourced, cited brief for a real decision using the built-in web_search and web_fetch tools, with adversarial source verification and no paid search APIs.",
       "dependencies": [
         "ai@^7.0.4",
@@ -732,7 +769,7 @@
     {
       "name": "eve/content-agent",
       "type": "registry:block",
-      "title": "Content Agent",
+      "title": "Content",
       "description": "Researches what people are discussing right now and turns those signals into content briefs, calendars, hooks, outlines, and approval-ready drafts.",
       "dependencies": [
         "ai@^7.0.4",

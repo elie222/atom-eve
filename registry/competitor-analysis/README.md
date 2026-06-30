@@ -1,4 +1,4 @@
-# Competitor Analysis Agent
+# Competitor Analysis
 
 A browser-driven agent that reviews competitor sites for positioning, pricing, and messaging changes.
 

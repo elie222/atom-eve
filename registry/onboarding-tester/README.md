@@ -1,4 +1,4 @@
-# Onboarding Tester Agent
+# Onboarding Tester
 
 A first-time-developer agent that follows your README from a clean checkout and reports the first blocker.
 

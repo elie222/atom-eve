@@ -1,4 +1,4 @@
-# Research Assistant Agent
+# Research Assistant
 
 A read-only research agent that turns a focused question into a sourced, cited brief.
 

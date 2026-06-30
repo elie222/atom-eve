@@ -1,4 +1,4 @@
-# Onboarding Coach Agent
+# Onboarding Coach
 
 A PostHog activation agent that finds users stuck before activation and drafts nudges.
 

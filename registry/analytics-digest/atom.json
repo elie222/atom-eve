@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "analytics-digest",
-  "title": "Analytics Digest Agent",
+  "title": "Analytics Digest",
   "description": "Pulls key event trends from PostHog with the posthog-cli and writes a plain-language weekly digest for operators.",
   "category": "analytics",
   "family": "data",

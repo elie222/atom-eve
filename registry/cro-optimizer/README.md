@@ -1,4 +1,4 @@
-# CRO Optimizer Agent
+# CRO Optimizer
 
 A browser-driven CRO agent that audits landing pages and proposes ranked A/B test ideas.
 

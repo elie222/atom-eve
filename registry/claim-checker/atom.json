@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "claim-checker",
-  "title": "Claim Checker Agent",
+  "title": "Claim Checker",
   "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
   "category": "compliance",
   "family": "growth",

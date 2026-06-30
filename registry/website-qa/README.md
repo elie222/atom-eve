@@ -1,4 +1,4 @@
-# Product QA Agent
+# Product QA
 
 A browser-driven QA agent that tests web app flows like a product-minded QA engineer.
 
