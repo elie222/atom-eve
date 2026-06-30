@@ -678,6 +678,43 @@
       ]
     },
     {
+      "name": "eve/backlink-prospector",
+      "type": "registry:block",
+      "title": "Backlink Prospector",
+      "description": "Find backlink opportunities your competitors have and turn them into a vetted outreach queue.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/backlink-prospector/agent/connections/dataforseo.ts",
+          "target": "~/agent/connections/dataforseo.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backlink-prospector/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backlink-prospector/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backlink-prospector/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/backlink-prospector/agent/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/content-agent",
       "type": "registry:block",
       "title": "Content",
