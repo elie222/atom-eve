@@ -14,7 +14,6 @@ import {
 import { generateFlueAgent, type EveAgentFile } from "@atom-eve/flue-generator";
 
 type Runtime = "vercel" | "node" | "cloudflare";
-type Channel = "slack";
 type Delivery = "slack";
 
 // Agents are authored only as eve agents. `flue` is a generated install target:
@@ -49,7 +48,6 @@ interface Args {
   sourceRoot?: string;
   workspace?: boolean;
   agent?: string;
-  channel?: Channel;
   deliver?: Delivery;
   // Slack is on by default; `--no-slack` sets this to false to opt out.
   slack?: boolean;
@@ -83,7 +81,6 @@ const EVE_STOPS = [
 ] as const;
 
 interface InstallOptions {
-  channel?: Channel;
   deliver?: Delivery;
   // Slack is on by default. `--no-slack` sets this to false to opt out.
   slack?: boolean;
@@ -211,7 +208,6 @@ async function create(args: Args) {
     // Re-invoke this CLI inside the new app so the agent installs against its config
     // (add() operates on the module-global cwd, which is fixed at process load).
     const addArgs = [process.argv[1]!, "add", args.agent, "--target", target];
-    if (args.channel) addArgs.push("--channel", args.channel);
     if (args.deliver) addArgs.push("--deliver", args.deliver);
     if (args.slack === false) addArgs.push("--no-slack");
     runOrThrow(process.execPath, addArgs, appDir, `Installing agent: ${args.agent}`);
@@ -235,14 +231,14 @@ function resolveCreateTarget(args: Args): Target {
 }
 
 function rejectInstallOptions(command: string, args: Args) {
-  if (args.channel || args.deliver) {
-    throw new Error(`--channel and --deliver are supported only for atom-eve create and atom-eve add, not ${command}.`);
+  if (args.deliver) {
+    throw new Error(`--deliver is supported only for atom-eve create and atom-eve add, not ${command}.`);
   }
 }
 
 function rejectExplicitFlueOverlays(args: Args) {
-  if (args.target === "flue" && (args.channel || args.deliver)) {
-    throw new Error("--channel and --deliver are currently supported only for eve installs.");
+  if (args.target === "flue" && args.deliver) {
+    throw new Error("--deliver is currently supported only for eve installs.");
   }
 }
 
@@ -557,8 +553,8 @@ function wantsSlackScheduleDelivery(options: InstallOptions): boolean {
 }
 
 function rejectEveOverlaysForFlue(config: AtomEveConfig, options: InstallOptions) {
-  if (config.target === "flue" && (options.channel || options.deliver)) {
-    throw new Error("--channel and --deliver are currently supported only for eve installs.");
+  if (config.target === "flue" && options.deliver) {
+    throw new Error("--deliver is currently supported only for eve installs.");
   }
 }
 
@@ -872,8 +868,6 @@ function parseArgs(argv: string[]): Args {
       args.workspace = true;
     } else if (value === "--agent") {
       args.agent = argv[++i];
-    } else if (value === "--channel") {
-      args.channel = parseChannel(argv[++i]);
     } else if (value === "--deliver") {
       args.deliver = parseDelivery(argv[++i]);
     } else if (value === "--no-slack") {
@@ -931,11 +925,6 @@ function parseTarget(value: unknown): CliTarget {
 function parseRuntime(value: unknown): Runtime {
   if (value === "vercel" || value === "node" || value === "cloudflare") return value;
   throw new Error(`Invalid runtime: ${String(value)}. Expected vercel, node, or cloudflare.`);
-}
-
-function parseChannel(value: unknown): Channel {
-  if (value === "slack") return value;
-  throw new Error(`Invalid channel: ${String(value)}. Expected slack.`);
 }
 
 function parseDelivery(value: unknown): Delivery {
