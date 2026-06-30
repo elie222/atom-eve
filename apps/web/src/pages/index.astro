@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import Newsletter from "../components/Newsletter.astro";
 import AgentCard from "../components/AgentCard.astro";
 import AgentRow from "../components/AgentRow.astro";
 import { getItems, getTaxonomy, toCard, familyCounts } from "../lib/data";
@@ -284,6 +285,8 @@ const structuredData = [
       </div>
     </div>
   </section>
+
+  <Newsletter />
 
   <Footer />
 
