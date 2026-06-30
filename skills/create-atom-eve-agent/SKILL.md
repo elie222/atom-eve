@@ -1,6 +1,6 @@
 ---
 name: create-atom-eve-agent
-description: Use when setting up or installing an Atom Eve AI agent in a project: scaffolding a new eve.dev (Eve) or Flue app, adding an agent with the atom-eve CLI, wiring credentials, and verifying it runs. Triggers include "set up an Atom Eve agent", "install the SEO/ads/QA agent", "add an agent to this project".
+description: Use when setting up or installing an Atom Eve AI agent in a project, including scaffolding a new eve.dev (Eve) or Flue app, adding an agent with the atom-eve CLI, wiring credentials, and verifying it runs. Triggers include "set up an Atom Eve agent", "install the SEO/ads/QA agent", "add an agent to this project".
 ---
 
 # Create an Atom Eve agent
