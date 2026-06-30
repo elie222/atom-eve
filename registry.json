@@ -39,7 +39,7 @@
       "name": "eve/website-qa",
       "type": "registry:block",
       "title": "Product QA",
-      "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
+      "description": "Catch broken signup, onboarding, and core flows before users do, with a screenshotted report of what failed and how to fix it.",
       "dependencies": [
         "@vercel/connect@^0.2.10",
         "ai@^7.0.4",
@@ -162,7 +162,7 @@
       "name": "eve/adversarial-reviewer",
       "type": "registry:block",
       "title": "Adversarial Reviewer",
-      "description": "Reads open GitHub pull requests and their diffs with the GitHub CLI and returns an independent, skeptical second-opinion review (read-only).",
+      "description": "Get a skeptical second-opinion review of any pull request, surfacing the correctness, security, and breaking-change risks the first review missed.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -189,7 +189,7 @@
       "name": "eve/ux-reviewer",
       "type": "registry:block",
       "title": "UX Reviewer",
-      "description": "Walks a real user task in the browser with Agent Browser, scores each screen on usability, and recommends read-only improvements to the weakest spots.",
+      "description": "Get a per-screen usability scorecard of your product's key user task, with prioritized fixes for the weakest spots.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -221,7 +221,7 @@
       "name": "eve/competitor-analysis",
       "type": "registry:block",
       "title": "Competitor Analysis",
-      "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+      "description": "Get a report of how your competitors' positioning, pricing, messaging, and CTA flows changed, with deltas from your last run.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -253,7 +253,7 @@
       "name": "eve/claim-checker",
       "type": "registry:block",
       "title": "Claim Checker",
-      "description": "Crawls the marketing site weekly, inventories every customer-facing claim, checks each against product reality, and drafts repairs for the riskiest overstatements.",
+      "description": "Get a risk-ranked inventory of every marketing claim that overstates your product, with defensible rewrites for the riskiest ones.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -317,7 +317,7 @@
       "name": "eve/perf-auditor",
       "type": "registry:block",
       "title": "Performance Auditor",
-      "description": "Runs a weekly browser-driven performance audit, measures page load timings and transfer weight, identifies the single worst bottleneck, and proposes a behavior-preserving fix.",
+      "description": "Get a per-page report of your site's single worst performance bottleneck with one behavior-preserving fix to apply.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -349,7 +349,7 @@
       "name": "eve/visual-regression",
       "type": "registry:block",
       "title": "Visual Regression",
-      "description": "Snapshots key screens with a browser and flags unintended UI diffs against a baseline (read-only).",
+      "description": "Catch unintended UI changes on your key screens before users do, flagged against a baseline by severity.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -381,7 +381,7 @@
       "name": "eve/cro-optimizer",
       "type": "registry:block",
       "title": "CRO Optimizer",
-      "description": "Audits landing pages with native browser automation and conversion heuristics, then proposes ranked A/B test ideas with hypotheses.",
+      "description": "Get a ranked backlog of A/B test ideas, each with a hypothesis, for the conversion blockers on your landing pages.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -413,7 +413,7 @@
       "name": "eve/funnel-analyst",
       "type": "registry:block",
       "title": "Funnel Analyst",
-      "description": "Builds PostHog funnels and retention views, finds the biggest drop-offs, and recommends where to focus.",
+      "description": "Find where users drop off in your funnel and what to fix to convert more of them.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -445,7 +445,7 @@
       "name": "eve/experiment-analyst",
       "type": "registry:block",
       "title": "Experiment Analyst",
-      "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
+      "description": "Know which A/B experiments won, which are still inconclusive, and what to do next.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -546,7 +546,7 @@
       "name": "eve/onboarding-tester",
       "type": "registry:block",
       "title": "Onboarding Tester",
-      "description": "Acts like a first-time developer: follows the project's README and clean setup from scratch, stops at the first blocker, and reports the exact doc or script fix needed without changing anything.",
+      "description": "Find out whether a brand-new developer can get your project running from the docs alone, with the first blocker and the exact doc or script fix to unblock it.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -578,7 +578,7 @@
       "name": "eve/error-copy",
       "type": "registry:block",
       "title": "Error Copy",
-      "description": "Crawls the app with a native browser to find user-facing error messages, confirms which states are reachable, and drafts clearer, more empathetic rewrites for operator approval.",
+      "description": "Get clearer, more empathetic rewrites of your app's user-facing error messages, with each reachable error state confirmed and ready for your approval.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -610,7 +610,7 @@
       "name": "eve/content-ideation",
       "type": "registry:block",
       "title": "Content Ideation",
-      "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
+      "description": "Get an approval-ready content queue of YouTube topics, social ideas, hooks, and outlines drawn from your recent business context.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -632,7 +632,7 @@
       "name": "eve/release-notes",
       "type": "registry:block",
       "title": "Release Notes",
-      "description": "Reads merged pull requests since the latest release with the GitHub CLI and drafts user-facing release notes grouped by change type for operator approval.",
+      "description": "Get user-facing release notes drafted from the pull requests merged since your last release, grouped by change type and ready for your approval.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
@@ -718,7 +718,7 @@
       "name": "eve/content-agent",
       "type": "registry:block",
       "title": "Content",
-      "description": "Researches what people are discussing right now and turns those signals into content briefs, calendars, hooks, outlines, and approval-ready drafts.",
+      "description": "Get an approval-ready content pipeline grounded in what people are discussing right now: briefs, an editorial calendar, hooks, outlines, and draft copy.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"

@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "ux-reviewer",
   "title": "UX Reviewer",
-  "description": "Walks a real user task in the browser with Agent Browser, scores each screen on usability, and recommends read-only improvements to the weakest spots.",
+  "description": "Get a per-screen usability scorecard of your product's key user task, with prioritized fixes for the weakest spots.",
   "category": "ux",
   "family": "engineering",
   "author": {

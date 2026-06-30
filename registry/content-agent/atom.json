@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "content-agent",
   "title": "Content",
-  "description": "Researches what people are discussing right now and turns those signals into content briefs, calendars, hooks, outlines, and approval-ready drafts.",
+  "description": "Get an approval-ready content pipeline grounded in what people are discussing right now: briefs, an editorial calendar, hooks, outlines, and draft copy.",
   "category": "content",
   "family": "growth",
   "author": {

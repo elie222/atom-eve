@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "content-ideation",
   "title": "Content Ideation",
-  "description": "Turns recent business context into YouTube topics, social ideas, hooks, outlines, and approval-ready copy.",
+  "description": "Get an approval-ready content queue of YouTube topics, social ideas, hooks, and outlines drawn from your recent business context.",
   "category": "content",
   "family": "growth",
   "author": {

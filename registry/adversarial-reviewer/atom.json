@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "adversarial-reviewer",
   "title": "Adversarial Reviewer",
-  "description": "Reads open GitHub pull requests and their diffs with the GitHub CLI and returns an independent, skeptical second-opinion review (read-only).",
+  "description": "Get a skeptical second-opinion review of any pull request, surfacing the correctness, security, and breaking-change risks the first review missed.",
   "category": "code",
   "family": "engineering",
   "author": {

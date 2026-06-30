@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "experiment-analyst",
   "title": "Experiment Analyst",
-  "description": "Reviews PostHog A/B experiment results weekly, checks significance, calls winners, and summarizes learnings.",
+  "description": "Know which A/B experiments won, which are still inconclusive, and what to do next.",
   "category": "analytics",
   "family": "data",
   "author": {

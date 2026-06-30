@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "onboarding-tester",
   "title": "Onboarding Tester",
-  "description": "Acts like a first-time developer: follows the project's README and clean setup from scratch, stops at the first blocker, and reports the exact doc or script fix needed without changing anything.",
+  "description": "Find out whether a brand-new developer can get your project running from the docs alone, with the first blocker and the exact doc or script fix to unblock it.",
   "category": "qa",
   "family": "engineering",
   "author": {

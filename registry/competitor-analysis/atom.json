@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "competitor-analysis",
   "title": "Competitor Analysis",
-  "description": "Runs weekly competitor URL reviews and reports positioning, pricing, messaging, CTA, content, screenshot, and historical deltas.",
+  "description": "Get a report of how your competitors' positioning, pricing, messaging, and CTA flows changed, with deltas from your last run.",
   "category": "research",
   "family": "data",
   "author": {
