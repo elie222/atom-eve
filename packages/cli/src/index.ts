@@ -548,14 +548,10 @@ async function installStandaloneEveOverlays(appDir: string, agentName: string, o
   await installPackageDependencies([SLACK_CONNECT_DEPENDENCY], appDir);
 }
 
-// The Slack channel is on by default for eve installs; `--no-slack` opts out.
 function needsSlackChannel(options: InstallOptions): boolean {
   return options.slack !== false;
 }
 
-// The Slack channel is on by default, but auto-posting the scheduled report is
-// opt-in: it needs SLACK_CHANNEL_ID and a Vercel Connect Slack connector, so
-// only `--deliver slack` wires markdown schedules for delivery.
 function wantsSlackScheduleDelivery(options: InstallOptions): boolean {
   return options.deliver === "slack";
 }

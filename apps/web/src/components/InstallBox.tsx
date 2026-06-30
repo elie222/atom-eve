@@ -15,8 +15,6 @@ export default function InstallBox({ name, targets }: Props) {
   const [slack, setSlack] = useState(true);
   const [copied, setCopied] = useState(false);
 
-  // Slack is an Eve-only interface, on by default. The flue install ignores it,
-  // so the toggle only applies to the eve target.
   const slackApplies = active === "eve";
 
   const cmds = useMemo(() => {

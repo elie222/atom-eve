@@ -55,7 +55,6 @@ export function prettify(slug: string): string {
 
 export function installCommand(name: string, target?: string, slack = true): string {
   const base = target ? `npx atom-eve add ${name} --target ${target}` : `npx atom-eve add ${name}`;
-  // Slack is on by default for eve installs; only the opt-out needs a flag.
   return slack ? base : `${base} --no-slack`;
 }
 
