@@ -1,0 +1,23 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "meeting-notes",
+  "title": "Meeting Notes",
+  "description": "Turn a Fireflies transcript into concise notes, decisions, action items, and follow-up drafts.",
+  "category": "productivity",
+  "family": "ops",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["fireflies"],
+  "connections": [
+    {
+      "name": "fireflies",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["FIREFLIES_API_KEY"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}

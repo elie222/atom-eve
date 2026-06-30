@@ -1,0 +1,23 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "community-support",
+  "title": "Community Support",
+  "description": "Turn recent Discord support activity into grounded draft replies and clear human escalations.",
+  "category": "community",
+  "family": "support",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["discord"],
+  "connections": [
+    {
+      "name": "discord",
+      "type": "custom-tool",
+      "auth": "env"
+    }
+  ],
+  "requiredEnv": ["DISCORD_BOT_TOKEN", "DISCORD_CHANNEL_ID"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"]
+}

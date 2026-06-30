@@ -664,6 +664,97 @@
           "type": "registry:file"
         }
       ]
+    },
+    {
+      "name": "eve/community-support",
+      "type": "registry:block",
+      "title": "Community Support",
+      "description": "Turn recent Discord support activity into grounded draft replies and clear human escalations.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/community-support/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/agent/lib/discord.ts",
+          "target": "~/agent/lib/discord.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/agent/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/community-support/agent/tools/read_messages.ts",
+          "target": "~/agent/tools/read_messages.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/meeting-notes",
+      "type": "registry:block",
+      "title": "Meeting Notes",
+      "description": "Turn a Fireflies transcript into concise notes, decisions, action items, and follow-up drafts.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/meeting-notes/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/agent/lib/fireflies.ts",
+          "target": "~/agent/lib/fireflies.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/meeting-notes/agent/tools/read_transcript.ts",
+          "target": "~/agent/tools/read_transcript.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
+      "name": "eve/support-replies",
+      "type": "registry:block",
+      "title": "Support Replies",
+      "description": "Turn open Intercom conversations into grounded draft replies and clear escalation notes.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/support-replies/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/agent/lib/intercom.ts",
+          "target": "~/agent/lib/intercom.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/agent/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/support-replies/agent/tools/read_conversations.ts",
+          "target": "~/agent/tools/read_conversations.ts",
+          "type": "registry:file"
+        }
+      ]
     }
   ]
 }
