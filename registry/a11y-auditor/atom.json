@@ -2,7 +2,7 @@
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "a11y-auditor",
   "title": "Accessibility Auditor",
-  "description": "Crawls key pages, runs axe-style accessibility checks in a real browser, and reports WCAG violations grouped by user harm with proposed read-only fixes.",
+  "description": "Get a prioritized report of your pages' accessibility problems, grouped by user harm with the WCAG criterion and a concrete fix for each.",
   "category": "a11y",
   "family": "engineering",
   "author": {
