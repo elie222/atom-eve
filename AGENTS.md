@@ -53,33 +53,37 @@ changing any framework-facing code.
   (Zod for eve, Valibot for flue); only the framework-neutral `run()` logic, name, description, and
   types are shared.
 
-## Giving an agent capability (CLI-first)
+## Giving an agent capability
 
 An agent must do work only an LLM can do. If removing the model leaves ~the same output, it's a
 script, not an agent. **Never bake judgment or copy into tool code** — no `recommend*` / `draft*` /
-`classify*` / `score*` functions that map an input to a hardcoded output string. The tool/CLI returns
-raw facts; the model does the reasoning and writing.
+`classify*` / `score*` functions that map an input to a hardcoded output string. Tools, CLIs, and
+connections return raw facts; the model does the reasoning and writing.
 
 Give the agent a real capability, in this priority:
 
-1. **CLI in the sandbox + a usage skill (default).** Run a real CLI (`posthog-cli`, `stripe`, `gh`,
-   …) via the agent's sandbox; document the workflow in `instructions.md` or a skill. CLIs give
-   **progressive disclosure** (`<cli> search → info → call`) — the model pulls only the schema it
-   needs, so the full API surface is reachable at near-zero prompt cost. Best coverage, least noise.
-2. **Custom `defineTool` (the focused exception).** For a narrow, known, specific operation (or one
-   validated write) where you want the model laser-focused on exactly one thing. Returns raw facts /
-   performs one action.
-3. **MCP / OpenAPI connection** (`agent/connections/*.ts`, Vercel Connect auth) — only when there is
-   no usable CLI but the service exposes an MCP server / OpenAPI contract. Narrow the surface with
-   `tools.allow`/`block`. Note the trade-off: an MCP connection loads a tool catalog into context and
-   is capped at whatever the server author curated, whereas a CLI exposes everything on demand.
+1. **CLI in the sandbox + a usage skill.** When the service has a good CLI (`posthog-cli`, `stripe`,
+   `gh`, …), run it via the agent's sandbox and document the workflow in `instructions.md` or a skill.
+   CLIs give **progressive disclosure** (`<cli> search → info → call`) — the model pulls only the
+   schema it needs, so the full API surface is reachable at near-zero prompt cost.
+2. **eve connection (MCP or OpenAPI)** (`agent/connections/*.ts`). When the service exposes an MCP
+   server or an OpenAPI document but no good CLI, wire a connection instead of hand-rolling an HTTP
+   client. eve brokers auth and the model discovers tools on demand via the built-in
+   `connection_search`, so a connection is progressive-disclosure too, **not** a preloaded catalog.
+   Narrow the surface with `tools.allow` (MCP) or `operations.allow` (OpenAPI), and gate writes with an
+   `approval` policy. Example: `registry/backlink-prospector/agent/connections/dataforseo.ts`.
+3. **Custom `defineTool` (the focused exception).** Only when there is no CLI and no usable contract,
+   or for a single validated write you want the model laser-focused on, or to wrap non-HTTP logic.
+   Returns raw facts / performs one action. Do not hand-roll an HTTP client for an API the service
+   already exposes via MCP/OpenAPI — that is a connection.
 
-So the ordering is **CLI > custom tool > MCP**, not the reverse — MCP is a convenience for when no
-good CLI exists, not the default.
+So the ordering is **CLI > connection > custom tool**. Reach for a custom tool when no contract
+exists, not as the default wrapper for a hosted API.
 
 **Credentials:** CLIs read restricted/read-only keys from the sandbox env (the agent never echoes
-them). MCP/OpenAPI connections on eve use **Vercel Connect** (`connect()` from `@vercel/connect/eve`)
-so the model never sees a token; flue takes credentials from env/secrets in trusted app code.
+them). Connections take env-sourced static creds via `headers` / `auth.getToken` (eve resolves them
+per step, so they never reach the model), or **Vercel Connect** (`connect()` from
+`@vercel/connect/eve`) for OAuth. flue takes credentials from env/secrets in trusted app code.
 
 ## Source Layout
 
