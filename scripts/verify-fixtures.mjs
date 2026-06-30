@@ -2,8 +2,10 @@ import { spawnSync } from "node:child_process";
 import { promises as fs } from "node:fs";
 import path from "node:path";
 
-// Keep fixture installs hermetic: never reach out to skills.sh for remote skills.
+// Keep fixture installs hermetic: never reach out to skills.sh for remote skills,
+// and never send install telemetry for fixture runs.
 process.env.ATOM_EVE_SKIP_REMOTE_SKILLS = "1";
+process.env.ATOM_EVE_DISABLE_TELEMETRY = "1";
 
 const root = process.cwd();
 const cli = path.join(root, "packages", "cli", "dist", "index.js");

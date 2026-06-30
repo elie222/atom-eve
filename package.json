@@ -12,6 +12,9 @@
     "secret-scan": "node scripts/secret-scan.mjs",
     "check": "pnpm generate && pnpm typecheck && pnpm build && pnpm verify:fixtures && pnpm secret-scan"
   },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.10.4"
+  },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "tsx": "^4.19.2",

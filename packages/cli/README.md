@@ -37,3 +37,9 @@ Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VE
 Slack is an Eve install option. `--channel slack` adds a bidirectional Slack channel using Vercel Connect. `--deliver slack` implies the Slack channel and rewires simple `markdown` schedules so the scheduled run posts its final response to `SLACK_CHANNEL_ID`.
 
 See the [project README](https://github.com/elie222/atom-eve/blob/main/README.md) for the end-to-end flow.
+
+## Telemetry
+
+On a successful install the CLI sends one anonymous, identifier-free event (agent name,
+target, CLI version, detected coding agent, CI flag). Opt out with
+`ATOM_EVE_DISABLE_TELEMETRY=1` or `DO_NOT_TRACK=1`.

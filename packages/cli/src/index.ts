@@ -12,6 +12,7 @@ import {
   type Target
 } from "@atom-eve/install-map";
 import { generateFlueAgent, type EveAgentFile } from "@atom-eve/flue-generator";
+import { track, flushTelemetry } from "./telemetry.js";
 
 type Runtime = "vercel" | "node" | "cloudflare";
 type Channel = "slack";
@@ -91,10 +92,13 @@ interface InstallOptions {
 
 const cwd = process.cwd();
 
-main().catch((error) => {
-  console.error(error instanceof Error ? error.message : error);
-  process.exit(1);
-});
+main()
+  .then(() => flushTelemetry())
+  .catch(async (error) => {
+    console.error(error instanceof Error ? error.message : error);
+    await flushTelemetry();
+    process.exit(1);
+  });
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -386,6 +390,7 @@ async function installAgentFiles(
 ) {
   if (config.target === "flue") {
     await installFlueAgent(manifest, files);
+    trackInstall(manifest, config, options);
     printPostInstallNextSteps(manifest, config);
     return;
   }
@@ -401,7 +406,17 @@ async function installAgentFiles(
 
   await installPackageDependencies(dependenciesForInstall(manifest, options));
   await installRemoteSkills(manifest.skills);
+  trackInstall(manifest, config, options);
   printPostInstallNextSteps(manifest, config);
+}
+
+function trackInstall(manifest: AtomManifest, config: AtomEveConfig, options: InstallOptions) {
+  track({
+    event: "install",
+    agent: manifest.name,
+    target: config.target,
+    channel: options.channel ?? options.deliver
+  });
 }
 
 // Codegen the flue version of an eve agent and write it under the user's flue
