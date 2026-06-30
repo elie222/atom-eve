@@ -18,7 +18,7 @@ const STARTERS = [
   { slug: "website-qa", label: "Product QA", tag: "Tests your signup and checkout flows for breaks." },
   { slug: "seo-audit", label: "SEO Fixes", tag: "Finds what's hurting your rankings, worst first." },
   { slug: "stripe-pulse", label: "Stripe Revenue", tag: "Weekly revenue and churn alerts, posted to Slack." },
-  { slug: "research-assistant", label: "Research Assistant", tag: "Turns a question into a cited, decision-ready brief." },
+  { slug: "content-agent", label: "Content", tag: "Turns market signals into review-ready drafts." },
 ].filter((s) => items.some((it) => it.name === s.slug));
 const START = STARTERS[0]!;
 const startPrompt = `Read atomeve.dev/start.md and add the ${START.label} agent.`;
