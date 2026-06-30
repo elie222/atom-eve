@@ -4,9 +4,7 @@ A browser-driven QA agent that tests web app flows like a product-minded QA engi
 
 ## What it does
 
-Tests a website or web app by opening the site, following a real user flow such as signup or onboarding, capturing screenshots, and producing a repeatable Markdown QA report.
-
-This is not an SEO or static HTML audit agent. It uses a real browser and is read-only by default.
+Tests a website or web app by opening the site, following a real user flow such as signup or onboarding, capturing screenshots, and producing a repeatable Markdown QA report. It uses a real browser and is read-only by default.
 
 ## Supported targets
 
