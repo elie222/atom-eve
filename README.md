@@ -89,14 +89,17 @@ npx atom-eve add facebook-ads
 If the current directory does not have a `package.json` yet, `add` initializes the Atom Eve project
 files first and then installs the agent.
 
-Add Slack as an Eve interface when you install:
+A Slack channel is on by default for Eve installs: every agent ships a bidirectional Slack channel, so you can mention the agent and it can reply. Slack auth is brokered by Vercel Connect, so connect a Slack connector in your Vercel project (the agent never sees a token). Opt out with `--no-slack`:
 
 ```bash
-npx atom-eve add seo-audit --channel slack
-npx atom-eve add seo-audit --deliver slack
+npx atom-eve add seo-audit --no-slack
 ```
 
-`--channel slack` installs a bidirectional Slack channel. `--deliver slack` implies the channel and rewires simple scheduled report prompts so the scheduled run posts its final answer to `SLACK_CHANNEL_ID`.
+To also post a scheduled report to Slack automatically, add `--deliver slack`. It rewires the agent's markdown schedule to post to `SLACK_CHANNEL_ID`, so set that variable too:
+
+```bash
+npx atom-eve add seo-audit --deliver slack
+```
 
 Running many agents from one repo? Scaffold a workspace root and create one app per agent:
 

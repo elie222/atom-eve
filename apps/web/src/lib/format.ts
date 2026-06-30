@@ -53,8 +53,9 @@ export function prettify(slug: string): string {
     .join(" ");
 }
 
-export function installCommand(name: string, target?: string): string {
-  return target ? `npx atom-eve add ${name} --target ${target}` : `npx atom-eve add ${name}`;
+export function installCommand(name: string, target?: string, slack = true): string {
+  const base = target ? `npx atom-eve add ${name} --target ${target}` : `npx atom-eve add ${name}`;
+  return slack ? base : `${base} --no-slack`;
 }
 
 /* ------------------------------------------------------------------ *

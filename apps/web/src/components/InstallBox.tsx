@@ -10,14 +10,18 @@ const ACC = "#54f0a8";
 
 export default function InstallBox({ name, targets }: Props) {
   const frameworks = installTargets(targets);
-  const cmds = useMemo(() => {
-    const map: Record<string, string> = {};
-    for (const t of frameworks) map[t] = installCommand(name, t);
-    return map;
-  }, [name, frameworks]);
 
   const [active, setActive] = useState(frameworks[0]);
+  const [slack, setSlack] = useState(true);
   const [copied, setCopied] = useState(false);
+
+  const slackApplies = active === "eve";
+
+  const cmds = useMemo(() => {
+    const map: Record<string, string> = {};
+    for (const t of frameworks) map[t] = installCommand(name, t, t === "eve" ? slack : true);
+    return map;
+  }, [name, frameworks, slack]);
 
   const copy = () => {
     if (navigator.clipboard) navigator.clipboard.writeText(cmds[active]);
@@ -33,7 +37,29 @@ export default function InstallBox({ name, targets }: Props) {
     >
       <div className="flex flex-wrap items-center gap-[10px] border-b-2 border-edgedim px-4 py-[11px]">
         <span className="mr-1 font-pixel text-[8px] tracking-[0.06em] text-dim">OR USE THE CLI</span>
-        <span className="ml-auto font-pixel text-[8px] tracking-[0.06em] text-dim">TARGET</span>
+        {slackApplies && (
+          <>
+            <span className="ml-auto font-pixel text-[8px] tracking-[0.06em] text-dim">SLACK</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={slack}
+              aria-label="Install with Slack"
+              onClick={() => {
+                setSlack((on) => !on);
+                setCopied(false);
+              }}
+              className="cursor-pointer border-2 border-edge px-[12px] py-[6px] font-mono text-[12px] font-semibold transition-colors"
+              style={{
+                color: slack ? "#0b0820" : "#9587bd",
+                background: slack ? ACC : "transparent",
+              }}
+            >
+              {slack ? "ON" : "OFF"}
+            </button>
+          </>
+        )}
+        <span className={`${slackApplies ? "" : "ml-auto "}font-pixel text-[8px] tracking-[0.06em] text-dim`}>TARGET</span>
         <div className="flex border-2 border-edge bg-bg" role="tablist" aria-label="Install target">
           {frameworks.map((t) => {
             const on = t === active;
