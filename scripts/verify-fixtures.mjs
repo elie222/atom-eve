@@ -36,7 +36,14 @@ for (const item of index.items) {
 
     run("node", [cli, "init", "--target", target], temp);
     run("node", [cli, "add", agent, "--target", target], temp);
-    run("pnpm", ["exec", "tsc", "-p", path.join(temp, "tsconfig.json"), "--noEmit"], root);
+    // An agent may ship no TypeScript at all (no custom tools, schedules, or
+    // channels, and no agent.ts since it only re-pinned the default model). tsc
+    // errors on an empty input set, so only typecheck when there is code.
+    if (await hasTypeScript(temp)) {
+      run("pnpm", ["exec", "tsc", "-p", path.join(temp, "tsconfig.json"), "--noEmit"], root);
+    } else {
+      console.log(`(no TypeScript to typecheck for ${target}/${item.name})`);
+    }
 
     await fs.rm(temp, { recursive: true, force: true });
   }
@@ -49,6 +56,11 @@ function run(command, args, cwd) {
   }
 }
 
+async function hasTypeScript(dir) {
+  const entries = await fs.readdir(dir, { recursive: true, withFileTypes: true });
+  return entries.some((entry) => entry.isFile() && entry.name.endsWith(".ts"));
+}
+
 async function assertDefaultEveProject(dir) {
   const config = JSON.parse(await fs.readFile(path.join(dir, "atom-eve.json"), "utf8"));
   if (config.target !== "eve") {
@@ -57,5 +69,5 @@ async function assertDefaultEveProject(dir) {
 
   await fs.access(path.join(dir, "package.json"));
   await fs.access(path.join(dir, "tsconfig.json"));
-  await fs.access(path.join(dir, "agent", "agent.ts"));
+  await fs.access(path.join(dir, "agent", "instructions.md"));
 }

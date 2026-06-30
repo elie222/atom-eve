@@ -323,8 +323,7 @@ function skillUrl(ref: string): string {
 function remoteSkillHtml(ref: string, url: string): string {
   return `<div class="p-5 font-mono text-[13px] leading-6 text-ink2">
     <div class="mb-2 font-pixel text-[8px] tracking-[0.06em] text-dim">REMOTE SKILL</div>
-    <p class="mb-3">Imported from <code class="text-green">${escapeHtml(ref)}</code>.</p>
-    <p class="mb-4 text-muted">This skill is pulled from skills.sh during install instead of being vendored in this repository.</p>
+    <p class="mb-4">Imported from <code class="text-green">${escapeHtml(ref)}</code>.</p>
     <a class="font-mono text-[12px] text-green underline decoration-dotted underline-offset-4" href="${escapeHtml(url)}" target="_blank" rel="noreferrer">Open full skill ↗</a>
   </div>`;
 }

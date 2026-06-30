@@ -7,17 +7,12 @@
       "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit",
-      "description": "Audits the configured site with Agent Browser and fetch, then writes a read-only Markdown report of SEO, content, and CTA fixes ordered by severity.",
+      "description": "Get a prioritized, fix-it-today report of the SEO and content problems on your site.",
       "dependencies": [
         "ai@^7.0.4",
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/seo-audit/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/seo-audit/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -46,13 +41,14 @@
       "title": "Product QA",
       "description": "Runs browser-driven QA on signup, onboarding, and other web app flows with Agent Browser, capturing evidence and returning a concise Markdown report.",
       "dependencies": [
+        "@vercel/connect@^0.2.10",
         "ai@^7.0.4",
         "eve@^0.16.2"
       ],
       "files": [
         {
-          "path": "registry/website-qa/agent/agent.ts",
-          "target": "~/agent/agent.ts",
+          "path": "registry/website-qa/agent/channels/slack.ts",
+          "target": "~/agent/channels/slack.ts",
           "type": "registry:file"
         },
         {
@@ -69,6 +65,11 @@
           "path": "registry/website-qa/agent/sandbox/workspace/setup-agent-browser.sh",
           "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
           "type": "registry:file"
+        },
+        {
+          "path": "registry/website-qa/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
         }
       ]
     },
@@ -83,11 +84,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/stripe-pulse/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/stripe-pulse/agent/channels/eve.ts",
           "target": "~/agent/channels/eve.ts",
@@ -141,11 +137,6 @@
       ],
       "files": [
         {
-          "path": "registry/analytics-digest/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/analytics-digest/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -178,11 +169,6 @@
       ],
       "files": [
         {
-          "path": "registry/adversarial-reviewer/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/adversarial-reviewer/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -209,11 +195,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/ux-reviewer/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/ux-reviewer/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -247,11 +228,6 @@
       ],
       "files": [
         {
-          "path": "registry/competitor-analysis/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/competitor-analysis/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -283,11 +259,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/claim-checker/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/claim-checker/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -321,11 +292,6 @@
       ],
       "files": [
         {
-          "path": "registry/a11y-auditor/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/a11y-auditor/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -357,11 +323,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/perf-auditor/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/perf-auditor/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -395,11 +356,6 @@
       ],
       "files": [
         {
-          "path": "registry/visual-regression/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/visual-regression/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -431,11 +387,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/cro-optimizer/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/cro-optimizer/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -469,11 +420,6 @@
       ],
       "files": [
         {
-          "path": "registry/funnel-analyst/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/funnel-analyst/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -505,11 +451,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/experiment-analyst/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/experiment-analyst/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -580,11 +521,6 @@
       ],
       "files": [
         {
-          "path": "registry/onboarding-coach/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/onboarding-coach/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -616,11 +552,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/onboarding-tester/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/onboarding-tester/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -654,11 +585,6 @@
       ],
       "files": [
         {
-          "path": "registry/error-copy/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/error-copy/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -691,11 +617,6 @@
       ],
       "files": [
         {
-          "path": "registry/content-ideation/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/content-ideation/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -717,11 +638,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/release-notes/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/release-notes/agent/instructions.md",
           "target": "~/agent/instructions.md",
@@ -755,11 +671,6 @@
       ],
       "files": [
         {
-          "path": "registry/research-assistant/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
-        {
           "path": "registry/research-assistant/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"
@@ -776,11 +687,6 @@
         "eve@^0.16.2"
       ],
       "files": [
-        {
-          "path": "registry/content-agent/agent/agent.ts",
-          "target": "~/agent/agent.ts",
-          "type": "registry:file"
-        },
         {
           "path": "registry/content-agent/agent/instructions.md",
           "target": "~/agent/instructions.md",

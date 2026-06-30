@@ -58,6 +58,11 @@ interface SkillInfo {
 
 const FLUE_RUNTIME_DEP = "@flue/runtime";
 
+// eve's default model, used when an agent ships no agent.ts. Mirrors the
+// `process.env.AGENT_MODEL ?? "..."` override the per-agent agent.ts files
+// carried before they were dropped as redundant, so flue keeps that behavior.
+const DEFAULT_MODEL_EXPR = 'process.env.AGENT_MODEL ?? "anthropic/claude-sonnet-4.6"';
+
 export function generateFlueAgent(input: GenerateFlueAgentInput): GenerateFlueAgentResult {
   const { name } = input;
   const byPath = new Map(input.files.map((file) => [file.path, file.content] as const));
@@ -68,9 +73,6 @@ export function generateFlueAgent(input: GenerateFlueAgentInput): GenerateFlueAg
   }
 
   const agentTs = byPath.get("agent.ts");
-  if (agentTs === undefined) {
-    throw new Error(`${name}: eve agent is missing agent/agent.ts`);
-  }
 
   const hasSandbox = input.files.some((file) => file.path.startsWith("sandbox/"));
   const sandboxClis = collectSandboxClis(input.files);
@@ -82,7 +84,8 @@ export function generateFlueAgent(input: GenerateFlueAgentInput): GenerateFlueAg
   const hasSlackChannel = channelFiles.some((file) => /slack/i.test(file.path));
   const remoteSkills = input.remoteSkills ?? [];
 
-  const model = extractModel(agentTs);
+  // agent.ts is optional; when absent the agent takes eve's default model.
+  const model = agentTs === undefined ? DEFAULT_MODEL_EXPR : extractModel(agentTs);
 
   const files: Record<string, string> = {};
 

@@ -33,7 +33,7 @@ export default function InstallBox({ name, targets }: Props) {
     >
       <div className="flex flex-wrap items-center gap-[10px] border-b-2 border-edgedim px-4 py-[11px]">
         <span className="mr-1 font-pixel text-[8px] tracking-[0.06em] text-dim">OR USE THE CLI</span>
-        <span className="font-pixel text-[8px] tracking-[0.06em] text-dim">TARGET</span>
+        <span className="ml-auto font-pixel text-[8px] tracking-[0.06em] text-dim">TARGET</span>
         <div className="flex border-2 border-edge bg-bg" role="tablist" aria-label="Install target">
           {frameworks.map((t) => {
             const on = t === active;

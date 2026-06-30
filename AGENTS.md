@@ -27,8 +27,9 @@ types. Both ship their docs and TypeScript types inside their npm packages; read
 changing any framework-facing code.
 
 - **eve** — npm `eve` (filesystem-first durable agents). An agent lives in a single `agent/`
-  folder, and everything is **filesystem-discovered** — `agent/agent.ts` is tiny: `defineAgent({ model })`
-  only (no instructions/tools/channels passed in). `agent/instructions.md` (system prompt),
+  folder, and everything is **filesystem-discovered** — `agent/agent.ts` is optional and tiny when
+  present (`defineAgent({ model })` only, no instructions/tools/channels passed in); omit it to take
+  eve's default model. `agent/instructions.md` (system prompt),
   `agent/tools/*.ts` (`defineTool` from `eve/tools`, `inputSchema` accepts **Zod** / any Standard
   Schema / plain JSON Schema, `execute(input, ctx)`; filename = tool name), `agent/channels/*.ts`
   (`slackChannel` is **bidirectional** — handles inbound mentions and posts replies; creds via Vercel
@@ -90,15 +91,15 @@ registry/<agent>/
   atom.json
   README.md
   agent/
-    agent.ts            defineAgent({ model: process.env.AGENT_MODEL ?? "anthropic/claude-sonnet-4.6" })
     instructions.md
+    agent.ts            (optional) defineAgent({ model: ... }) to pin a non-default model
     tools/  channels/  sandbox/  schedules/  skills/  connections/  lib/  evals/   (all optional)
 ```
 
 This structure is enforced by the generator (`validateAgentStructure`):
 
 - The agent root may contain only `atom.json`, `README.md`, and `agent/`.
-- `agent/` requires `agent.ts` and `instructions.md`, and otherwise allows only the directories
+- `agent/` requires `instructions.md`, and otherwise allows only `agent.ts` and the directories
   `tools/ channels/ sandbox/ schedules/ skills/ connections/ lib/ evals/`.
 
 Custom *files* inside an allowed directory (e.g. extra `lib/` or `tools/` modules) are fine, but
@@ -111,27 +112,9 @@ Write `atom.json` titles, descriptions, and the opening of each agent README for
 
 ## Agent READMEs
 
-Agent READMEs are user-facing install and operating guides, not design docs. Keep them short enough that a user can quickly understand what the agent does, how to install it, what they must configure, and how to run it.
+A README is the human's install decision, not the agent's prompt (`instructions.md`). It carries only what is unique to the agent: the outcome, what it does, and what you must configure. The catalog page renders everything derivable (install, targets, env, integrations, schedule, channels), so the README never repeats it. Shape: H1, a one-line outcome lead, then `What it does` and `Setup`, the two sections the generator requires.
 
-Include:
-
-- The outcome the agent helps with.
-- A concise list of user-visible checks or actions.
-- Supported targets and install commands.
-- Required setup such as URLs, schedules, credentials, or host capabilities.
-- Short usage examples.
-- Optional integrations or memory/storage requirements only at the level needed to operate the installed agent.
-- Safety notes only when they materially affect how the user should operate the installed agent.
-
-Avoid:
-
-- Internal file layouts, generated path maps, helper API examples, or adapter wiring snippets.
-- Long explanations of implementation tradeoffs.
-- Generic limitations sections that repeat what the setup, usage, or auth sections already make clear.
-- Repeating the same setup or memory details across multiple sections.
-- Backend-specific details in the opening description unless the user must choose that backend during install.
-
-If implementation detail is useful for maintainers, put it in source code, shared helper types, `AGENTS.md`, or a dedicated internal doc. Do not make every installed agent README carry the full architecture.
+Before writing or editing any `registry/<agent>/README.md`, use the `agent-readme` skill (`.claude/skills/agent-readme/`).
 
 ## Installed Agents Are Local Templates
 
@@ -224,7 +207,8 @@ The agent installs as a root agent (not a subagent): `agent/**` is copied verbat
 See "How eve and flue actually work" for the framework API; the points below are the registry-specific
 rules.
 
-`agent/agent.ts` must declare an explicit model with an environment override:
+`agent/agent.ts` is optional: omit it to use eve's default model. Include it only to pin a different
+model, ideally with an environment override:
 
 ```ts
 import { defineAgent } from "eve";
