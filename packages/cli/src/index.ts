@@ -51,6 +51,7 @@ interface Args {
   agent?: string;
   deliver?: Delivery;
   slack?: boolean;
+  noInstall?: boolean;
 }
 
 const SLACK_CONNECT_DEPENDENCY = "@vercel/connect@^0.2.10";
@@ -84,6 +85,7 @@ const EVE_STOPS = [
 interface InstallOptions {
   deliver?: Delivery;
   slack?: boolean;
+  noInstall?: boolean;
 }
 
 const cwd = process.cwd();
@@ -220,6 +222,7 @@ async function create(args: Args) {
     const addArgs = [process.argv[1]!, "add", args.agent, "--target", target];
     if (args.deliver) addArgs.push("--deliver", args.deliver);
     if (args.slack === false) addArgs.push("--no-slack");
+    if (args.noInstall) addArgs.push("--no-install");
     // The child `add` owns the post-install summary (it has the manifest). Hand it the
     // cd path via env so it prints one unified "Next steps" block for the whole create.
     runOrThrow(process.execPath, addArgs, appDir, `Installing agent: ${args.agent}`, { ATOM_EVE_CREATE_CD: appCd });
@@ -227,7 +230,8 @@ async function create(args: Args) {
   }
 
   await installStandaloneEveOverlays(appDir, name, args);
-  printNextSteps({ appDir: appCd, vercel: true, suggestAdd: true, dev: "npx eve dev" });
+  runInstall(appDir, { noInstall: args.noInstall });
+  printNextSteps({ appDir: appCd, vercel: true, suggestAdd: true, slack: args.slack !== false, dev: "npx eve dev" });
 }
 
 function resolveCreateTarget(args: Args): Target {
@@ -427,8 +431,9 @@ async function installAgentFiles(
 ) {
   if (config.target === "flue") {
     await installFlueAgent(manifest, files);
+    runInstall(cwd, options);
     trackInstall(manifest, config, options);
-    printPostInstallNextSteps(manifest, config);
+    printPostInstallNextSteps(manifest, config, options);
     return;
   }
 
@@ -443,8 +448,22 @@ async function installAgentFiles(
 
   await installPackageDependencies(dependenciesForInstall(manifest, options));
   await installRemoteSkills(manifest.skills);
+  runInstall(cwd, options);
   trackInstall(manifest, config, options);
-  printPostInstallNextSteps(manifest, config);
+  printPostInstallNextSteps(manifest, config, options);
+}
+
+// Run the package install so the CLI does the step instead of just printing it.
+function runInstall(baseDir: string, options: InstallOptions) {
+  if (options.noInstall) return;
+  if (!fsSync.existsSync(path.join(baseDir, "package.json"))) return;
+
+  console.log("");
+  console.log("Installing dependencies…");
+  const result = spawnSync("pnpm", ["install"], { cwd: baseDir, stdio: "inherit", shell: false });
+  if (result.status !== 0) {
+    console.warn("pnpm install did not finish. Run `pnpm install` manually.");
+  }
 }
 
 function trackInstall(manifest: AtomManifest, config: AtomEveConfig, options: InstallOptions) {
@@ -536,52 +555,89 @@ function dependenciesForInstall(manifest: AtomManifest, options: InstallOptions)
 }
 
 interface NextStepsOptions {
+  title?: string;
   appDir?: string;
-  docsUrl?: string;
-  customize?: string;
-  requiredEnv?: readonly string[];
-  skills?: readonly RemoteSkillRef[];
-  suggestAdd?: boolean;
   vercel?: boolean;
   dev?: string;
+  suggestAdd?: boolean;
+  slack?: boolean;
+  requiredEnv?: readonly string[];
+  docsUrl?: string;
 }
+
+// The generic Slack usage hint — every eve install ships a bidirectional Slack
+// channel, so the app can be @mentioned to run on demand. The name is chosen by
+// the user in Vercel Connect, so we show the format, not a literal handle.
+const SLACK_USAGE_LINES = [
+  "Run it anytime: @mention your app (the name you gave it in Vercel Connect)",
+  '                e.g. "@your-app audit example.com and summarize"'
+];
+const NEXT_STEP_NOTE_COLUMN = 33;
 
 function printNextSteps(options: NextStepsOptions) {
-  console.log("Next steps:");
-  if (options.appDir) console.log(`  cd ${options.appDir}`);
-  if (options.suggestAdd) console.log("  npx atom-eve add <agent>      # browse atomeve.dev");
-  if (options.docsUrl) console.log(`  Read setup notes: ${options.docsUrl}`);
-  if (options.customize) console.log(`  ${options.customize}`);
-  if (options.requiredEnv?.length) console.log(`  Configure required env vars: ${options.requiredEnv.join(", ")}`);
-  if (options.skills?.length) {
-    console.log("  If remote skill install was skipped or failed:");
-    for (const skill of options.skills) console.log(`    npx skills add ${skill.ref}`);
+  console.log("");
+  console.log(`${green("✓")} ${bold(options.title ? `Installed ${options.title}` : "Project ready")}`);
+
+  console.log("");
+  console.log(bold("Next steps"));
+  if (options.appDir) console.log(`  ${cyan(`cd ${options.appDir}`)}`);
+  if (options.suggestAdd) printNextStep("npx atom-eve add <agent>", "browse atomeve.dev");
+  if (options.vercel) printNextStep("vercel link && vercel env pull", "auth for the AI Gateway + Slack (OIDC token)");
+  if (options.dev) printNextStep(options.dev, "run it locally");
+
+  const env = options.requiredEnv ?? [];
+  const slackEnv = options.slack ? env.filter((name) => name.startsWith("SLACK_")) : [];
+  const otherEnv = options.slack ? env.filter((name) => !name.startsWith("SLACK_")) : env;
+
+  if (options.slack) {
+    console.log("");
+    console.log(bold("Slack"));
+    for (const line of SLACK_USAGE_LINES) console.log(`  ${line}`);
+    for (const name of slackEnv) printEnvGuide(name);
   }
-  console.log("  pnpm install && pnpm typecheck && pnpm build");
-  if (options.vercel) {
-    console.log("  vercel link                   # connect to a Vercel project");
-    console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
-    console.log("  # If model calls fail, verify AI Gateway billing/access");
-    console.log("  # AGENT_MODEL requires agent/agent.ts to read process.env.AGENT_MODEL");
+
+  if (otherEnv.length) {
+    console.log("");
+    console.log(bold("Configure"));
+    for (const name of otherEnv) printEnvGuide(name);
   }
-  if (options.dev) console.log(`  ${options.dev}`);
+
+  if (options.docsUrl) {
+    console.log("");
+    console.log(`  ${dim(options.docsUrl)}`);
+  }
 }
 
-function printPostInstallNextSteps(manifest: AtomManifest, config: AtomEveConfig) {
-  console.log("");
-  console.log(`Installed ${manifest.title ?? manifest.name}.`);
+function printNextStep(command: string, note: string) {
+  const pad = Math.max(2, NEXT_STEP_NOTE_COLUMN - command.length);
+  console.log(`  ${cyan(command)}${" ".repeat(pad)}${dim(note)}`);
+}
+
+// Guidance is derived from the var name so shared env vars (a Slack channel ID lives
+// in many agents) don't repeat the same copy in every atom.json. Multi-line hints
+// bake in their own continuation indent; each line prints at the base indent.
+function printEnvGuide(name: string) {
+  for (const line of envGuidance(name).split("\n")) console.log(`  ${line}`);
+}
+
+function envGuidance(name: string): string {
+  if (/^SLACK_.*CHANNEL_ID$/.test(name)) {
+    return `Slack channel to post to: set ${name} to the channel's ID\n  (in Slack: open the channel → click its name → copy Channel ID)`;
+  }
+  return `set ${name}`;
+}
+
+function printPostInstallNextSteps(manifest: AtomManifest, config: AtomEveConfig, options: InstallOptions) {
   const createAppDir = process.env.ATOM_EVE_CREATE_CD?.trim() || undefined;
+  const isEve = config.target === "eve";
   printNextSteps({
+    title: manifest.title ?? manifest.name,
     appDir: createAppDir,
-    docsUrl: agentDocsUrl(manifest),
-    customize:
-      config.target === "flue"
-        ? `Customize src/agents/${manifest.name}.md with your real project context.`
-        : "Customize agent/instructions.md with your real project context.",
+    vercel: isEve && createAppDir !== undefined,
+    dev: isEve ? "npx eve dev" : undefined,
+    slack: isEve && needsSlackChannel(options),
     requiredEnv: manifest.requiredEnv,
-    skills: manifest.skills,
-    vercel: config.target === "eve" && createAppDir !== undefined,
-    dev: config.target === "eve" && createAppDir !== undefined ? "npx eve dev" : undefined
+    docsUrl: agentDocsUrl(manifest)
   });
 }
 
@@ -956,6 +1012,8 @@ function parseArgs(argv: string[]): Args {
       args.deliver = parseDelivery(argv[++i]);
     } else if (value === "--no-slack") {
       args.slack = false;
+    } else if (value === "--no-install") {
+      args.noInstall = true;
     } else {
       args._.push(value);
     }
@@ -973,7 +1031,7 @@ async function promptForTarget(defaultTarget: CliTarget): Promise<CliTarget> {
 
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   try {
-    const answer = await rl.question(`Install agents for which target? (eve/Flue) ${dimText(`[${defaultTarget}]`)} `);
+    const answer = await rl.question(`Install agents for which target? (eve/Flue) ${dim(`[${defaultTarget}]`)} `);
     const value = answer.trim();
     return value ? parseTarget(value) : defaultTarget;
   } finally {
@@ -981,10 +1039,18 @@ async function promptForTarget(defaultTarget: CliTarget): Promise<CliTarget> {
   }
 }
 
-function dimText(text: string): string {
-  if (process.env.NO_COLOR) return text;
-  return `\x1b[2m${text}\x1b[0m`;
+function useColor(): boolean {
+  return !process.env.NO_COLOR && Boolean(process.stdout.isTTY);
 }
+
+function paint(code: string, text: string): string {
+  return useColor() ? `\x1b[${code}m${text}\x1b[0m` : text;
+}
+
+const bold = (text: string) => paint("1", text);
+const dim = (text: string) => paint("2", text);
+const cyan = (text: string) => paint("36", text);
+const green = (text: string) => paint("32", text);
 
 // Registry manifests are authored eve-only; this narrows a parsed CLI target to
 // the registry-side `Target` and rejects anything the registry never declares.
@@ -1243,7 +1309,7 @@ function printHelp() {
   console.log(`atom-eve
 
 Commands:
-  atom-eve create <name> [--agent <agent>] [--no-slack]
+  atom-eve create <name> [--agent <agent>] [--no-slack] [--no-install]
                                   Scaffold a full Eve project via the eve CLI,
                                   then optionally install an agent. Recommended.
   atom-eve init --workspace [name]
@@ -1265,6 +1331,8 @@ project env vars.
 Slack is Eve-only. Every eve install adds a bidirectional Slack channel by default;
 pass \`--no-slack\` to opt out. Add \`--deliver slack\` to also post an agent's
 scheduled report to SLACK_CHANNEL_ID.
+
+Dependencies install automatically after scaffolding; pass \`--no-install\` to skip.
 `);
 }
 
