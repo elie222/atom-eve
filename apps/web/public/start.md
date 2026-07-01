@@ -18,16 +18,26 @@ If a user pasted a prompt like _"Read www.atomeve.dev/start.md and add agents…
    - A Flue project uses `@flue/runtime` and source under `src/`.
    - If no project exists and the user did not ask for Flue, scaffold an Eve project with
      `npx atom-eve create <name> --agent <agent>`.
-2. **Find the right agents.** Match the user's goal to agents in the registry
+2. **Never overwrite an existing agent without asking.** A project holds one agent (`agent/`).
+   Running `npx atom-eve add <agent>` in a configured project **replaces that agent in place** —
+   instructions, schedules, skills, and channels all get swapped. Only do this when the user
+   explicitly wants to replace the agent living there.
+   - To add another agent, keep them side by side in a monorepo: each agent is its own project
+     directory (and its own Vercel project). Scaffold the root once with
+     `npx atom-eve init --workspace <root>`, then `cd <root>` and run
+     `npx atom-eve create <name> --agent <agent>` for each agent — apps land under `agents/`.
+   - If the current directory already has an `agent/`, **stop and ask**: replace it, or add the new
+     one as a separate project? Default to a separate project.
+3. **Find the right agents.** Match the user's goal to agents in the registry
    (see "Browse" below). Prefer agents whose `family`/`category` fit the job.
-3. **Install each agent.** For a new Eve project, use `npx atom-eve create <name> --agent <agent>`.
-   For an existing Eve project, use `npx atom-eve add <agent>`. For Flue, use
-   `npx atom-eve add <agent> --target flue`.
-4. **Wire up auth.** Check the agent page or `https://www.atomeve.dev/index.json` for connections
+4. **Install each agent.** New project or second agent: `npx atom-eve create <name> --agent <agent>`
+   in its own directory. Replace an existing agent (after confirming, per step 2):
+   `npx atom-eve add <agent>`. Flue: `npx atom-eve add <agent> --target flue`.
+5. **Wire up auth.** Check the agent page or `https://www.atomeve.dev/index.json` for connections
    and `requiredEnv`. Never invent secret values — ask the user. On Eve, use Vercel Connect or a
    Vercel integration when available; otherwise set project env vars. On Flue, use the project's
    configured runtime secrets/env system.
-5. **Prepare runtime config.** For eve.dev: link Vercel with `vercel link` and pull env with
+6. **Prepare runtime config.** For eve.dev: link Vercel with `vercel link` and pull env with
    `vercel env pull`.
 
 For Eve, model calls go through the Vercel AI Gateway. The user does not need a model API key, but
