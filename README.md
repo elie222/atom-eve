@@ -250,6 +250,7 @@ registry/
   seo-audit/              # Reference agent package
 fixtures/
   eve/                    # Minimal install/typecheck fixture
+registry.json            # Ignored generated path-only shadcn registry index
 public/
   r/                      # Ignored generated shadcn registry item payloads
   index.json              # Ignored generated website/catalog index

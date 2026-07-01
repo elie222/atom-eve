@@ -29,9 +29,6 @@ jobs:
       - name: Generate registry
         run: pnpm generate
 
-      - name: Verify generated files are committed
-        run: git diff --exit-code -- registry.json public/index.json public/r
-
       - name: Typecheck and build
         run: pnpm typecheck && pnpm build
 
