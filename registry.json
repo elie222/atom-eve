@@ -900,6 +900,54 @@
       ]
     },
     {
+      "name": "eve/postiz",
+      "type": "registry:block",
+      "title": "Postiz Social Scheduler",
+      "description": "Turns your website, live trends, and past post results into on-brand social posts, drafts and schedules them across your Postiz channels, and reports what worked.",
+      "dependencies": [
+        "@vercel/connect@^0.2.10",
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/postiz/agent/channels/eve.ts",
+          "target": "~/agent/channels/eve.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/postiz/agent/channels/slack.ts",
+          "target": "~/agent/channels/slack.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/postiz/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/postiz/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/postiz/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/postiz/agent/sandbox/workspace/setup-postiz.sh",
+          "target": "~/agent/sandbox/workspace/setup-postiz.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/postiz/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/support-replies",
       "type": "registry:block",
       "title": "Support Replies",

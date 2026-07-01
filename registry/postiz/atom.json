@@ -1,0 +1,22 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "postiz",
+  "title": "Postiz Social Scheduler",
+  "description": "Turns your website, live trends, and past post results into on-brand social posts, drafts and schedules them across your Postiz channels, and reports what worked.",
+  "category": "content",
+  "family": "growth",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["postiz", "agent-browser", "last30days", "slack"],
+  "connections": [{ "name": "slack", "type": "platform", "auth": "vercel-connect" }],
+  "requiredEnv": ["POSTIZ_API_KEY", "SLACK_POSTIZ_CHANNEL_ID"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4", "@vercel/connect@^0.2.10"],
+  "skills": [
+    { "ref": "gitroomhq/postiz-agent@postiz" },
+    { "ref": "vercel-labs/agent-browser@agent-browser" },
+    { "ref": "mvanhorn/last30days-skill@last30days" }
+  ]
+}
