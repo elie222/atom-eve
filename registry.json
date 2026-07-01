@@ -4,6 +4,43 @@
   "homepage": "https://www.atomeve.dev",
   "items": [
     {
+      "name": "eve/seo-improver",
+      "type": "registry:block",
+      "title": "SEO Improver",
+      "description": "Tracks where you rank each week, tells you exactly what to change to climb, and reports whether last week's changes worked.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/seo-improver/agent/connections/dataforseo.ts",
+          "target": "~/agent/connections/dataforseo.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-improver/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-improver/agent/sandbox/sandbox.ts",
+          "target": "~/agent/sandbox/sandbox.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-improver/agent/sandbox/workspace/setup-agent-browser.sh",
+          "target": "~/agent/sandbox/workspace/setup-agent-browser.sh",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/seo-improver/agent/schedules/weekly.ts",
+          "target": "~/agent/schedules/weekly.ts",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/seo-audit",
       "type": "registry:block",
       "title": "SEO Audit",

@@ -1,6 +1,7 @@
 {
-  "featured": ["seo-audit", "website-qa", "stripe-pulse", "analytics-digest", "adversarial-reviewer", "ux-reviewer"],
+  "featured": ["seo-improver", "website-qa", "stripe-pulse", "analytics-digest", "adversarial-reviewer", "ux-reviewer"],
   "homepageOrder": [
+    "seo-improver",
     "seo-audit",
     "website-qa",
     "stripe-pulse",

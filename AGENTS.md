@@ -84,6 +84,9 @@ exists, not as the default wrapper for a hosted API.
 them). Connections take env-sourced static creds via `headers` / `auth.getToken` (eve resolves them
 per step, so they never reach the model), or **Vercel Connect** (`connect()` from
 `@vercel/connect/eve`) for OAuth. flue takes credentials from env/secrets in trusted app code.
+Registry agents ship with free env-sourced creds; Connect also vaults static keys but is billed per
+token request, so we leave adopting it to the user. Note `auth.getToken` only emits `Bearer`, so
+Basic-auth services (e.g. DataForSEO) must resolve the key inside a `headers` callback either way.
 
 ## Source Layout
 
