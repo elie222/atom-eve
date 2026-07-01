@@ -1,0 +1,37 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "sanity-docs-feedback",
+  "title": "Sanity Docs Feedback",
+  "description": "Turn reader feedback on Sanity-powered docs into draft fixes an editor can review before publishing.",
+  "category": "docs",
+  "family": "engineering",
+  "author": {
+    "name": "Sanity Labs",
+    "url": "https://github.com/sanity-labs"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["sanity", "slack", "vercel-connect"],
+  "connections": [
+    {
+      "name": "slack",
+      "type": "platform",
+      "auth": "vercel-connect"
+    }
+  ],
+  "requiredEnv": [
+    "SANITY_STUDIO_PROJECT_ID",
+    "SANITY_API_WRITE_TOKEN",
+    "SANITY_SCHEMA_ID",
+    "SLACK_CONNECTOR",
+    "SLACK_CHANNEL",
+    "EVE_TRIGGER_SECRET"
+  ],
+  "dependencies": [],
+  "source": {
+    "type": "external-template",
+    "repo": "sanity-labs/sanity-eve-docs-agent",
+    "url": "https://github.com/sanity-labs/sanity-eve-docs-agent",
+    "cloneUrl": "https://github.com/sanity-labs/sanity-eve-docs-agent.git"
+  }
+}

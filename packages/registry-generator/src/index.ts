@@ -56,6 +56,7 @@ export interface SiteIndexItem {
   connections: RegistryManifest["connections"];
   requiredEnv: string[];
   skills: RegistryManifest["skills"];
+  source: RegistryManifest["source"];
   scheduled: boolean;
   repoPath: string;
   featured: boolean;
@@ -79,6 +80,7 @@ export async function generateRegistry(rootDir: string): Promise<void> {
   const orderedManifests = orderManifests(manifests, catalogConfig);
   for (const manifest of orderedManifests) {
     siteItems.push(toSiteIndexItem(manifest, catalogConfig));
+    if (isExternalTemplate(manifest)) continue;
     const item = await createRegistryItem(rootDir, manifest);
     sourceItems.push(toSourceRegistryItem(item));
     await writeJson(path.join(publicR, `${item.name}.json`), item);
@@ -123,12 +125,14 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
     const parsed = atomSchema.parse(raw);
     validateTaxonomy(parsed, taxonomy);
     await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
-    await validateAgentStructure(path.join(registryDir, entry.name), parsed);
+    if (!isExternalTemplate(parsed)) {
+      await validateAgentStructure(path.join(registryDir, entry.name), parsed);
+    }
     const repoPath = `registry/${entry.name}`;
     manifests.push({
       ...parsed,
       repoPath,
-      scheduled: await hasScheduleFiles(rootDir, repoPath)
+      scheduled: !isExternalTemplate(parsed) && await hasScheduleFiles(rootDir, repoPath)
     });
   }
 
@@ -160,6 +164,10 @@ function registryItemName(manifest: RegistryManifest): string {
 
 function dependenciesForManifest(manifest: RegistryManifest): string[] {
   return [...new Set([...manifest.dependencies, ...(manifest.targetDependencies.eve ?? [])])].sort();
+}
+
+function isExternalTemplate(manifest: Pick<RegistryManifest, "source">): boolean {
+  return manifest.source?.type === "external-template";
 }
 
 async function readTaxonomy(rootDir: string): Promise<Taxonomy> {
@@ -279,6 +287,7 @@ function toSiteIndexItem(manifest: RegistryManifest, config: CatalogConfig): Sit
     connections: manifest.connections,
     requiredEnv: manifest.requiredEnv,
     skills: manifest.skills,
+    source: manifest.source,
     scheduled: manifest.scheduled,
     repoPath: manifest.repoPath,
     featured: config.featured.includes(manifest.name),

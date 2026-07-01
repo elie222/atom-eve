@@ -20,12 +20,20 @@ export interface RemoteSkillRef {
   ref: string;
 }
 
+export interface ExternalSource {
+  type: "external-template";
+  repo: string;
+  url: string;
+  cloneUrl: string;
+}
+
 export interface AtomManifest extends InstallManifest {
   title?: string;
   dependencies: string[];
   targetDependencies: Partial<Record<Target, string[]>>;
   requiredEnv: string[];
   skills: RemoteSkillRef[];
+  source?: ExternalSource;
 }
 
 export interface InstallOptions {
