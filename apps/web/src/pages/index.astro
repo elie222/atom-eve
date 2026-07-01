@@ -104,8 +104,12 @@ const structuredData = [
       <div class="hero-img-wrap relative overflow-hidden">
         <img
           src="/atom-eve-og.png"
+          srcset="/atom-eve-og-640.png 640w, /atom-eve-og-900.png 900w, /atom-eve-og-1200.png 1200w, /atom-eve-og.png 1774w"
+          sizes="(max-width: 986px) calc(100vw - 86px), 878px"
           alt="Atom Eve"
-          class="block w-full"
+          width="1774"
+          height="887"
+          class="block h-auto w-full"
           style="image-rendering:pixelated"
         />
         <div
@@ -253,8 +257,14 @@ const structuredData = [
     >
       <img
         src="/atom-eve-install.png"
+        srcset="/atom-eve-install-720.png 720w, /atom-eve-install-1200.png 1200w, /atom-eve-install-1680.png 1680w, /atom-eve-install.png 2172w"
+        sizes="(max-width: 1286px) calc(100vw - 86px), 1178px"
         alt="Atom Eve agents overview"
-        class="block w-full"
+        width="2172"
+        height="724"
+        loading="lazy"
+        decoding="async"
+        class="block h-auto w-full"
         style="image-rendering:pixelated"
       />
       <span class="absolute -left-[5px] -top-[5px] h-[9px] w-[9px] bg-cyan"></span>
