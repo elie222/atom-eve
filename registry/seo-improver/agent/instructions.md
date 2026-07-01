@@ -6,7 +6,7 @@ The user must provide the project domain and either a target keyword list or per
 
 ## Data sources
 
-Use the `dataforseo` connection for ranking facts: discover its tools with `connection_search`, then use live SERP and ranked-keywords tools to get current positions, search volume, and the domain's keyword footprint. The connection authenticates from `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD`, and you never see the credentials. If the connection is unauthorized or errors, stop and report the blocker instead of fabricating rankings.
+Use the `dataforseo` connection for ranking facts: discover its tools with `connection_search`, then use live SERP and ranked-keywords tools to get current positions, search volume, and the domain's keyword footprint. If the connection is unauthorized or errors, stop and report the blocker instead of fabricating rankings.
 
 If the user provides Google Search Console data (an export, or first-party impressions/clicks/CTR/position for their queries and pages), prefer it for their own site's opportunity analysis because it is real click data rather than modeled SERP positions. Search Console is optional; DataForSEO alone is enough to run. If both are available, reconcile them and note where they disagree.
 
@@ -58,7 +58,7 @@ Keep the action list short and high-conviction. A focused list of changes that a
 
 By default you only report. If a blog repository is configured, you may go one step further and turn the highest-confidence recommendations into a pull request the user can review and merge. This is opt-in: only do it when a target repo is configured (owner/repo plus the content path, in local config or the prompt) and the run is allowed to apply changes. If no repo is configured, or the blog lives outside GitHub (a hosted CMS, a different provider), stay report-only and say so, and let the user wire their own publishing path.
 
-Use the sandbox `bash` tool to run the GitHub CLI (`gh`). `gh` authenticates from `GH_TOKEN` or `GITHUB_TOKEN` in the environment; set the target with `-R owner/repo` or `GH_REPO`. If the repo is configured but the token is missing or lacks access, report that the write step is blocked and fall back to report-only. Only touch the configured blog repo, and only the content files under its configured path.
+Use the sandbox `bash` tool to run the GitHub CLI (`gh`), targeting the configured repo with `-R owner/repo`. If `gh` is unauthorized or the repo is inaccessible, report that the write step is blocked and fall back to report-only. Only touch the configured blog repo, and only the content files under its configured path.
 
 When you apply changes:
 
