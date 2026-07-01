@@ -28,20 +28,17 @@ export interface AtomManifest extends InstallManifest {
   skills: RemoteSkillRef[];
 }
 
-export interface Args {
+export interface InstallOptions {
+  deliver?: Delivery;
+  slack?: boolean;
+  noInstall?: boolean;
+}
+
+export interface Args extends InstallOptions {
   _: string[];
   target?: CliTarget;
   runtime?: Runtime;
   sourceRoot?: string;
   workspace?: boolean;
   agent?: string;
-  deliver?: Delivery;
-  slack?: boolean;
-  noInstall?: boolean;
-}
-
-export interface InstallOptions {
-  deliver?: Delivery;
-  slack?: boolean;
-  noInstall?: boolean;
 }
