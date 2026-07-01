@@ -244,8 +244,6 @@ function resolveCreateTarget(args: Args): Target {
   return target;
 }
 
-// When run at a workspace root (init --workspace), scaffold the app under agents/
-// so the pnpm "agents/*" glob picks it up. Anywhere else, scaffold in cwd.
 function resolveCreateBaseDir(): string {
   const workspaceFile = path.join(cwd, "pnpm-workspace.yaml");
   if (!fsSync.existsSync(workspaceFile)) return cwd;
