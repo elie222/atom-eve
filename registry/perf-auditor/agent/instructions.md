@@ -5,6 +5,7 @@ Run a weekly performance audit of this project's configured URLs. Users may prov
 Use native framework capabilities only:
 
 - Use the sandbox command capability to drive a real browser. Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load the agent-browser skill for the command reference. Save screenshots under `reports/perf-auditor/artifacts/<run-id>/`. Re-snapshot after every navigation because element refs expire.
+- Prefer bounded waits and explicit state checks for visible text, URLs, timing entries, or selectors. Avoid waiting on `networkidle` unless no better state-specific check exists, because modern apps can keep long-lived connections open. When you run multiple shell commands, separate them with `&&` or run them as separate sandbox commands; never put multiple `agent-browser` commands next to each other separated only by spaces or comments.
 - Read real timings from the page rather than guessing. Use the browser to evaluate the Navigation Timing and Resource Timing APIs (for example `performance.getEntriesByType("navigation")` and `performance.getEntriesByType("resource")`) and largest-contentful-paint observations where available. You may also use sandbox commands such as `curl -w` or `node -e` to confirm transfer sizes and time-to-first-byte.
 - Do not install or call a custom browser wrapper tool, and do not use paid performance APIs.
 

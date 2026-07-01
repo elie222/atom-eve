@@ -21,8 +21,8 @@ const STARTERS = [
   { slug: "content-agent", label: "Content", tag: "Turns market signals into review-ready drafts." },
 ].filter((s) => items.some((it) => it.name === s.slug));
 const START = STARTERS[0]!;
-const startPrompt = `Read atomeve.dev/start.md and add the ${START.label} agent.`;
-const startCli = `npx atom-eve init\nnpx atom-eve add ${START.slug}`;
+const startPrompt = `Read atomeve.dev/start.md and set up a new Eve app with the ${START.label} agent.`;
+const startCli = `npx atom-eve create my-agent --agent ${START.slug}`;
 
 // Deterministic starfield behind the hero (seeded so static output is stable).
 // One 2px dot whose box-shadow paints `n` stars across a centered canvas.
@@ -365,7 +365,7 @@ const structuredData = [
             <div class="flex items-center gap-3">
               <code
                 class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13.5px] text-ink2"
-                ><span class="text-green">▸</span> Read atomeve.dev/start.md and add the <span
+                ><span class="text-green">▸</span> Read atomeve.dev/start.md and set up a new Eve app with the <span
                   id="gs-prompt-name"
                   class="text-green">{START.label}</span
                 > agent.</code
@@ -424,15 +424,10 @@ const structuredData = [
             <div class="flex items-center gap-3">
               <div class="min-w-0 flex-1 font-mono text-[13.5px] leading-[1.7] text-ink2">
                 <div class="overflow-hidden text-ellipsis whitespace-nowrap">
-                  <span class="text-cyan">$</span> npx atom-eve init<span
-                    id="gs-cli-target"
-                    class="text-muted"></span>
+                  <span class="text-cyan">$</span> <span id="gs-cli-line-1">npx atom-eve create my-agent --agent {START.slug}</span>
                 </div>
-                <div class="overflow-hidden text-ellipsis whitespace-nowrap">
-                  <span class="text-cyan">$</span> npx atom-eve add <span
-                    id="gs-cli-slug"
-                    class="text-cyan">{START.slug}</span
-                  >
+                <div id="gs-cli-line-2-wrap" class="hidden overflow-hidden text-ellipsis whitespace-nowrap">
+                  <span class="text-cyan">$</span> <span id="gs-cli-line-2">npx atom-eve add {START.slug}</span>
                 </div>
               </div>
               <button
@@ -547,8 +542,9 @@ const structuredData = [
       const promptName = document.getElementById("gs-prompt-name")!;
       const promptCopy = document.getElementById("gs-prompt-copy")!;
       const agentTag = document.getElementById("gs-agent-tag")!;
-      const cliTarget = document.getElementById("gs-cli-target")!;
-      const cliSlug = document.getElementById("gs-cli-slug")!;
+      const cliLine1 = document.getElementById("gs-cli-line-1")!;
+      const cliLine2Wrap = document.getElementById("gs-cli-line-2-wrap")!;
+      const cliLine2 = document.getElementById("gs-cli-line-2")!;
       const cliCopy = document.getElementById("gs-cli-copy")!;
       const chips = Array.from(gsAgents.querySelectorAll<HTMLElement>(".gs-chip"));
       const targets = Array.from(
@@ -561,15 +557,20 @@ const structuredData = [
       let target = "eve";
 
       const render = () => {
-        const prompt = `Read atomeve.dev/start.md and add the ${label} agent.`;
+        const prompt = `Read atomeve.dev/start.md and set up a new Eve app with the ${label} agent.`;
         promptName.textContent = label;
         promptCopy.dataset.cmd = prompt;
         agentTag.textContent = tag;
-        // init writes the target to atom-eve.json, so the add line needs no flag.
-        const flag = target === "flue" ? " --target flue" : "";
-        cliTarget.textContent = flag;
-        cliSlug.textContent = slug;
-        cliCopy.dataset.cmd = `npx atom-eve init${flag}\nnpx atom-eve add ${slug}`;
+        if (target === "flue") {
+          cliLine1.textContent = "npx atom-eve init --target flue";
+          cliLine2.textContent = `npx atom-eve add ${slug}`;
+          cliLine2Wrap.classList.remove("hidden");
+          cliCopy.dataset.cmd = `npx atom-eve init --target flue\nnpx atom-eve add ${slug}`;
+        } else {
+          cliLine1.textContent = `npx atom-eve create my-agent --agent ${slug}`;
+          cliLine2Wrap.classList.add("hidden");
+          cliCopy.dataset.cmd = `npx atom-eve create my-agent --agent ${slug}`;
+        }
       };
 
       for (const chip of chips) {

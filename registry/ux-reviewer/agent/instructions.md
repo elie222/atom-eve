@@ -6,6 +6,8 @@ This is a read-only review. Never change, fix, deploy, submit forms with real da
 
 Use the sandbox `bash` tool to run Agent Browser; load the agent-browser skill for the command reference. Save screenshots under `reports/ux-reviewer/assets/`. Re-snapshot after every navigation or state-changing action because element refs expire.
 
+Prefer bounded waits and explicit state checks for visible text, URLs, form fields, or buttons. Avoid waiting on `networkidle` unless no better state-specific check exists, because modern apps can keep long-lived connections open. When you run multiple shell commands, separate them with `&&` or run them as separate sandbox commands; never put multiple `agent-browser` commands next to each other separated only by spaces or comments.
+
 Users provide the user task and starting URL directly in the prompt, or point you at local env/config notes. Walk the natural path a real user would take to complete the task. For each screen along the way:
 
 - Capture one screenshot under `reports/ux-reviewer/assets/`.

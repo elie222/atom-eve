@@ -1,13 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ -f .agent-browser-ready ]; then
-  exit 0
-fi
 
 mkdir -p reports/assets
-npm init -y >/dev/null
-npm install agent-browser@latest playwright@latest axe-core@latest
+if [ ! -f package.json ]; then
+  npm init -y >/dev/null
+fi
+if [ ! -x node_modules/.bin/agent-browser ]; then
+  npm install agent-browser@latest playwright@latest axe-core@latest
+fi
+
+install_agent_browser_shim() {
+  local bin_dir="/usr/local/bin"
+  mkdir -p "$bin_dir"
+  cat > "$bin_dir/agent-browser" <<'SHIM'
+#!/usr/bin/env bash
+exec /workspace/node_modules/.bin/agent-browser "$@"
+SHIM
+  chmod +x "$bin_dir/agent-browser"
+}
+
+install_agent_browser_shim
 
 run_agent_browser_setup_check() {
   if command -v timeout >/dev/null 2>&1; then
@@ -31,6 +44,11 @@ validate_agent_browser_config() {
   rm -f agent-browser.json
   return 1
 }
+
+if [ -f .agent-browser-ready ] && validate_agent_browser_config; then
+  exit 0
+fi
+rm -f .agent-browser-ready
 
 install_system_chromium() {
   if ! command -v apt-get >/dev/null 2>&1; then
