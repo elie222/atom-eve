@@ -209,10 +209,11 @@ async function create(args: Args) {
   const name = args._[1];
   if (!name) throw new Error("Usage: atom-eve create <name> [--agent <agent>]");
   const target = resolveCreateTarget(args);
-  const appDir = path.join(cwd, name);
+  const baseDir = resolveCreateBaseDir();
+  const appDir = path.join(baseDir, name);
 
-  // eve init creates the <name> directory itself, so scaffold from cwd.
-  runOrThrow("npx", ["eve@latest", "init", name], cwd, `Scaffolding Eve project with eve init: ${name}`);
+  // eve init creates the <name> directory itself, so scaffold from baseDir.
+  runOrThrow("npx", ["eve@latest", "init", name], baseDir, `Scaffolding Eve project with eve init: ${name}`);
 
   await writeConfig(appDir, buildConfig(target, args));
 
@@ -228,7 +229,7 @@ async function create(args: Args) {
   }
 
   console.log("\nNext steps:");
-  console.log(`  cd ${name}`);
+  console.log(`  cd ${path.relative(cwd, appDir) || name}`);
   if (!args.agent) console.log("  npx atom-eve add <agent>      # browse atomeve.dev");
   console.log("  vercel link                   # connect to a Vercel project");
   console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
@@ -241,6 +242,17 @@ function resolveCreateTarget(args: Args): Target {
   const target = args.target ?? "eve";
   if (target !== "eve") throw new Error("atom-eve create currently supports only the eve target.");
   return target;
+}
+
+// When run at a workspace root (init --workspace), scaffold the app under agents/
+// so the pnpm "agents/*" glob picks it up. Anywhere else, scaffold in cwd.
+function resolveCreateBaseDir(): string {
+  const workspaceFile = path.join(cwd, "pnpm-workspace.yaml");
+  if (!fsSync.existsSync(workspaceFile)) return cwd;
+  if (!/agents\/\*/.test(fsSync.readFileSync(workspaceFile, "utf8"))) return cwd;
+  const agentsDir = path.join(cwd, "agents");
+  fsSync.mkdirSync(agentsDir, { recursive: true });
+  return agentsDir;
 }
 
 function rejectInstallOptions(command: string, args: Args) {
