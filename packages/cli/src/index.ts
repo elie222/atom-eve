@@ -50,7 +50,6 @@ interface Args {
   workspace?: boolean;
   agent?: string;
   deliver?: Delivery;
-  // Slack is on by default; `--no-slack` sets this to false to opt out.
   slack?: boolean;
 }
 
@@ -83,7 +82,6 @@ const EVE_STOPS = [
 
 interface InstallOptions {
   deliver?: Delivery;
-  // Slack is on by default. `--no-slack` sets this to false to opt out.
   slack?: boolean;
 }
 
@@ -172,9 +170,6 @@ async function init(args: Args) {
   await scaffoldProject(target);
 }
 
-// Scaffolds the monorepo root for running many agents side by side: one app
-// folder per agent under agents/, each its own deploy target. The frameworks
-// scaffold the individual apps; this only lays down the workspace shell.
 async function initWorkspace(args: Args) {
   const name = args._[1];
   const baseDir = name ? path.join(cwd, name) : cwd;
@@ -201,10 +196,7 @@ async function initWorkspace(args: Args) {
   console.log("Each agents/<name> folder is a standalone app and maps to its own deploy (e.g. one Vercel project).");
 }
 
-// Scaffolds a full eve agent app by delegating to eve's own CLI (the source of
-// truth for project shape and deps), then drops in atom-eve.json and, optionally,
-// an installed agent. Eve is Vercel-native: link it with `vercel link` and the AI
-// Gateway authenticates via VERCEL_OIDC_TOKEN — no model API key required.
+// Delegates scaffolding to eve's own CLI, the source of truth for project shape and deps.
 async function create(args: Args) {
   const name = args._[1];
   if (!name) throw new Error("Usage: atom-eve create <name> [--agent <agent>]");
@@ -332,8 +324,6 @@ function colorizeBanner(banner: string): string {
     .join("\n");
 }
 
-// One-line wordmark for terminals too narrow for the block banner: "ATOM" in the
-// pink gradient, "EVE" in the blue, so the colors still read on small screens.
 function compactBanner(): string {
   if (process.env.NO_COLOR) return "ATOM EVE";
   return `${gradientText("ATOM", ATOM_STOPS)} ${gradientText("EVE", EVE_STOPS)}`;
@@ -395,8 +385,6 @@ async function installRemoteAgent(agent: string, config: AtomEveConfig, options:
   await installAgentFiles(manifest, files, config, options);
 }
 
-// Eve is a verbatim copy of the agent/ tree; flue is GENERATED from the same
-// eve source (src/** + FLUE.md). The registry only ever ships the eve agent.
 async function installAgentFiles(
   manifest: AtomManifest,
   files: ResolvedInstallFileSpec[],
@@ -434,9 +422,7 @@ function trackInstall(manifest: AtomManifest, config: AtomEveConfig, options: In
   });
 }
 
-// Codegen the flue version of an eve agent and write it under the user's flue
-// project. The install file targets are `~/agent/<rel>`; recover `<rel>` and run
-// the generator. The generated CODE typechecks; FLUE.md lists the runtime wiring.
+// Install file targets are `~/agent/<rel>`; strip that prefix before codegen.
 async function installFlueAgent(manifest: AtomManifest, files: ResolvedInstallFileSpec[]) {
   const eveFiles: EveAgentFile[] = files.map((file) => ({
     path: file.target.replace(/^~\/agent\//, ""),
@@ -828,10 +814,8 @@ async function scaffoldProject(target: CliTarget) {
   );
 }
 
-// Flue is a generated target: a `src/**` project on `@flue/runtime`. Mirrors the
-// validated reference tsconfig (NodeNext + allowImportingTsExtensions so app.ts
-// can import ./workflows/*.ts; the *.md / *.skill.md ambient types ship in the
-// package). croner/valibot/hono are added on demand when a workflow is generated.
+// allowImportingTsExtensions lets app.ts import ./workflows/*.ts; the ambient
+// *.md / *.skill.md types ship in @flue/runtime.
 async function scaffoldFlueProject() {
   await writeIfMissing(
     "package.json",
@@ -1050,7 +1034,6 @@ async function installRemoteSkills(skills: RemoteSkillRef[]) {
   }
 }
 
-// "owner/repo@skill" -> { repo: "owner/repo", skill: "skill" }; the @skill part is optional.
 function splitSkillRef(ref: string): { repo: string; skill?: string } {
   const at = ref.indexOf("@");
   if (at === -1) return { repo: ref };
