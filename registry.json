@@ -19,6 +19,11 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/seo-improver/agent/connections/search-console.ts",
+          "target": "~/agent/connections/search-console.ts",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/seo-improver/agent/instructions.md",
           "target": "~/agent/instructions.md",
           "type": "registry:file"

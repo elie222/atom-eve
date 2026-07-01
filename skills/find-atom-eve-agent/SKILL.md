@@ -7,7 +7,8 @@ description: Use when someone wants to find, browse, compare, or choose an Atom 
 
 Atom Eve is an open registry of installable AI agents for eve.dev and Flue projects,
 like shadcn but for agents. This skill is discovery only: match a goal to the right
-agent and report what it needs. To scaffold and install one, use create-atom-eve-agent.
+agent and report what it needs. To install one, use install-atom-eve-agent. To author a new
+agent for the registry, use author-atom-eve-agent.
 
 ## Find the match
 

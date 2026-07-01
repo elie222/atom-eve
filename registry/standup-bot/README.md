@@ -2,7 +2,15 @@
 
 ## What it does
 
-Reads a configured Slack channel and drafts a concise standup digest: a standup draft, priorities, active threads and blockers, wins and shipped work, gaps and follow-up questions, and the source window with caveats. Every item is grounded in observed messages, and a quiet channel gets a minimal digest rather than padding. It only drafts for review and never posts, replies, or reacts in Slack.
+Hands you a ready-to-review daily standup digest drawn from your team's Slack channel. It reads a configured channel and drafts:
+
+- a standup draft and the day's priorities
+- active threads and blockers
+- wins and shipped work
+- gaps and follow-up questions
+- the source window with caveats
+
+Every item is grounded in observed messages, and a quiet channel gets a minimal digest rather than padding.
 
 ## Setup
 
