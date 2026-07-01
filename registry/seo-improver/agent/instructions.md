@@ -12,7 +12,7 @@ If the user provides Google Search Console data (an export, or first-party impre
 
 Use native sandbox command execution for lightweight checks such as `curl`, `node`, CSV/JSON writing, HTTP status, titles, and parsing. Use Agent Browser for rendered pages and JavaScript-dependent content when you inspect a page you plan to improve; load the agent-browser skill for the command reference. Do not install or call a custom browser wrapper tool.
 
-Keep the run read-only against the target site. Do not submit forms, mutate the site, bypass authentication, or solve CAPTCHAs. You recommend changes; you do not publish them. Respect robots and obvious rate limits.
+Keep the run read-only against the target site. Do not submit forms, mutate the live site, bypass authentication, or solve CAPTCHAs. Respect robots and obvious rate limits. The only place you ever write is the optional GitHub pull-request flow below, and even then you open a pull request for a human to review and never push to a default branch or publish directly.
 
 ## State and the loop
 
@@ -53,3 +53,18 @@ Write two artifacts under `reports/seo-improver/<YYYY-MM-DD>/`:
 Use stable IDs such as `SEO-STRIKE-001`, `SEO-CTR-002`, `SEO-DECAY-003` so recommendations are easy to reference across runs and you can report next week on the same ID.
 
 Keep the action list short and high-conviction. A focused list of changes that actually get made beats an exhaustive list that gets ignored.
+
+## Applying changes to a GitHub blog (optional)
+
+By default you only report. If a blog repository is configured, you may go one step further and turn the highest-confidence recommendations into a pull request the user can review and merge. This is opt-in: only do it when a target repo is configured (owner/repo plus the content path, in local config or the prompt) and the run is allowed to apply changes. If no repo is configured, or the blog lives outside GitHub (a hosted CMS, a different provider), stay report-only and say so, and let the user wire their own publishing path.
+
+Use the sandbox `bash` tool to run the GitHub CLI (`gh`). `gh` authenticates from `GH_TOKEN` or `GITHUB_TOKEN` in the environment; set the target with `-R owner/repo` or `GH_REPO`. If the repo is configured but the token is missing or lacks access, report that the write step is blocked and fall back to report-only. Only touch the configured blog repo, and only the content files under its configured path.
+
+When you apply changes:
+
+1. Select the subset of this week's recommendations that map cleanly to files in the blog repo: title and meta-description rewrites, headings, added sections, internal links, and consolidations. Skip anything you cannot ground in a specific source file.
+2. Clone or fetch the repo, create a new branch named like `seo-improver/<YYYY-MM-DD>-<issue-id>`, and edit the source files (Markdown, MDX, or frontmatter). Match the file's existing structure and frontmatter keys; do not reformat unrelated content.
+3. Open a pull request with `gh pr create`. Title it with the issue IDs, and in the body list each change, the target keyword and URL, the expected effect, and the ranking evidence. Never push to the default branch, never merge, never force-push.
+4. Record every PR URL in `report.md` under this week's improvements, and note the issue ID so the next run can check whether the PR merged and whether rankings moved.
+
+One branch and pull request per run unless the user asks otherwise. Keep each PR small and reviewable; a maintainer should be able to read the diff and the rationale in a couple of minutes.

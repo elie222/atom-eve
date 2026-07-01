@@ -34,6 +34,11 @@
           "type": "registry:file"
         },
         {
+          "path": "registry/seo-improver/agent/sandbox/workspace/setup-gh.sh",
+          "target": "~/agent/sandbox/workspace/setup-gh.sh",
+          "type": "registry:file"
+        },
+        {
           "path": "registry/seo-improver/agent/schedules/weekly.ts",
           "target": "~/agent/schedules/weekly.ts",
           "type": "registry:file"
