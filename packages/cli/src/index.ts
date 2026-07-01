@@ -108,6 +108,10 @@ async function main() {
 
   if (command === "init") {
     rejectInstallOptions(command, args);
+    if (isHelpFlag(args._[1])) {
+      printHelp();
+      return;
+    }
     if (args.workspace) {
       await initWorkspace(args);
     } else {
@@ -117,6 +121,10 @@ async function main() {
   }
 
   if (command === "create" || command === "new") {
+    if (isHelpFlag(args._[1])) {
+      printHelp();
+      return;
+    }
     await create(args);
     return;
   }
@@ -224,7 +232,8 @@ async function create(args: Args) {
   if (!args.agent) console.log("  npx atom-eve add <agent>      # browse atomeve.dev");
   console.log("  vercel link                   # connect to a Vercel project");
   console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
-  console.log("  # If model calls fail, verify AI Gateway billing/access or set AGENT_MODEL");
+  console.log("  # If model calls fail, verify AI Gateway billing/access");
+  console.log("  # AGENT_MODEL requires agent/agent.ts to read process.env.AGENT_MODEL");
   console.log("  npx eve dev");
 }
 
@@ -1149,6 +1158,8 @@ Commands:
                                   Scaffold a monorepo root (agents/*) for running many agents.
   atom-eve init [--runtime node|cloudflare|vercel]
                                   Write atom-eve.json (+ minimal fallback scaffold) in an existing project.
+  atom-eve init --target flue
+                                  Write atom-eve.json for generated Flue installs.
   atom-eve add <agent>
   atom-eve add ./registry/<agent>
   atom-eve add <agent> --no-slack

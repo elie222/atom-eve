@@ -33,7 +33,20 @@ If a user pasted a prompt like _"Read www.atomeve.dev/start.md and add agents…
 For Eve, model calls go through the Vercel AI Gateway. The user does not need a model API key, but
 their Vercel account/team must have any required AI Gateway billing or account verification complete.
 If the first run fails with an AI Gateway/provider error, report it as model setup friction and ask
-the user to verify billing/access or set `AGENT_MODEL` to a model their project can use.
+the user to verify billing/access.
+
+`AGENT_MODEL` only changes runtime behavior when the installed Eve agent has an `agent/agent.ts`
+that reads it. To force a non-default model, add or update `agent/agent.ts`:
+
+```ts
+import { defineAgent } from "eve";
+
+export default defineAgent({
+  model: process.env.AGENT_MODEL ?? "anthropic/claude-sonnet-4.6"
+});
+```
+
+Then set `AGENT_MODEL` to a provider/model available through the linked Vercel project.
 
 Agents never auto-publish or take destructive actions on their own — they open PRs or post
 drafts for review. Keep that behavior intact when wiring them in.

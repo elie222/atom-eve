@@ -7,7 +7,7 @@
 Atom Eve is an open-source, shadcn-style registry of real agent source code. Browse an agent, install it into your own repo, add your credentials, and run it on [Eve](https://eve.dev).
 
 ```bash
-npx atom-eve add seo-audit
+npx atom-eve create my-agent --agent seo-audit
 ```
 
 The registry is source-first. Atom Eve does not host or run your agents, store credentials, or provide a managed runtime. It gives you code you can review, copy, modify, and deploy yourself.
@@ -74,11 +74,13 @@ vercel link
 vercel env pull
 ```
 
-The Vercel account or team must have AI Gateway access enabled. Set `AGENT_MODEL` if you want a
-different model that is available to the project. If the agent uses a Vercel connector or integration
-for a provider such as Stripe or Slack, connect it in Vercel. If it lists `requiredEnv` for a
-provider without a connector, add those values as Vercel project env vars and re-run
-`vercel env pull`.
+The Vercel account or team must have AI Gateway access enabled. `AGENT_MODEL` only changes an Eve
+agent's model when the installed agent has an `agent/agent.ts` that reads it. To force a non-default
+model, add or update `agent/agent.ts` with `defineAgent({ model: process.env.AGENT_MODEL ?? "..." })`,
+then set `AGENT_MODEL` to a provider/model available to the linked Vercel project. If the agent uses
+a Vercel connector or integration for a provider such as Stripe or Slack, connect it in Vercel. If it
+lists `requiredEnv` for a provider without a connector, add those values as Vercel project env vars
+and re-run `vercel env pull`.
 
 Adding an agent to an existing project instead:
 

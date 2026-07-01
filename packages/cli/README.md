@@ -34,6 +34,8 @@ The CLI resolves the target and copies registry source files into the framework-
 
 Eve is Vercel-native: run `vercel link` and the AI Gateway authenticates via `VERCEL_OIDC_TOKEN` — no model API key needed. Provider auth is configured per agent: use Vercel Connect or a Vercel integration when available, otherwise set the required project env vars.
 
+`AGENT_MODEL` only changes an Eve agent's model when the installed agent has an `agent/agent.ts` that reads it. Add or update that file before relying on `AGENT_MODEL` for a non-default model.
+
 A bidirectional Slack channel is added by default on Eve installs (authenticated via Vercel Connect); pass `--no-slack` to opt out. `--deliver slack` additionally rewires simple `markdown` schedules so the scheduled run posts its report to `SLACK_CHANNEL_ID`.
 
 See the [project README](https://github.com/elie222/atom-eve/blob/main/README.md) for the end-to-end flow.

@@ -13,6 +13,7 @@ Drive the site with the `agent-browser` CLI via the sandbox `bash` tool; load th
 - Open the page with Agent Browser.
 - Inject axe-core into the loaded page and run it, for example by evaluating `node_modules/axe-core/axe.min.js` in the page context and then calling `axe.run()`. Collect the returned violations.
 - Re-snapshot after every navigation because element refs expire.
+- Prefer bounded waits and explicit state checks for visible text, URLs, selectors, or axe results. Avoid waiting on `networkidle` unless no better state-specific check exists, because modern apps can keep long-lived connections open. When you run multiple shell commands, separate them with `&&` or run them as separate sandbox commands; never put multiple `agent-browser` commands next to each other separated only by spaces or comments.
 - Capture a screenshot of any page with significant violations under `reports/a11y-auditor/artifacts/<YYYY-MM-DD>/`.
 - If a page blocks automation, record the blocker and continue with the remaining URLs.
 
