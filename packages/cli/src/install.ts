@@ -26,6 +26,7 @@ export async function installLocalAgent(agentDir: string, config: AtomEveConfig,
   const manifestPath = path.join(agentDir, "atom.json");
   const rootDir = findRegistryRoot(agentDir);
   const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
+  rejectExternalTemplate(manifest);
 
   const files = await readLocalInstallFiles(rootDir, manifest);
   await installAgentFiles(manifest, files, config, options);
@@ -34,6 +35,7 @@ export async function installLocalAgent(agentDir: string, config: AtomEveConfig,
 export async function installRemoteAgent(agent: string, config: AtomEveConfig, options: InstallOptions) {
   const repoPath = `registry/${agent}`;
   const manifest = validateManifest(await fetchGitHubJson(config, `${repoPath}/atom.json`), repoPath);
+  rejectExternalTemplate(manifest);
 
   const specs = await createInstallFileSpecs(manifest, {
     hasFile: async (source) => remoteFileExists(config, `${repoPath}/${source}`),
@@ -44,6 +46,15 @@ export async function installRemoteAgent(agent: string, config: AtomEveConfig, o
     specs.map(async (file) => ({ ...file, content: await fetchGitHubRaw(config, file.path) }))
   );
   await installAgentFiles(manifest, files, config, options);
+}
+
+export function rejectExternalTemplate(manifest: AtomManifest): void {
+  if (manifest.source?.type !== "external-template") return;
+  throw new Error(
+    `${manifest.title ?? manifest.name} is an external template, not an installable Atom Eve agent.\n` +
+      `Clone it directly instead:\n  git clone ${manifest.source.cloneUrl}\n` +
+      `Source: ${manifest.source.url}`
+  );
 }
 
 async function installAgentFiles(

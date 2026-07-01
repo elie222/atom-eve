@@ -11,12 +11,14 @@ import {
   installRemoteAgent,
   installStandaloneEveOverlays,
   normalizeRemoteAgentName,
+  rejectExternalTemplate,
   rejectFlueDelivery,
   runInstall
 } from "./install.js";
-import { buildConfig, isHelpFlag, parseDelivery, parseRuntime, parseTarget, validateConfig } from "./manifest.js";
+import { fetchGitHubJson } from "./github.js";
+import { buildConfig, isHelpFlag, parseDelivery, parseRuntime, parseTarget, validateConfig, validateManifest } from "./manifest.js";
 import { printNextSteps } from "./next-steps.js";
-import { cwd, findUp } from "./paths.js";
+import { cwd, findRegistryRoot, findUp } from "./paths.js";
 import { scaffoldProject, writeConfig, writeIfMissingAt } from "./scaffold.js";
 import { dim } from "./style.js";
 import { flushTelemetry } from "./telemetry.js";
@@ -124,6 +126,10 @@ async function create(args: Args) {
   const baseDir = resolveCreateBaseDir();
   const appDir = path.join(baseDir, name);
 
+  if (args.agent) {
+    await rejectExternalAgentBeforeScaffold(args.agent, args);
+  }
+
   printProjectBanner();
 
   // eve init creates the <name> directory itself, so scaffold from baseDir.
@@ -168,6 +174,7 @@ function resolveCreateBaseDir(): string {
 
 async function add(agent: string, args: Args) {
   rejectFlueDelivery(args.target, args.deliver);
+  await rejectExternalAgentBeforeScaffold(agent, args);
   const needsProjectScaffold = !fsSync.existsSync(path.join(cwd, "package.json"));
   if (needsProjectScaffold) printProjectBanner();
   const config = await readOrCreateConfig(args);
@@ -182,12 +189,42 @@ async function add(agent: string, args: Args) {
   await installRemoteAgent(normalizeRemoteAgentName(agent, config.target), config, args);
 }
 
+async function rejectExternalAgentBeforeScaffold(agent: string, args: Args): Promise<void> {
+  if (agent.startsWith(".") || agent.startsWith("/")) {
+    const agentDir = path.resolve(cwd, agent);
+    const manifestPath = path.join(agentDir, "atom.json");
+    if (!fsSync.existsSync(manifestPath)) return;
+    const rootDir = findRegistryRoot(agentDir);
+    const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
+    rejectExternalTemplate(manifest);
+    return;
+  }
+
+  const config = readConfigIfExists(args);
+  const target = config.target;
+  const repoPath = `registry/${normalizeRemoteAgentName(agent, target)}`;
+  const manifest = validateManifest(await fetchGitHubJson(config, `${repoPath}/atom.json`), repoPath);
+  rejectExternalTemplate(manifest);
+}
+
+function readConfigIfExists(args: Args): AtomEveConfig {
+  const configPath = path.join(cwd, "atom-eve.json");
+  if (fsSync.existsSync(configPath)) {
+    const raw = JSON.parse(fsSync.readFileSync(configPath, "utf8"));
+    return applyConfigArgOverrides(validateConfig(raw), args);
+  }
+  return buildConfig(args.target ?? "eve", args);
+}
+
 async function list() {
   const localIndex = path.join(findUp(cwd, "public") ?? cwd, "index.json");
   try {
-    const raw = JSON.parse(await fs.readFile(localIndex, "utf8")) as { items: Array<{ name: string; title: string; targets: string[] }> };
+    const raw = JSON.parse(await fs.readFile(localIndex, "utf8")) as {
+      items: Array<{ name: string; title: string; targets: string[]; source?: { type: string } }>;
+    };
     for (const item of raw.items) {
-      console.log(`${item.name}\t${item.targets.join(",")}\t${item.title}`);
+      const kind = item.source?.type === "external-template" ? "external" : item.targets.join(",");
+      console.log(`${item.name}\t${kind}\t${item.title}`);
     }
   } catch {
     console.log("Agent list is available at atomeve.dev");
@@ -198,19 +235,22 @@ async function readOrCreateConfig(args: Args): Promise<AtomEveConfig> {
   const configPath = path.join(cwd, "atom-eve.json");
   if (fsSync.existsSync(configPath)) {
     const raw = JSON.parse(await fs.readFile(configPath, "utf8"));
-    const parsed = validateConfig(raw);
-    return {
-      ...parsed,
-      target: args.target ?? parsed.target,
-      runtime: args.runtime ?? parsed.runtime,
-      sourceRoot: args.sourceRoot ?? parsed.sourceRoot
-    };
+    return applyConfigArgOverrides(validateConfig(raw), args);
   }
 
   const target = await resolveTarget(args);
   const config = buildConfig(target, args);
   await writeConfig(cwd, config);
   return config;
+}
+
+function applyConfigArgOverrides(config: AtomEveConfig, args: Args): AtomEveConfig {
+  return {
+    ...config,
+    target: args.target ?? config.target,
+    runtime: args.runtime ?? config.runtime,
+    sourceRoot: args.sourceRoot ?? config.sourceRoot
+  };
 }
 
 function rejectInstallOptions(command: string, args: Args) {

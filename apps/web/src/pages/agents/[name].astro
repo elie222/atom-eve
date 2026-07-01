@@ -37,25 +37,30 @@ const { item, readmeHtml, agentFiles, variants } = Astro.props as Props;
 
 const fileCount = agentFiles.reduce((max, t) => Math.max(max, t.files.length), 0);
 const hasCode = fileCount > 0;
+const isExternal = item.source?.type === "external-template";
 
 const color = famColor(item.family);
 const glyph = catGlyph(item.category);
-const frameworks = installTargets(item.targets);
+const frameworks = isExternal ? ["External Eve template"] : installTargets(item.targets);
 const integrations = item.integrations ?? [];
 const requiredEnv = item.requiredEnv ?? [];
 
 // "Paste into your agent" prompt for this specific agent.
 const promptName = item.title.toLowerCase().endsWith("agent") ? item.title : `${item.title} agent`;
-const pastePrompt = `Read atomeve.dev/start.md and set up ${promptName} in my project.`;
+const pastePrompt = isExternal
+  ? `Clone ${item.source?.cloneUrl} and follow its README.`
+  : `Read atomeve.dev/start.md and set up ${promptName} in my project.`;
+const cloneCommand = item.source ? `git clone ${item.source.cloneUrl}` : "";
 
 const about: { k: string; v: string; accent?: boolean }[] = [
+  ...(isExternal ? [{ k: "Type", v: "External template", accent: true }] : []),
   { k: "Category", v: `${prettify(item.family)} / ${prettify(item.category)}` },
   { k: "Frameworks", v: frameworks.join(" · ") },
   { k: "Version", v: `v${item.version}` },
   { k: "State", v: item.memory ? "Memory" : "Stateless", accent: item.memory },
   { k: "Scheduled", v: item.scheduled ? "Yes" : "No" },
 ];
-const sourceUrl = `${REPO}/tree/main/${item.repoPath}`;
+const sourceUrl = item.source?.url ?? `${REPO}/tree/main/${item.repoPath}`;
 const pageUrl = `https://www.atomeve.dev/agents/${item.name}/`;
 
 // JSON-LD: describe the agent as installable software + a breadcrumb trail
@@ -89,7 +94,7 @@ const structuredData = [
   title={`${item.title} — Atom Eve`}
   description={item.description}
   type="article"
-  imageAlt={`${item.title} — an installable AI agent on Atom Eve`}
+  imageAlt={`${item.title} — ${isExternal ? "an external Eve template listed on Atom Eve" : "an installable AI agent on Atom Eve"}`}
   structuredData={structuredData}
 >
   <Nav variant="detail" />
@@ -104,37 +109,89 @@ const structuredData = [
         <Glyph glyph={glyph} color={color} scale={5} />
       </div>
       <div class="min-w-[280px] flex-1">
-        <h1 class="m-0 text-[34px] font-bold leading-[1.08]">{item.title}</h1>
+        <div class="flex flex-wrap items-center gap-3">
+          <h1 class="m-0 text-[34px] font-bold leading-[1.08]">{item.title}</h1>
+          {
+            isExternal && (
+              <span class="border-2 border-edge bg-bg px-[9px] py-[5px] font-pixel text-[8px] leading-none tracking-[0.05em] text-green">
+                EXTERNAL
+              </span>
+            )
+          }
+        </div>
         <div class="mt-[10px] text-[16.5px] text-ink2">{item.description}</div>
       </div>
     </div>
 
-    <div
-      class="mt-[26px] border-2 border-edge bg-code"
-      style="box-shadow:4px 4px 0 rgba(0,0,0,0.35)"
-    >
-      <div class="flex items-center gap-2 border-b-2 border-edgedim px-4 py-[10px]">
-        <span class="font-pixel text-[8px] tracking-[0.06em] text-dim"
-          >PASTE INTO YOUR AGENT</span
+    {
+      !isExternal && (
+        <div
+          class="mt-[26px] border-2 border-edge bg-code"
+          style="box-shadow:4px 4px 0 rgba(0,0,0,0.35)"
         >
-      </div>
-      <div class="flex items-center gap-[14px] px-[18px] py-[14px]">
-        <code
-          class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13px] text-ink2"
-          ><span class="text-cyan">▸</span> {pastePrompt}</code
-        >
-        <button
-          type="button"
-          class="copy-btn arcade-btn flex-none whitespace-nowrap bg-cyan px-[13px] py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
-          style="box-shadow:3px 3px 0 rgba(0,0,0,0.4)"
-          data-cmd={pastePrompt}
-        >
-          COPY
-        </button>
-      </div>
-    </div>
+          <div class="flex items-center gap-2 border-b-2 border-edgedim px-4 py-[10px]">
+            <span class="font-pixel text-[8px] tracking-[0.06em] text-dim">PASTE INTO YOUR AGENT</span>
+          </div>
+          <div class="flex items-center gap-[14px] px-[18px] py-[14px]">
+            <code
+              class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13px] text-ink2"
+              ><span class="text-cyan">▸</span> {pastePrompt}</code
+            >
+            <button
+              type="button"
+              class="copy-btn arcade-btn flex-none whitespace-nowrap bg-cyan px-[13px] py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
+              style="box-shadow:3px 3px 0 rgba(0,0,0,0.4)"
+              data-cmd={pastePrompt}
+            >
+              COPY
+            </button>
+          </div>
+        </div>
+      )
+    }
 
-    <InstallBox client:load name={item.name} targets={item.targets ?? []} />
+    {
+      isExternal ? (
+        <div
+          id="install"
+          class="mt-[26px] border-2 bg-code"
+          style="border-color:#54f0a8;box-shadow:5px 5px 0 rgba(84,240,168,0.18)"
+        >
+          <div class="flex flex-wrap items-center justify-between gap-[10px] border-b-2 px-4 py-[11px]" style="border-color:rgba(84,240,168,0.35)">
+            <div class="flex flex-wrap items-center gap-[10px]">
+              <span class="bg-green px-[9px] py-[5px] font-pixel text-[8px] leading-none tracking-[0.05em] text-[#0b0820]">
+                EXTERNAL
+              </span>
+              <span class="font-pixel text-[8px] tracking-[0.06em] text-green">CLONE UPSTREAM</span>
+            </div>
+            <a href={sourceUrl} target="_blank" rel="noopener" class="font-mono text-[12px] text-muted transition-colors hover:text-green">
+              Open repo ↗
+            </a>
+          </div>
+          <div class="px-[18px] py-4">
+            <p class="mb-4 text-[14px] leading-[1.55] text-ink2">
+              Clone the upstream repo directly. This template is listed here for discovery, but it is not installed by <code class="font-mono text-[13px] text-green">npx atom-eve add</code>.
+            </p>
+            <div class="flex items-center gap-[14px]">
+              <span class="font-mono text-[15px] text-green">$</span>
+              <span class="flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[14px] text-ink">
+                {cloneCommand}
+              </span>
+              <button
+                type="button"
+                class="copy-btn arcade-btn flex-none whitespace-nowrap bg-green px-[13px] py-[10px] font-pixel text-[8px] leading-[1.5] tracking-[0.04em] text-[#0b0820]"
+                style="box-shadow:3px 3px 0 rgba(0,0,0,0.4)"
+                data-cmd={cloneCommand}
+              >
+                COPY
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <InstallBox client:load name={item.name} targets={item.targets ?? []} />
+      )
+    }
 
     <!-- content + sidebar -->
     <div class="detail-grid mt-[34px] grid grid-cols-[1fr_318px] items-start gap-9 max-md:grid-cols-1">

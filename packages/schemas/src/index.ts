@@ -23,6 +23,14 @@ export const remoteSkillSchema = z.object({
 }).strict();
 export type RemoteSkill = z.infer<typeof remoteSkillSchema>;
 
+export const externalSourceSchema = z.object({
+  type: z.literal("external-template"),
+  repo: z.string().regex(/^[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*$/i),
+  url: z.string().url(),
+  cloneUrl: z.string().url()
+}).strict();
+export type ExternalSource = z.infer<typeof externalSourceSchema>;
+
 export const atomSchema = z.object({
   $schema: z.string().url().optional(),
   name: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
@@ -49,7 +57,8 @@ export const atomSchema = z.object({
     .default({}),
   // Owned skills live as files under agent/skills/ and are copied on install.
   // This array declares remote skills pulled from skills.sh at install time instead.
-  skills: z.array(remoteSkillSchema).default([])
+  skills: z.array(remoteSkillSchema).default([]),
+  source: externalSourceSchema.optional()
 }).strict();
 export type AtomManifest = z.infer<typeof atomSchema>;
 

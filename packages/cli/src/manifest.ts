@@ -37,7 +37,8 @@ export function validateManifest(value: unknown, repoPath: string): AtomManifest
     dependencies: parseStringArray(record.dependencies, "dependencies"),
     targetDependencies: parseTargetDependencies(record.targetDependencies),
     requiredEnv: parseStringArray(record.requiredEnv, "requiredEnv"),
-    skills: parseSkillRefs(record.skills)
+    skills: parseSkillRefs(record.skills),
+    source: parseExternalSource(record.source)
   };
 }
 
@@ -98,4 +99,24 @@ function parseSkillRefs(value: unknown): RemoteSkillRef[] {
     if (typeof record.ref !== "string") throw new Error("skill ref is missing 'ref'");
     return { ref: record.ref };
   });
+}
+
+function parseExternalSource(value: unknown): AtomManifest["source"] {
+  if (value === undefined) return undefined;
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("atom.json source must be an object");
+  const record = value as Record<string, unknown>;
+  if (record.type !== "external-template") throw new Error("atom.json source.type must be external-template");
+  if (typeof record.repo !== "string" || !/^[a-z0-9][a-z0-9._-]*\/[a-z0-9][a-z0-9._-]*$/i.test(record.repo)) {
+    throw new Error("atom.json source.repo must be owner/repo");
+  }
+  if (typeof record.url !== "string" || !/^https?:\/\//.test(record.url)) throw new Error("atom.json source.url must be a URL");
+  if (typeof record.cloneUrl !== "string" || !/^https?:\/\//.test(record.cloneUrl)) {
+    throw new Error("atom.json source.cloneUrl must be a URL");
+  }
+  return {
+    type: "external-template",
+    repo: record.repo,
+    url: record.url,
+    cloneUrl: record.cloneUrl
+  };
 }

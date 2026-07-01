@@ -13,6 +13,7 @@ const taxonomy = getTaxonomy();
 const cards = items.map(toCard);
 const counts = familyCounts(items);
 const total = items.length;
+const installableTotal = items.filter((item) => item.source?.type !== "external-template").length;
 
 const STARTERS = [
   { slug: "website-qa", label: "Product QA", tag: "Tests your signup and checkout flows for breaks." },
@@ -43,7 +44,7 @@ function starfield(n: number, w: number, h: number, cols: string[]): string {
 }
 const HERO_STARS = starfield(120, 1280, 470, ["#ffffff", "#37d6ff", "#ff45c2", "#a974ff", "#cfc4ff"]);
 
-const metaDescription = `Atom Eve is an open-source, shadcn-style registry of ${total} installable AI agents for eve and Flue projects — SEO, ads, QA, support, and more. Drop them straight into your project with one command.`;
+const metaDescription = `Atom Eve is an open-source, shadcn-style registry of ${installableTotal} installable AI agents plus curated Eve examples for SEO, ads, QA, support, and more.`;
 
 // JSON-LD: identify the site (with on-site search) and the org behind it so
 // search engines can surface a sitelinks search box and brand entity.

@@ -10,8 +10,9 @@ process.env.ATOM_EVE_DISABLE_TELEMETRY = "1";
 const root = process.cwd();
 const cli = path.join(root, "packages", "cli", "dist", "index.js");
 const index = JSON.parse(await fs.readFile(path.join(root, "public", "index.json"), "utf8"));
+const installableItems = index.items.filter((item) => item.source?.type !== "external-template");
 
-const defaultTargetItem = index.items[0];
+const defaultTargetItem = installableItems[0];
 if (defaultTargetItem) {
   const agent = path.join(root, defaultTargetItem.repoPath);
   const temp = path.join(root, "fixtures", `.tmp-default-target-${defaultTargetItem.name}`);
@@ -28,7 +29,7 @@ if (defaultTargetItem) {
 // GENERATED target: for every agent we also generate its flue version, install
 // it into fixtures/flue, and typecheck the generated `src/**` against the real
 // `@flue/runtime`. FLUE.md is a doc-only gap note and is not typechecked.
-for (const item of index.items) {
+for (const item of installableItems) {
   const agent = path.join(root, item.repoPath);
   for (const target of [...item.targets, "flue"]) {
     const fixture = path.join(root, "fixtures", target);

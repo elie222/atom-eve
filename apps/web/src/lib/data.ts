@@ -49,6 +49,12 @@ export interface RegistryItem {
   requiredEnv?: string[];
   memory?: boolean;
   scheduled?: boolean;
+  source?: {
+    type: "external-template";
+    repo: string;
+    url: string;
+    cloneUrl: string;
+  };
   repoPath: string;
   featured?: boolean;
   order?: number | null;
@@ -68,6 +74,7 @@ export interface AgentCard {
   targets: string;
   memory: boolean;
   installCmd: string;
+  external: boolean;
 }
 
 export interface Taxonomy {
@@ -121,6 +128,7 @@ export function getRegistryPayloads(): RegistryPayload[] {
 }
 
 export function toCard(item: RegistryItem): AgentCard {
+  const external = item.source?.type === "external-template";
   return {
     name: item.name,
     title: item.title,
@@ -132,9 +140,10 @@ export function toCard(item: RegistryItem): AgentCard {
     color: famColor(item.family),
     glyph: catGlyph(item.category),
     integrations: (item.integrations ?? []).map(prettify).join(" · "),
-    targets: installTargets(item.targets).join(" · "),
+    targets: external ? "External" : installTargets(item.targets).join(" · "),
     memory: Boolean(item.memory),
     installCmd: installCommand(item.name),
+    external,
   };
 }
 

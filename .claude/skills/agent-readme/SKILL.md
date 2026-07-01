@@ -27,6 +27,14 @@ The README is an H1 and exactly two sections, no lead paragraph:
 
 The generator requires both `## What it does` and `## Setup`. The one-line outcome also lives in the agent's `atom.json` `description` (the catalog page renders it at the top, and it feeds cards and SEO); write that description outcome-led, not led by the mechanism, framework, or backend. Don't append "Agent" to the H1 unless it is part of a proper name.
 
+For an external template (`atom.json` has `source.type: "external-template"`), `## Setup` is exactly one line:
+
+```md
+Clone the upstream repo directly: `git clone <cloneUrl>`.
+```
+
+Do not summarize the upstream setup, credentials, or runtime steps in the external entry README. The external repo owns those details.
+
 ## Leave out anything the page already renders
 
 The catalog page renders from `atom.json` and source: the install box (install commands), the sidebar (Integrations, Required Env, Frameworks, Version, Scheduled, Source), and a CODE tab (the real channel and tool source). A README that repeats any of these is duplication. So it has **no** Install, Supported targets, Connections/auth, env list (including a "no keys needed" line), or Limitations section. These were force-required historically, which is why old READMEs still carry them.
