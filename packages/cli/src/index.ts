@@ -212,7 +212,7 @@ async function create(args: Args) {
   const appDir = path.join(cwd, name);
 
   // eve init creates the <name> directory itself, so scaffold from cwd.
-  runOrThrow("npx", ["eve@latest", "init", name], cwd, `Scaffolding Eve app with eve init: ${name}`);
+  runOrThrow("npx", ["eve@latest", "init", name], cwd, `Scaffolding Eve project with eve init: ${name}`);
 
   await writeConfig(appDir, buildConfig(target, args));
 
@@ -1152,7 +1152,7 @@ function printHelp() {
 
 Commands:
   atom-eve create <name> [--agent <agent>] [--no-slack]
-                                  Scaffold a full eve app via the eve CLI,
+                                  Scaffold a full Eve project via the eve CLI,
                                   then optionally install an agent. Recommended.
   atom-eve init --workspace [name]
                                   Scaffold a monorepo root (agents/*) for running many agents.

@@ -21,7 +21,7 @@ const STARTERS = [
   { slug: "content-agent", label: "Content", tag: "Turns market signals into review-ready drafts." },
 ].filter((s) => items.some((it) => it.name === s.slug));
 const START = STARTERS[0]!;
-const startPrompt = `Read atomeve.dev/start.md and set up a new Eve app with the ${START.label} agent.`;
+const startPrompt = `Read atomeve.dev/start.md and set up the ${START.label} agent with eve.`;
 const startCli = `npx atom-eve create my-agent --agent ${START.slug}`;
 
 // Deterministic starfield behind the hero (seeded so static output is stable).
@@ -365,10 +365,10 @@ const structuredData = [
             <div class="flex items-center gap-3">
               <code
                 class="min-w-0 flex-1 overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[13.5px] text-ink2"
-                ><span class="text-green">▸</span> Read atomeve.dev/start.md and set up a new Eve app with the <span
+                ><span class="text-green">▸</span> Read atomeve.dev/start.md and set up the <span
                   id="gs-prompt-name"
                   class="text-green">{START.label}</span
-                > agent.</code
+                > agent with eve.</code
               >
               <button
                 type="button"
@@ -557,7 +557,7 @@ const structuredData = [
       let target = "eve";
 
       const render = () => {
-        const prompt = `Read atomeve.dev/start.md and set up a new Eve app with the ${label} agent.`;
+        const prompt = `Read atomeve.dev/start.md and set up the ${label} agent with eve.`;
         promptName.textContent = label;
         promptCopy.dataset.cmd = prompt;
         agentTag.textContent = tag;

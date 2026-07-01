@@ -63,7 +63,7 @@ void (async () => {
 '
 ```
 
-Run the smoke test from an installed Eve app folder after `npx atom-eve add community-support --target eve`. For Flue, change the import path to `./src/lib/agents/community-support/discord.ts`.
+Run the smoke test from an installed Eve project folder after `npx atom-eve add community-support --target eve`. For Flue, change the import path to `./src/lib/agents/community-support/discord.ts`.
 
 ## Connections and auth
 
