@@ -54,6 +54,7 @@ interface Args {
 }
 
 const SLACK_CONNECT_DEPENDENCY = "@vercel/connect@^0.2.10";
+const EVE_INIT_AGENT_MARKER = "atom-eve";
 const ATOM_EVE_BANNER = `
  █████╗ ████████╗ ██████╗ ███╗   ███╗    ███████╗██╗   ██╗███████╗
 ██╔══██╗╚══██╔══╝██╔═══██╗████╗ ████║    ██╔════╝██║   ██║██╔════╝
@@ -204,10 +205,14 @@ async function create(args: Args) {
   const baseDir = resolveCreateBaseDir();
   const appDir = path.join(baseDir, name);
 
+  printProjectBanner();
+
   // eve init creates the <name> directory itself, so scaffold from baseDir.
-  runOrThrow("npx", ["eve@latest", "init", name], baseDir, `Scaffolding Eve project with eve init: ${name}`);
+  runEveInitOrThrow(name, baseDir);
 
   await writeConfig(appDir, buildConfig(target, args));
+
+  const appCd = path.relative(cwd, appDir) || name;
 
   if (args.agent) {
     // Re-invoke this CLI inside the new app so the agent installs against its config
@@ -215,19 +220,14 @@ async function create(args: Args) {
     const addArgs = [process.argv[1]!, "add", args.agent, "--target", target];
     if (args.deliver) addArgs.push("--deliver", args.deliver);
     if (args.slack === false) addArgs.push("--no-slack");
-    runOrThrow(process.execPath, addArgs, appDir, `Installing agent: ${args.agent}`);
-  } else {
-    await installStandaloneEveOverlays(appDir, name, args);
+    // The child `add` owns the post-install summary (it has the manifest). Hand it the
+    // cd path via env so it prints one unified "Next steps" block for the whole create.
+    runOrThrow(process.execPath, addArgs, appDir, `Installing agent: ${args.agent}`, { ATOM_EVE_CREATE_CD: appCd });
+    return;
   }
 
-  console.log("\nNext steps:");
-  console.log(`  cd ${path.relative(cwd, appDir) || name}`);
-  if (!args.agent) console.log("  npx atom-eve add <agent>      # browse atomeve.dev");
-  console.log("  vercel link                   # connect to a Vercel project");
-  console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
-  console.log("  # If model calls fail, verify AI Gateway billing/access");
-  console.log("  # AGENT_MODEL requires agent/agent.ts to read process.env.AGENT_MODEL");
-  console.log("  npx eve dev");
+  await installStandaloneEveOverlays(appDir, name, args);
+  printNextSteps({ appDir: appCd, vercel: true, suggestAdd: true, dev: "npx eve dev" });
 }
 
 function resolveCreateTarget(args: Args): Target {
@@ -257,12 +257,46 @@ function rejectExplicitFlueOverlays(args: Args) {
   }
 }
 
-function runOrThrow(command: string, args: string[], cwdDir: string, label: string) {
+function runOrThrow(command: string, args: string[], cwdDir: string, label: string, env?: Record<string, string>) {
   console.log(label);
-  const result = spawnSync(command, args, { cwd: cwdDir, stdio: "inherit", shell: false });
+  const result = spawnSync(command, args, {
+    cwd: cwdDir,
+    stdio: "inherit",
+    shell: false,
+    env: env ? { ...process.env, ...env } : process.env
+  });
   if (result.status !== 0) {
     throw new Error(`${command} ${args.join(" ")} failed with exit code ${result.status ?? "unknown"}`);
   }
+}
+
+function runEveInitOrThrow(name: string, baseDir: string) {
+  console.log(`Scaffolding Eve project with eve init: ${name}`);
+  const result = spawnSync("npx", ["eve@latest", "init", name], {
+    cwd: baseDir,
+    env: { ...process.env, AI_AGENT: process.env.AI_AGENT?.trim() ? process.env.AI_AGENT : EVE_INIT_AGENT_MARKER },
+    encoding: "utf8",
+    maxBuffer: 10 * 1024 * 1024,
+    shell: false
+  });
+
+  printEveInitOutput(result.stdout);
+  printEveInitOutput(result.stderr, "stderr");
+
+  if (result.status !== 0) {
+    if (result.error) throw result.error;
+    throw new Error(`npx eve@latest init ${name} failed with exit code ${result.status ?? "unknown"}`);
+  }
+}
+
+function printEveInitOutput(output: string | Buffer | null | undefined, stream: "stdout" | "stderr" = "stdout") {
+  if (!output) return;
+  const text = String(output);
+  const handoffStart = text.indexOf("\n# Build this eve agent with the user");
+  const visible = handoffStart === -1 ? text : text.slice(0, handoffStart);
+  if (!visible.trim()) return;
+  const target = stream === "stderr" ? process.stderr : process.stdout;
+  target.write(visible.endsWith("\n") ? visible : `${visible}\n`);
 }
 
 async function writeIfMissingAt(filePath: string, content: string) {
@@ -501,22 +535,54 @@ function dependenciesForInstall(manifest: AtomManifest, options: InstallOptions)
   return [...new Set(dependencies)].sort();
 }
 
+interface NextStepsOptions {
+  appDir?: string;
+  docsUrl?: string;
+  customize?: string;
+  requiredEnv?: readonly string[];
+  skills?: readonly RemoteSkillRef[];
+  suggestAdd?: boolean;
+  vercel?: boolean;
+  dev?: string;
+}
+
+function printNextSteps(options: NextStepsOptions) {
+  console.log("Next steps:");
+  if (options.appDir) console.log(`  cd ${options.appDir}`);
+  if (options.suggestAdd) console.log("  npx atom-eve add <agent>      # browse atomeve.dev");
+  if (options.docsUrl) console.log(`  Read setup notes: ${options.docsUrl}`);
+  if (options.customize) console.log(`  ${options.customize}`);
+  if (options.requiredEnv?.length) console.log(`  Configure required env vars: ${options.requiredEnv.join(", ")}`);
+  if (options.skills?.length) {
+    console.log("  If remote skill install was skipped or failed:");
+    for (const skill of options.skills) console.log(`    npx skills add ${skill.ref}`);
+  }
+  console.log("  pnpm install && pnpm typecheck && pnpm build");
+  if (options.vercel) {
+    console.log("  vercel link                   # connect to a Vercel project");
+    console.log("  vercel env pull               # pull VERCEL_OIDC_TOKEN for the AI Gateway (no model key needed)");
+    console.log("  # If model calls fail, verify AI Gateway billing/access");
+    console.log("  # AGENT_MODEL requires agent/agent.ts to read process.env.AGENT_MODEL");
+  }
+  if (options.dev) console.log(`  ${options.dev}`);
+}
+
 function printPostInstallNextSteps(manifest: AtomManifest, config: AtomEveConfig) {
   console.log("");
   console.log(`Installed ${manifest.title ?? manifest.name}.`);
-  console.log("Next steps:");
-  console.log(`  Read setup notes: ${agentDocsUrl(manifest)}`);
-  if (config.target === "flue") {
-    console.log(`  Customize src/agents/${manifest.name}.md with your real project context.`);
-  } else {
-    console.log("  Customize agent/instructions.md with your real project context.");
-  }
-  if (manifest.requiredEnv.length) console.log(`  Configure required env vars: ${manifest.requiredEnv.join(", ")}`);
-  if (manifest.skills.length) {
-    console.log("  If remote skill install was skipped or failed:");
-    for (const skill of manifest.skills) console.log(`    npx skills add ${skill.ref}`);
-  }
-  console.log("  pnpm install && pnpm typecheck && pnpm build");
+  const createAppDir = process.env.ATOM_EVE_CREATE_CD?.trim() || undefined;
+  printNextSteps({
+    appDir: createAppDir,
+    docsUrl: agentDocsUrl(manifest),
+    customize:
+      config.target === "flue"
+        ? `Customize src/agents/${manifest.name}.md with your real project context.`
+        : "Customize agent/instructions.md with your real project context.",
+    requiredEnv: manifest.requiredEnv,
+    skills: manifest.skills,
+    vercel: config.target === "eve" && createAppDir !== undefined,
+    dev: config.target === "eve" && createAppDir !== undefined ? "npx eve dev" : undefined
+  });
 }
 
 function agentDocsUrl(manifest: Pick<AtomManifest, "name">): string {
