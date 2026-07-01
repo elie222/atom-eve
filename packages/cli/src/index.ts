@@ -1071,24 +1071,26 @@ function findUp(start: string, name: string): string | undefined {
 }
 
 async function remoteFileExists(config: AtomEveConfig, repoFilePath: string): Promise<boolean> {
-  const response = await fetch(gitHubContentsUrl(config, repoFilePath), {
-    headers: { accept: "application/vnd.github+json" },
-    signal: AbortSignal.timeout(5000)
+  const response = await requestGitHub(config, repoFilePath, {
+    source: "contents",
+    accept: "application/vnd.github+json",
+    timeoutMs: 5000,
+    allowNotFound: true
   });
-  if (response.status === 404) return false;
-  if (!response.ok) throw new Error(`Could not read ${repoFilePath} from ${config.registry}: HTTP ${response.status}`);
+  if (!response) return false;
   const data = (await response.json()) as GitHubContentEntry | GitHubContentEntry[];
   return !Array.isArray(data) && data.type === "file";
 }
 
 async function discoverRemoteFiles(config: AtomEveConfig, repoPath: string, sourceDir: string): Promise<string[]> {
   const root = `${repoPath}/${sourceDir}`;
-  const response = await fetch(gitHubContentsUrl(config, root), {
-    headers: { accept: "application/vnd.github+json" },
-    signal: AbortSignal.timeout(5000)
+  const response = await requestGitHub(config, root, {
+    source: "contents",
+    accept: "application/vnd.github+json",
+    timeoutMs: 5000,
+    allowNotFound: true
   });
-  if (response.status === 404) return [];
-  if (!response.ok) throw new Error(`Could not list ${root} from ${config.registry}: HTTP ${response.status}`);
+  if (!response) return [];
 
   const data = (await response.json()) as GitHubContentEntry | GitHubContentEntry[];
   if (!Array.isArray(data)) return data.type === "file" ? [toPosixPath(path.posix.relative(repoPath, data.path))] : [];
@@ -1105,26 +1107,57 @@ async function discoverRemoteFiles(config: AtomEveConfig, repoPath: string, sour
 }
 
 async function fetchGitHubJson(config: AtomEveConfig, repoFilePath: string): Promise<unknown> {
-  const response = await fetch(rawGitHubUrl(config, repoFilePath), {
-    headers: { accept: "application/json" },
-    signal: AbortSignal.timeout(10000)
+  const response = await requestGitHub(config, repoFilePath, {
+    source: "raw",
+    accept: "application/json",
+    timeoutMs: 10000
   });
-  if (!response.ok) throw new Error(`Could not fetch ${repoFilePath} from ${config.registry}: HTTP ${response.status}`);
   return response.json();
 }
 
 async function fetchGitHubRaw(config: AtomEveConfig, repoFilePath: string): Promise<string> {
-  const response = await fetch(rawGitHubUrl(config, repoFilePath), {
-    headers: { accept: "text/plain" },
-    signal: AbortSignal.timeout(10000)
+  const response = await requestGitHub(config, repoFilePath, {
+    source: "raw",
+    accept: "text/plain",
+    timeoutMs: 10000
   });
-  if (!response.ok) throw new Error(`Could not fetch ${repoFilePath} from ${config.registry}: HTTP ${response.status}`);
   return response.text();
 }
 
 interface GitHubContentEntry {
   path: string;
   type: "file" | "dir" | string;
+}
+
+interface GitHubRequest {
+  source: "contents" | "raw";
+  accept: string;
+  timeoutMs: number;
+  allowNotFound?: boolean;
+}
+
+async function requestGitHub(
+  config: AtomEveConfig,
+  repoFilePath: string,
+  request: GitHubRequest & { allowNotFound: true }
+): Promise<Response | undefined>;
+async function requestGitHub(config: AtomEveConfig, repoFilePath: string, request: GitHubRequest): Promise<Response>;
+async function requestGitHub(
+  config: AtomEveConfig,
+  repoFilePath: string,
+  request: GitHubRequest
+): Promise<Response | undefined> {
+  const response = await fetch(gitHubUrl(config, repoFilePath, request.source), {
+    headers: { accept: request.accept },
+    signal: AbortSignal.timeout(request.timeoutMs)
+  });
+  if (request.allowNotFound && response.status === 404) return undefined;
+  if (!response.ok) throw new Error(`Could not fetch ${repoFilePath} from ${config.registry}: HTTP ${response.status}`);
+  return response;
+}
+
+function gitHubUrl(config: AtomEveConfig, repoFilePath: string, source: GitHubRequest["source"]): string {
+  return source === "contents" ? gitHubContentsUrl(config, repoFilePath) : rawGitHubUrl(config, repoFilePath);
 }
 
 function gitHubContentsUrl(config: AtomEveConfig, repoFilePath: string): string {
