@@ -198,7 +198,7 @@ async function validateReadme(readmePath: string, agentName: string) {
 const AGENT_STRUCTURE = {
   rootFiles: new Set(["atom.json", "README.md"]),
   rootDirs: new Set(["agent"]),
-  agentFiles: new Set(["agent.ts", "instructions.md", "README.md"]),
+  agentFiles: new Set(["agent.ts", "instructions.md"]),
   agentDirs: new Set(["tools", "channels", "sandbox", "schedules", "skills", "connections", "lib", "evals"])
 };
 
