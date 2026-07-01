@@ -16,12 +16,12 @@ If a user pasted a prompt like _"Read www.atomeve.dev/start.md and add agents…
    for Flue or the project is already a Flue project.
    - An Eve project has an `agent/` directory.
    - A Flue project uses `@flue/runtime` and source under `src/`.
-   - If no project exists and the user did not ask for Flue, scaffold an Eve app with
+   - If no project exists and the user did not ask for Flue, scaffold an Eve project with
      `npx atom-eve create <name> --agent <agent>`.
 2. **Find the right agents.** Match the user's goal to agents in the registry
    (see "Browse" below). Prefer agents whose `family`/`category` fit the job.
-3. **Install each agent.** For a new Eve app, use `npx atom-eve create <name> --agent <agent>`.
-   For an existing Eve app, use `npx atom-eve add <agent>`. For Flue, use
+3. **Install each agent.** For a new Eve project, use `npx atom-eve create <name> --agent <agent>`.
+   For an existing Eve project, use `npx atom-eve add <agent>`. For Flue, use
    `npx atom-eve add <agent> --target flue`.
 4. **Wire up auth.** Check the agent page or `https://www.atomeve.dev/index.json` for connections
    and `requiredEnv`. Never invent secret values — ask the user. On Eve, use Vercel Connect or a
@@ -56,7 +56,7 @@ drafts for review. Keep that behavior intact when wiring them in.
 ## CLI
 
 ```bash
-# Scaffold a new Eve app and install an agent
+# Scaffold a new Eve project and install an agent
 npx atom-eve create my-agent --agent website-qa
 
 # Add an agent to an existing project

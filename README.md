@@ -157,7 +157,7 @@ Expect some framework APIs and conventions to change. This repo keeps fixture in
 
 ### Running Many Eve Agents On Vercel
 
-Today Eve treats `agent/` as one root agent per deployed app. Subagents are useful for delegation, but they are not independent deployed agents: channels and schedules are root-only. If you want many standalone Eve agents with their own Slack connectors, cron jobs, env vars, logs, and deployment lifecycle, use one repository with one Eve app folder per agent and create one Vercel project for each app.
+Today Eve treats `agent/` as one root agent per deployed app. Subagents are useful for delegation, but they are not independent deployed agents: channels and schedules are root-only. If you want many standalone Eve agents with their own Slack connectors, cron jobs, env vars, logs, and deployment lifecycle, use one repository with one Eve project folder per agent and one Vercel project per agent.
 
 Recommended shape:
 
