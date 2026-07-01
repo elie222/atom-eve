@@ -457,14 +457,21 @@ const structuredData = [
     const catButtons = Array.from(document.querySelectorAll<HTMLButtonElement>(".cat-pill"));
     const viewButtons = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-view-btn]"));
 
-    if (wrap) {
+    if (wrap && search) {
       // Each agent renders twice — once as a grid card, once as a list row.
       // Filtering toggles both copies; only one view is visible at a time.
       const items = Array.from(wrap.querySelectorAll<HTMLElement>(".agent-item"));
       let activeFamily = "all";
 
+      const setSearchParam = (q: string) => {
+        const url = new URL(window.location.href);
+        if (q) url.searchParams.set("q", q);
+        else url.searchParams.delete("q");
+        window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+      };
+
       const apply = () => {
-        const q = (search?.value ?? "").trim().toLowerCase();
+        const q = search.value.trim().toLowerCase();
         let shown = 0;
         for (const el of items) {
           const matchSearch = !q || (el.textContent ?? "").toLowerCase().includes(q);
@@ -477,7 +484,11 @@ const structuredData = [
         if (empty) empty.classList.toggle("hidden", shown !== 0);
       };
 
-      search?.addEventListener("input", apply);
+      search.value = new URLSearchParams(window.location.search).get("q") ?? "";
+      search.addEventListener("input", () => {
+        setSearchParam(search.value.trim());
+        apply();
+      });
 
       for (const btn of catButtons) {
         btn.addEventListener("click", () => {
@@ -501,6 +512,8 @@ const structuredData = [
           }
         });
       }
+
+      apply();
     }
 
     // ----- hero image: single "boot-up" scan sweep on hover -----
