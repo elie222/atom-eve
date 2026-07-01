@@ -16,7 +16,6 @@ import {
   runInstall
 } from "./install.js";
 import { fetchGitHubJson } from "./github.js";
-import { readJsonFile, readJsonFileSync } from "./json.js";
 import { buildConfig, isHelpFlag, parseDelivery, parseRuntime, parseTarget, validateConfig, validateManifest } from "./manifest.js";
 import { printNextSteps } from "./next-steps.js";
 import { cwd, findRegistryRoot, findUp } from "./paths.js";
@@ -196,7 +195,7 @@ async function rejectExternalAgentBeforeScaffold(agent: string, args: Args): Pro
     const manifestPath = path.join(agentDir, "atom.json");
     if (!fsSync.existsSync(manifestPath)) return;
     const rootDir = findRegistryRoot(agentDir);
-    const manifest = validateManifest(await readJsonFile(manifestPath), path.relative(rootDir, agentDir));
+    const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
     rejectExternalTemplate(manifest);
     return;
   }
@@ -211,7 +210,7 @@ async function rejectExternalAgentBeforeScaffold(agent: string, args: Args): Pro
 function readConfigIfExists(args: Args): AtomEveConfig {
   const configPath = path.join(cwd, "atom-eve.json");
   if (fsSync.existsSync(configPath)) {
-    const raw = readJsonFileSync(configPath);
+    const raw = JSON.parse(fsSync.readFileSync(configPath, "utf8"));
     return applyConfigArgOverrides(validateConfig(raw), args);
   }
   return buildConfig(args.target ?? "eve", args);
@@ -220,7 +219,7 @@ function readConfigIfExists(args: Args): AtomEveConfig {
 async function list() {
   const localIndex = path.join(findUp(cwd, "public") ?? cwd, "index.json");
   try {
-    const raw = (await readJsonFile(localIndex)) as {
+    const raw = JSON.parse(await fs.readFile(localIndex, "utf8")) as {
       items: Array<{ name: string; title: string; targets: string[]; source?: { type: string } }>;
     };
     for (const item of raw.items) {
@@ -235,7 +234,7 @@ async function list() {
 async function readOrCreateConfig(args: Args): Promise<AtomEveConfig> {
   const configPath = path.join(cwd, "atom-eve.json");
   if (fsSync.existsSync(configPath)) {
-    const raw = await readJsonFile(configPath);
+    const raw = JSON.parse(await fs.readFile(configPath, "utf8"));
     return applyConfigArgOverrides(validateConfig(raw), args);
   }
 

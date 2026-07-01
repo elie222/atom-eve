@@ -9,7 +9,6 @@ import {
 } from "@atom-eve/install-map";
 import { generateFlueAgent, type EveAgentFile } from "@atom-eve/flue-generator";
 import { discoverRemoteFiles, fetchGitHubJson, fetchGitHubRaw, remoteFileExists } from "./github.js";
-import { readJsonFile } from "./json.js";
 import { validateManifest } from "./manifest.js";
 import { printPostInstallNextSteps } from "./next-steps.js";
 import { cwd, findRegistryRoot } from "./paths.js";
@@ -26,7 +25,7 @@ export function normalizeRemoteAgentName(agent: string, target: CliTarget): stri
 export async function installLocalAgent(agentDir: string, config: AtomEveConfig, options: InstallOptions) {
   const manifestPath = path.join(agentDir, "atom.json");
   const rootDir = findRegistryRoot(agentDir);
-  const manifest = validateManifest(await readJsonFile(manifestPath), path.relative(rootDir, agentDir));
+  const manifest = validateManifest(JSON.parse(await fs.readFile(manifestPath, "utf8")), path.relative(rootDir, agentDir));
   rejectExternalTemplate(manifest);
 
   const files = await readLocalInstallFiles(rootDir, manifest);
@@ -157,7 +156,7 @@ async function installPackageDependencies(dependencies: string[], baseDir = cwd)
     return;
   }
 
-  const raw = (await readJsonFile(packageJsonPath)) as Record<string, unknown>;
+  const raw = JSON.parse(await fs.readFile(packageJsonPath, "utf8")) as Record<string, unknown>;
   const packageJson = raw as {
     dependencies?: Record<string, string>;
     devDependencies?: Record<string, string>;
