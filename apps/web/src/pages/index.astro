@@ -16,9 +16,9 @@ const total = items.length;
 
 const STARTERS = [
   { slug: "website-qa", label: "Product QA", tag: "Tests your signup and checkout flows for breaks." },
-  { slug: "seo-audit", label: "SEO Fixes", tag: "Finds what's hurting your rankings, worst first." },
+  { slug: "seo-improver", label: "SEO Improver", tag: "Tracks rankings and recommends the next edits to climb." },
   { slug: "stripe-pulse", label: "Stripe Revenue", tag: "Weekly revenue and churn alerts, posted to Slack." },
-  { slug: "content-agent", label: "Content", tag: "Turns market signals into review-ready drafts." },
+  { slug: "content-agent", label: "Content Generator", tag: "Turns market signals into review-ready drafts." },
 ].filter((s) => items.some((it) => it.name === s.slug));
 const START = STARTERS[0]!;
 const startPrompt = `Read atomeve.dev/start.md and set up the ${START.label} agent with eve.`;

@@ -619,7 +619,7 @@
     {
       "name": "eve/content-agent",
       "type": "registry:block",
-      "title": "Content",
+      "title": "Content Generator",
       "description": "Get an approval-ready content pipeline grounded in what people are discussing right now: briefs, an editorial calendar, hooks, outlines, and draft copy.",
       "dependencies": [
         "ai@^7.0.4",

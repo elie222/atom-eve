@@ -1,4 +1,4 @@
-# Content
+# Content Generator
 
 ## What it does
 
