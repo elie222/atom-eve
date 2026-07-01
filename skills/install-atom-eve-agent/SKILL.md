@@ -1,9 +1,9 @@
 ---
-name: create-atom-eve-agent
-description: Use when setting up or installing an Atom Eve AI agent in a project, including scaffolding a new eve.dev (Eve) or Flue app, adding an agent with the atom-eve CLI, wiring credentials, and verifying it runs. Triggers include "set up an Atom Eve agent", "install the SEO/ads/QA agent", "add an agent to this project".
+name: install-atom-eve-agent
+description: Use when setting up or installing an existing Atom Eve AI agent into a project, including scaffolding a new eve.dev (Eve) or Flue app, adding an agent with the atom-eve CLI, wiring credentials, and verifying it runs. Triggers include "set up an Atom Eve agent", "install the SEO/ads/QA agent", "add an agent to this project". To author a NEW agent for the registry, use author-atom-eve-agent instead.
 ---
 
-# Create an Atom Eve agent
+# Install an Atom Eve agent
 
 Atom Eve installs real agent source into the user's own repo, like shadcn but for
 agents. It does not host agents or store credentials. Pick the agent first with

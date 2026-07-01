@@ -10,9 +10,12 @@
   },
   "version": "0.1.0",
   "targets": ["eve"],
-  "integrations": ["dataforseo", "agent-browser", "github"],
-  "connections": [{ "name": "dataforseo", "type": "mcp", "auth": "env" }],
-  "requiredEnv": ["DATAFORSEO_LOGIN", "DATAFORSEO_PASSWORD"],
+  "integrations": ["google-search-console", "dataforseo", "agent-browser", "github"],
+  "connections": [
+    { "name": "search-console", "type": "openapi", "auth": "env" },
+    { "name": "dataforseo", "type": "mcp", "auth": "env" }
+  ],
+  "requiredEnv": ["GSC_CREDENTIALS_JSON", "DATAFORSEO_LOGIN", "DATAFORSEO_PASSWORD"],
   "dependencies": ["eve@^0.16.2", "ai@^7.0.4"],
   "skills": [{ "ref": "vercel-labs/agent-browser@agent-browser" }]
 }

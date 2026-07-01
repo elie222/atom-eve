@@ -2,8 +2,15 @@
 
 ## What it does
 
-Reads recent messages from a configured Discord support channel and prepares an operator review: open questions, likely answerable items, sensitive or ambiguous threads to escalate, and draft replies grounded in supplied product context. Drafts stay tied to the original message id and author so a human can review and post them.
+Turns recent Discord support activity into ready-to-post draft replies and clear escalations for a human.
+
+Reads recent messages from your support channel and prepares an operator review:
+- open questions and the ones it can answer
+- draft replies grounded in your product context
+- sensitive or ambiguous threads flagged for escalation
+
+Each draft stays tied to the original message id and author so a human can review and post it.
 
 ## Setup
 
-Create a Discord bot with View Channel and Read Message History access, invite it to the support channel, and set the channel it should read. Add product documentation, support boundaries, escalation rules, and tone guidance to `agent/instructions.md`.
+A Discord bot with View Channel and Read Message History access, invited to the support channel you want it to read. Add your product documentation, support boundaries, escalation rules, and tone guidance to `agent/instructions.md`.
