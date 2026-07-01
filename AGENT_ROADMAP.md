@@ -21,18 +21,14 @@ These have an obvious external system or recurring operational loop.
 |---|---|
 | `facebook-ads` | Review Meta Ads performance and draft daily optimization actions for approval. |
 | `google-ads` | Review Google Ads spend, conversion, and keyword data; propose budget and search-term actions. |
-| `error-triage` | Pull recent Sentry issues, group likely causes, and draft a triage report. |
 | `crm-hygiene` | Inspect CRM contacts and deals for duplicates, stale stages, and missing required fields. |
 | `lead-router` | Score inbound leads and route them to the right owner with a drafted first touch. |
-| `dunning` | Review failed Stripe payments and draft staged recovery actions. |
 | `invoice-chaser` | Find overdue invoices and draft escalating collection reminders. |
 | `refund-chaser` | Track refunds or chargebacks until resolved or genuinely blocked. |
 | `revenue-digest` | Produce a weekly Stripe revenue, churn, and expansion summary. |
 | `winback` | Detect churn-risk or canceled accounts and draft win-back outreach. |
 | `spend-tracker` | Review subscription and spend data for waste, duplicates, and anomalies. |
 | `code-reviewer` | Review open GitHub PRs for correctness risks and simplification opportunities. |
-| `dep-guardian` | Triage dependency updates and reachable security issues from GitHub and package metadata. |
-| `docs-sync` | Detect code/docs drift and draft a documentation update PR. |
 | `flaky-test-fixer` | Mine CI history for flaky tests, propose root-cause fixes, and verify stability. |
 | `recruiter` | Review applicants in an ATS and draft shortlist notes or outreach. |
 | `kb-writer` | Turn repeated support tickets into draft knowledge-base articles. |
@@ -43,7 +39,6 @@ These have an obvious external system or recurring operational loop.
 | `creative-studio` | Generate ad or social creative variants from a brief and return reviewable drafts. |
 | `thumbnail-studio` | Generate and score thumbnail concepts against brand and clarity constraints. |
 | `short-video` | Turn long-form video or transcripts into proposed short-form clip plans. |
-| `social-scheduler` | Turn approved content ideas into scheduled platform-specific social posts. |
 | `product-podcast` | Produce a short product-update podcast script and audio draft from source material. |
 | `uptime-monitor` | Check configured endpoints or flows and report regressions. |
 | `kpi-digest` | Combine Stripe and product analytics into a weekly KPI summary. |
@@ -75,17 +70,12 @@ clear enough to avoid generic promptware.
 | `status-comms` | Draft incident/status-page updates from operational context. |
 | `deal-followup` | Convert sales-call notes into follow-up emails and CRM update drafts. |
 
-## Legacy Candidates
+## Dormant Candidates
 
-These were intentionally not promoted from `_legacy/`. Revisit only after there is a clear,
-working integration story.
+These should stay out of source until there is a clear, working integration story.
 
 | Candidate | One-liner |
 |---|---|
-| `community-support` | Answer Discord or Slack community questions from project docs. |
-| `meeting-notes` | Convert meeting transcripts into decisions and follow-up actions. |
 | `reddit-radar` | Find relevant Reddit discussions and draft non-spammy replies. |
-| `standup-bot` | Collect async standups and publish a daily project narrative. |
-| `support-replies` | Draft grounded helpdesk replies from docs and ticket context. |
 | `ticket-to-pr` | Turn a ticket into a scoped, verified GitHub PR. |
 | `x-growth` | Monitor X mentions and draft useful replies or posts. |
