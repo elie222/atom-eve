@@ -948,6 +948,38 @@
       ]
     },
     {
+      "name": "eve/ppc-assist",
+      "type": "registry:block",
+      "title": "PPC Assist",
+      "description": "Find the Amazon PPC decisions that matter today and apply approved PPC Assist actions safely.",
+      "dependencies": [
+        "ai@^7.0.4",
+        "eve@^0.16.2"
+      ],
+      "files": [
+        {
+          "path": "registry/ppc-assist/agent/connections/ppcassist.ts",
+          "target": "~/agent/connections/ppcassist.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ppc-assist/agent/instructions.md",
+          "target": "~/agent/instructions.md",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ppc-assist/agent/schedules/daily.ts",
+          "target": "~/agent/schedules/daily.ts",
+          "type": "registry:file"
+        },
+        {
+          "path": "registry/ppc-assist/agent/skills/ppc-assist/SKILL.md",
+          "target": "~/agent/skills/ppc-assist/SKILL.md",
+          "type": "registry:file"
+        }
+      ]
+    },
+    {
       "name": "eve/support-replies",
       "type": "registry:block",
       "title": "Support Replies",

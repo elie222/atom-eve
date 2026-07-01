@@ -1,0 +1,18 @@
+{
+  "$schema": "https://atomeve.dev/schema/atom.json",
+  "name": "ppc-assist",
+  "title": "PPC Assist",
+  "description": "Find the Amazon PPC decisions that matter today and apply approved PPC Assist actions safely.",
+  "category": "ads",
+  "family": "growth",
+  "author": {
+    "name": "atom-eve"
+  },
+  "version": "0.1.0",
+  "targets": ["eve"],
+  "integrations": ["ppcassist"],
+  "connections": [{ "name": "ppcassist", "type": "openapi", "auth": "env" }],
+  "requiredEnv": ["PPC_ASSIST_API_TOKEN"],
+  "dependencies": ["eve@^0.16.2", "ai@^7.0.4"],
+  "skills": []
+}
