@@ -124,7 +124,7 @@ export async function readManifests(rootDir: string, taxonomy?: Taxonomy): Promi
     const raw = JSON.parse(rawText);
     const parsed = atomSchema.parse(raw);
     validateTaxonomy(parsed, taxonomy);
-    await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed.name);
+    await validateReadme(path.join(registryDir, entry.name, "README.md"), parsed);
     if (!isExternalTemplate(parsed)) {
       await validateAgentStructure(path.join(registryDir, entry.name), parsed);
     }
@@ -192,14 +192,18 @@ function validateTaxonomy(manifest: AtomManifest, taxonomy?: Taxonomy) {
   }
 }
 
-async function validateReadme(readmePath: string, agentName: string) {
+async function validateReadme(readmePath: string, manifest: AtomManifest) {
   const content = await fs.readFile(readmePath, "utf8").catch(() => {
-    throw new Error(`${agentName} is missing README.md`);
+    throw new Error(`${manifest.name} is missing README.md`);
   });
-  const requiredSections = ["What it does", "Setup"];
+  const requiredSections = isExternalTemplate(manifest) ? ["What it does"] : ["What it does", "Setup"];
   for (const section of requiredSections) {
     const pattern = new RegExp(`^##\\s+${escapeRegExp(section)}\\s*$`, "im");
-    if (!pattern.test(content)) throw new Error(`${agentName} README.md is missing "## ${section}"`);
+    if (!pattern.test(content)) throw new Error(`${manifest.name} README.md is missing "## ${section}"`);
+  }
+
+  if (isExternalTemplate(manifest) && /^##\s+Setup\s*$/im.test(content)) {
+    throw new Error(`${manifest.name} README.md must omit "## Setup"; external setup is generated from atom.json source.cloneUrl`);
   }
 }
 

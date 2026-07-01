@@ -156,8 +156,13 @@ export function familyCounts(items: RegistryItem[]): Record<string, number> {
 export function getReadmeHtml(item: RegistryItem): string {
   const file = path.join(ROOT, item.repoPath, "README.md");
   const md = existsSync(file) ? readFileSync(file, "utf8") : `# ${item.title}\n\n${item.description}`;
-  const pageMd = stripCatalogOnlySections(stripDuplicateTitle(md, item.title));
+  const baseMd = stripCatalogOnlySections(stripDuplicateTitle(md, item.title));
+  const pageMd = item.source?.type === "external-template" ? withExternalSetup(baseMd, item.source.cloneUrl) : baseMd;
   return marked.parse(pageMd, { async: false }) as string;
+}
+
+function withExternalSetup(md: string, cloneUrl: string): string {
+  return `${md.trim()}\n\n## Setup\n\nClone the upstream repo directly: \`git clone ${cloneUrl}\`.`;
 }
 
 function stripDuplicateTitle(md: string, title: string): string {

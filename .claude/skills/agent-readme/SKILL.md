@@ -11,7 +11,7 @@ A README is the human's **install decision**: what this agent does for me, and w
 
 ## The shape
 
-The README is an H1 and exactly two sections, no lead paragraph:
+The README is an H1 and exactly two sections, no lead paragraph. External templates are the exception below:
 
 ```md
 # <Title>
@@ -25,15 +25,17 @@ The README is an H1 and exactly two sections, no lead paragraph:
 <one line per required credential/connection: its scope and which file to configure. Omit the section only if there is genuinely nothing.>
 ```
 
-The generator requires both `## What it does` and `## Setup`. The one-line outcome also lives in the agent's `atom.json` `description` (the catalog page renders it at the top, and it feeds cards and SEO); write that description outcome-led, not led by the mechanism, framework, or backend. Don't append "Agent" to the H1 unless it is part of a proper name.
+The generator requires both `## What it does` and `## Setup` for installable agents. The one-line outcome also lives in the agent's `atom.json` `description` (the catalog page renders it at the top, and it feeds cards and SEO); write that description outcome-led, not led by the mechanism, framework, or backend. Don't append "Agent" to the H1 unless it is part of a proper name.
 
-For an external template (`atom.json` has `source.type: "external-template"`), `## Setup` is exactly one line:
+For an external template (`atom.json` has `source.type: "external-template"`), omit `## Setup` from the authored README. Atom Eve generates the setup section from `source.cloneUrl`:
 
 ```md
+## Setup
+
 Clone the upstream repo directly: `git clone <cloneUrl>`.
 ```
 
-Do not summarize the upstream setup, credentials, or runtime steps in the external entry README. The external repo owns those details.
+Do not summarize the upstream setup, credentials, or runtime steps in the external entry README. The external repo owns those details, and the registry generator rejects custom external setup sections.
 
 ## Leave out anything the page already renders
 
