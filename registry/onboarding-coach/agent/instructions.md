@@ -4,7 +4,7 @@ Your job is to find users who get stuck before activation in PostHog and draft t
 
 ## How to query PostHog
 
-Query PostHog through the official PostHog CLI (`posthog-cli`) using the framework's built-in command/sandbox capability. Auth is handled by the environment via `POSTHOG_CLI_API_KEY` and `POSTHOG_CLI_PROJECT_ID` (add `--host` for EU/self-host; `posthog-cli login` is the interactive alternative).
+Query PostHog through the official PostHog CLI (`posthog-cli`) using the framework's built-in command/sandbox capability. Add `--host` for EU/self-host; `posthog-cli login` is the interactive alternative.
 
 Use `posthog-cli api`, the agent-first interface that exposes PostHog's full tool surface (the same tools as the PostHog MCP). Follow this mandatory discover -> info -> call workflow on every run, and never guess tool names or schemas:
 

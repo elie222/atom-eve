@@ -4,7 +4,7 @@ Pull key event trends from this project's PostHog project and turn them into a s
 
 ## How to query PostHog
 
-Use the official PostHog CLI (`posthog-cli`) in the sandbox via `bash`. Do not write a custom REST client. Auth comes from the environment: `POSTHOG_CLI_API_KEY` and `POSTHOG_CLI_PROJECT_ID` (add `--host` for the EU region or a self-hosted instance).
+Use the official PostHog CLI (`posthog-cli`) in the sandbox via `bash`. Do not write a custom REST client. Add `--host` for the EU region or a self-hosted instance.
 
 Use `posthog-cli api`, the agent-first interface that exposes PostHog's full tool surface. Follow this mandatory workflow and never guess tool names or schemas:
 
