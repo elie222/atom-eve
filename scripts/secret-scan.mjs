@@ -5,9 +5,16 @@ const root = process.cwd();
 const ignoredDirs = new Set([".git", "node_modules", "dist", ".next", ".turbo"]);
 const suspicious = [
   /-----BEGIN (?:RSA |EC |OPENSSH |)PRIVATE KEY-----/,
+  /\bAKIA[0-9A-Z]{16}\b/,
+  /\bASIA[0-9A-Z]{16}\b/,
   /\bsk_live_[A-Za-z0-9]{16,}\b/,
+  /\bsk_test_[A-Za-z0-9]{16,}\b/,
+  /\brk_live_[A-Za-z0-9]{16,}\b/,
+  /\brk_test_[A-Za-z0-9]{16,}\b/,
   /\bghp_[A-Za-z0-9]{30,}\b/,
-  /\bxox[baprs]-[A-Za-z0-9-]{20,}\b/
+  /\bgithub_pat_[A-Za-z0-9_]{20,}\b/,
+  /\bxox[baprs]-[A-Za-z0-9-]{20,}\b/,
+  /\bxapp-[A-Za-z0-9-]{20,}\b/
 ];
 
 const hits = [];
