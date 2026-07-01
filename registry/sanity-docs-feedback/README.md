@@ -17,11 +17,3 @@ Atom Eve lists this template for discovery only. It is maintained by Sanity Labs
 ## Setup
 
 Clone the upstream repo directly: `git clone https://github.com/sanity-labs/sanity-eve-docs-agent.git`.
-
-Configure a Sanity project with the expected article and feedback document types.
-
-Add a Sanity token that can read content and write drafts.
-
-Connect Slack through Vercel Connect for review-ready notices.
-
-Configure the Sanity Function trigger and shared trigger secret described in the upstream README.
