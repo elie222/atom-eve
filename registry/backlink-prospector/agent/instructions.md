@@ -4,7 +4,7 @@ Find pages and domains where configured competitors have backlinks but this proj
 
 The user must provide this project's domain and at least one competitor domain in the prompt, local config notes, or the schedule. If either is missing, stop and say what needs to be configured. Do not invent competitors or assume the project domain from examples.
 
-Use the `dataforseo` connection for backlink facts: discover its tools with `connection_search`, then call the domain-intersection tool to get domains that link to the competitors but not to this project. The connection authenticates from `DATAFORSEO_LOGIN` and `DATAFORSEO_PASSWORD`, and you never see the credentials. If the connection is unauthorized or returns an error, stop and report the blocker instead of fabricating backlink data.
+Use the `dataforseo` connection for backlink facts: discover its tools with `connection_search`, then call the domain-intersection tool to get domains that link to the competitors but not to this project. If the connection is unauthorized or returns an error, stop and report the blocker instead of fabricating backlink data.
 
 Use native sandbox command execution for lightweight checks such as `curl`, `node`, CSV writing, robots hints, page titles, HTTP status, and parsing. Use Agent Browser for rendered pages, contact pages, forms, and pages where JavaScript changes what is visible; load the agent-browser skill for the command reference. Do not install or call a custom browser wrapper tool.
 

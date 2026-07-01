@@ -84,6 +84,9 @@ exists, not as the default wrapper for a hosted API.
 them). Connections take env-sourced static creds via `headers` / `auth.getToken` (eve resolves them
 per step, so they never reach the model), or **Vercel Connect** (`connect()` from
 `@vercel/connect/eve`) for OAuth. flue takes credentials from env/secrets in trusted app code.
+Registry agents ship with free env-sourced creds; Connect also vaults static keys but is billed per
+token request, so we leave adopting it to the user. Note `auth.getToken` only emits `Bearer`, so
+Basic-auth services (e.g. DataForSEO) must resolve the key inside a `headers` callback either way.
 
 ## Source Layout
 
@@ -133,6 +136,15 @@ maintainer guidance, or instructions to edit the file after install. Put customi
 the agent README's `## Setup` section, and let the CLI point users to the README plus generic next
 steps after install. The installed prompt may refer to configured project resources, but it should
 not explain how a human should configure those resources.
+
+This includes **credentials**: never name secret env vars or explain auth wiring in the prompt
+(`authenticates from DATAFORSEO_LOGIN and DATAFORSEO_PASSWORD`, `gh authenticates from GH_TOKEN`,
+`you never see the credentials`). The runtime injects those; the agent never reads or types them, so
+naming them is dead weight. Declare secrets in `atom.json` `requiredEnv` and document them in the
+README `## Setup`. In the prompt, just say to use the connection or CLI and, if it is unauthorized or
+errors, to stop and report the blocker. Runtime *usage* the agent actively controls stays (which
+tool/connection to use, a `-R owner/repo` target, a `--host`/region flag) — the credential source
+does not.
 
 Prefer wording like:
 
