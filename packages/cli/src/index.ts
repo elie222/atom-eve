@@ -11,7 +11,7 @@ import {
   installRemoteAgent,
   installStandaloneEveOverlays,
   normalizeRemoteAgentName,
-  rejectEveOverlaysForFlue,
+  rejectFlueDelivery,
   runInstall
 } from "./install.js";
 import { buildConfig, isHelpFlag, parseDelivery, parseRuntime, parseTarget, validateConfig } from "./manifest.js";
@@ -167,12 +167,12 @@ function resolveCreateBaseDir(): string {
 }
 
 async function add(agent: string, args: Args) {
-  rejectExplicitFlueOverlays(args);
+  rejectFlueDelivery(args.target, args.deliver);
   const needsProjectScaffold = !fsSync.existsSync(path.join(cwd, "package.json"));
   if (needsProjectScaffold) printProjectBanner();
   const config = await readOrCreateConfig(args);
   if (needsProjectScaffold) await scaffoldProject(config.target);
-  rejectEveOverlaysForFlue(config, args);
+  rejectFlueDelivery(config.target, args.deliver);
 
   if (agent.startsWith(".") || agent.startsWith("/")) {
     await installLocalAgent(path.resolve(cwd, agent), config, args);
@@ -216,12 +216,6 @@ async function readOrCreateConfig(args: Args): Promise<AtomEveConfig> {
 function rejectInstallOptions(command: string, args: Args) {
   if (args.deliver) {
     throw new Error(`--deliver is supported only for atom-eve create and atom-eve add, not ${command}.`);
-  }
-}
-
-function rejectExplicitFlueOverlays(args: Args) {
-  if (args.target === "flue" && args.deliver) {
-    throw new Error("--deliver is currently supported only for eve installs.");
   }
 }
 

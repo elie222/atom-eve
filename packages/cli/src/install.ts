@@ -13,7 +13,7 @@ import { validateManifest } from "./manifest.js";
 import { printPostInstallNextSteps } from "./next-steps.js";
 import { cwd, findRegistryRoot } from "./paths.js";
 import { track } from "./telemetry.js";
-import type { AtomEveConfig, AtomManifest, CliTarget, InstallOptions } from "./types.js";
+import type { AtomEveConfig, AtomManifest, CliTarget, Delivery, InstallOptions } from "./types.js";
 
 const SLACK_CONNECT_DEPENDENCY = "@vercel/connect@^0.2.10";
 
@@ -226,8 +226,10 @@ function wantsSlackScheduleDelivery(options: InstallOptions): boolean {
   return options.deliver === "slack";
 }
 
-export function rejectEveOverlaysForFlue(config: AtomEveConfig, options: InstallOptions) {
-  if (config.target === "flue" && options.deliver) {
+// Guards both the explicit-flag check (fail fast, before any scaffolding) and the
+// post-config check, so the same rule and message live in one place.
+export function rejectFlueDelivery(target: CliTarget | undefined, deliver: Delivery | undefined) {
+  if (target === "flue" && deliver) {
     throw new Error("--deliver is currently supported only for eve installs.");
   }
 }
