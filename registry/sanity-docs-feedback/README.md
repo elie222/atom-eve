@@ -13,7 +13,3 @@ The external template:
 - posts a Slack review notice with a link back to Studio
 
 Atom Eve lists this template for discovery only. It is maintained by Sanity Labs and is not installed by `npx atom-eve add`.
-
-## Setup
-
-Clone the upstream repo directly: `git clone https://github.com/sanity-labs/sanity-eve-docs-agent.git`.
