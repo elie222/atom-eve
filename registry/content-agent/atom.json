@@ -1,7 +1,7 @@
 {
   "$schema": "https://atomeve.dev/schema/atom.json",
   "name": "content-agent",
-  "title": "Content",
+  "title": "Content Generator",
   "description": "Get an approval-ready content pipeline grounded in what people are discussing right now: briefs, an editorial calendar, hooks, outlines, and draft copy.",
   "category": "content",
   "family": "growth",
